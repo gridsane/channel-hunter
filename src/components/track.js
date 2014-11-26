@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var datef = require('datef');
 
 var pad = function (x) {
@@ -31,31 +31,29 @@ var Track = React.createClass({
     };
   },
 
-  play: function (event) {
-    this.setState({paused: false}, function () {
-      this.refs.audioObject.getDOMNode().play();
-    }.bind(this));
-
-    event.preventDefault();
-  },
-
-  pause: function (event) {
-    this.setState({paused: true}, function () {
-      this.refs.audioObject.getDOMNode().pause();
+  toggle: function (event) {
+    this.setState({paused: !this.state.paused}, function () {
+      this.refs.audioObject.getDOMNode()[this.state.paused ? 'pause' : 'play']();
     }.bind(this));
 
     event.preventDefault();
   },
 
   render: function () {
+    var trackClasses = React.addons.classSet({
+      "track": true,
+      "track-playing": !this.state.paused,
+    });
+
     return (
-      <div className="track">
-        {this.state.paused
-          ? <a href="#" onClick={this.play}>play</a>
-          : <a href="#" onClick={this.pause}>pause</a>}
+      <div className={trackClasses} onClick={this.toggle}>
+        <img
+          className="track-controls"
+          src={"/assets/images/" + (this.state.paused ? 'play' : 'pause') + ".svg"}/>
         <audio ref="audioObject" src={this.props.url} preload="none"></audio>
-        {this.props.artist} - {this.props.title}
-        {durationToString(this.props.duration)}
+        <span className="track-artist">{this.props.artist}</span>
+        <span className="track-title">{this.props.title}</span>
+        <span className="track-duration">{durationToString(this.props.duration)}</span>
       </div>
     );
   }

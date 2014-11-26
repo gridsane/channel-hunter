@@ -1,0 +1,71 @@
+@hfont: Helvetica, Arial, sans-serif;
+@bfont: @hfont;
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: @bfont;
+}
+
+.application {
+  margin: 0 auto;
+  width: 400px;
+}
+
+.logo {
+  margin-bottom: 14px;
+
+  &-title, &-img {
+    display: inline;
+    vertical-align: middle;
+  }
+
+  &-title {
+    font-size: 32px;
+    font-family: @hfont;
+    text-transform: lowercase;
+  }
+
+  &-img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.track {
+  position: relative;
+  display: block;
+  border: 3px solid #f6f6f6;
+  margin-bottom: 3px;
+  line-height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &-controls {
+    display: block;
+    float: left;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+
+  &-artist {
+    font-weight: 800;
+
+    &:after {
+      content: ' - ';
+    }
+  }
+
+  &-duration {
+    position: absolute;
+    right: 0;
+    color: #666;
+  }
+
+  &-playing {
+    background-color: #ccc;
+  }
+}

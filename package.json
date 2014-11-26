@@ -6,7 +6,8 @@
   "dependencies": {
     "express": "~4.10.2",
     "react": "~0.12.1",
-    "superagent": "~0.21.0"
+    "superagent": "~0.21.0",
+    "q": "~1.1.1"
   },
   "devDependencies": {
     "gulp": "~3.8.10",

@@ -36,7 +36,7 @@ gulp.task('default', ['browserify', 'server'], function () {
     livereload.changed(files);
   })
 
-  gulp.watch(['src/server.js', 'src/index.html'], function () {
+  gulp.watch(['src/server.js', 'src/server/**', 'src/index.html'], function () {
     server.changed(function (error) {
       if (!error) {
         livereload.changed();

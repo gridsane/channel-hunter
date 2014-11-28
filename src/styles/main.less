@@ -33,25 +33,42 @@ body {
 }
 
 .track {
+  display: table;
   position: relative;
+
+  height: 24px;
+
+  outline: 1px solid #ddd;
+
   display: block;
-  border: 3px solid #f6f6f6;
-  margin-bottom: 3px;
-  line-height: 24px;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+
+  line-height: 24px;
+  font-size: 16px;
+
+  margin-bottom: 30px;
 
   &-controls {
-    display: block;
+    display: table-cell;
     float: left;
+
     width: 24px;
     height: 24px;
-    vertical-align: middle;
-    cursor: pointer;
+  }
+
+  &-name {
+    float: left;
+    display: table-cell;
+
+    width: 82%;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   &-artist {
+    display: inline;
     font-weight: 800;
 
     &:after {
@@ -59,13 +76,64 @@ body {
     }
   }
 
+  &-title {
+    display: inline;
+  }
+
   &-duration {
     position: absolute;
     right: 0;
-    color: #666;
+    display: table-cell;
+  }
+
+  &-progress, &-progress-buffered {
+    width: 100%;
+    height: 12px;
+    position: absolute;
+    top: 28px;
+    left: 0;
+
+    -webkit-appearance: none;
+    appearance: none;
+
+  }
+
+  &-progress {
+    display: none;
+
+    &::-webkit-progress-bar {
+      background-color: transparent;
+    }
+
+    &::-webkit-progress-value {
+      background-color: #666;
+    }
+
+    &-playing {
+      display: block;
+    }
+  }
+
+  &-progress-buffered {
+    display: none;
+    position: absolute;
+    left: 0;
+
+    &::-webkit-progress-bar {
+      background-color: #eee;
+    }
+
+    &::-webkit-progress-value {
+      background-color: #ccc;
+    }
+
+    &-playing {
+      display: block;
+    }
   }
 
   &-playing {
-    background-color: #ccc;
+    outline-color: #666;
+    height: 48px;
   }
 }

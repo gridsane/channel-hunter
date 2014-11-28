@@ -1,16 +1,24 @@
 var React = require('react');
 var superagent = require('superagent');
+var Q = require('q');
 var Loading = require('./loading');
 var Track = require('./track');
 
 var Stream = React.createClass({
   getTracks: function (streamId, callback) {
+    var deferred = Q.defer();
     superagent.get(
         '/api/stream/' + streamId,
         function(err, res) {
-            callback(err, res ? res.body : null);
+          if (err) {
+            deferred.reject(err);
+          } else {
+            deferred.resolve(res ? res.body : null)
+          }
         }
     );
+
+    return deferred.promise;
   },
 
   getDefaultProps: function () {
@@ -27,12 +35,13 @@ var Stream = React.createClass({
   },
 
   componentWillMount: function () {
-    this.getTracks(this.props.id, function (err, data) {
-      this.setState({
-        loading: false,
-        tracks: data
-      });
-    }.bind(this));
+    this.getTracks(this.props.id)
+      .then(function (data) {
+        this.setState({
+          loading: false,
+          tracks: data
+        });
+      }.bind(this));
   },
 
   render: function () {

@@ -1,19 +1,37 @@
 'use strict';
 
 var React = require('react');
-var Stream = require('./components/stream');
+var Track = require('./components/track');
+var Controls = require('./components/controls');
+var Playlist = require('./components/playlist');
 
 var Application = React.createFactory(React.createClass({
+  getInitialState: function () {
+    return {
+      track: null
+    };
+  },
+
+  selectHandler: function (track) {
+    this.setState({track: track});
+  },
+
   render: function() {
     return (
       <div className="application">
-        <header className="logo">
-          <img className="logo-img" src="/assets/images/logo.svg" />
-          <h1 className="logo-title">hello music</h1>
+        <header>
+          <div className="header-wrapper">
+            <div className="header-title">Channel Hunter</div>
+          </div>
         </header>
+        <nav>
+          <button className="button-humburger"></button>
+          <button className="button-github"></button>
+        </nav>
 
-        <Stream id="76475061" />
-        <Stream id="26457580" />
+        <Track {...this.state.track} />
+        <Controls {...this.state.track} />
+        <Playlist selectHandler={this.selectHandler} />
       </div>
     );
   }

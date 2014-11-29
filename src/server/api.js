@@ -46,10 +46,21 @@ Api.prototype.getStream = function (id) {
     for (var i = response.items.length - 1; i >= 0; i--) {
       var attachments = response.items[i].attachments;
       if (attachments) {
+        var cover = null;
+        for (var j = attachments.length - 1; j >= 0; j--) {
+          if (!cover && 'photo' === attachments[j].type) {
+            cover = attachments[j].photo.photo_604;
+          }
+        }
+
         for (var j = attachments.length - 1; j >= 0; j--) {
           if ('audio' === attachments[j].type) {
             var audio = attachments[j].audio;
             audio.date = response.items[i].date;
+
+            if (cover) {
+              audio.cover = cover;
+            }
 
             audios.unshift(audio);
           }

@@ -1,104 +1,39 @@
-var React = require('react/addons');
-var datef = require('datef');
-var nodeOffset = require('../utils/node_offset');
-
-var pad = function (x) {
-  return x < 10 ? '0' + x : x;
-}
-
-var durationToString = function (duration) {
-    var minutes = Math.floor(duration / 60),
-        seconds = duration % 60;
-
-    return pad(minutes) + ':' + pad(seconds);
-}
-
-/**
- * docs
- * https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
- */
+var React = require('react');
 
 var Track = React.createClass({
   getDefaultProps: function () {
     return {
-      artist: 'no name',
-      title: 'no title'
+      title: 'no title',
+      artist: 'no artist',
+      cover: 'http://cs621626.vk.me/v621626660/109f/krZgujAdVJA.jpg',
     };
   },
 
-  getInitialState: function () {
-    return {
-      paused: true,
-      currentTime: 0, // percent played
-      buffered: 20, // percent buffered
-    };
-  },
-
-  toggle: function (event) {
-    this.setState({paused: !this.state.paused}, function () {
-      this.refs.audioObject.getDOMNode()[this.state.paused ? 'pause' : 'play']();
-    }.bind(this));
-
-    event.preventDefault();
-  },
-
-  seek: function (event) {
-    var node = event.nativeEvent.toElement,
-        width = node.offsetWidth,
-        pos = event.clientX - nodeOffset(node).left,
-        seekTime = (this.props.duration / width) * pos;
-
-    this.setState({currentTime: seekTime}, function () {
-      this.refs.audioObject.getDOMNode().currentTime = seekTime;
+  setTrack: function (track) {
+    this.setState({
+      title: track.title,
+      artist: track.artist,
+      cover: track.cover
     });
-
-    event.preventDefault();
   },
-
-  componentDidMount: function () {
-    var self = this,
-        audio = this.refs.audioObject.getDOMNode();
-
-    audio.addEventListener('timeupdate', function () {
-      self.setState({currentTime: this.currentTime});
-    }, true);
-  },
-
 
   render: function () {
-    var trackClasses = React.addons.classSet({
-      "track": true,
-      "track-playing": !this.state.paused,
-    });
-
-    var progressBufferedClasses = React.addons.classSet({
-      "track-progress-buffered": true,
-      "track-progress-buffered-playing": !this.state.paused
-    });
-
-    var progressClasses = React.addons.classSet({
-      "track-progress": true,
-      "track-progress-playing": !this.state.paused
-    });
+    var coverStyle = {
+      backgroundImage: 'url(' + this.props.cover + ')',
+    };
 
     return (
-      <div className={trackClasses}>
-        <audio ref="audioObject" src={this.props.url} preload="none"></audio>
-        <img
-          onClick={this.toggle}
-          className="track-controls"
-          src={"/assets/images/" + (this.state.paused ? 'play' : 'pause') + ".svg"}/>
-        <div className="track-duration">{durationToString(this.props.duration)}</div>
-        <div className="track-name">
-          <span className="track-artist">{this.props.artist}</span>
-          <span className="track-title">{this.props.title}</span>
+      <div className="track">
+        <div className="track-title">
+          {this.props.title}
         </div>
-        <progress ref="progressBufferObject" className={progressBufferedClasses}></progress>
-        <progress ref="progressObject" onClick={this.seek} className={progressClasses}
-          max={this.props.duration} value={this.state.currentTime}></progress>
+        <div className="track-artist">
+          {this.props.artist}
+        </div>
+        <div className="track-cover" style={coverStyle}></div>
       </div>
     );
   }
 });
 
-module.exports = React.createFactory(Track);
+module.exports = Track;

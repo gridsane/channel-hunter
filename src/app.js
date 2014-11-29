@@ -6,6 +6,12 @@ var Controls = require('./components/controls');
 var Playlist = require('./components/playlist');
 
 var Application = React.createFactory(React.createClass({
+  getDefaultProps: function () {
+    return {
+      github_url: 'https://github.com/gridsane/channel-hunter'
+    };
+  },
+
   getInitialState: function () {
     return {
       track: null
@@ -26,7 +32,7 @@ var Application = React.createFactory(React.createClass({
         </header>
         <nav>
           <button className="button-humburger"></button>
-          <button className="button-github"></button>
+          <a href={this.props.github_url} className="button-github"></a>
         </nav>
 
         <Track {...this.state.track} />

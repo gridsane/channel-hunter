@@ -1,7 +1,7 @@
 var React = require('react');
 
 var Track = React.createClass({
-  getDefaultProps: function () {
+  getInitialState: function () {
     return {
       title: 'no title',
       artist: 'no artist',
@@ -9,22 +9,26 @@ var Track = React.createClass({
     };
   },
 
-  getCover: function () {
-    return ;
+  setTrack: function (track) {
+    this.setState({
+      title: track.title,
+      artist: track.artist,
+      cover: track.cover
+    });
   },
 
   render: function () {
     var coverStyle = {
-      backgroundImage: 'url(' + this.props.cover + ')',
+      backgroundImage: 'url(' + this.state.cover + ')',
     };
 
     return (
       <div className="track">
         <div className="track-title">
-          {this.props.title}
+          {this.state.title}
         </div>
         <div className="track-artist">
-          {this.props.artist}
+          {this.state.artist}
         </div>
         <div className="track-cover" style={coverStyle}></div>
       </div>

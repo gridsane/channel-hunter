@@ -6,6 +6,16 @@ var Controls = require('./components/controls');
 var Playlist = require('./components/playlist');
 
 var Application = React.createFactory(React.createClass({
+  getInitialState: function () {
+    return {
+      track: null
+    };
+  },
+
+  selectHandler: function (track) {
+    this.setState({track: track});
+  },
+
   render: function() {
     return (
       <div className="application">
@@ -19,9 +29,9 @@ var Application = React.createFactory(React.createClass({
           <button className="button-github"></button>
         </nav>
 
-        <Track />
-        <Controls />
-        <Playlist />
+        <Track track={this.state.track} />
+        <Controls track={this.state.track} />
+        <Playlist selectHandler={this.selectHandler} />
       </div>
     );
   }

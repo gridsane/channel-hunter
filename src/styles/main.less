@@ -46,6 +46,7 @@ header {
 .button {
   width: 48px;
   height: 48px;
+  background-color: transparent;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 24px 24px;
@@ -177,12 +178,16 @@ header {
   }
 }
 
-
 .button-play {
-  background: url(/assets/images/icon-play.svg);
+  background-image: url(/assets/images/icon-play.svg);
   .button();
   position: absolute;
   left: 12px;
+}
+
+.button-pause {
+  .button-play();
+  background-image: url(/assets/images/icon-pause.svg);
 }
 
 .button-volume {

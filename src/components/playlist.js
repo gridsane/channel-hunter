@@ -7,7 +7,8 @@ var Playlist = React.createClass({
 
   getDefaultProps: function () {
     return {
-      id: 76475061
+      id: 76475061,
+      selectHandler: null
     }
   },
 
@@ -47,9 +48,17 @@ var Playlist = React.createClass({
   selectTrack: function (id, event) {
     this.setState({
       selected: id
-    });
+    }, function () {
+      if ("function" === typeof(this.props.selectHandler)) {
+        var tracks = this.state.tracks.filter(function (t) {
+          return t.id === this.state.selected
+        }.bind(this));
 
-    console.log(id);
+        if (tracks.length) {
+          this.props.selectHandler(tracks[0]);
+        }
+      }
+    }.bind(this));
   },
 
   render: function () {

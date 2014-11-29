@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
+var minifycss = require('gulp-minify-css');
 var less = require('gulp-less');
 var browserify = require('gulp-browserify');
 var livereload = require('gulp-livereload');
@@ -25,9 +26,15 @@ gulp.task('browserify', function () {
 });
 
 gulp.task('less', function () {
-  gulp.src('src/styles/main.less')
+  var stream = gulp.src('src/styles/main.less')
     .pipe(less())
-    .on('error', function () { console.log(arguments); })
+    .on('error', function () { console.log(arguments); });
+
+  if (isProduction) {
+      stream.pipe(minifycss());
+  }
+
+  stream
     .pipe(rename('main.css'))
     .pipe(gulp.dest('assets/css'));
 });
@@ -36,7 +43,9 @@ gulp.task('server', function () {
   server.listen({ path: 'src/server.js' }, livereload.listen);
 });
 
-gulp.task('default', ['browserify', 'server'], function () {
+gulp.task('build', ['browserify', 'less']);
+
+gulp.task('default', ['build', 'server'], function () {
   gulp.watch(['src/**/*.js'], ['browserify']);
   gulp.watch(['src/**/*.less'], ['less']);
 

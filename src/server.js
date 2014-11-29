@@ -22,6 +22,6 @@ app
   .use(function (req, res, next) {
     res.sendFile(__dirname + '/index.html');
   })
-  .listen(9090, function () {
-    console.log("Server listening on port 9090");
+  .listen(process.env.PORT, function () {
+    console.log("Server listening on port " + process.env.PORT);
   });

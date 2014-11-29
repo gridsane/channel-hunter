@@ -1,6 +1,16 @@
-# CC Resources used
+Application is in active development and lack many features.
 
-- Voicemail designed by <a href="http://www.thenounproject.com/rohithdezinr">Rohith M S</a> from the <a href="http://www.thenounproject.com">Noun Project</a>
-- Life designed by <a href="http://www.thenounproject.com/alexfuller">Alex Fuller</a> from the <a href="http://www.thenounproject.com">Noun Project</a>
-- Play designed by <a href="http://www.thenounproject.com/riley">Riley Shaw</a> from the <a href="http://www.thenounproject.com">Noun Project</a>
-- Pause designed by <a href="http://www.thenounproject.com/riley">Riley Shaw</a> from the <a href="http://www.thenounproject.com">Noun Project</a>
+Right now you can:
+
+- Select a track from the playlist
+- Play/Pause it
+- Seek a progress position
+
+# How to install
+
+```
+npm install
+PORT=8080 gulp
+```
+
+Point your browser at `http://localhost:8080`.

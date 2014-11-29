@@ -5,8 +5,8 @@
 @secondary-100: #FF80AB;
 @secondary-400: #F50057;
 
-@gray-8: rgba(0, 0, 0, .04);
-@gray-16: rgba(0, 0, 0, .08);
+@gray-4: rgba(0, 0, 0, .04);
+@gray-8: rgba(0, 0, 0, .08);
 @gray-56: rgba(0, 0, 0, .56);
 
 @shadow-primary: 0 2px 5px rgba(0,0,0,0.26);
@@ -87,6 +87,7 @@ header {
     height: 100%;
     z-index: -2;
     content: "";
+    transition: background-color 1s ease-out 1s;
   }
 
   &::after {
@@ -100,6 +101,7 @@ header {
     height: 100%;
     z-index: -1;
     opacity: .44;
+    transition: background 1s ease-out .2s;
   }
 
   &-title {
@@ -117,6 +119,17 @@ header {
   }
 }
 
+.progress {
+  -webkit-appearance: none;
+  appearance: none;
+
+  position: relative;
+
+  width: 100%;
+  display: inline-block;
+  height: 8px;
+}
+
 .controls {
   position: relative;
   height: 48px;
@@ -124,27 +137,45 @@ header {
   box-shadow: @shadow-primary;
   padding: 0 72px;
 
-  &-progress {
-    -webkit-appearance: none;
-    appearance: none;
-
-    position: relative;
-
-    width: 100%;
-    display: inline-block;
-    height: 8px;
-
-    top: 10px;
+  &-seek {
+    .progress();
+    top: -9px;
 
     &::-webkit-progress-bar {
-      background-color: @primary-700;
+      background-color: transparent;
     }
 
     &::-webkit-progress-value {
       background-color: #fff;
     }
   }
+
+  &-buffer {
+    .progress();
+    top: 10px;
+
+    &::-webkit-progress-bar {
+      background: url(/assets/images/buffer-circle.svg);
+      background-position: 8px center;
+      background-size: 10px 10px;
+      animation: buffer .2s linear infinite;
+    }
+
+    @keyframes buffer {
+      0% {
+        background-position: 0px center;
+      }
+      100% {
+        background-position: 9px center;
+      }
+    }
+
+    &::-webkit-progress-value {
+      background-color: @primary-700;
+    }
+  }
 }
+
 
 .button-play {
   background: url(/assets/images/icon-play.svg);
@@ -164,8 +195,8 @@ header {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  border-left: 1px solid @gray-16;
-  border-right: 1px solid @gray-16;
+  border-left: 1px solid @gray-8;
+  border-right: 1px solid @gray-8;
 
   &-item {
     position: relative;
@@ -173,11 +204,16 @@ header {
 
     height: 32px;
 
-    border-bottom: 1px solid @gray-16;
+    border-bottom: 1px solid @gray-8;
     padding: 20px 32px;
 
+    cursor: pointer;
+
+    box-shadow: 0;
+    transition: box-shadow .2s ease-out .1s;
+
     &-active {
-      background-color: @gray-8;
+      background-color: @gray-4;
       box-shadow: @shadow-secondary;
     }
 
@@ -193,7 +229,7 @@ header {
     &-duration {
       position: absolute;
       top: 20px;
-      right: 16px;
+      right: 32px;
       font-size: 14px;
       line-height: 24px;
       color: @gray-56;

@@ -29,7 +29,7 @@ var Application = React.createFactory(React.createClass({
           <button className="button-github"></button>
         </nav>
 
-        <Track track={this.state.track} />
+        <Track {...this.state.track} />
         <Controls track={this.state.track} />
         <Playlist selectHandler={this.selectHandler} />
       </div>

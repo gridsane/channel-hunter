@@ -11,6 +11,10 @@ var Controls = React.createClass({
   },
 
   seek: function (event) {
+    if (!this.props.url) {
+      return;
+    }
+
     var node = event.nativeEvent.toElement,
         width = node.offsetWidth,
         pos = event.clientX - nodeOffset(node).left,

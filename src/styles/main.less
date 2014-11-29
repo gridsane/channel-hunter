@@ -19,7 +19,7 @@ body {
   padding: 0;
 }
 
-.container {
+.application {
   position: relative;
   max-width: 640px;
   margin: 0 auto;
@@ -90,10 +90,11 @@ header {
     transition: background-color 1s ease-out 1s;
   }
 
-  &::after {
+  &-cover {
     content: "";
     position: absolute;
-    background: url(http://cs621626.vk.me/v621626660/109f/krZgujAdVJA.jpg) center center no-repeat;
+    background-position: center center;
+    background-repeat: no-repeat;
     background-size: cover;
     top: 0;
     left: 0;
@@ -101,7 +102,7 @@ header {
     height: 100%;
     z-index: -1;
     opacity: .44;
-    transition: background 1s ease-out .2s;
+    transition: background-image 1s ease-out .2s;
   }
 
   &-title {

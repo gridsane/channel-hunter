@@ -37,35 +37,29 @@ var Controls = React.createClass({
   },
 
   componentDidUpdate: function(prevProps, prevState) {
-    // @todo refactor
-
     if (prevProps.url !== this.props.url) {
-      this.setState({
-        playing: true,
-        currentTime: 0
-      });
-    }
-
-    if (this.refs.audio) {
-      if (!this.state.progressEventMounted) {
+      if (this.refs.audio && !this.state.progressEventMounted) {
         var self = this;
-
-        this.setState({progressEventMounted: true});
 
         this.refs.audio.getDOMNode().addEventListener('timeupdate', function () {
           self.setState({
             currentTime: this.currentTime
           });
-        }, true);
+        });
+
+        this.refs.audio.getDOMNode().addEventListener(
+          'loadstart',
+          this.refs.audio.getDOMNode().play
+        );
       }
 
-      // @todo this not works in Safari for some reason =\
-      // (audio not playing after track change)
-      if (this.state.playing !== prevState.playing
-        || prevProps.url !== this.props.url) {
-        this.refs.audio.getDOMNode().play();
-      }
+      this.setState({
+        playing: true,
+        progressEventMounted: true,
+        currentTime: 0
+      });
     }
+
   },
 
   render: function () {

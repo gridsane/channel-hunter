@@ -1,10 +1,26 @@
 var React = require('react');
+var nodeOffset = require('../utils/node_offset');
 
 var Controls = React.createClass({
   getInitialState: function () {
     return {
-      playing: false
+      playing: false,
+      currentTime: 0,
+      progressEventMounted: false
     };
+  },
+
+  seek: function (event) {
+    var node = event.nativeEvent.toElement,
+        width = node.offsetWidth,
+        pos = event.clientX - nodeOffset(node).left,
+        seekTime = (this.props.duration / width) * pos;
+
+    this.setState({currentTime: seekTime}, function () {
+      this.refs.audio.getDOMNode().currentTime = seekTime;
+    });
+
+    event.preventDefault();
   },
 
   togglePlayback: function (event) {
@@ -21,14 +37,34 @@ var Controls = React.createClass({
   },
 
   componentDidUpdate: function(prevProps, prevState) {
+    // @todo refactor
+
     if (prevProps.url !== this.props.url) {
       this.setState({
-        playing: true
+        playing: true,
+        currentTime: 0
       });
     }
 
     if (this.refs.audio) {
-      this.refs.audio.getDOMNode().play();
+      if (!this.state.progressEventMounted) {
+        var self = this;
+
+        this.setState({progressEventMounted: true});
+
+        this.refs.audio.getDOMNode().addEventListener('timeupdate', function () {
+          self.setState({
+            currentTime: this.currentTime
+          });
+        }, true);
+      }
+
+      // @todo this not works in Safari for some reason =\
+      // (audio not playing after track change)
+      if (this.state.playing !== prevState.playing
+        || prevProps.url !== this.props.url) {
+        this.refs.audio.getDOMNode().play();
+      }
     }
   },
 
@@ -52,8 +88,8 @@ var Controls = React.createClass({
         {audio}
         <button onClick={this.togglePlayback} className={buttonClass}></button>
         <button className="button-volume"></button>
-        <progress className="controls-buffer" max="100" value="70"></progress>
-        <progress className="controls-seek" max="100" value="30"></progress>
+        <progress ref="buffer" className="controls-buffer" max="100" value="100"></progress>
+        <progress ref="seek" onClick={this.seek} className="controls-seek" max={this.props.duration} value={this.state.currentTime}></progress>
       </div>
     );
   }

@@ -30,7 +30,7 @@ var Application = React.createFactory(React.createClass({
         </nav>
 
         <Track {...this.state.track} />
-        <Controls track={this.state.track} />
+        <Controls {...this.state.track} />
         <Playlist selectHandler={this.selectHandler} />
       </div>
     );

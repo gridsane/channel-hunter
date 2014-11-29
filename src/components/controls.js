@@ -8,7 +8,7 @@ var Controls = React.createClass({
   },
 
   togglePlayback: function (event) {
-    if (!this.props.track) {
+    if (!this.props.url) {
       return;
     }
 
@@ -20,8 +20,14 @@ var Controls = React.createClass({
     }.bind(this));
   },
 
-  componentDidUpdate: function(prevProps) {
-    if (prevProps.track && this.props.track && prevProps.track.url !== this.props.track.url && this.state.playing && this.refs.audio) {
+  componentDidUpdate: function(prevProps, prevState) {
+    if (prevProps.url !== this.props.url) {
+      this.setState({
+        playing: true
+      });
+    }
+
+    if (this.refs.audio) {
       this.refs.audio.getDOMNode().play();
     }
   },
@@ -33,9 +39,9 @@ var Controls = React.createClass({
     });
 
     var audio = '';
-    if (this.props.track) {
+    if (this.props.url) {
       audio = React.DOM.audio({
-        src: this.props.track.url,
+        src: this.props.url,
         preload: "none",
         ref: "audio"
       });

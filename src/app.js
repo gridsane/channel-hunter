@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-var Track = require('./components/track');
+var Cover = require('./components/cover');
 var Controls = require('./components/controls');
 var Playlist = require('./components/playlist');
 
@@ -35,7 +35,7 @@ var Application = React.createFactory(React.createClass({
           <a href={this.props.github_url} className="button-github"></a>
         </nav>
 
-        <Track {...this.state.track} />
+        <Cover {...this.state.track} />
         <Controls {...this.state.track} />
         <Playlist selectHandler={this.selectHandler} />
       </div>

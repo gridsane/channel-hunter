@@ -73,7 +73,15 @@ header {
   .nav-button();
 }
 
-.track {
+.cover-text {
+  width: 100%;
+  text-indent: 32px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cover {
   position: relative;
   height: 256px;
   color: #fff;
@@ -88,10 +96,9 @@ header {
     height: 100%;
     z-index: -2;
     content: "";
-    transition: background-color 1s ease-out 1s;
   }
 
-  &-cover {
+  &-image {
     content: "";
     position: absolute;
     background-position: center center;
@@ -107,15 +114,13 @@ header {
   }
 
   &-title {
-    width: 100%;
-    padding: 0 32px;
+    .cover-text();
     font-size: 48px;
     margin-top: 128px;
   }
 
   &-artist {
-    width: 100%;
-    padding: 0 32px;
+    .cover-text();
     font-size: 24px;
     color: #9e9e9e;
   }

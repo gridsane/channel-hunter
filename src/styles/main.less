@@ -98,7 +98,6 @@ header {
   overflow: hidden;
   margin-top: -72px;
   z-index: -10;
-  transition: height .2s ease-out;
 
   &::before {
     position: absolute;
@@ -229,6 +228,8 @@ header {
 }
 
 .playlist {
+  position: relative;
+  top: 296px;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -279,6 +280,6 @@ header {
 }
 
 .scroll-blocker {
-  position: relative;
+  position: fixed;
   z-index: 100;
 }

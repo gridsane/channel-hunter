@@ -58,7 +58,7 @@ var Playlist = React.createClass({
           this.props.onSelect(tracks[0]);
         }
       }
-    }.bind(this));
+    });
   },
 
   render: function () {

@@ -3,11 +3,14 @@
 var React = require('react');
 var Header = require('./components/header');
 var ScrollBlocker = require('./components/scroll_blocker');
+var ScrollListener = require('./mixins/scroll_listener');
 var Cover = require('./components/cover');
 var Controls = require('./components/controls');
 var Playlist = require('./components/playlist');
 
 var Application = React.createFactory(React.createClass({
+  mixins: [ScrollListener],
+
   getDefaultProps: function () {
     return {
       github_url: 'https://github.com/gridsane/channel-hunter'
@@ -16,7 +19,9 @@ var Application = React.createFactory(React.createClass({
 
   getInitialState: function () {
     return {
-      track: null
+      track: null,
+      containerWidth: 0,
+      coverHeight: 0
     };
   },
 
@@ -24,15 +29,28 @@ var Application = React.createFactory(React.createClass({
     this.setState({track: track});
   },
 
+  recomputeWidth: function () {
+    this.setState({
+      containerWidth: this.refs.container.getDOMNode().offsetWidth,
+    });
+  },
+
+  componentDidMount: function () {
+    window.addEventListener('resize', function () {
+      this.recomputeWidth();
+    }.bind(this));
+    this.recomputeWidth();
+  },
+
   render: function() {
     return (
-      <div className="application">
-        <ScrollBlocker>
-          <Header />
-          <Cover {...this.state.track} />
+      <div className="application" ref="container">
+        <ScrollBlocker width={this.state.containerWidth}>
+          <Header pageScrollY={this.state.pageScrollY} />
+          <Cover {...this.state.track} pageScrollY={this.state.pageScrollY} />
           <Controls {...this.state.track} />
         </ScrollBlocker>
-        <Playlist onSelect={this.selectTrack} />
+        <Playlist ref="playlist" onSelect={this.selectTrack} />
       </div>
     );
   }

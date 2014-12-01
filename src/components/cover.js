@@ -1,35 +1,45 @@
 var React = require('react');
-var ScrollListener = require('../mixins/scroll_listener');
 
 var Cover = React.createClass({
-  mixins: [ScrollListener],
-
   getDefaultProps: function () {
     return {
       title: 'no title',
       artist: 'no artist',
       cover: null,
+      pageScrollY: 0
     };
   },
 
-  render: function () {
-    var height = Math.max(116, 256 - this.state.pageScrollY)
-    var coverStyle = {height: height};
-    var isNarrow = height < 150;
-
-    var coverImageStyle = {
-      backgroundImage: 'url(' + this.props.cover + ')',
+  getInitialState: function () {
+    return {
+      height: null
     };
+  },
 
+  componentWillReceiveProps: function (nextProps) {
+    // @todo rid of "magic numbers"
+    var height = Math.max(116, 256 - nextProps.pageScrollY);
+
+    this.setState({
+      height: height,
+      isNarrow: height < 150
+    });
+  },
+
+  render: function () {
     var coverTitleClasses = React.addons.classSet({
       "cover-title": true,
-      "cover-title-narrow": isNarrow,
+      "cover-title-narrow": this.state.isNarrow,
     });
 
     var coverArtistClasses = React.addons.classSet({
       "cover-artist": true,
-      "cover-artist-narrow": isNarrow,
+      "cover-artist-narrow": this.state.isNarrow,
     });
+
+    var coverStyle = this.state.height
+      ? {height: this.state.height}
+      : {};
 
     return (
       <div className="cover" style={coverStyle}>
@@ -39,7 +49,8 @@ var Cover = React.createClass({
         <div className={coverArtistClasses}>
           {this.props.artist}
         </div>
-        <div className="cover-image" style={coverImageStyle}></div>
+        <div className="cover-image"
+          style={{backgroundImage: 'url(' + this.props.cover + ')'}}></div>
       </div>
     );
   }

@@ -1,6 +1,8 @@
 'use strict';
 
 var React = require('react');
+var Header = require('./components/header');
+var ScrollBlocker = require('./components/scroll_blocker');
 var Cover = require('./components/cover');
 var Controls = require('./components/controls');
 var Playlist = require('./components/playlist');
@@ -25,18 +27,11 @@ var Application = React.createFactory(React.createClass({
   render: function() {
     return (
       <div className="application">
-        <header>
-          <div className="header-wrapper">
-            <div className="header-title">Channel Hunter</div>
-          </div>
-        </header>
-        <nav>
-          <button className="button-humburger"></button>
-          <a href={this.props.github_url} className="button-github"></a>
-        </nav>
-
-        <Cover {...this.state.track} />
-        <Controls {...this.state.track} />
+        <ScrollBlocker>
+          <Header />
+          <Cover {...this.state.track} />
+          <Controls {...this.state.track} />
+        </ScrollBlocker>
         <Playlist onSelect={this.selectTrack} />
       </div>
     );

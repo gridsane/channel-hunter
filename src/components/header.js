@@ -3,6 +3,7 @@ var React = require('react/addons');
 var Header = React.createClass({
   getDefaultProps: function () {
     return {
+      github_url: 'https://github.com/gridsane/channel-hunter',
       pageScrollY: 0
     };
   },

@@ -11,12 +11,6 @@ var Playlist = require('./components/playlist');
 var Application = React.createFactory(React.createClass({
   mixins: [ScrollListener],
 
-  getDefaultProps: function () {
-    return {
-      github_url: 'https://github.com/gridsane/channel-hunter'
-    };
-  },
-
   getInitialState: function () {
     return {
       track: null,

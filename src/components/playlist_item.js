@@ -19,12 +19,14 @@ var PlaylistItem = React.createClass({
       artist: '',
       duration: 0,
       selected: false,
-      selectHandler: function () {},
+      onSelect: null,
     }
   },
 
   select: function (event) {
-    this.props.selectHandler(this.props.id, event);
+    if ("function" === typeof(this.props.onSelect)) {
+      this.props.onSelect(this.props.id, event);
+    }
   },
 
   render: function () {

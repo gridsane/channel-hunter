@@ -18,7 +18,7 @@ var Application = React.createFactory(React.createClass({
     };
   },
 
-  selectHandler: function (track) {
+  selectTrack: function (track) {
     this.setState({track: track});
   },
 
@@ -37,7 +37,7 @@ var Application = React.createFactory(React.createClass({
 
         <Cover {...this.state.track} />
         <Controls {...this.state.track} />
-        <Playlist selectHandler={this.selectHandler} />
+        <Playlist onSelect={this.selectTrack} />
       </div>
     );
   }

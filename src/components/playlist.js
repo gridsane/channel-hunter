@@ -8,7 +8,7 @@ var Playlist = React.createClass({
   getDefaultProps: function () {
     return {
       id: 76475061,
-      selectHandler: null
+      onSelect: null
     }
   },
 
@@ -23,7 +23,7 @@ var Playlist = React.createClass({
   getTracks: function (streamId, callback) {
     var deferred = Q.defer();
     superagent.get(
-        '/api/stream/' + streamId,
+        "/api/stream/" + streamId,
         function(err, res) {
           if (err) {
             deferred.reject(err);
@@ -41,6 +41,8 @@ var Playlist = React.createClass({
         this.setState({
           loading: false,
           tracks: data
+        }, function () {
+          this.selectTrack(data[0].id);
         });
       }.bind(this));
   },
@@ -49,13 +51,13 @@ var Playlist = React.createClass({
     this.setState({
       selected: id
     }, function () {
-      if ("function" === typeof(this.props.selectHandler)) {
+      if ("function" === typeof(this.props.onSelect)) {
         var tracks = this.state.tracks.filter(function (t) {
           return t.id === this.state.selected
         }.bind(this));
 
         if (tracks.length) {
-          this.props.selectHandler(tracks[0]);
+          this.props.onSelect(tracks[0]);
         }
       }
     }.bind(this));
@@ -67,7 +69,7 @@ var Playlist = React.createClass({
         <PlaylistItem
           {...track}
           selected={this.state.selected === track.id}
-          selectHandler={this.selectTrack}
+          onSelect={this.selectTrack}
           key={track.id}
           ref={"item" + track.id} />
       );

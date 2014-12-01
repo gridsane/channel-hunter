@@ -1,4 +1,5 @@
 var Q = require('q');
+var _ = require('lodash');
 var superagent = require('superagent');
 var Cache = require('./cache');
 var cache = new Cache();
@@ -67,6 +68,8 @@ Api.prototype.getStream = function (id) {
         };
       }
     };
+
+    audios = _.sortBy(audios, 'date').reverse();
 
     cache.set(cacheId, audios, 600);
     deferred.resolve(audios);

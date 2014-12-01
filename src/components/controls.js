@@ -51,14 +51,17 @@ var Controls = React.createClass({
           });
         });
 
-        this.refs.audio.getDOMNode().addEventListener(
-          'loadstart',
-          this.refs.audio.getDOMNode().play
-        );
+        this.refs.audio.getDOMNode().addEventListener('loadstart', function () {
+          if (this.state.playing) {
+            this.refs.audio.getDOMNode().play();
+          } else {
+            this.refs.audio.getDOMNode().pause();
+          }
+        }.bind(this));
       }
 
       this.setState({
-        playing: true,
+        playing: !!prevProps.url,
         progressEventMounted: true,
         currentTime: 0
       });

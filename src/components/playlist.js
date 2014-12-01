@@ -41,6 +41,8 @@ var Playlist = React.createClass({
         this.setState({
           loading: false,
           tracks: data
+        }, function () {
+          this.selectTrack(data[0].id);
         });
       }.bind(this));
   },

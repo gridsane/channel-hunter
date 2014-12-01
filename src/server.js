@@ -2,6 +2,10 @@ var express = require('express');
 var api = require('./server/api')();
 var app = express();
 var apiRouter = express.Router();
+var config = {
+  port: process.env.PORT || 5000
+};
+
 
 apiRouter.get('/stream/:stream', function (req, res) {
   api.getStream(req.params.stream).then(function (data) {
@@ -22,6 +26,6 @@ app
   .use(function (req, res, next) {
     res.sendFile(__dirname + '/index.html');
   })
-  .listen(process.env.PORT, function () {
-    console.log("Server listening on port " + process.env.PORT);
+  .listen(config.port, function () {
+    console.log("Server listening on port " + config.port);
   });

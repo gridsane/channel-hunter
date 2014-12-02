@@ -16,7 +16,8 @@ var Playlist = React.createClass({
     return {
       loading: true,
       tracks: [],
-      selected: null
+      selectedId: null,
+      selectedIndex: null
     }
   },
 
@@ -48,19 +49,31 @@ var Playlist = React.createClass({
   },
 
   selectTrack: function (id, event) {
-    this.setState({
-      selected: id
-    }, function () {
-      if ("function" === typeof(this.props.onSelect)) {
-        var tracks = this.state.tracks.filter(function (t) {
-          return t.id === this.state.selected
-        }.bind(this));
+    for (var i = this.state.tracks.length - 1; i >= 0; i--) {
+      var track = this.state.tracks[i];
+      if (track.id === id) {
+        this.setState({
+          selectedIndex: i,
+          selectedId: id
+        }, function () {
+          if ("function" === typeof(this.props.onSelect)) {
+            this.props.onSelect(track);
+          }
+        });
 
-        if (tracks.length) {
-          this.props.onSelect(tracks[0]);
-        }
+        break;
       }
-    });
+    };
+  },
+
+  selectNext: function () {
+    var nextIndex = null === this.state.selectedIndex
+      ? 0
+      : this.state.selectedIndex + 1;
+
+    if (nextIndex < this.state.tracks.length) {
+      this.selectTrack(this.state.tracks[nextIndex].id);
+    }
   },
 
   render: function () {
@@ -68,7 +81,7 @@ var Playlist = React.createClass({
       return (
         <PlaylistItem
           {...track}
-          selected={this.state.selected === track.id}
+          isSelected={this.state.selectedId === track.id}
           onSelect={this.selectTrack}
           key={track.id}
           ref={"item" + track.id} />

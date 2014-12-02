@@ -1,25 +1,25 @@
-var React = require('react/addons');
+var React = require("react/addons");
 
 var pad = function (x) {
-  return x < 10 ? '0' + x : x;
+  return x < 10 ? "0" + x : x;
 }
 
 var durationToString = function (duration) {
     var minutes = Math.floor(duration / 60);
     var seconds = duration % 60;
 
-    return pad(minutes) + ':' + pad(seconds);
+    return pad(minutes) + ":" + pad(seconds);
 }
 
 var PlaylistItem = React.createClass({
   getDefaultProps: function () {
     return {
       id: null,
-      title: '',
-      artist: '',
+      title: "",
+      artist: "",
       duration: 0,
-      selected: false,
-      onSelect: null,
+      isSelected: false,
+      onSelect: null
     }
   },
 
@@ -32,7 +32,7 @@ var PlaylistItem = React.createClass({
   render: function () {
     var classes = React.addons.classSet({
       "playlist-item": true,
-      "playlist-item-active": this.props.selected
+      "playlist-item-active": this.props.isSelected
     });
 
     return (

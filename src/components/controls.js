@@ -1,12 +1,13 @@
-var React = require('react');
-var nodeOffset = require('../utils/node_offset');
+var React = require("react");
+var nodeOffset = require("../utils/node_offset");
 
 var Controls = React.createClass({
   getInitialState: function () {
     return {
       playing: false,
       currentTime: 0,
-      progressEventMounted: false
+      progressEventMounted: false,
+      onEnd: null
     };
   },
 
@@ -36,26 +37,34 @@ var Controls = React.createClass({
       playing: !this.state.playing
     }, function () {
       this.refs.audio.getDOMNode()
-        [this.state.playing ? 'play' : 'pause']();
+        [this.state.playing ? "play" : "pause"]();
     }.bind(this));
   },
 
   componentDidUpdate: function(prevProps, prevState) {
+
     if (prevProps.url !== this.props.url) {
       if (this.refs.audio && !this.state.progressEventMounted) {
         var self = this;
+        var audioNode = this.refs.audio.getDOMNode();
 
-        this.refs.audio.getDOMNode().addEventListener('timeupdate', function () {
+        audioNode.addEventListener("timeupdate", function () {
           self.setState({
             currentTime: this.currentTime
           });
         });
 
-        this.refs.audio.getDOMNode().addEventListener('loadstart', function () {
+        audioNode.addEventListener("loadstart", function () {
           if (this.state.playing) {
             this.refs.audio.getDOMNode().play();
           } else {
             this.refs.audio.getDOMNode().pause();
+          }
+        }.bind(this));
+
+        audioNode.addEventListener("ended", function () {
+          if ("function" === typeof(this.props.onEnd)) {
+            this.props.onEnd();
           }
         }.bind(this));
       }

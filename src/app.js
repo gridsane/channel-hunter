@@ -23,6 +23,10 @@ var Application = React.createFactory(React.createClass({
     this.setState({track: track});
   },
 
+  onTrackEnd: function () {
+    this.refs.playlist.selectNext();
+  },
+
   recomputeWidth: function () {
     this.setState({
       containerWidth: this.refs.container.getDOMNode().offsetWidth,
@@ -42,7 +46,7 @@ var Application = React.createFactory(React.createClass({
         <ScrollBlocker width={this.state.containerWidth}>
           <Header pageScrollY={this.state.pageScrollY} />
           <Cover {...this.state.track} pageScrollY={this.state.pageScrollY} />
-          <Controls {...this.state.track} />
+          <Controls {...this.state.track} onEnd={this.onTrackEnd} />
         </ScrollBlocker>
         <Playlist ref="playlist" onSelect={this.selectTrack} />
       </div>

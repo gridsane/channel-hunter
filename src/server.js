@@ -6,17 +6,16 @@ var config = {
   port: process.env.PORT || 5000
 };
 
-
-apiRouter.get("/stream/:stream", function (req, res) {
-  api.getStream(req.params.stream).then(function (data) {
+apiRouter.get("/tracks/:channelId", function (req, res) {
+  api.getTracks(req.params.channelId).then(function (data) {
     res.json(data);
   }, function () {
     res.json([]);
   });
 });
 
-apiRouter.get("/streams", function (req, res) {
-  api.getStreamsInfo(req.query.urls).then(function (data) {
+apiRouter.get("/channels", function (req, res) {
+  api.getChannels(req.query.urls).then(function (data) {
     res.json(data);
   }, function () {
     res.json([]);

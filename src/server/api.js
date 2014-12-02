@@ -27,8 +27,8 @@ Api.prototype.request = function (method, params) {
   return deferred.promise;
 }
 
-Api.prototype.getStream = function (id) {
-  var cacheId = "api::stream::" + id;
+Api.prototype.getTracks = function (channelId) {
+  var cacheId = "api::getTracks::" + channelId;
   var result = cache.get(cacheId);
 
   if (result) {
@@ -40,7 +40,7 @@ Api.prototype.getStream = function (id) {
   var deferred = Q.defer();
 
   this.request("wall.get", {
-    owner_id: "-" + id,
+    owner_id: "-" + channelId,
   }).then(function (response) {
     var audios = [];
 
@@ -78,14 +78,14 @@ Api.prototype.getStream = function (id) {
   return deferred.promise;
 }
 
-Api.prototype.getStreamsInfo = function (streamUrls) {
+Api.prototype.getChannels = function (channelUrls) {
   var regex = /\/?([^\/]+)$/g;
-  var streamNames = _.map(streamUrls, function (url) {
+  var channelNames = _.map(channelUrls, function (url) {
     var match = regex.exec(url);
     return (Array.isArray(match) ? match[1] : '') || '';
   });
 
-  var cacheId = "api::streams-info::" + streamNames.join(":");
+  var cacheId = "api::getChannels::" + channelNames.join(":");
 
   var result = cache.get(cacheId);
   if (result) {
@@ -96,19 +96,19 @@ Api.prototype.getStreamsInfo = function (streamUrls) {
 
   var deferred = Q.defer();
 
-  this.request("groups.getById", {group_ids: streamNames.join(",")})
+  this.request("groups.getById", {group_ids: channelNames.join(",")})
     .then(function (response) {
-      var streams = _.map(response, function (stream) {
+      var channels = _.map(response, function (channel) {
         return {
-          id: stream.id,
-          name: stream.name,
-          description: stream.description,
-          url: 'http://vk.com/' + stream.screen_name
+          id: channel.id,
+          name: channel.name,
+          description: channel.description,
+          url: 'http://vk.com/' + channel.screen_name
         };
       });
 
-      cache.set(cacheId, streams, 600);
-      deferred.resolve(streams);
+      cache.set(cacheId, channels, 600);
+      deferred.resolve(channels);
     }, function (err) {
       deferred.reject(err);
     });

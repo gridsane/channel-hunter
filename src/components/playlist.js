@@ -8,7 +8,7 @@ var Playlist = React.createClass({
 
   getDefaultProps: function () {
     return {
-      ids: [76475061, 26457580],
+      channelIds: [76475061, 26457580],
       onSelect: null
     }
   },
@@ -22,10 +22,10 @@ var Playlist = React.createClass({
     }
   },
 
-  getTracks: function (streamId) {
+  getTracks: function (channelId) {
     var deferred = Q.defer();
     superagent.get(
-        "/api/stream/" + streamId,
+        "/api/tracks/" + channelId,
         function(err, res) {
           if (err) {
             deferred.reject(err);
@@ -41,13 +41,13 @@ var Playlist = React.createClass({
   componentWillMount: function () {
     var promises = [];
 
-    for (var i = this.props.ids.length - 1; i >= 0; i--) {
-      promises.push(this.getTracks(this.props.ids[i]));
+    for (var i = this.props.channelIds.length - 1; i >= 0; i--) {
+      promises.push(this.getTracks(this.props.channelIds[i]));
     };
 
     Q.all(promises)
-      .then(function (streamsData) {
-        var tracks = _.union.apply(this, streamsData);
+      .then(function (channelsTracks) {
+        var tracks = _.union.apply(this, channelsTracks);
         this.setState({
           loading: false,
           tracks: _.sortBy(tracks, "date").reverse()

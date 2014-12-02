@@ -10,14 +10,17 @@ var config = {
 apiRouter.get("/stream/:stream", function (req, res) {
   api.getStream(req.params.stream).then(function (data) {
     res.json(data);
+  }, function () {
+    res.json([]);
   });
 });
 
 apiRouter.get("/streams", function (req, res) {
-  res.json([
-    26457580,
-    76475061,
-  ]);
+  api.getStreamsInfo(req.query.urls).then(function (data) {
+    res.json(data);
+  }, function () {
+    res.json([]);
+  });
 });
 
 app

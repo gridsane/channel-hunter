@@ -1,4 +1,5 @@
 var Q = require("q");
+var _ = require("lodash");
 var superagent = require("superagent");
 var Cache = require("./cache");
 var cache = new Cache();
@@ -68,9 +69,49 @@ Api.prototype.getStream = function (id) {
       }
     };
 
-    cache.set(cacheId, audios, 600);
+    cache.set(cacheId, audios, 60);
     deferred.resolve(audios);
+  }, function (err) {
+    deferred.resolve(err);
   });
+
+  return deferred.promise;
+}
+
+Api.prototype.getStreamsInfo = function (streamUrls) {
+  var regex = /\/?([^\/]+)$/g;
+  var streamNames = _.map(streamUrls, function (url) {
+    var match = regex.exec(url);
+    return (Array.isArray(match) ? match[1] : '') || '';
+  });
+
+  var cacheId = "api::streams-info::" + streamNames.join(":");
+
+  var result = cache.get(cacheId);
+  if (result) {
+    return Q.fcall(function () {
+      return result;
+    });
+  }
+
+  var deferred = Q.defer();
+
+  this.request("groups.getById", {group_ids: streamNames.join(",")})
+    .then(function (response) {
+      var streams = _.map(response, function (stream) {
+        return {
+          id: stream.id,
+          name: stream.name,
+          description: stream.description,
+          url: 'http://vk.com/' + stream.screen_name
+        };
+      });
+
+      cache.set(cacheId, streams, 600);
+      deferred.resolve(streams);
+    }, function (err) {
+      deferred.reject(err);
+    });
 
   return deferred.promise;
 }

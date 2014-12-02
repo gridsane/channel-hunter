@@ -8,7 +8,7 @@ var Playlist = React.createClass({
 
   getDefaultProps: function () {
     return {
-      channelIds: [76475061, 26457580],
+      channelIds: [],
       onSelect: null
     }
   },
@@ -53,7 +53,9 @@ var Playlist = React.createClass({
             loading: false,
             tracks: _.sortBy(tracks, "date").reverse()
           }, function () {
-            this.selectTrack(this.state.tracks[0].id);
+            if (prevState.selectedId === null) {
+              this.selectTrack(this.state.tracks[0].id);
+            }
           });
         }.bind(this));
     }

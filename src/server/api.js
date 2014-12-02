@@ -63,13 +63,11 @@ Api.prototype.getStream = function (id) {
               audio.cover = cover;
             }
 
-            audios.unshift(audio);
+            audios.push(audio);
           }
         };
       }
     };
-
-    audios = _.sortBy(audios, "date").reverse();
 
     cache.set(cacheId, audios, 600);
     deferred.resolve(audios);

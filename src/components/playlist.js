@@ -2,12 +2,13 @@ var React = require("react");
 var PlaylistItem = require("./playlist_item");
 var superagent = require("superagent");
 var Q = require("q");
+var _ = require('lodash');
 
 var Playlist = React.createClass({
 
   getDefaultProps: function () {
     return {
-      id: 76475061,
+      ids: [76475061, 26457580],
       onSelect: null
     }
   },
@@ -21,7 +22,7 @@ var Playlist = React.createClass({
     }
   },
 
-  getTracks: function (streamId, callback) {
+  getTracks: function (streamId) {
     var deferred = Q.defer();
     superagent.get(
         "/api/stream/" + streamId,
@@ -33,17 +34,25 @@ var Playlist = React.createClass({
           }
         }
     );
-     return deferred.promise;
+
+    return deferred.promise;
   },
 
   componentWillMount: function () {
-    this.getTracks(this.props.id)
-      .then(function (data) {
+    var promises = [];
+
+    for (var i = this.props.ids.length - 1; i >= 0; i--) {
+      promises.push(this.getTracks(this.props.ids[i]));
+    };
+
+    Q.all(promises)
+      .then(function (streamsData) {
+        var tracks = _.union.apply(this, streamsData);
         this.setState({
           loading: false,
-          tracks: data
+          tracks: _.sortBy(tracks, "date").reverse()
         }, function () {
-          this.selectTrack(data[0].id);
+          this.selectTrack(this.state.tracks[0].id);
         });
       }.bind(this));
   },

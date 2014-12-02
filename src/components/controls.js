@@ -2,6 +2,12 @@ var React = require("react");
 var nodeOffset = require("../utils/node_offset");
 
 var Controls = React.createClass({
+  getDefaultProps: function () {
+    return {
+      width: 0
+    };
+  },
+
   getInitialState: function () {
     return {
       playing: false,
@@ -94,7 +100,7 @@ var Controls = React.createClass({
     }
 
     return (
-      <div className="controls">
+      <div className="controls" style={{width: this.props.width}}>
         {audio}
         <button onClick={this.togglePlayback} className={buttonClass}></button>
         <button className="button-volume"></button>

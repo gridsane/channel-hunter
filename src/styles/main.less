@@ -89,6 +89,12 @@ header {
   right: 12px;
 }
 
+.button-back {
+  .nav-button();
+  background-image: url(/assets/images/icon-back.svg);
+  left: 12px;
+}
+
 .cover {
   position: relative;
   height: 304px;
@@ -290,4 +296,23 @@ header {
 .scroll-blocker {
   position: fixed;
   z-index: 100;
+}
+
+.channels {
+  position: fixed;
+  z-index: 200;
+  background: white;
+
+  width: 256px;
+  padding-top: 64px;
+
+  height: 100%;
+  box-shadow: @shadow-primary;
+  overflow: hidden;
+
+  transition: width .1s ease-out;
+
+  &-hidden {
+    width: 0;
+  }
 }

@@ -10,15 +10,17 @@ apiRouter.get("/tracks/:channelId", function (req, res) {
   api.getTracks(req.params.channelId).then(function (data) {
     res.json(data);
   }, function () {
+    res.statusCode = 404;
     res.json([]);
   });
 });
 
-apiRouter.get("/channels", function (req, res) {
-  api.getChannels(req.query.urls).then(function (data) {
+apiRouter.get("/channel", function (req, res) {
+  api.getChannel(req.query.url).then(function (data) {
     res.json(data);
   }, function () {
-    res.json([]);
+    res.statusCode = 404;
+    res.json(null);
   });
 });
 

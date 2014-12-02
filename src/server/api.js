@@ -78,14 +78,17 @@ Api.prototype.getTracks = function (channelId) {
   return deferred.promise;
 }
 
-Api.prototype.getChannels = function (channelUrls) {
-  var regex = /\/?([^\/]+)$/g;
-  var channelNames = _.map(channelUrls, function (url) {
-    var match = regex.exec(url);
-    return (Array.isArray(match) ? match[1] : '') || '';
-  });
+Api.prototype.getChannel = function (channelUrl) {
 
-  var cacheId = "api::getChannels::" + channelNames.join(":");
+  var match = (/\/?([^\/]+)$/g).exec(channelUrl);
+  if (!Array.isArray(match) || !match[1]) {
+    return Q.fcall(function () {
+      return {};
+    });
+  }
+
+  var channelName = match[1];
+  var cacheId = "api::getChannels::" + channelName;
 
   var result = cache.get(cacheId);
   if (result) {
@@ -96,19 +99,21 @@ Api.prototype.getChannels = function (channelUrls) {
 
   var deferred = Q.defer();
 
-  this.request("groups.getById", {group_ids: channelNames.join(",")})
+  this.request("groups.getById", {group_id: channelName})
     .then(function (response) {
-      var channels = _.map(response, function (channel) {
-        return {
-          id: channel.id,
-          name: channel.name,
-          description: channel.description,
-          url: 'http://vk.com/' + channel.screen_name
-        };
-      });
+      var channel = {};
 
-      cache.set(cacheId, channels, 600);
-      deferred.resolve(channels);
+      if (response[0]) {
+        channel = {
+          id: response[0].id,
+          name: response[0].name,
+          description: response[0].description,
+          url: 'http://vk.com/' + response[0].screen_name
+        }
+      }
+
+      cache.set(cacheId, channel, 600);
+      deferred.resolve(channel);
     }, function (err) {
       deferred.reject(err);
     });

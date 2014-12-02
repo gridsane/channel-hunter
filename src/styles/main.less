@@ -31,12 +31,13 @@ body {
 
 header {
   height: 64px;
-  background: linear-gradient(to bottom, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 100%);
-  z-index: 100;
 }
 
 .header {
   position: relative;
+  background: linear-gradient(to bottom, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 100%);
+  transition: background .3s ease-out;
+  z-index: 100;
 
   &-wrapper {
     margin: 0 72px;
@@ -49,7 +50,13 @@ header {
     transition: opacity .3s ease-out;
   }
 
-  z-index: 100;
+  &-narrow {
+    background: transparent;
+
+    .header-title {
+      opacity: 0;
+    }
+  }
 }
 
 .button {
@@ -276,10 +283,6 @@ header {
       color: @gray-56;
     }
   }
-}
-
-.hidden {
-  opacity: 0;
 }
 
 .scroll-blocker {

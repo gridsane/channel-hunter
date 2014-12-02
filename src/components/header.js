@@ -9,16 +9,16 @@ var Header = React.createClass({
   },
 
   render: function () {
-    var titleClasses = React.addons.classSet({
-      "header-title": true,
-      "hidden": this.props.pageScrollY > 100
+    var headerClasses = React.addons.classSet({
+      "header": true,
+      "header-narrow": this.props.pageScrollY > 100
     });
 
     return (
-      <div className="header">
+      <div className={headerClasses}>
         <header>
           <div className="header-wrapper">
-            <div className={titleClasses}>Channel Hunter</div>
+            <div className="header-title">Channel Hunter</div>
           </div>
         </header>
         <nav>

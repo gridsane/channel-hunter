@@ -38,23 +38,25 @@ var Playlist = React.createClass({
     return deferred.promise;
   },
 
-  componentWillMount: function () {
-    var promises = [];
+  componentDidUpdate: function (prevProps, prevState) {
+    if (prevProps.channelIds !== this.props.channelIds) {
+      var promises = [];
 
-    for (var i = this.props.channelIds.length - 1; i >= 0; i--) {
-      promises.push(this.getTracks(this.props.channelIds[i]));
-    };
+      for (var i = this.props.channelIds.length - 1; i >= 0; i--) {
+        promises.push(this.getTracks(this.props.channelIds[i]));
+      };
 
-    Q.all(promises)
-      .then(function (channelsTracks) {
-        var tracks = _.union.apply(this, channelsTracks);
-        this.setState({
-          loading: false,
-          tracks: _.sortBy(tracks, "date").reverse()
-        }, function () {
-          this.selectTrack(this.state.tracks[0].id);
-        });
-      }.bind(this));
+      Q.all(promises)
+        .then(function (channelsTracks) {
+          var tracks = _.union.apply(this, channelsTracks);
+          this.setState({
+            loading: false,
+            tracks: _.sortBy(tracks, "date").reverse()
+          }, function () {
+            this.selectTrack(this.state.tracks[0].id);
+          });
+        }.bind(this));
+    }
   },
 
   selectTrack: function (id, event) {

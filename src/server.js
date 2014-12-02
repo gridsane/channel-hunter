@@ -1,5 +1,5 @@
-var express = require('express');
-var api = require('./server/api')();
+var express = require("express");
+var api = require("./server/api")();
 var app = express();
 var apiRouter = express.Router();
 var config = {
@@ -7,13 +7,13 @@ var config = {
 };
 
 
-apiRouter.get('/stream/:stream', function (req, res) {
+apiRouter.get("/stream/:stream", function (req, res) {
   api.getStream(req.params.stream).then(function (data) {
     res.json(data);
   });
 });
 
-apiRouter.get('/streams', function (req, res) {
+apiRouter.get("/streams", function (req, res) {
   res.json([
     26457580,
     76475061,
@@ -21,10 +21,10 @@ apiRouter.get('/streams', function (req, res) {
 });
 
 app
-  .use('/assets', express.static(__dirname + '/../assets'))
-  .use('/api', apiRouter)
+  .use("/assets", express.static(__dirname + "/../assets"))
+  .use("/api", apiRouter)
   .use(function (req, res, next) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + "/index.html");
   })
   .listen(config.port, function () {
     console.log("Server listening on port " + config.port);

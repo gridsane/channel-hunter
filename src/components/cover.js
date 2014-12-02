@@ -1,10 +1,10 @@
-var React = require('react');
+var React = require("react");
 
 var Cover = React.createClass({
   getDefaultProps: function () {
     return {
-      title: 'no title',
-      artist: 'no artist',
+      title: "no title",
+      artist: "no artist",
       cover: null,
       pageScrollY: 0
     };
@@ -50,7 +50,7 @@ var Cover = React.createClass({
           {this.props.artist}
         </div>
         <div className="cover-image"
-          style={{backgroundImage: 'url(' + this.props.cover + ')'}}></div>
+          style={{backgroundImage: "url(" + this.props.cover + ")"}}></div>
       </div>
     );
   }

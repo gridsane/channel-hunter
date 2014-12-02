@@ -1,5 +1,5 @@
-var React = require('react/addons');
-var ScrollListener = require('../mixins/scroll_listener');
+var React = require("react/addons");
+var ScrollListener = require("../mixins/scroll_listener");
 
 var ScrollBlocker = React.createClass({
   render: function () {

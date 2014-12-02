@@ -84,7 +84,7 @@ var Controls = React.createClass({
       "button-pause": this.state.playing
     });
 
-    var audio = '';
+    var audio = "";
     if (this.props.url) {
       audio = React.DOM.audio({
         src: this.props.url,

@@ -1,7 +1,7 @@
-var Q = require('q');
-var _ = require('lodash');
-var superagent = require('superagent');
-var Cache = require('./cache');
+var Q = require("q");
+var _ = require("lodash");
+var superagent = require("superagent");
+var Cache = require("./cache");
 var cache = new Cache();
 
 var Api = function () {
@@ -11,7 +11,7 @@ Api.prototype.request = function (method, params) {
   var deferred = Q.defer();
 
   superagent
-    .get('https://api.vk.com/method/' + method)
+    .get("https://api.vk.com/method/" + method)
     .query({
       v: 5.26
     })
@@ -28,7 +28,7 @@ Api.prototype.request = function (method, params) {
 }
 
 Api.prototype.getStream = function (id) {
-  var cacheId = 'api::stream::' + id;
+  var cacheId = "api::stream::" + id;
   var result = cache.get(cacheId);
 
   if (result) {
@@ -39,8 +39,8 @@ Api.prototype.getStream = function (id) {
 
   var deferred = Q.defer();
 
-  this.request('wall.get', {
-    owner_id: '-' + id,
+  this.request("wall.get", {
+    owner_id: "-" + id,
   }).then(function (response) {
     var audios = [];
 
@@ -49,13 +49,13 @@ Api.prototype.getStream = function (id) {
       if (attachments) {
         var cover = null;
         for (var j = attachments.length - 1; j >= 0; j--) {
-          if (!cover && 'photo' === attachments[j].type) {
+          if (!cover && "photo" === attachments[j].type) {
             cover = attachments[j].photo.photo_604;
           }
         }
 
         for (var j = attachments.length - 1; j >= 0; j--) {
-          if ('audio' === attachments[j].type) {
+          if ("audio" === attachments[j].type) {
             var audio = attachments[j].audio;
             audio.date = response.items[i].date;
 
@@ -69,7 +69,7 @@ Api.prototype.getStream = function (id) {
       }
     };
 
-    audios = _.sortBy(audios, 'date').reverse();
+    audios = _.sortBy(audios, "date").reverse();
 
     cache.set(cacheId, audios, 600);
     deferred.resolve(audios);

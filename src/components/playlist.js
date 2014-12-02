@@ -1,7 +1,7 @@
-var React = require('react');
-var PlaylistItem = require('./playlist_item');
-var superagent = require('superagent');
-var Q = require('q');
+var React = require("react");
+var PlaylistItem = require("./playlist_item");
+var superagent = require("superagent");
+var Q = require("q");
 
 var Playlist = React.createClass({
 

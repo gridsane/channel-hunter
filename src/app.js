@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-var React = require('react');
-var Header = require('./components/header');
-var ScrollBlocker = require('./components/scroll_blocker');
-var ScrollListener = require('./mixins/scroll_listener');
-var Cover = require('./components/cover');
-var Controls = require('./components/controls');
-var Playlist = require('./components/playlist');
+var React = require("react");
+var Header = require("./components/header");
+var ScrollBlocker = require("./components/scroll_blocker");
+var ScrollListener = require("./mixins/scroll_listener");
+var Cover = require("./components/cover");
+var Controls = require("./components/controls");
+var Playlist = require("./components/playlist");
 
 var Application = React.createFactory(React.createClass({
   mixins: [ScrollListener],
@@ -34,7 +34,7 @@ var Application = React.createFactory(React.createClass({
   },
 
   componentDidMount: function () {
-    window.addEventListener('resize', function () {
+    window.addEventListener("resize", function () {
       this.recomputeWidth();
     }.bind(this));
     this.recomputeWidth();
@@ -56,7 +56,7 @@ var Application = React.createFactory(React.createClass({
 
 module.exports = Application;
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   window.onload = function() {
     React.render(Application(), document.body);
   }

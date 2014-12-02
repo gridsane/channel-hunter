@@ -8,7 +8,7 @@ var ScrollListener = {
   },
 
   componentWillMount: function () {
-    window.addEventListener('scroll', function () {
+    window.addEventListener("scroll", function () {
       this.setState({
         pageScrollX: window.scrollX,
         pageScrollY: window.scrollY

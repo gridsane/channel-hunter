@@ -1,5 +1,4 @@
 var Q = require("q");
-var _ = require("lodash");
 var superagent = require("superagent");
 var Cache = require("./cache");
 var cache = new Cache();

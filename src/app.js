@@ -45,7 +45,7 @@ var Application = React.createFactory(React.createClass({
       <div className="application" ref="container">
         <ScrollBlocker width={this.state.containerWidth}>
           <Header pageScrollY={this.state.pageScrollY} />
-          <Cover {...this.state.track} pageScrollY={this.state.pageScrollY} />
+          <Cover {...this.state.track} pageScrollY={this.state.pageScrollY} width={this.state.containerWidth} />
           <Controls {...this.state.track} onEnd={this.onTrackEnd} />
         </ScrollBlocker>
         <Playlist ref="playlist" onSelect={this.selectTrack} />

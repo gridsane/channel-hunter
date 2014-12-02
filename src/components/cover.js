@@ -6,7 +6,8 @@ var Cover = React.createClass({
       title: "no title",
       artist: "no artist",
       cover: null,
-      pageScrollY: 0
+      pageScrollY: 0,
+      width: 0
     };
   },
 
@@ -18,23 +19,18 @@ var Cover = React.createClass({
 
   componentWillReceiveProps: function (nextProps) {
     // @todo rid of "magic numbers"
-    var height = Math.max(116, 256 - nextProps.pageScrollY);
+    var height = Math.max(96, 304 - nextProps.pageScrollY);
 
     this.setState({
       height: height,
-      isNarrow: height < 150
+      isNarrow: height < 190
     });
   },
 
   render: function () {
-    var coverTitleClasses = React.addons.classSet({
-      "cover-title": true,
-      "cover-title-narrow": this.state.isNarrow,
-    });
-
-    var coverArtistClasses = React.addons.classSet({
-      "cover-artist": true,
-      "cover-artist-narrow": this.state.isNarrow,
+    var coverTrackClasses = React.addons.classSet({
+      "cover-track": true,
+      "cover-track-narrow": this.state.isNarrow
     });
 
     var coverStyle = this.state.height
@@ -43,11 +39,13 @@ var Cover = React.createClass({
 
     return (
       <div className="cover" style={coverStyle}>
-        <div className={coverTitleClasses}>
-          {this.props.title}
-        </div>
-        <div className={coverArtistClasses}>
-          {this.props.artist}
+        <div className={coverTrackClasses} style={{width: this.props.width - (this.state.isNarrow ? 72 : 32) * 2}}>
+          <div className="cover-track-title">
+            {this.props.title}
+          </div>
+          <div className="cover-track-artist">
+            {this.props.artist}
+          </div>
         </div>
         <div className="cover-image"
           style={{backgroundImage: "url(" + this.props.cover + ")"}}></div>

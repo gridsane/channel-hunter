@@ -5,9 +5,11 @@
 @secondary-100: #FF80AB;
 @secondary-400: #F50057;
 
+// @todo: fix semantics!
 @gray-4: rgba(0, 0, 0, .04);
 @gray-8: rgba(0, 0, 0, .08);
 @gray-56: rgba(0, 0, 0, .56);
+@white-16: rgba(255, 255, 255, .16);
 
 @shadow-primary: 0 2px 5px rgba(0,0,0,0.26);
 @shadow-secondary: 0 1px 3px rgba(0,0,0,0.26);
@@ -80,20 +82,9 @@ header {
   .nav-button();
 }
 
-.cover-text {
-  width: 100%;
-  text-indent: 32px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  transition: bottom .3s ease-out;
-  transition: font-size .3s ease-out;
-}
-
 .cover {
   position: relative;
-  height: 256px;
+  height: 304px;
   color: #fff;
   overflow: hidden;
   margin-top: -72px;
@@ -125,29 +116,50 @@ header {
     transition: background-image 1s ease-out .2s;
   }
 
-  &-title {
-    .cover-text();
+  &-track {
     position: absolute;
     bottom: 48px;
-    font-size: 48px;
+    overflow: hidden;
+    white-space: nowrap;
+    left: 32px;
 
-    &-narrow {
-      bottom: 32px;
+    &-title {
+      .cover-track-text();
+      font-size: 48px;
+    }
+
+    &-artist {
+      .cover-track-text();
       font-size: 24px;
+      color: #9e9e9e;
     }
   }
 
-  &-artist {
-    .cover-text();
-    position: absolute;
-    bottom: 24px;
-    font-size: 24px;
-    color: #9e9e9e;
+  &-track-narrow {
+    width: 300px;
+    bottom: 42px;
+    left: 72px;
+    .cover-track-text();
 
-    &-narrow {
-      bottom: 12px;
+    .cover-track-title {
+      display: inline;
+      font-size: 24px;
+
+      &::after {
+        content: ' ';
+      }
+    }
+
+    .cover-track-artist {
+      display: inline;
       font-size: 16px;
     }
+  }
+
+  .cover-track-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
@@ -164,8 +176,8 @@ header {
 
 .controls {
   position: relative;
+  top: -48px;
   height: 48px;
-  background: @primary;
   box-shadow: @shadow-primary;
   padding: 0 72px;
 
@@ -187,23 +199,11 @@ header {
     top: 10px;
 
     &::-webkit-progress-bar {
-      background: url(/assets/images/buffer-circle.svg);
-      background-position: 8px center;
-      background-size: 10px 10px;
-      animation: buffer .2s linear infinite;
-    }
-
-    @keyframes buffer {
-      0% {
-        background-position: 0px center;
-      }
-      100% {
-        background-position: 9px center;
-      }
+      background: transparent;
     }
 
     &::-webkit-progress-value {
-      background-color: @primary-700;
+      background-color: @white-16;
     }
   }
 }

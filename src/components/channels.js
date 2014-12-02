@@ -76,7 +76,7 @@ var Channels = React.createClass({
     return (
       <div className={channelsClasses}>
         <button onClick={this.props.onBackClick} className="button-back"></button>
-        <ul className="channel-items">{items}</ul>
+        <ul className="channels-items">{items}</ul>
       </div>
     );
   }

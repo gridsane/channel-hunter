@@ -1,5 +1,6 @@
 var React = require("react");
 var nodeOffset = require("../utils/node_offset");
+var formatDuration = require("../utils/format_duration");
 
 var Controls = React.createClass({
   getDefaultProps: function () {
@@ -104,6 +105,7 @@ var Controls = React.createClass({
         {audio}
         <button onClick={this.togglePlayback} className={buttonClass}></button>
         <button className="button-volume"></button>
+        <div className="controls-time">{formatDuration(this.state.currentTime)}</div>
         <progress ref="buffer" className="controls-buffer" max="100" value="100"></progress>
         <progress ref="seek" onClick={this.seek} className="controls-seek" max={this.props.duration} value={this.state.currentTime}></progress>
       </div>

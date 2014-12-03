@@ -199,7 +199,16 @@ header {
   height: 48px;
   box-shadow: @shadow-primary;
   box-sizing: border-box;
-  padding: 0 72px;
+  padding: 0 128px 0 72px;
+
+  &-time {
+    position: absolute;
+    top: 16px;
+    right: 72px;
+
+    color: rgba(255,255,255,.87);
+    font-size: 14px;
+  }
 
   &-seek {
     .progress();

@@ -1,15 +1,5 @@
 var React = require("react/addons");
-
-var pad = function (x) {
-  return x < 10 ? "0" + x : x;
-}
-
-var durationToString = function (duration) {
-    var minutes = Math.floor(duration / 60);
-    var seconds = duration % 60;
-
-    return pad(minutes) + ":" + pad(seconds);
-}
+var formatDuration = require("../utils/format_duration");
 
 var PlaylistItem = React.createClass({
   getDefaultProps: function () {
@@ -39,7 +29,7 @@ var PlaylistItem = React.createClass({
       <li className={classes} key={this.props.id} onClick={this.select}>
         <div className="playlist-item-title">{this.props.title}</div>
         <div className="playlist-item-artist">{this.props.artist}</div>
-        <div className="playlist-item-duration">{durationToString(this.props.duration)}</div>
+        <div className="playlist-item-duration">{formatDuration(this.props.duration)}</div>
       </li>
     );
   }

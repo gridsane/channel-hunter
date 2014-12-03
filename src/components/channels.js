@@ -82,8 +82,25 @@ var Channels = React.createClass({
     });
   },
 
-  componentWillReceiveProps: function (nextProps) {
-    this.setState({isHidden: nextProps.isHidden});
+  onBodyClick: function (e) {
+    var node = this.getDOMNode();
+    for (var i = e.toElement; i; i = i.parentNode) {
+      if (i === node) {
+        return;
+      }
+    };
+
+    this.props.onBackClick();
+    e.stopPropagation();
+    document.body.removeEventListener('click', this.onBodyClick);
+  },
+
+  componentDidUpdate: function (prevProps) {
+    if (!this.props.isHidden) {
+      document.body.addEventListener('click', this.onBodyClick);
+    } else {
+      document.body.removeEventListener('click', this.onBodyClick);
+    }
   },
 
   render: function () {

@@ -5,6 +5,9 @@ Right now you can:
 - Select a track from the playlist
 - Play/Pause it
 - Seek a progress position
+- Pick a channels to play
+
+You can try it here: http://channel-hunter.herokuapp.com
 
 # How to install
 

@@ -14,10 +14,12 @@
 @shadow-primary: 0 2px 5px rgba(0,0,0,0.26);
 @shadow-secondary: 0 1px 3px rgba(0,0,0,0.26);
 
+@text-light-bg-87: rgba(0, 0, 0, .87);
+
 @import url(http://fonts.googleapis.com/css?family=Roboto&subset=latin,cyrillic);
 
 body {
-  font-family: "Roboto";
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 16px;
   margin: 0;
   padding: 0;
@@ -89,6 +91,12 @@ header {
   right: 12px;
 }
 
+.button-back {
+  .nav-button();
+  background-image: url(/assets/images/icon-back.svg);
+  left: 12px;
+}
+
 .cover {
   position: relative;
   height: 304px;
@@ -142,6 +150,7 @@ header {
       font-size: 24px;
       color: #9e9e9e;
       transition: font-size .2s ease-out;
+      transition: display 1s ease-out;
     }
   }
 
@@ -289,4 +298,59 @@ header {
 .scroll-blocker {
   position: fixed;
   z-index: 100;
+}
+
+.icon-check {
+  width: 48px;
+  height: 48px;
+
+  position: absolute;
+  top: 0px;
+  left: 12px;
+
+  background-image: url(/assets/images/icon-check.svg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+
+  transition: background-size .08s ease-out;
+
+  &-disabled {
+    background-size: 0 0;
+  }
+}
+
+.channels {
+  position: fixed;
+  z-index: 200;
+  background: white;
+
+  width: 256px;
+  padding-top: 64px;
+
+  height: 100%;
+  box-shadow: @shadow-primary;
+  overflow: hidden;
+
+  transition: width .1s ease-out;
+
+  &-hidden {
+    width: 0;
+  }
+
+  &-items {
+    padding: 0;
+    margin: 0;
+  }
+
+  &-item {
+    position: relative;
+    padding-left: 72px;
+    height: 48px;
+    font-size: 14px;
+    line-height: 48px;
+    color: @text-light-bg-87;
+
+    cursor: pointer;
+  }
 }

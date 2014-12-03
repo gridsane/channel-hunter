@@ -4,7 +4,8 @@ var Header = React.createClass({
   getDefaultProps: function () {
     return {
       github_url: "https://github.com/gridsane/channel-hunter",
-      pageScrollY: 0
+      pageScrollY: 0,
+      onMenuClick: null
     };
   },
 
@@ -22,7 +23,7 @@ var Header = React.createClass({
           </div>
         </header>
         <nav>
-          <button className="button-humburger"></button>
+          <button onClick={this.props.onMenuClick} className="button-humburger"></button>
           <a href={this.props.github_url} className="button-github"></a>
         </nav>
       </div>

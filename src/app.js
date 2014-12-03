@@ -7,6 +7,7 @@ var ScrollListener = require("./mixins/scroll_listener");
 var Cover = require("./components/cover");
 var Controls = require("./components/controls");
 var Playlist = require("./components/playlist");
+var Channels = require("./components/channels");
 
 var Application = React.createFactory(React.createClass({
   mixins: [ScrollListener],
@@ -15,8 +16,18 @@ var Application = React.createFactory(React.createClass({
     return {
       track: null,
       containerWidth: 0,
-      coverHeight: 0
+      coverHeight: 0,
+      isChannelsHidden: true,
+      channelIds: []
     };
+  },
+
+  showChannels: function () {
+    this.setState({isChannelsHidden: false});
+  },
+
+  hideChannels: function () {
+    this.setState({isChannelsHidden: true});
   },
 
   selectTrack: function (track) {
@@ -33,6 +44,14 @@ var Application = React.createFactory(React.createClass({
     });
   },
 
+  onChannelsChanged: function (channels) {
+    this.setState({channelIds: channels.filter(function (channel) {
+      return channel.isChecked;
+    }).map(function (channel) {
+      return channel.id;
+    })});
+  },
+
   componentDidMount: function () {
     window.addEventListener("resize", function () {
       this.recomputeWidth();
@@ -43,12 +62,13 @@ var Application = React.createFactory(React.createClass({
   render: function() {
     return (
       <div className="application" ref="container">
+        <Channels onChannelsChanged={this.onChannelsChanged} onBackClick={this.hideChannels} isHidden={this.state.isChannelsHidden} />
         <ScrollBlocker width={this.state.containerWidth}>
-          <Header pageScrollY={this.state.pageScrollY} />
+          <Header pageScrollY={this.state.pageScrollY} onMenuClick={this.showChannels} />
           <Cover {...this.state.track} pageScrollY={this.state.pageScrollY} width={this.state.containerWidth} />
           <Controls {...this.state.track} onEnd={this.onTrackEnd} width={this.state.containerWidth} />
         </ScrollBlocker>
-        <Playlist ref="playlist" onSelect={this.selectTrack} />
+        <Playlist channelIds={this.state.channelIds} ref="playlist" onSelect={this.selectTrack} />
       </div>
     );
   }

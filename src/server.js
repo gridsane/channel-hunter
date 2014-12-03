@@ -6,18 +6,22 @@ var config = {
   port: process.env.PORT || 5000
 };
 
-
-apiRouter.get("/stream/:stream", function (req, res) {
-  api.getStream(req.params.stream).then(function (data) {
+apiRouter.get("/tracks/:channelId", function (req, res) {
+  api.getTracks(req.params.channelId).then(function (data) {
     res.json(data);
+  }, function () {
+    res.statusCode = 404;
+    res.json([]);
   });
 });
 
-apiRouter.get("/streams", function (req, res) {
-  res.json([
-    26457580,
-    76475061,
-  ]);
+apiRouter.get("/channel", function (req, res) {
+  api.getChannel(req.query.url).then(function (data) {
+    res.json(data);
+  }, function () {
+    res.statusCode = 404;
+    res.json(null);
+  });
 });
 
 app

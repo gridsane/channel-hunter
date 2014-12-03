@@ -1,4 +1,5 @@
 var Q = require("q");
+var _ = require("lodash");
 var superagent = require("superagent");
 var Cache = require("./cache");
 var cache = new Cache();
@@ -26,8 +27,8 @@ Api.prototype.request = function (method, params) {
   return deferred.promise;
 }
 
-Api.prototype.getStream = function (id) {
-  var cacheId = "api::stream::" + id;
+Api.prototype.getTracks = function (channelId) {
+  var cacheId = "api::getTracks::" + channelId;
   var result = cache.get(cacheId);
 
   if (result) {
@@ -39,7 +40,7 @@ Api.prototype.getStream = function (id) {
   var deferred = Q.defer();
 
   this.request("wall.get", {
-    owner_id: "-" + id,
+    owner_id: "-" + channelId,
   }).then(function (response) {
     var audios = [];
 
@@ -68,9 +69,54 @@ Api.prototype.getStream = function (id) {
       }
     };
 
-    cache.set(cacheId, audios, 600);
+    cache.set(cacheId, audios, 60);
     deferred.resolve(audios);
+  }, function (err) {
+    deferred.resolve(err);
   });
+
+  return deferred.promise;
+}
+
+Api.prototype.getChannel = function (channelUrl) {
+
+  var match = (/\/?([^\/]+)$/g).exec(channelUrl);
+  if (!Array.isArray(match) || !match[1]) {
+    return Q.fcall(function () {
+      return {};
+    });
+  }
+
+  var channelName = match[1];
+  var cacheId = "api::getChannels::" + channelName;
+
+  var result = cache.get(cacheId);
+  if (result) {
+    return Q.fcall(function () {
+      return result;
+    });
+  }
+
+  var deferred = Q.defer();
+
+  this.request("groups.getById", {group_id: channelName})
+    .then(function (response) {
+      var channel = {};
+
+      if (response[0]) {
+        channel = {
+          id: response[0].id,
+          name: response[0].name,
+          description: response[0].description,
+          url: 'http://vk.com/' + response[0].screen_name
+        }
+      }
+
+      cache.set(cacheId, channel, 600);
+      deferred.resolve(channel);
+    }, function (err) {
+      deferred.reject(err);
+    });
 
   return deferred.promise;
 }

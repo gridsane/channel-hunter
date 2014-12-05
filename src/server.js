@@ -20,7 +20,7 @@ apiRouter.get("/channel", function (req, res) {
     res.json(data);
   }, function () {
     res.statusCode = 404;
-    res.json(null);
+    res.json({});
   });
 });
 

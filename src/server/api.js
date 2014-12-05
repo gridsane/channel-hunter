@@ -16,7 +16,11 @@ Api.prototype.request = function (method, params) {
       v: 5.26
     })
     .query(params)
-    .end(function (res) {
+    .end(function (err, res) {
+      if (err || "undefined" === typeof(res)) {
+        deferred.reject(err);
+      }
+
       if (res.body.error) {
         deferred.reject(res.body.error);
       }

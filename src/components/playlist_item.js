@@ -8,6 +8,7 @@ var PlaylistItem = React.createClass({
       title: "",
       artist: "",
       duration: 0,
+      channel: {},
       isSelected: false,
       onSelect: null
     }
@@ -29,6 +30,7 @@ var PlaylistItem = React.createClass({
       <li className={classes} key={this.props.id} onClick={this.select}>
         <div className="playlist-item-title">{this.props.title}</div>
         <div className="playlist-item-artist">{this.props.artist}</div>
+        <div className="playlist-item-channel">{this.props.channel.name}</div>
         <div className="playlist-item-duration">{formatDuration(this.props.duration)}</div>
       </li>
     );

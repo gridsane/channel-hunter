@@ -18,7 +18,7 @@ var Application = React.createFactory(React.createClass({
       containerWidth: 0,
       coverHeight: 0,
       isChannelsHidden: true,
-      channelIds: []
+      channels: []
     };
   },
 
@@ -45,10 +45,8 @@ var Application = React.createFactory(React.createClass({
   },
 
   onChannelsChanged: function (channels) {
-    this.setState({channelIds: channels.filter(function (channel) {
+    this.setState({channels: channels.filter(function (channel) {
       return channel.isChecked;
-    }).map(function (channel) {
-      return channel.id;
     })});
   },
 
@@ -68,7 +66,7 @@ var Application = React.createFactory(React.createClass({
           <Cover {...this.state.track} pageScrollY={this.state.pageScrollY} width={this.state.containerWidth} />
           <Controls {...this.state.track} onEnd={this.onTrackEnd} width={this.state.containerWidth} />
         </ScrollBlocker>
-        <Playlist channelIds={this.state.channelIds} ref="playlist" onSelect={this.selectTrack} />
+        <Playlist channels={this.state.channels} ref="playlist" onSelect={this.selectTrack} />
       </div>
     );
   }

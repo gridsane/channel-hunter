@@ -8,7 +8,7 @@ var Playlist = React.createClass({
 
   getDefaultProps: function () {
     return {
-      channelIds: [],
+      channels: [],
       onSelect: null
     }
   },
@@ -39,11 +39,11 @@ var Playlist = React.createClass({
   },
 
   componentDidUpdate: function (prevProps, prevState) {
-    if (prevProps.channelIds !== this.props.channelIds) {
+    if (prevProps.channels !== this.props.channels) {
       var promises = [];
 
-      for (var i = this.props.channelIds.length - 1; i >= 0; i--) {
-        promises.push(this.getTracks(this.props.channelIds[i]));
+      for (var i = this.props.channels.length - 1; i >= 0; i--) {
+        promises.push(this.getTracks(this.props.channels[i].id));
       };
 
       Q.all(promises)
@@ -89,11 +89,18 @@ var Playlist = React.createClass({
     }
   },
 
+  getChannel: function (channelId) {
+    return this.props.channels.filter(function (channel) {
+      return channel.id === channelId;
+    })[0];
+  },
+
   render: function () {
     var tracks = this.state.tracks.map(function (track) {
       return (
         <PlaylistItem
           {...track}
+          channel={this.getChannel(track.channelId)}
           isSelected={this.state.selectedId === track.id}
           onSelect={this.selectTrack}
           key={track.id}

@@ -8,6 +8,7 @@
 // @todo: fix semantics!
 @gray-4: rgba(0, 0, 0, .04);
 @gray-8: rgba(0, 0, 0, .08);
+@gray-27: rgba(0, 0, 0, .27);
 @gray-56: rgba(0, 0, 0, .56);
 @white-16: rgba(255, 255, 255, .16);
 
@@ -296,16 +297,23 @@ header {
     }
 
     &-artist {
+      display: inline;
       font-size: 14px;
       color: @gray-56;
     }
 
+    &-channel {
+      display: inline-block;
+      font-size: 14px;
+      color: @gray-27;
+      float: right;
+    }
+
     &-duration {
       position: absolute;
-      top: 20px;
+      top: 22px;
       right: 32px;
       font-size: 14px;
-      line-height: 24px;
       color: @gray-56;
     }
   }

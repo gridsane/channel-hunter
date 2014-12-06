@@ -32,6 +32,7 @@ Api.prototype.request = function (method, params) {
 }
 
 Api.prototype.getTracks = function (channelId) {
+  channelId = parseInt(channelId);
   var cacheId = "api::getTracks::" + channelId;
   var result = cache.get(cacheId);
 
@@ -60,8 +61,15 @@ Api.prototype.getTracks = function (channelId) {
 
         for (var j = attachments.length - 1; j >= 0; j--) {
           if ("audio" === attachments[j].type) {
-            var audio = attachments[j].audio;
-            audio.date = response.items[i].date;
+            var audio = {
+              id: attachments[j].audio.id,
+              date: response.items[i].date,
+              artist: attachments[j].audio.artist,
+              title: attachments[j].audio.title,
+              url: attachments[j].audio.url,
+              duration: attachments[j].audio.duration,
+              channelId: channelId
+            };
 
             if (cover) {
               audio.cover = cover;

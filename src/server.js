@@ -1,4 +1,5 @@
 var express = require("express");
+var compress = require('compression');
 var api = require("./server/api")();
 var app = express();
 var apiRouter = express.Router();
@@ -25,6 +26,7 @@ apiRouter.get("/channel", function (req, res) {
 });
 
 app
+  .use(compress())
   .use("/assets", express.static(__dirname + "/../assets"))
   .use("/api", apiRouter)
   .use(function (req, res, next) {

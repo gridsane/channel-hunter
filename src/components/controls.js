@@ -31,11 +31,9 @@ var Controls = React.createClass({
     this.setState({currentTime: seekTime}, function () {
       this.refs.audio.getDOMNode().currentTime = seekTime;
     });
-
-    event.preventDefault();
   },
 
-  togglePlayback: function (event) {
+  togglePlayback: function () {
     if (!this.props.url) {
       return;
     }
@@ -103,9 +101,9 @@ var Controls = React.createClass({
     return (
       <div className="controls" style={{width: this.props.width}}>
         {audio}
-        <button onClick={this.togglePlayback} className={buttonClass}></button>
-        <button onClick={this.props.onEnd} className="button-next"></button>
-        <button className="button-volume"></button>
+        <a onClick={this.togglePlayback} className={buttonClass}></a>
+        <a onClick={this.props.onEnd} className="button-next"></a>
+        <a className="button-volume"></a>
         <div className="controls-time">{formatDuration(this.state.currentTime)}</div>
         <progress ref="buffer" className="controls-buffer" max="100" value="100"></progress>
         <progress ref="seek" onClick={this.seek} className="controls-seek" max={this.props.duration} value={this.state.currentTime}></progress>

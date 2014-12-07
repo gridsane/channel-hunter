@@ -40,20 +40,41 @@ var Playlist = React.createClass({
 
   componentDidUpdate: function (prevProps, prevState) {
     if (prevProps.channels !== this.props.channels) {
-      var promises = [];
+      this.setState({loading: true});
 
+      var prevChannelIds = prevProps.channels.map(function (c) {
+        return c.id;
+      });
+
+      var channelIds = [];
+      var promises = [];
       for (var i = this.props.channels.length - 1; i >= 0; i--) {
-        promises.push(this.getTracks(this.props.channels[i].id));
+        var channelId = this.props.channels[i].id;
+        channelIds.push(channelId);
+        if (-1 === prevChannelIds.indexOf(channelId)) {
+          promises.push(this.getTracks(channelId));
+        }
+
       };
+
+      var diffChannelIds = prevChannelIds.filter(function (id) {
+        return -1 === channelIds.indexOf(id);
+      });
 
       Q.all(promises)
         .then(function (channelsTracks) {
+          // @hack reverse existing tracks cause it reversing later with all,
+          // to prevent swapping tracks with equal dates, meh.
+          channelsTracks.push(this.state.tracks.filter(function (track) {
+            return -1 === diffChannelIds.indexOf(track.channelId);
+          }).reverse());
+
           var tracks = _.union.apply(this, channelsTracks);
           this.setState({
             loading: false,
             tracks: _.sortBy(tracks, "date").reverse()
           }, function () {
-            if (prevState.selectedId === null) {
+            if (prevState.selectedId === null && 0 < this.state.tracks.length) {
               this.selectTrack(this.state.tracks[0].id);
             }
           });

@@ -31,7 +31,9 @@ var Application = React.createFactory(React.createClass({
   },
 
   selectTrack: function (track) {
-    this.setState({track: track});
+    this.setState({track: track}, function () {
+      document.title = track.title + " - " + track.artist;
+    });
   },
 
   onTrackEnd: function () {

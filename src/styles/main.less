@@ -12,8 +12,9 @@
 @gray-56: rgba(0, 0, 0, .56);
 @white-16: rgba(255, 255, 255, .16);
 
-@shadow-primary: 0 2px 5px rgba(0,0,0,0.26);
-@shadow-secondary: 0 1px 3px rgba(0,0,0,0.26);
+@shadow-primary: 0 2px 5px @gray-27;
+@shadow-primary-bottom: 0 2px 5px -2px @gray-27;
+@shadow-secondary: 0 1px 3px @gray-27;
 
 @text-light-bg-87: rgba(0, 0, 0, .87);
 
@@ -70,7 +71,7 @@ body {
   cursor: pointer;
 }
 
-.nav-button {
+.nav-button() {
   position: absolute;
   top: 8px;
   .button();
@@ -173,14 +174,14 @@ body {
     }
   }
 
-  .cover-track-text {
+  .cover-track-text() {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 }
 
-.progress {
+.progress() {
   -webkit-appearance: none;
   appearance: none;
 
@@ -195,7 +196,7 @@ body {
   position: absolute;
   bottom: 0;
   height: 48px;
-  box-shadow: @shadow-primary;
+  box-shadow: @shadow-primary-bottom;
   box-sizing: border-box;
   padding: 0 128px 0 120px;
 

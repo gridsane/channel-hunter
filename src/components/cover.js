@@ -19,7 +19,7 @@ var Cover = React.createClass({
 
   componentWillReceiveProps: function (nextProps) {
     // @todo rid of "magic numbers"
-    var height = Math.max(96, 304 - nextProps.pageScrollY);
+    var height = Math.max(112, 304 - nextProps.pageScrollY);
 
     this.setState({
       height: height,

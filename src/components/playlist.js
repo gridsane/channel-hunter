@@ -17,6 +17,7 @@ var Playlist = React.createClass({
     return {
       loading: true,
       tracks: [],
+      trackErrors: [],
       selectedId: null,
       selectedIndex: null
     }
@@ -116,6 +117,13 @@ var Playlist = React.createClass({
     })[0];
   },
 
+  errorSelected: function () {
+    var trackErrors = this.state.trackErrors;
+    trackErrors.push(this.state.selectedId);
+
+    this.setState({trackErrors: trackErrors});
+  },
+
   render: function () {
     var tracks = this.state.tracks.map(function (track) {
       return (
@@ -123,6 +131,7 @@ var Playlist = React.createClass({
           {...track}
           channel={this.getChannel(track.channelId)}
           isSelected={this.state.selectedId === track.id}
+          isError={-1 !== this.state.trackErrors.indexOf(track.id)}
           onSelect={this.selectTrack}
           key={track.id}
           ref={"item" + track.id} />

@@ -10,7 +10,8 @@ var PlaylistItem = React.createClass({
       duration: 0,
       channel: {},
       isSelected: false,
-      onSelect: null
+      onSelect: null,
+      isError: false
     }
   },
 
@@ -23,7 +24,8 @@ var PlaylistItem = React.createClass({
   render: function () {
     var classes = React.addons.classSet({
       "playlist-item": true,
-      "playlist-item-active": this.props.isSelected
+      "playlist-item-active": this.props.isSelected,
+      "playlist-item-error": this.props.isError
     });
 
     return (

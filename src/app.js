@@ -52,6 +52,11 @@ var Application = React.createFactory(React.createClass({
     })});
   },
 
+  onError: function () {
+    this.refs.playlist.errorSelected();
+    this.onTrackEnd();
+  },
+
   componentDidMount: function () {
     window.addEventListener("resize", function () {
       this.recomputeWidth();
@@ -66,7 +71,10 @@ var Application = React.createFactory(React.createClass({
         <ScrollBlocker width={this.state.containerWidth}>
           <Header pageScrollY={this.state.pageScrollY} onMenuClick={this.showChannels} />
           <Cover {...this.state.track} pageScrollY={this.state.pageScrollY} width={this.state.containerWidth} />
-          <Controls {...this.state.track} onEnd={this.onTrackEnd} width={this.state.containerWidth} />
+          <Controls {...this.state.track}
+            onEnd={this.onTrackEnd}
+            onError={this.onError}
+            width={this.state.containerWidth} />
         </ScrollBlocker>
         <Playlist channels={this.state.channels} ref="playlist" onSelect={this.selectTrack} />
       </div>

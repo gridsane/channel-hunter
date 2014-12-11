@@ -14,7 +14,8 @@ var Controls = React.createClass({
       playing: false,
       currentTime: 0,
       progressEventMounted: false,
-      onEnd: null
+      onEnd: null,
+      onError: null
     };
   },
 
@@ -58,6 +59,12 @@ var Controls = React.createClass({
             currentTime: this.currentTime
           });
         });
+
+        audioNode.addEventListener("error", function () {
+          if ("function" === typeof(this.props.onError)) {
+            this.props.onError();
+          }
+        }.bind(this));
 
         audioNode.addEventListener("loadstart", function () {
           if (this.state.playing) {

@@ -1,5 +1,5 @@
 var React = require("react");
-var nodeOffset = require("../utils/node_offset");
+var Progress = require("./progress");
 var formatDuration = require("../utils/format_duration");
 
 var Controls = React.createClass({
@@ -20,18 +20,13 @@ var Controls = React.createClass({
     };
   },
 
-  seek: function (event) {
-    if (!this.props.url) {
+  onSeek: function (value) {
+    if (!this.props.url || this.state.loading) {
       return;
     }
 
-    var node = event.nativeEvent.toElement,
-        width = node.offsetWidth,
-        pos = event.clientX - nodeOffset(node).left,
-        seekTime = (this.props.duration / width) * pos;
-
-    this.setState({currentTime: seekTime}, function () {
-      this.refs.audio.getDOMNode().currentTime = seekTime;
+    this.setState({currentTime: value}, function () {
+      this.refs.audio.getDOMNode().currentTime = value;
     });
   },
 
@@ -123,12 +118,11 @@ var Controls = React.createClass({
         <a onClick={this.props.onEnd} className="button-next"></a>
         <a className="button-volume"></a>
         <div className="controls-time">{formatDuration(this.state.currentTime)}</div>
-        <progress ref="buffer" className={bufferClasses} max="100" value="100"></progress>
-        <progress className="controls-seek"
-          ref="seek"
-          onClick={this.seek}
+        <Progress className={bufferClasses} max="100" value="100" />
+        <Progress className="controls-seek"
+          onSeek={this.onSeek}
           max={this.props.duration}
-          value={this.state.currentTime}></progress>
+          value={this.state.currentTime}/>
       </div>
     );
   }

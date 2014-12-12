@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var minifycss = require('gulp-minify-css');
+var autoprefixer = require('gulp-autoprefixer');
 var less = require('gulp-less');
 var browserify = require('gulp-browserify');
 var livereload = require('gulp-livereload');
@@ -28,7 +29,11 @@ gulp.task('browserify', function () {
 gulp.task('less', function () {
   var stream = gulp.src('src/styles/main.less')
     .pipe(less())
-    .on('error', function () { console.log(arguments); });
+    .on('error', function () { console.log(arguments); })
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+    }));
 
   if (isProduction) {
       stream.pipe(minifycss());

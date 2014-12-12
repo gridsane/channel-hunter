@@ -12,6 +12,7 @@ var Controls = React.createClass({
   getInitialState: function () {
     return {
       playing: false,
+      loading: true,
       currentTime: 0,
       progressEventMounted: false,
       onEnd: null,
@@ -79,11 +80,16 @@ var Controls = React.createClass({
             this.props.onEnd();
           }
         }.bind(this));
+
+        audioNode.addEventListener("loadeddata", function () {
+          this.setState({loading: false});
+        }.bind(this));
       }
 
       this.setState({
         playing: !!prevProps.url,
         progressEventMounted: true,
+        loading: true,
         currentTime: 0
       });
     }
@@ -91,9 +97,14 @@ var Controls = React.createClass({
   },
 
   render: function () {
-    var buttonClass = React.addons.classSet({
+    var buttonClasses = React.addons.classSet({
       "button-play": !this.state.playing,
       "button-pause": this.state.playing
+    });
+
+    var bufferClasses = React.addons.classSet({
+      "controls-buffer": true,
+      "controls-buffer-loading": this.state.playing && this.state.loading,
     });
 
     var audio = "";
@@ -108,12 +119,16 @@ var Controls = React.createClass({
     return (
       <div className="controls" style={{width: this.props.width}}>
         {audio}
-        <a onClick={this.togglePlayback} className={buttonClass}></a>
+        <a onClick={this.togglePlayback} className={buttonClasses}></a>
         <a onClick={this.props.onEnd} className="button-next"></a>
         <a className="button-volume"></a>
         <div className="controls-time">{formatDuration(this.state.currentTime)}</div>
-        <progress ref="buffer" className="controls-buffer" max="100" value="100"></progress>
-        <progress ref="seek" onClick={this.seek} className="controls-seek" max={this.props.duration} value={this.state.currentTime}></progress>
+        <progress ref="buffer" className={bufferClasses} max="100" value="100"></progress>
+        <progress className="controls-seek"
+          ref="seek"
+          onClick={this.seek}
+          max={this.props.duration}
+          value={this.state.currentTime}></progress>
       </div>
     );
   }

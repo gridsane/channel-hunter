@@ -116,7 +116,6 @@ var Controls = React.createClass({
         {audio}
         <a onClick={this.togglePlayback} className={buttonClasses}></a>
         <a onClick={this.props.onEnd} className="button-next"></a>
-        <a className="button-volume"></a>
         <div className="controls-time">{formatDuration(this.state.currentTime)}</div>
         <Progress className={bufferClasses} max="100" value="100" />
         <Progress className="controls-seek"

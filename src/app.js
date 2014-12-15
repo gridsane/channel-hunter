@@ -2,84 +2,80 @@
 
 var React = require("react");
 var Header = require("./components/header");
-var ScrollBlocker = require("./components/scroll_blocker");
-var ScrollListener = require("./mixins/scroll_listener");
 var Cover = require("./components/cover");
-var Controls = require("./components/controls");
-var Playlist = require("./components/playlist");
-var Channels = require("./components/channels");
+var Track = require("./components/track");
+// var Controls = require("./components/controls");
+// var Playlist = require("./components/playlist");
+// var Channels = require("./components/channels");
 
 var Application = React.createFactory(React.createClass({
-  mixins: [ScrollListener],
-
   getInitialState: function () {
     return {
+      channels: [],
       track: null,
-      containerWidth: 0,
-      coverHeight: 0,
-      isChannelsHidden: true,
-      channels: []
+      containerWidth: 0
     };
   },
 
-  showChannels: function () {
-    this.setState({isChannelsHidden: false});
+  componentDidMount: function () {
+    window.addEventListener("resize", this._recomputeWidth);
+    this._recomputeWidth();
   },
 
-  hideChannels: function () {
-    this.setState({isChannelsHidden: true});
-  },
-
-  selectTrack: function (track) {
-    this.setState({track: track}, function () {
-      document.title = track.title + " - " + track.artist;
-    });
-  },
-
-  onTrackEnd: function () {
-    this.refs.playlist.selectNext();
-  },
-
-  recomputeWidth: function () {
-    this.setState({
-      containerWidth: this.refs.container.getDOMNode().offsetWidth,
-    });
-  },
-
-  onChannelsChanged: function (channels) {
+  _updateChannels: function (channels) {
     this.setState({channels: channels.filter(function (channel) {
       return channel.isChecked;
     })});
   },
 
-  onError: function () {
-    this.refs.playlist.errorSelected();
-    this.onTrackEnd();
+  _changeTrack: function (track) {
+    this.setState({track: track}, function () {
+      document.title = track.title + " - " + track.artist;
+    });
   },
 
-  componentDidMount: function () {
-    window.addEventListener("resize", function () {
-      this.recomputeWidth();
-    }.bind(this));
-    this.recomputeWidth();
+  _nextTrack: function () {
+    this.refs.playlist.next();
+  },
+
+  _errorTrack: function () {
+    this.refs.playlist.errorSelected();
+    this._nextTrack();
+  },
+
+  _recomputeWidth: function () {
+    this.setState({
+      containerWidth: this.refs.container.getDOMNode().offsetWidth,
+    });
   },
 
   render: function() {
     return (
       <div className="application" ref="container">
-        <Channels onChannelsChanged={this.onChannelsChanged} onBackClick={this.hideChannels} isHidden={this.state.isChannelsHidden} />
-        <ScrollBlocker width={this.state.containerWidth}>
-          <Header pageScrollY={this.state.pageScrollY} onMenuClick={this.showChannels} />
-          <Cover {...this.state.track} pageScrollY={this.state.pageScrollY} width={this.state.containerWidth} />
-          <Controls {...this.state.track}
-            onEnd={this.onTrackEnd}
-            onError={this.onError}
-            width={this.state.containerWidth} />
-        </ScrollBlocker>
-        <Playlist channels={this.state.channels} ref="playlist" onSelect={this.selectTrack} />
+        <Cover width={this.state.containerWidth}>
+          <Header />
+          <Track {...this.state.track} />
+        </Cover>
       </div>
     );
   }
+
+  // render: function() {
+  //   return (
+  //     <div className="application" ref="container">
+  //       <Cover width={this.state.containerWidth}>
+  //         <Channels onUpdate={this._updateChannels} />
+  //         <Header />
+  //         <Track {...this.state.track} />
+  //         <Controls {...this.state.track}
+  //           onError={this._errorTrack}
+  //           onNext={this._nextTrack} />
+  //       </Cover>
+  //       <Playlist ref="playlist" {...this.state.channels}
+  //         onTrackChanged={this._changeTrack} />
+  //     </div>
+  //   );
+  // }
 }));
 
 module.exports = Application;

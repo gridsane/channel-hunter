@@ -33,33 +33,6 @@ body {
   margin: 0 auto;
 }
 
-.header {
-  height: 64px;
-  position: relative;
-  background: linear-gradient(to bottom, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 100%);
-  z-index: 100;
-  transition: background .3s ease-out;
-
-  &-wrapper {
-    margin: 0 72px;
-    color: #fff;
-  }
-
-  &-title {
-    font-size: 24px;
-    line-height: 64px;
-    transition: opacity .3s ease-out;
-  }
-
-  &-narrow {
-    background: transparent;
-
-    .header-title {
-      opacity: 0;
-    }
-  }
-}
-
 .button {
   width: 48px;
   height: 48px;
@@ -69,116 +42,6 @@ body {
   background-size: 24px 24px;
   border: none;
   cursor: pointer;
-}
-
-.nav-button() {
-  position: absolute;
-  top: 8px;
-  .button();
-}
-
-.button-humburger {
-  .nav-button();
-  background-image: url(/assets/images/icon-humburger.svg);
-  left: 12px;
-}
-
-.button-github {
-  .nav-button();
-  background-image: url(/assets/images/icon-github.svg);
-  background-size: 22px 22px;
-  right: 12px;
-}
-
-.button-back {
-  .nav-button();
-  background-image: url(/assets/images/icon-back.svg);
-  left: 12px;
-}
-
-.cover {
-  position: relative;
-  height: 304px;
-  color: #fff;
-  overflow: hidden;
-  margin-top: -72px;
-  z-index: -10;
-
-  &::before {
-    position: absolute;
-    background-color: #000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    content: "";
-  }
-
-  &-image {
-    content: "";
-    position: absolute;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: .44;
-    transition: background-image 1s ease-out .2s;
-  }
-
-  &-track {
-    position: absolute;
-    bottom: 48px;
-    overflow: hidden;
-    white-space: nowrap;
-    left: 32px;
-    transition: left .2s ease-out;
-
-    &-title {
-      .cover-track-text();
-      font-size: 48px;
-      transition: font-size .2s ease-out;
-    }
-
-    &-artist {
-      .cover-track-text();
-      font-size: 24px;
-      color: #9e9e9e;
-      transition: font-size .2s ease-out;
-      transition: display 1s ease-out;
-    }
-  }
-
-  &-track-narrow {
-    width: 300px;
-    top: 24px;
-    left: 72px;
-    .cover-track-text();
-
-    .cover-track-title {
-      display: inline;
-      font-size: 24px;
-
-      &::after {
-        content: ' ';
-      }
-    }
-
-    .cover-track-artist {
-      display: inline;
-      font-size: 16px;
-    }
-  }
-
-  .cover-track-text() {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
 }
 
 .controls {
@@ -399,3 +262,6 @@ body {
     height: 8px;
   }
 }
+
+@import 'header';
+@import 'cover';

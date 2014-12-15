@@ -3,28 +3,18 @@ var React = require("react/addons");
 var Header = React.createClass({
   getDefaultProps: function () {
     return {
-      github_url: "https://github.com/gridsane/channel-hunter",
-      pageScrollY: 0,
-      onMenuClick: null
+      github_url: "https://github.com/gridsane/channel-hunter"
     };
   },
 
   render: function () {
-    var headerClasses = React.addons.classSet({
-      "header": true,
-      "header-narrow": this.props.pageScrollY > 100
-    });
-
     return (
-      <div className={headerClasses}>
+      <div className="header">
         <header>
-          <div className="header-wrapper">
-            <div className="header-title">Channel Hunter</div>
-          </div>
+          <div className="header-title">Channel Hunter</div>
         </header>
         <nav>
-          <button onClick={this.props.onMenuClick} className="button-humburger"></button>
-          <a href={this.props.github_url} className="button-github"></a>
+          <a href={this.props.github_url} className="header-button-github"></a>
         </nav>
       </div>
     );

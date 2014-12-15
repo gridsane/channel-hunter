@@ -21,7 +21,18 @@
     "reactify": "~0.17.0",
     "superagent": "~0.21.0"
   },
+  "devDependencies": {
+    "jest-cli": "^0.2.1",
+    "react-tools": "^0.12.1"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/src/test_preprocessor.js",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ]
+  },
   "scripts": {
-    "postinstall": "gulp build --prod"
+    "postinstall": "gulp build --prod",
+    "test": "jest"
   }
 }

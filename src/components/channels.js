@@ -82,27 +82,6 @@ var Channels = React.createClass({
     });
   },
 
-  onBodyClick: function (e) {
-    var node = this.getDOMNode();
-    for (var i = e.toElement; i; i = i.parentNode) {
-      if (i === node) {
-        return;
-      }
-    };
-
-    this.props.onBackClick();
-    e.stopPropagation();
-    document.body.removeEventListener('click', this.onBodyClick);
-  },
-
-  componentDidUpdate: function (prevProps) {
-    if (!this.props.isHidden) {
-      document.body.addEventListener('click', this.onBodyClick);
-    } else {
-      document.body.removeEventListener('click', this.onBodyClick);
-    }
-  },
-
   _toggleMenu: function (event) {
     this.setState({isMenuOpen: !this.state.isMenuOpen})
 

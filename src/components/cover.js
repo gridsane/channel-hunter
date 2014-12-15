@@ -11,10 +11,9 @@ var Cover = React.createClass({
   render: function () {
     var style = {};
 
-    // if (this.props.cover) {
-      // style.backgroundImage = "url(" + this.props.cover + ")";
-    // }
-    style.backgroundImage = "url(http://cs621920.vk.me/v621920194/3f53/Iy52MyRqGak.jpg)";
+    if (this.props.cover) {
+      style.backgroundImage = "url(" + this.props.cover + ")";
+    }
 
     return (
       <div className="cover" style={{width: this.props.width}}>

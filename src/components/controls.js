@@ -5,7 +5,8 @@ var formatDuration = require("../utils/format_duration");
 var Controls = React.createClass({
   getDefaultProps: function () {
     return {
-      width: 0
+      onNext: null,
+      onError: null
     };
   },
 
@@ -15,8 +16,6 @@ var Controls = React.createClass({
       loading: true,
       currentTime: 0,
       progressEventMounted: false,
-      onEnd: null,
-      onError: null
     };
   },
 
@@ -71,8 +70,8 @@ var Controls = React.createClass({
         }.bind(this));
 
         audioNode.addEventListener("ended", function () {
-          if ("function" === typeof(this.props.onEnd)) {
-            this.props.onEnd();
+          if ("function" === typeof(this.props.onNext)) {
+            this.props.onNext();
           }
         }.bind(this));
 
@@ -112,10 +111,10 @@ var Controls = React.createClass({
     }
 
     return (
-      <div className="controls" style={{width: this.props.width}}>
+      <div className="controls">
         {audio}
         <a onClick={this.togglePlayback} className={buttonClasses}></a>
-        <a onClick={this.props.onEnd} className="button-next"></a>
+        <a onClick={this.props.onNext} className="button-next"></a>
         <div className="controls-time">{formatDuration(this.state.currentTime)}</div>
         <Progress className={bufferClasses} max="100" value="100" />
         <Progress className="controls-seek"

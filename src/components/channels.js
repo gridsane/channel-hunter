@@ -10,7 +10,8 @@ var Channels = React.createClass({
         'godshand',
         'e_music_stonerrock',
         '13th_floor',
-        'e_music_blues'
+        'e_music_blues',
+        'topinstrumentalmetal'
       ],
       isHidden: true,
       onBackClick: null,

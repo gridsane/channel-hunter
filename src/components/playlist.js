@@ -18,6 +18,7 @@ var Playlist = React.createClass({
       loading: true,
       tracks: [],
       trackErrors: [],
+      channelsIdIndex: {},
       selectedId: null,
       selectedIndex: null
     }
@@ -48,15 +49,16 @@ var Playlist = React.createClass({
       });
 
       var channelIds = [];
+      var channelsIdIndex = {};
       var promises = [];
-      for (var i = this.props.channels.length - 1; i >= 0; i--) {
-        var channelId = this.props.channels[i].id;
-        channelIds.push(channelId);
-        if (-1 === prevChannelIds.indexOf(channelId)) {
-          promises.push(this.getTracks(channelId));
-        }
 
-      };
+      this.props.channels.forEach(function (channel, i) {
+        channelIds.push(channel.id);
+        channelsIdIndex[channel.id] = i;
+        if (-1 === prevChannelIds.indexOf(channel.id)) {
+          promises.push(this.getTracks(channel.id));
+        }
+      }.bind(this));
 
       var diffChannelIds = prevChannelIds.filter(function (id) {
         return -1 === channelIds.indexOf(id);
@@ -73,6 +75,7 @@ var Playlist = React.createClass({
           var tracks = _.union.apply(this, channelsTracks);
           this.setState({
             loading: false,
+            channelsIdIndex: channelsIdIndex,
             tracks: _.sortBy(tracks, "date").reverse()
           }, function () {
             if (prevState.selectedId === null && 0 < this.state.tracks.length) {
@@ -112,9 +115,7 @@ var Playlist = React.createClass({
   },
 
   getChannel: function (channelId) {
-    return this.props.channels.filter(function (channel) {
-      return channel.id === channelId;
-    })[0];
+    return this.props.channels[this.state.channelsIdIndex[channelId]];
   },
 
   errorSelected: function () {

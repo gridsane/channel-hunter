@@ -218,41 +218,6 @@ body {
   }
 }
 
-.channels {
-  position: fixed;
-  z-index: 200;
-  background: white;
-
-  width: 256px;
-  padding-top: 64px;
-
-  height: 100%;
-  box-shadow: @shadow-primary;
-  overflow: hidden;
-
-  transition: width .1s ease-out;
-
-  &-hidden {
-    width: 0;
-  }
-
-  &-items {
-    padding: 0;
-    margin: 0;
-  }
-
-  &-item {
-    position: relative;
-    padding-left: 72px;
-    height: 48px;
-    font-size: 14px;
-    line-height: 48px;
-    color: @text-light-bg-87;
-
-    cursor: pointer;
-  }
-}
-
 .progress {
   width: 100%;
   height: 8px;
@@ -263,5 +228,6 @@ body {
   }
 }
 
-@import 'header';
 @import 'cover';
+@import 'header';
+@import 'channels';

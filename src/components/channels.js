@@ -13,15 +13,14 @@ var Channels = React.createClass({
         'e_music_blues',
         'topinstrumentalmetal'
       ],
-      isHidden: true,
-      onBackClick: null,
       onChannelsChanged: null
     };
   },
 
   getInitialState: function () {
     return {
-      channels: []
+      channels: [],
+      isMenuOpen: false
     };
   },
 
@@ -104,10 +103,22 @@ var Channels = React.createClass({
     }
   },
 
+  _toggleMenu: function (event) {
+    this.setState({isMenuOpen: !this.state.isMenuOpen})
+
+    event.preventDefault();
+  },
+
   render: function () {
-    var channelsClasses = React.addons.classSet({
-      "channels": true,
-      "channels-hidden": this.props.isHidden
+    var buttonClasses = React.addons.classSet({
+      "channels-button": true,
+      "channels-button-humburger": !this.state.isMenuOpen,
+      "channels-button-back": this.state.isMenuOpen
+    });
+
+    var menuClasses = React.addons.classSet({
+      "channels-menu": true,
+      "channels-menu-open": this.state.isMenuOpen
     });
 
     var items = this.state.channels.map(function (channel) {
@@ -117,9 +128,11 @@ var Channels = React.createClass({
     }.bind(this));
 
     return (
-      <div className={channelsClasses}>
-        <button onClick={this.props.onBackClick} className="button-back"></button>
-        <ul className="channels-items">{items}</ul>
+      <div className="channels">
+        <a className={buttonClasses} onClick={this._toggleMenu}></a>
+        <div className={menuClasses}>
+          <ul className="channels-menu-items">{items}</ul>
+        </div>
       </div>
     );
   }

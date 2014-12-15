@@ -1,12 +1,12 @@
 "use strict";
 
 var React = require("react");
-var Header = require("./components/header");
 var Cover = require("./components/cover");
+var Channels = require("./components/channels");
+var Header = require("./components/header");
 var Track = require("./components/track");
 // var Controls = require("./components/controls");
 // var Playlist = require("./components/playlist");
-// var Channels = require("./components/channels");
 
 var Application = React.createFactory(React.createClass({
   getInitialState: function () {
@@ -54,6 +54,7 @@ var Application = React.createFactory(React.createClass({
       <div className="application" ref="container">
         <Cover width={this.state.containerWidth}>
           <Header />
+          <Channels onUpdate={this._updateChannels} />
           <Track {...this.state.track} />
         </Cover>
       </div>

@@ -61,8 +61,8 @@ var Channels = React.createClass({
       };
 
       this.setState({channels: result}, function () {
-        if ("function" === typeof(this.props.onChannelsChanged)) {
-          this.props.onChannelsChanged(this.state.channels);
+        if ("function" === typeof(this.props.onUpdate)) {
+          this.props.onUpdate(this.state.channels);
         }
       });
     }.bind(this));
@@ -78,7 +78,7 @@ var Channels = React.createClass({
     });
 
     this.setState({channels: nextChannels}, function () {
-      this.props.onChannelsChanged(this.state.channels);
+      this.props.onUpdate(this.state.channels);
     });
   },
 

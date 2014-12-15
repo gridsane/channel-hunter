@@ -69,3 +69,23 @@
     cursor: pointer;
   }
 }
+
+.icon-check {
+  width: 48px;
+  height: 48px;
+
+  position: absolute;
+  top: 0px;
+  left: 12px;
+
+  background-image: url(/assets/images/icon-check.svg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+
+  transition: background-size .08s ease-out;
+
+  &-disabled {
+    background-size: 0 0;
+  }
+}

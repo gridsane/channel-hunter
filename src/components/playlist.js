@@ -9,7 +9,7 @@ var Playlist = React.createClass({
   getDefaultProps: function () {
     return {
       channels: [],
-      onSelect: null
+      onTrackChange: null
     }
   },
 
@@ -94,8 +94,8 @@ var Playlist = React.createClass({
           selectedIndex: i,
           selectedId: id
         }, function () {
-          if ("function" === typeof(this.props.onSelect)) {
-            this.props.onSelect(track);
+          if ("function" === typeof(this.props.onTrackChange)) {
+            this.props.onTrackChange(track);
           }
         });
 
@@ -104,7 +104,7 @@ var Playlist = React.createClass({
     };
   },
 
-  selectNext: function () {
+  next: function () {
     var nextIndex = null === this.state.selectedIndex
       ? 0
       : this.state.selectedIndex + 1;

@@ -1,0 +1,62 @@
+.playlist {
+  position: relative;
+  top: 296px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid @gray-8;
+  border-right: 1px solid @gray-8;
+
+  &-item {
+    position: relative;
+    display: block;
+
+    height: 32px;
+
+    border-bottom: 1px solid @gray-8;
+    padding: 20px 32px;
+
+    cursor: pointer;
+
+    box-shadow: 0;
+    transition: box-shadow .2s ease-out .1s;
+
+    &-active {
+      background-color: @gray-4;
+      box-shadow: @shadow-secondary;
+    }
+
+    &-title {
+      font-size: 16px;
+    }
+
+    &-artist {
+      display: inline;
+      font-size: 14px;
+      color: @gray-56;
+    }
+
+    &-channel {
+      display: inline-block;
+      font-size: 14px;
+      color: @gray-27;
+      float: right;
+    }
+
+    &-duration {
+      position: absolute;
+      top: 22px;
+      right: 32px;
+      font-size: 14px;
+      color: @gray-56;
+    }
+
+    &-error {
+      background-image: url(/assets/images/icon-error.svg);
+      background-repeat: no-repeat;
+      background-position: 24px 24px;
+      background-size: 24px;
+      padding-left: 72px;
+    }
+  }
+}

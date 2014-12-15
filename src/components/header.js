@@ -3,15 +3,21 @@ var React = require("react/addons");
 var Header = React.createClass({
   getDefaultProps: function () {
     return {
-      github_url: "https://github.com/gridsane/channel-hunter"
+      github_url: "https://github.com/gridsane/channel-hunter",
+      isShrink: false
     };
   },
 
   render: function () {
+    var titleClasses = React.addons.classSet({
+      "header-title": true,
+      "header-title-shrink": this.props.isShrink
+    });
+
     return (
       <div className="header">
         <header>
-          <div className="header-title">Channel Hunter</div>
+          <div className={titleClasses}>Channel Hunter</div>
         </header>
         <nav>
           <a href={this.props.github_url} className="header-button-github"></a>

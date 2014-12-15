@@ -11,6 +11,7 @@ var Application = React.createFactory(React.createClass({
     return {
       channels: [],
       track: null,
+      isCoverShrink: false,
       containerWidth: 0
     };
   },
@@ -47,13 +48,21 @@ var Application = React.createFactory(React.createClass({
     });
   },
 
+  _changeIsCoverShrink: function (isShrink) {
+    this.setState({
+      isCoverShrink: isShrink
+    });
+  },
+
   render: function() {
     return (
       <div className="application" ref="container">
-        <Cover {...this.state.track} width={this.state.containerWidth}>
-          <Header />
+        <Cover {...this.state.track}
+          width={this.state.containerWidth}
+          onToggleShrink={this._changeIsCoverShrink}>
+          <Header isShrink={this.state.isCoverShrink} />
           <Channels onUpdate={this._updateChannels} />
-          <Track {...this.state.track} />
+          <Track isShrink={this.state.isCoverShrink} {...this.state.track} />
           <Controls {...this.state.track}
             onError={this._errorTrack}
             onNext={this._nextTrack} />

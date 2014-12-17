@@ -3,17 +3,40 @@ var ChannelsItem = require("./channels_item");
 var superagent = require("superagent");
 var Q = require("q");
 
+var getChannel = function (channelUrl) {
+  var deferred = Q.defer();
+
+  superagent
+    .get("/api/channel")
+    .query({'url': channelUrl})
+    .end(function(err, res) {
+      // @todo bad solution
+      // this should reject, but Q.all should not fail
+      if (err || 200 !== res.status) {
+        deferred.resolve(null);
+      } else {
+        deferred.resolve(res ? res.body : null)
+      }
+    });
+
+  return deferred.promise;
+};
+
 var Channels = React.createClass({
+  propTypes: {
+    channelsUrls: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    onUpdate: React.PropTypes.func.isRequired
+  },
+
   getDefaultProps: function () {
     return {
-      channelUrls: [
+      channelsUrls: [
         'godshand',
         'e_music_stonerrock',
         '13th_floor',
         'e_music_blues',
         'topinstrumentalmetal'
-      ],
-      onChannelsChanged: null
+      ]
     };
   },
 
@@ -24,51 +47,24 @@ var Channels = React.createClass({
     };
   },
 
-  getChannel: function (channelUrl) {
-    var deferred = Q.defer();
-
-    superagent
-      .get("/api/channel")
-      .query({'url': channelUrl})
-      .end(function(err, res) {
-        // @todo bad solution
-        // this should reject, but Q.all should not fail
-        if (err || 200 !== res.status) {
-          deferred.resolve(null);
-        } else {
-          deferred.resolve(res ? res.body : null)
-        }
-      });
-
-    return deferred.promise;
-  },
-
   componentWillMount: function () {
-    var promises = [];
-
-    for (var i = this.props.channelUrls.length - 1; i >= 0; i--) {
-      promises.push(this.getChannel(this.props.channelUrls[i]));
-    };
+    var promises = this.props.channelsUrls.map(function (url) {
+      return getChannel(url);
+    }.bind(this));
 
     Q.all(promises).then(function (channels) {
-      var result = [];
-
-      for (var i = channels.length - 1; i >= 0; i--) {
-        if (null !== channels[i]) {
-          channels[i].isChecked = true;
-          result.push(channels[i]);
-        }
-      };
-
-      this.setState({channels: result}, function () {
-        if ("function" === typeof(this.props.onUpdate)) {
-          this.props.onUpdate(this.state.channels);
-        }
+      this.setState({
+        channels: channels.map(function (channel) {
+          channel.isChecked = true;
+          return channel;
+        })
+      }, function () {
+        this.props.onUpdate(this.state.channels);
       });
     }.bind(this));
   },
 
-  onChannelCheck: function (id, isChecked) {
+  _toggleChannel: function (id, isChecked) {
     var nextChannels = this.state.channels.map(function (channel) {
       if (id === channel.id) {
         channel.isChecked = isChecked;
@@ -77,13 +73,15 @@ var Channels = React.createClass({
       return channel;
     });
 
-    this.setState({channels: nextChannels}, function () {
-      this.props.onUpdate(this.state.channels);
-    });
+    this.setState({channels: nextChannels});
   },
 
   _toggleMenu: function (event) {
-    this.setState({isMenuOpen: !this.state.isMenuOpen})
+    this.setState({isMenuOpen: !this.state.isMenuOpen}, function () {
+      if (!this.state.isMenuOpen) {
+        this.props.onUpdate(this.state.channels);
+      }
+    });
 
     event.preventDefault();
   },
@@ -102,7 +100,7 @@ var Channels = React.createClass({
 
     var items = this.state.channels.map(function (channel) {
       return (
-        <ChannelsItem onCheck={this.onChannelCheck} ref={"channel" + channel.id} key={channel.id} {...channel} />
+        <ChannelsItem onCheck={this._toggleChannel} ref={"channel" + channel.id} key={channel.id} {...channel} />
       );
     }.bind(this));
 

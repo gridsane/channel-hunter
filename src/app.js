@@ -61,7 +61,9 @@ var Application = React.createFactory(React.createClass({
           width={this.state.containerWidth}
           onToggleShrink={this._changeIsCoverShrink}>
           <Header isShrink={this.state.isCoverShrink} />
-          <Channels onUpdate={this._updateChannels} />
+          <Channels
+            width={this.state.containerWidth}
+            onUpdate={this._updateChannels} />
           <Track isShrink={this.state.isCoverShrink} {...this.state.track} />
           <Controls {...this.state.track}
             onError={this._errorTrack}

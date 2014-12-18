@@ -32,10 +32,16 @@
     height: 100%;
     top: 0;
     overflow: hidden;
-    display: none;
+    visibility: hidden;
+    transition: visibility 0s linear .3s,
+                background-color .3s ease-out;
+    background-color: rgba(0,0,0,0);
 
     &-open {
-      display: block;
+      background-color: rgba(0,0,0,.5);
+      visibility: visible;
+      transition: visibility .3s linear,
+                  background-color .3s ease-out;
 
       .channels-menu-items {
         left: 0;

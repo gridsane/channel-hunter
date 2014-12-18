@@ -107,7 +107,7 @@ var Channels = React.createClass({
     return (
       <div className="channels">
         <a className={buttonClasses} onClick={this._toggleMenu}></a>
-        <div className={menuClasses}>
+        <div className={menuClasses} style={{width:this.props.width}}>
           <ul className="channels-menu-items">{items}</ul>
         </div>
       </div>

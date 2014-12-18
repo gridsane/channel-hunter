@@ -25,7 +25,8 @@ var getChannel = function (channelUrl) {
 var Channels = React.createClass({
   propTypes: {
     channelsUrls: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    onUpdate: React.PropTypes.func.isRequired
+    onUpdate: React.PropTypes.func.isRequired,
+    width: React.PropTypes.number.isRequired
   },
 
   getDefaultProps: function () {
@@ -127,7 +128,11 @@ var Channels = React.createClass({
     return (
       <div className="channels">
         <a className={buttonClasses} onClick={this._toggleMenu}></a>
-        <div ref="menu" className={menuClasses} style={{width:this.props.width}} onClick={this._hideMenu}>
+        <div
+          className={menuClasses}
+          style={{width:this.props.width}}
+          onClick={this._hideMenu}
+          ref="menu">
           <ul ref="menuItems" className="channels-menu-items">{items}</ul>
         </div>
       </div>

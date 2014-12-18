@@ -62,7 +62,7 @@ Api.prototype.getTracks = function (channelId) {
         for (var j = attachments.length - 1; j >= 0; j--) {
           if ("audio" === attachments[j].type) {
             var audio = {
-              id: attachments[j].audio.id,
+              id: attachments[j].audio.owner_id + '_' + attachments[j].audio.id,
               date: response.items[i].date,
               artist: attachments[j].audio.artist,
               title: attachments[j].audio.title,

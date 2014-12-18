@@ -86,6 +86,26 @@ var Channels = React.createClass({
     event.preventDefault();
   },
 
+  _hideMenu: function (event) {
+    if (!this.state.isMenuOpen) {
+      return;
+    }
+
+    event.stopPropagation();
+
+    for (var el = event.target; el; el = el.parentNode) {
+      if (el === this.refs.menuItems.getDOMNode()) {
+        return;
+      }
+
+      if (el === this.refs.menu.getDOMNode()) {
+        break;
+      }
+    }
+
+    this._toggleMenu(event);
+  },
+
   render: function () {
     var buttonClasses = React.addons.classSet({
       "channels-button": true,
@@ -107,8 +127,8 @@ var Channels = React.createClass({
     return (
       <div className="channels">
         <a className={buttonClasses} onClick={this._toggleMenu}></a>
-        <div className={menuClasses} style={{width:this.props.width}}>
-          <ul className="channels-menu-items">{items}</ul>
+        <div ref="menu" className={menuClasses} style={{width:this.props.width}} onClick={this._hideMenu}>
+          <ul ref="menuItems" className="channels-menu-items">{items}</ul>
         </div>
       </div>
     );

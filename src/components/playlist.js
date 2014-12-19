@@ -1,5 +1,6 @@
 var React = require("react");
 var PlaylistItem = require("./playlist_item");
+var apiClient = require("../utils/api_client");
 var superagent = require("superagent");
 var Q = require("q");
 var _ = require('lodash');
@@ -24,22 +25,6 @@ var Playlist = React.createClass({
     }
   },
 
-  getTracks: function (channelId) {
-    var deferred = Q.defer();
-    superagent.get(
-        "/api/tracks/" + channelId,
-        function(err, res) {
-          if (err) {
-            deferred.reject(err);
-          } else {
-            deferred.resolve(res ? res.body : null)
-          }
-        }
-    );
-
-    return deferred.promise;
-  },
-
   componentDidUpdate: function (prevProps, prevState) {
     if (prevProps.channels !== this.props.channels) {
       this.setState({loading: true});
@@ -56,7 +41,7 @@ var Playlist = React.createClass({
         channelIds.push(channel.id);
         channelsIdIndex[channel.id] = i;
         if (-1 === prevChannelIds.indexOf(channel.id)) {
-          promises.push(this.getTracks(channel.id));
+          promises.push(apiClient.getTracks(channel.id));
         }
       }.bind(this));
 

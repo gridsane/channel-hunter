@@ -1,26 +1,7 @@
 var React = require("react/addons");
 var ChannelsItem = require("./channels_item");
-var superagent = require("superagent");
+var apiClient = require("../utils/api_client");
 var Q = require("q");
-
-var getChannel = function (channelUrl) {
-  var deferred = Q.defer();
-
-  superagent
-    .get("/api/channel")
-    .query({'url': channelUrl})
-    .end(function(err, res) {
-      // @todo bad solution
-      // this should reject, but Q.all should not fail
-      if (err || 200 !== res.status) {
-        deferred.resolve(null);
-      } else {
-        deferred.resolve(res ? res.body : null)
-      }
-    });
-
-  return deferred.promise;
-};
 
 var Channels = React.createClass({
   propTypes: {
@@ -50,7 +31,7 @@ var Channels = React.createClass({
 
   componentWillMount: function () {
     var promises = this.props.channelsUrls.map(function (url) {
-      return getChannel(url);
+      return apiClient.getChannel(url);
     }.bind(this));
 
     Q.all(promises).then(function (channels) {

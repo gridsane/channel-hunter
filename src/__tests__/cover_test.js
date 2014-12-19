@@ -6,6 +6,7 @@ describe("Cover", function () {
   var TestUtils = React.addons.TestUtils;
 
   var cover = TestUtils.renderIntoDocument(<Cover />);
+  var image = TestUtils.findRenderedDOMComponentWithClass(cover, "cover-image");
 
   it("render children", function () {
     cover.setProps({children: "inner children"});
@@ -14,12 +15,12 @@ describe("Cover", function () {
 
   it("not set backgroundImage, if cover is not defined", function () {
     cover.setProps({cover: null});
-    expect(cover.getDOMNode().style.backgroundImage).toBe("");
+    expect(image.getDOMNode().style.backgroundImage).toBe("");
   });
 
   it("set backgroundImage, if cover is defined", function () {
     cover.setProps({cover: 'cover.jpg'});
-    expect(cover.getDOMNode().style.backgroundImage).toBe("url(cover.jpg)");
+    expect(image.getDOMNode().style.backgroundImage).toBe("url(cover.jpg)");
   });
 
   it("not set width, if width is not defined", function () {

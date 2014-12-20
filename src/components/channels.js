@@ -30,7 +30,21 @@ var Channels = React.createClass({
   },
 
   componentWillMount: function () {
-    var promises = this.props.channelsUrls.map(function (url) {
+    this._updateChannels(this.props.channelsUrls);
+  },
+
+  componentWillUpdate: function (nextProps, nextState) {
+    if (nextProps.channelsUrls !== this.props.channelsUrls) {
+      this._updateChannels(nextProps.channelsUrls);
+    }
+  },
+
+  _updateChannels: function (channelsUrls) {
+    if (0 === channelsUrls.lenght) {
+      return;
+    }
+
+    var promises = channelsUrls.map(function (url) {
       return apiClient.getChannel(url);
     }.bind(this));
 

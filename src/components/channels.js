@@ -2,6 +2,7 @@ var React = require("react/addons");
 var ChannelsItem = require("./channels_item");
 var apiClient = require("../utils/api_client");
 var Q = require("q");
+var _ = require("lodash");
 
 var Channels = React.createClass({
   propTypes: {
@@ -18,42 +19,61 @@ var Channels = React.createClass({
         '13th_floor',
         'e_music_blues',
         'topinstrumentalmetal'
-      ]
+      ],
+      onUpdate: function () {}
     };
   },
 
   getInitialState: function () {
     return {
       channels: [],
+      channelsIdsToUrls: {},
       isMenuOpen: false
     };
   },
 
   componentWillMount: function () {
-    this._updateChannels(this.props.channelsUrls);
+    this._updateChannels([], this.props.channelsUrls);
   },
 
   componentWillUpdate: function (nextProps, nextState) {
     if (nextProps.channelsUrls !== this.props.channelsUrls) {
-      this._updateChannels(nextProps.channelsUrls);
+      this._updateChannels(this.props.channelsUrls, nextProps.channelsUrls);
     }
   },
 
-  _updateChannels: function (channelsUrls) {
-    if (0 === channelsUrls.lenght) {
+  _updateChannels: function (prevChannelsUrls, nextChannelsUrls) {
+    if (0 === nextChannelsUrls.lenght) {
       return;
     }
 
-    var promises = channelsUrls.map(function (url) {
+    var diffChannelsUrls = _.difference(prevChannelsUrls, nextChannelsUrls);
+    var newChannelsUrls = nextChannelsUrls.filter(function (url) {
+      return -1 === prevChannelsUrls.indexOf(url);
+    });
+
+    var promises = newChannelsUrls.map(function (url) {
       return apiClient.getChannel(url);
-    }.bind(this));
+    });
 
     Q.all(promises).then(function (channels) {
+      var channelsIdsToUrls = {};
+
+      var oldChannels = this.state.channels.filter(function (channel) {
+        return -1 === diffChannelsUrls.indexOf(this.state.channelsIdsToUrls[channel.id]);
+      }, this);
+
+      channels = channels.filter(function (channel) {
+        return !this.state.channelsIdsToUrls[channel.id];
+      }, this).map(function (channel, i) {
+        channelsIdsToUrls[channel.id] = newChannelsUrls[i];
+        channel.isChecked = true;
+        return channel;
+      }, this);
+
       this.setState({
-        channels: channels.map(function (channel) {
-          channel.isChecked = true;
-          return channel;
-        })
+        channels: _.union(channels, oldChannels),
+        channelsIdsToUrls: channelsIdsToUrls
       }, function () {
         this.props.onUpdate(this.state.channels);
       });

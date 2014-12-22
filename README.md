@@ -17,3 +17,15 @@ PORT=8080 gulp
 ```
 
 Point your browser at `http://localhost:8080`.
+
+# How to run tests
+
+```
+npm test
+```
+
+or, you can install `jest-cli` globally: `npm -g i jest-cli`, and run:
+
+```
+jest
+```

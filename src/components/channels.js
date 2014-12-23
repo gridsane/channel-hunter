@@ -37,7 +37,7 @@ var Channels = React.createClass({
     this._updateChannels([], this.props.channelsUrls);
   },
 
-  componentWillUpdate: function (nextProps, nextState) {
+  componentWillReceiveProps: function (nextProps) {
     if (nextProps.channelsUrls !== this.props.channelsUrls) {
       this._updateChannels(this.props.channelsUrls, nextProps.channelsUrls);
     }

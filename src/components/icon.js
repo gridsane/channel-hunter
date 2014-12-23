@@ -22,6 +22,18 @@ var Icon = React.createClass({
 
   componentDidMount: function () {
     mountSprite(this.props.spriteId);
+    this.getDOMNode().setAttribute("xmlns:xlink","http://www.w3.org/1999/xlink");
+    this._updateSymbol();
+  },
+
+  componentDidUpdate: function () {
+    this._updateSymbol();
+  },
+
+  _updateSymbol: function () {
+    // @todo get rid of this shameless safari hack
+    this.getDOMNode().getElementsByTagName("use")[0]
+      .setAttribute("xlink:href", "#icon-" + this.props.symbol);
   },
 
   _getClassname: function () {
@@ -36,9 +48,8 @@ var Icon = React.createClass({
   },
 
   render: function() {
-    var useHtml = "<use xlink:href=\"#icon-" + this.props.symbol + "\" />";
-
-    return (<svg className={this._getClassname()} dangerouslySetInnerHTML={{__html: useHtml}} />);
+    var innerUse = "<use xlink:href=\"#icon-" + this.props.symbol + "\" />";
+    return (<svg className={this._getClassname()} dangerouslySetInnerHTML={{__html: innerUse}} />);
   }
 
 });

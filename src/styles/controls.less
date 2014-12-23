@@ -7,6 +7,18 @@
   box-sizing: border-box;
   padding: 0 72px 0 120px;
 
+  &-button-playback {
+    position: absolute;
+    left: 12px;
+    cursor: pointer;
+  }
+
+  &-button-next {
+    position: absolute;
+    left: 60px;
+    cursor: pointer;
+  }
+
   &-time {
     position: absolute;
     top: 16px;
@@ -64,23 +76,4 @@
       }
     }
   }
-}
-
-.button-play {
-  background-image: url(/assets/images/icon-play.svg);
-  .button();
-  position: absolute;
-  left: 12px;
-}
-
-.button-pause {
-  .button-play();
-  background-image: url(/assets/images/icon-pause.svg);
-}
-
-.button-next {
-  .button();
-  background-image: url(/assets/images/icon-next.svg);
-  position: absolute;
-  left: 60px;
 }

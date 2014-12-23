@@ -1,4 +1,5 @@
 var React = require("react/addons");
+var Icon = require("./icon");
 
 var Header = React.createClass({
   getDefaultProps: function () {
@@ -20,7 +21,9 @@ var Header = React.createClass({
           <div className={titleClasses}>Channel Hunter</div>
         </header>
         <nav>
-          <a href={this.props.github_url} className="header-button-github"></a>
+          <a href={this.props.github_url} className="header-button-github">
+            <Icon symbol="github" />
+          </a>
         </nav>
       </div>
     );

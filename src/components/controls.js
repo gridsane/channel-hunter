@@ -1,4 +1,5 @@
 var React = require("react");
+var Icon = require("./icon");
 var Progress = require("./progress");
 var formatDuration = require("../utils/format_duration");
 
@@ -91,11 +92,6 @@ var Controls = React.createClass({
   },
 
   render: function () {
-    var buttonClasses = React.addons.classSet({
-      "button-play": !this.state.playing,
-      "button-pause": this.state.playing
-    });
-
     var bufferClasses = React.addons.classSet({
       "controls-buffer": true,
       "controls-buffer-loading": this.state.playing && this.state.loading,
@@ -113,8 +109,12 @@ var Controls = React.createClass({
     return (
       <div className="controls">
         {audio}
-        <a onClick={this.togglePlayback} className={buttonClasses}></a>
-        <a onClick={this.props.onNext} className="button-next"></a>
+        <a onClick={this.togglePlayback} className="controls-button-playback">
+          <Icon symbol={this.state.playing ? "pause" : "play"} />
+        </a>
+        <a onClick={this.props.onNext} className="controls-button-next">
+          <Icon symbol="next" />
+        </a>
         <div className="controls-time">{formatDuration(this.state.currentTime)}</div>
         <Progress className={bufferClasses} max="100" value="100" />
         <Progress className="controls-seek"

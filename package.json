@@ -14,6 +14,8 @@
     "gulp-livereload": "~2.1.1",
     "gulp-minify-css": "~0.3.11",
     "gulp-rename": "~1.2.0",
+    "gulp-svg-symbols": "^0.3.1",
+    "gulp-svgmin": "^1.0.0",
     "gulp-uglify": "~1.0.1",
     "lodash": "~2.4.1",
     "q": "~1.1.1",
@@ -22,6 +24,7 @@
     "superagent": "~0.21.0"
   },
   "devDependencies": {
+    "brfs": "^1.2.0",
     "jest-cli": "^0.2.1",
     "react-tools": "^0.12.1"
   },

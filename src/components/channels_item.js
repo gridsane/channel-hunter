@@ -1,4 +1,5 @@
 var React = require("react/addons");
+var Icon = require("./icon");
 
 var ChannelsItem = React.createClass({
   getInitialState: function () {
@@ -23,14 +24,14 @@ var ChannelsItem = React.createClass({
   },
 
   render: function () {
-    var checkClasses = React.addons.classSet({
-      "icon-check": true,
-      "icon-check-disabled": !this.props.isChecked
+    var iconClasses = React.addons.classSet({
+      "channels-item-icon": true,
+      "channels-item-icon-unchecked": !this.props.isChecked
     });
 
     return (
       <li className="channels-item" onClick={this.toggleCheck}>
-        <div className={checkClasses}></div>
+        <Icon className={iconClasses} symbol="check" />
         <div className="channels-item-name">{this.props.name}</div>
       </li>
     );

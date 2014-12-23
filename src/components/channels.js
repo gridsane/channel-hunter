@@ -1,5 +1,6 @@
 var React = require("react/addons");
 var ChannelsItem = require("./channels_item");
+var Icon = require("./icon");
 var apiClient = require("../utils/api_client");
 var Q = require("q");
 var _ = require("lodash");
@@ -123,12 +124,6 @@ var Channels = React.createClass({
   },
 
   render: function () {
-    var buttonClasses = React.addons.classSet({
-      "channels-button": true,
-      "channels-button-humburger": !this.state.isMenuOpen,
-      "channels-button-back": this.state.isMenuOpen
-    });
-
     var menuClasses = React.addons.classSet({
       "channels-menu": true,
       "channels-menu-open": this.state.isMenuOpen
@@ -142,7 +137,9 @@ var Channels = React.createClass({
 
     return (
       <div className="channels">
-        <a className={buttonClasses} onClick={this._toggleMenu}></a>
+        <a className="channels-button" onClick={this._toggleMenu}>
+          <Icon symbol={!this.state.isMenuOpen ? "humburger" : "back"} />
+        </a>
         <div
           className={menuClasses}
           style={{width:this.props.width}}

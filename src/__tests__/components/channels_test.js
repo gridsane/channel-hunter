@@ -1,15 +1,15 @@
 jest.setMock("superagent", {});
 jest.dontMock("q");
-jest.dontMock("../components/channels");
-jest.dontMock("../components/channels_item");
+jest.dontMock("../../components/channels");
+jest.dontMock("../../components/channels_item");
 jest.dontMock("lodash");
 
-var apiClient = require("../utils/api_client");
+var apiClient = require("../../utils/api_client");
 
 describe("Channels", function () {
   var React = require("react/addons");
 
-  var Channels = require("../components/channels");
+  var Channels = require("../../components/channels");
   var TestUtils = React.addons.TestUtils;
   var channels = TestUtils.renderIntoDocument(
     <Channels channelsUrls={[]} width={100} />

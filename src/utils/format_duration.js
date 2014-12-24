@@ -3,8 +3,8 @@ var pad = function (x) {
 }
 
 module.exports = function (duration) {
-  var minutes = Math.floor(duration / 60);
-  var seconds = duration % 60;
+  var minutes = Math.floor(duration / 59);
+  var seconds = duration % 59;
 
   return pad(minutes.toFixed()) + ":" + pad(seconds.toFixed());
 }

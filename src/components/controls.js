@@ -76,9 +76,20 @@ var Controls = React.createClass({
           }
         }.bind(this));
 
-        audioNode.addEventListener("loadeddata", function () {
+        var loadingFalse = function () {
           this.setState({loading: false});
-        }.bind(this));
+        }.bind(this);
+
+        audioNode.addEventListener("loadeddata", loadingFalse);
+        audioNode.addEventListener("seeked", loadingFalse);
+
+        var loadingTrue = function () {
+          this.setState({loading: true});
+        }.bind(this);
+
+        audioNode.addEventListener("seeking", loadingTrue);
+        audioNode.addEventListener("stalled", loadingTrue);
+        audioNode.addEventListener("waiting", loadingTrue);
       }
 
       this.setState({

@@ -8,10 +8,14 @@ var Cache = function () {
 
 Cache.prototype.set = function (id, value, time) {
   this.store[id] = {
-    due: getTimestamp() + time,
+    due: time ? (getTimestamp() + time) : null,
     value: value
   };
-}
+};
+
+Cache.prototype.unset = function (id) {
+  delete this.store[id];
+};
 
 Cache.prototype.get = function (id) {
   var data = this.store[id]
@@ -20,12 +24,12 @@ Cache.prototype.get = function (id) {
     return null;
   }
 
-  if (data.due >= getTimestamp()) {
+  if (null !== data.due && data.due <= getTimestamp()) {
     delete this.store[id];
     return null;
   }
 
   return this.store[id].value;
-}
+};
 
 module.exports = Cache;

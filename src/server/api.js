@@ -100,7 +100,7 @@ Api.prototype.getTracks = function (channelId) {
       }
     };
 
-    cache.set(cacheId, audios, 10 * 60 * 1000);
+    cache.set(cacheId, audios, 10 * 60);
     deferred.resolve(audios);
   }, function (err) {
     deferred.resolve(err);

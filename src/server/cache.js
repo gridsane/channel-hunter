@@ -12,11 +12,11 @@ var Cache = function () {
  *
  * @param {string} key    Key to access value
  * @param {*}      value  Value to store
- * @param {number} [time] Cache time in milliseconds. Infinite, if not specified
+ * @param {number} [time] Cache time in seconds. Infinite, if not specified
  */
 Cache.prototype.set = function (key, value, time) {
   this.store[key] = {
-    due: time ? (Date.now() + time) : null,
+    due: time ? (Date.now() + (time * 1000)) : null,
     value: value
   };
 };

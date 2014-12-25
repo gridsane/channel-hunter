@@ -2,6 +2,10 @@
   "name": "channel-hunter",
   "version": "0.1.0",
   "author": "gridsane <gridsane@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gridsane/channel-hunter.git"
+  },
   "main": "src/server.js",
   "dependencies": {
     "brfs": "^1.2.0",

@@ -4,7 +4,8 @@ var uglify = require("gulp-uglify");
 var minifycss = require("gulp-minify-css");
 var autoprefixer = require("gulp-autoprefixer");
 var less = require("gulp-less");
-var browserify = require("gulp-browserify");
+var browserify = require('browserify');
+var transform = require('vinyl-transform');
 var svgmin = require("gulp-svgmin");
 var svgSymbols = require("gulp-svg-symbols");
 var livereload = require("gulp-livereload");
@@ -13,11 +14,13 @@ var server = require("gulp-develop-server");
 var isProduction = -1 !== process.argv.indexOf("--prod");
 
 gulp.task("browserify", function () {
+  var browserified = transform(function(filename) {
+    var b = browserify(filename);
+    return b.bundle();
+  });
+
   var stream = gulp.src("src/app.js")
-    .pipe(browserify({
-      transform: ["reactify", "brfs"],
-      debug: true,
-    }))
+    .pipe(browserified)
     .on("error", function () { console.log(arguments); });
 
     if (isProduction) {

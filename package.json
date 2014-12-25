@@ -4,11 +4,11 @@
   "author": "gridsane <gridsane@gmail.com>",
   "main": "src/server.js",
   "dependencies": {
+    "browserify": "^8.0.1",
     "compression": "~1.2.1",
     "express": "~4.10.2",
     "gulp": "~3.8.10",
     "gulp-autoprefixer": "^2.0.0",
-    "gulp-browserify": "~0.5.0",
     "gulp-develop-server": "~0.2.5",
     "gulp-less": "~1.3.6",
     "gulp-livereload": "~2.1.1",
@@ -21,12 +21,16 @@
     "q": "~1.1.1",
     "react": "~0.12.1",
     "reactify": "~0.17.0",
-    "superagent": "~0.21.0"
+    "superagent": "~0.21.0",
+    "vinyl-transform": "^1.0.0"
   },
   "devDependencies": {
     "brfs": "^1.2.0",
     "jest-cli": "^0.2.1",
     "react-tools": "^0.12.1"
+  },
+  "browserify": {
+    "transform": ["reactify", "brfs"]
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/src/test_preprocessor.js",

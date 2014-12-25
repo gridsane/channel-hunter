@@ -4,9 +4,21 @@ var superagent = require("superagent");
 var Cache = require("./cache");
 var cache = new Cache();
 
-var Api = function () {
-}
+/**
+ * Interface for the vk.com public API
+ *
+ * @constructor
+ */
+var Api = function () {}
 
+/**
+ * Request helper
+ *
+ * @param {string} method API method name, see https://vk.com/dev/methods
+ * @param {object} params Method parameters
+ *
+ * @return {Promise}
+ */
 Api.prototype.request = function (method, params) {
   var deferred = Q.defer();
 
@@ -31,6 +43,13 @@ Api.prototype.request = function (method, params) {
   return deferred.promise;
 }
 
+/**
+ * Get a list of audio tracks from the channel
+ *
+ * @param {number} channelId
+ *
+ * @return {Promise}
+ */
 Api.prototype.getTracks = function (channelId) {
   channelId = parseInt(channelId);
   var cacheId = "api::getTracks::" + channelId;
@@ -81,7 +100,7 @@ Api.prototype.getTracks = function (channelId) {
       }
     };
 
-    cache.set(cacheId, audios, 60);
+    cache.set(cacheId, audios, 10 * 60 * 1000);
     deferred.resolve(audios);
   }, function (err) {
     deferred.resolve(err);
@@ -90,6 +109,13 @@ Api.prototype.getTracks = function (channelId) {
   return deferred.promise;
 }
 
+/**
+ * Get channel info by url
+ *
+ * @param {string} channelUrl Vk.com group url
+ *
+ * @return {Promise}
+ */
 Api.prototype.getChannel = function (channelUrl) {
 
   var match = (/\/?([^\/]+)$/g).exec(channelUrl);
@@ -124,7 +150,7 @@ Api.prototype.getChannel = function (channelUrl) {
         }
       }
 
-      cache.set(cacheId, channel, 600);
+      cache.set(cacheId, channel);
       deferred.resolve(channel);
     }, function (err) {
       deferred.reject(err);

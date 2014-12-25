@@ -1,35 +1,55 @@
-var getTimestamp = function () {
-  return (new Date().getTime());
-}
-
+/**
+ * Key/value in-memory cache
+ *
+ * @constructor
+ */
 var Cache = function () {
   this.store = {};
 }
 
-Cache.prototype.set = function (id, value, time) {
-  this.store[id] = {
-    due: time ? (getTimestamp() + time) : null,
+/**
+ * Cache value by key, for a certain amount of time
+ *
+ * @param {string} key    Key to access value
+ * @param {*}      value  Value to store
+ * @param {number} [time] Cache time in milliseconds. Infinite, if not specified
+ */
+Cache.prototype.set = function (key, value, time) {
+  this.store[key] = {
+    due: time ? (Date.now() + time) : null,
     value: value
   };
 };
 
-Cache.prototype.unset = function (id) {
-  delete this.store[id];
+/**
+ * Unset cached value by key
+ *
+ * @param {string} key
+ */
+Cache.prototype.unset = function (key) {
+  delete this.store[key];
 };
 
-Cache.prototype.get = function (id) {
-  var data = this.store[id]
+/**
+ * Get a cached value by key
+ *
+ * @param {string} key
+ *
+ * @return {*} Returns null, if no value found or time exceeded
+ */
+Cache.prototype.get = function (key) {
+  var data = this.store[key]
 
   if (!data)  {
     return null;
   }
 
-  if (null !== data.due && data.due <= getTimestamp()) {
-    delete this.store[id];
+  if (null !== data.due && data.due <= Date.now()) {
+    delete this.store[key];
     return null;
   }
 
-  return this.store[id].value;
+  return this.store[key].value;
 };
 
 module.exports = Cache;

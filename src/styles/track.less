@@ -5,19 +5,19 @@
   box-sizing: border-box;
   bottom: 48px;
   transition: padding .2s ease-out;
-  .track-text-overflow();
+  .text-overflow-ellipsis();
 
   &-title {
     font-size: 48px;
     transition: font-size .2s ease-out;
-    .track-text-overflow();
+    .text-overflow-ellipsis();
   }
 
   &-artist {
     font-size: 24px;
     color: #9e9e9e;
     transition: font-size .2s ease-out;
-    .track-text-overflow();
+    .text-overflow-ellipsis();
   }
 
   &-shrink {
@@ -39,10 +39,4 @@
       }
     }
   }
-}
-
-.track-text-overflow() {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }

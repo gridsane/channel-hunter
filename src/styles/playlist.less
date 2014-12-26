@@ -21,12 +21,15 @@
     box-shadow: 0;
     transition: box-shadow .2s ease-out .1s;
 
+    font-size: 0;
+
     &-active {
       background-color: @gray-4;
       box-shadow: @shadow-secondary;
     }
 
     &-title {
+      margin-bottom: 2px;
       padding-right: 48px;
       font-size: 16px;
       .text-overflow-ellipsis();
@@ -39,7 +42,7 @@
     }
 
     &-channel {
-      display: inline-block;
+      display: inline;
       font-size: 14px;
       color: @gray-27;
       float: right;

@@ -54,7 +54,7 @@ var Application = React.createFactory(React.createClass({
     });
   },
 
-  render: function() {
+  render: function () {
     return (
       <div className="application" ref="container">
         <Cover {...this.state.track}
@@ -79,7 +79,7 @@ var Application = React.createFactory(React.createClass({
 module.exports = Application;
 
 if (typeof window !== "undefined") {
-  window.onload = function() {
+  window.onload = function () {
     React.render(Application(), document.body);
   }
 }

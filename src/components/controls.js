@@ -43,7 +43,7 @@ var Controls = React.createClass({
     }.bind(this));
   },
 
-  componentDidUpdate: function(prevProps, prevState) {
+  componentDidUpdate: function (prevProps, prevState) {
 
     if (prevProps.url !== this.props.url) {
       if (this.refs.audio && !this.state.progressEventMounted) {

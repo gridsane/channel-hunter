@@ -11,7 +11,7 @@ var Track = React.createClass({
 
   render: function () {
     var trackClasses = React.addons.classSet({
-      "track": true,
+      track: true,
       "track-shrink": this.props.isShrink
     });
 

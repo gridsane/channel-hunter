@@ -19,7 +19,7 @@ describe("Cover", function () {
   });
 
   it("set backgroundImage, if cover is defined", function () {
-    cover.setProps({cover: 'cover.jpg'});
+    cover.setProps({cover: "cover.jpg"});
     expect(image.getDOMNode().style.backgroundImage).toBe("url(cover.jpg)");
   });
 

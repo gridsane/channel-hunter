@@ -15,11 +15,11 @@ var Channels = React.createClass({
   getDefaultProps: function () {
     return {
       channelsUrls: [
-        'godshand',
-        'e_music_stonerrock',
-        '13th_floor',
-        'e_music_blues',
-        'topinstrumentalmetal'
+        "godshand",
+        "e_music_stonerrock",
+        "13th_floor",
+        "e_music_blues",
+        "topinstrumentalmetal"
       ],
       onUpdate: function () {}
     };

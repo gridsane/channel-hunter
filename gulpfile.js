@@ -4,8 +4,8 @@ var uglify = require("gulp-uglify");
 var minifycss = require("gulp-minify-css");
 var autoprefixer = require("gulp-autoprefixer");
 var less = require("gulp-less");
-var browserify = require('browserify');
-var transform = require('vinyl-transform');
+var browserify = require("browserify");
+var transform = require("vinyl-transform");
 var svgmin = require("gulp-svgmin");
 var svgSymbols = require("gulp-svg-symbols");
 var livereload = require("gulp-livereload");
@@ -14,7 +14,7 @@ var server = require("gulp-develop-server");
 var isProduction = -1 !== process.argv.indexOf("--prod");
 
 gulp.task("browserify", function () {
-  var browserified = transform(function(filename) {
+  var browserified = transform(function (filename) {
     var b = browserify(filename);
     return b.bundle();
   });
@@ -34,7 +34,7 @@ gulp.task("browserify", function () {
 
 gulp.task("svg", function () {
   gulp.src("src/images/icon-*.svg")
-    .pipe(svgSymbols({templates: ['default-svg']}))
+    .pipe(svgSymbols({templates: ["default-svg"]}))
     .pipe(svgmin({plugins: [
       {cleanupIDs: false},
       {removeTitle: true},
@@ -64,7 +64,7 @@ gulp.task("less", function () {
 });
 
 gulp.task("server", function () {
-  server.listen({ path: "src/server.js" }, livereload.listen);
+  server.listen({path: "src/server.js"}, livereload.listen);
 });
 
 gulp.task("build", ["svg", "less", "browserify"]);

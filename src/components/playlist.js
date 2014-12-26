@@ -3,7 +3,7 @@ var PlaylistItem = require("./playlist_item");
 var apiClient = require("../utils/api_client");
 var superagent = require("superagent");
 var Q = require("q");
-var _ = require('lodash');
+var _ = require("lodash");
 
 var Playlist = React.createClass({
 

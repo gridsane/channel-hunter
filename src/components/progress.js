@@ -1,4 +1,4 @@
-var React = require('react/addons');
+var React = require("react/addons");
 var nodeOffset = require("../utils/node_offset");
 
 var Progress = React.createClass({
@@ -19,7 +19,7 @@ var Progress = React.createClass({
   },
 
   getClasses: function () {
-    var classes = {"progress": true};
+    var classes = {progress: true};
 
     if (null !== this.props.className) {
       classes[this.props.className] = true;
@@ -41,10 +41,10 @@ var Progress = React.createClass({
       return;
     }
 
-    var node = this.getDOMNode(),
-        width = node.offsetWidth,
-        pos = event.clientX - nodeOffset(node).left,
-        value = (this.props.max / width) * pos;
+    var node = this.getDOMNode();
+    var width = node.offsetWidth;
+    var pos = event.clientX - nodeOffset(node).left;
+    var value = (this.props.max / width) * pos;
 
     this.props.onSeek(value);
   },

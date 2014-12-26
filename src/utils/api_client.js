@@ -15,8 +15,8 @@ module.exports = {
 
     superagent
       .get("/api/channel")
-      .query({'url': channelUrl})
-      .end(function(err, res) {
+      .query({url: channelUrl})
+      .end(function (err, res) {
         rejectIfError(deferred, err, res);
       });
 
@@ -28,7 +28,7 @@ module.exports = {
 
     superagent
       .get("/api/tracks/" + channelId)
-      .end(function(err, res) {
+      .end(function (err, res) {
         rejectIfError(deferred, err, res);
       });
 

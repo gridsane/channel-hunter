@@ -1,5 +1,5 @@
 var express = require("express");
-var compress = require('compression');
+var compress = require("compression");
 var api = require("./server/api")();
 var app = express();
 var apiRouter = express.Router();

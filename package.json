@@ -34,7 +34,10 @@
     "react-tools": "^0.12.1"
   },
   "browserify": {
-    "transform": ["reactify", "brfs"]
+    "transform": [
+      "reactify",
+      "brfs"
+    ]
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/src/test_preprocessor.js",

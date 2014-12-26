@@ -48,7 +48,7 @@ var Icon = React.createClass({
     return React.addons.classSet(classes);
   },
 
-  render: function() {
+  render: function () {
     return (
       <svg
         className={this._getClassname()}

@@ -1,26 +1,21 @@
 .playlist {
   position: relative;
   top: 304px;
-  list-style-type: none;
   margin: 0;
   padding: 0;
-  border-left: 1px solid @gray-8;
+  list-style-type: none;
   border-right: 1px solid @gray-8;
+  border-left: 1px solid @gray-8;
 
   &-item {
     position: relative;
     display: block;
-
     height: 32px;
-
-    border-bottom: 1px solid @gray-8;
     padding: 20px 32px;
-
     cursor: pointer;
-
-    box-shadow: 0;
     transition: box-shadow .2s ease-out .1s;
-
+    border-bottom: 1px solid @gray-8;
+    box-shadow: 0;
     font-size: 0;
 
     &-active {
@@ -29,33 +24,33 @@
     }
 
     &-title {
-      margin-bottom: 2px;
       padding-right: 48px;
       font-size: 16px;
+
       .text-overflow-ellipsis();
     }
 
     &-artist {
       display: inline;
-      font-size: 14px;
       color: @gray-56;
+      font-size: 14px;
     }
 
     &-channel {
       display: inline;
-      font-size: 14px;
-      color: @gray-27;
       float: right;
+      color: @gray-27;
+      font-size: 14px;
     }
 
     &-duration {
-      width: 48px;
       position: absolute;
       top: 22px;
       right: 32px;
-      font-size: 14px;
-      color: @gray-56;
+      width: 48px;
       text-align: right;
+      color: @gray-56;
+      font-size: 14px;
     }
 
     &-error {

@@ -5,10 +5,10 @@
   background: linear-gradient(to bottom, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 100%);
 
   &-title {
+    transition: opacity .2s ease-out;
     color: #fff;
     font-size: 24px;
     line-height: 64px;
-    transition: opacity .2s ease-out;
 
     &-shrink {
       opacity: 0;
@@ -16,9 +16,10 @@
   }
 
   &-button-github {
-    .icon-a();
     position: absolute;
     top: 8px;
     right: 12px;
+
+    .icon-a();
   }
 }

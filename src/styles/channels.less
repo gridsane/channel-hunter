@@ -1,57 +1,7 @@
 .channels {
-  position: absolute;
-  z-index: 200;
-  top: 0;
-  left: 0;
-  width: 72px;
-  padding-top: 64px;
-  transition: width .1s ease-out;
-
-  &-button {
-    position: absolute;
-    z-index: 100;
-    top: 8px;
-    left: 12px;
-    cursor: pointer;
-
-    .icon-a();
-  }
-
-  &-menu {
-    position: fixed;
-    top: 0;
-    visibility: hidden;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    transition: visibility 0s linear .3s,
-    background-color .3s ease-out;
-    background-color: rgba(0,0,0,0);
-
-    &-open {
-      visibility: visible;
-      transition: background-color .3s ease-out,
-      visibility .3s linear;
-      background-color: rgba(0,0,0,.5);
-
-      .channels-menu-items {
-        left: 0;
-      }
-    }
-
-    &-items {
-      position: absolute;
-      left: -264px;
-      width: 256px;
-      height: 100%;
-      margin: 0;
-      padding: 72px 0 0 0;
-      list-style-type: none;
-      transition: left .3s ease-out;
-      background-color: #fff;
-      box-shadow: @shadow-primary;
-    }
-  }
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 
   &-item {
     position: relative;

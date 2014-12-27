@@ -2,6 +2,7 @@ var React = require("react");
 var Cover = require("./components/cover");
 var Channels = require("./components/channels");
 var Header = require("./components/header");
+var Menu = require("./components/menu");
 var Track = require("./components/track");
 var Controls = require("./components/controls");
 var Playlist = require("./components/playlist");
@@ -19,6 +20,13 @@ var Application = React.createFactory(React.createClass({
   componentDidMount: function () {
     window.addEventListener("resize", this._recomputeWidth);
     this._recomputeWidth();
+  },
+
+  _onMenuToggle: function (isOpen) {
+    if (!isOpen) {
+      var channels = this.refs.channels.getChannels();
+      this._updateChannels(channels);
+    }
   },
 
   _updateChannels: function (channels) {
@@ -61,9 +69,9 @@ var Application = React.createFactory(React.createClass({
           width={this.state.containerWidth}
           onToggleShrink={this._changeIsCoverShrink}>
           <Header isShrink={this.state.isCoverShrink} />
-          <Channels
-            width={this.state.containerWidth}
-            onUpdate={this._updateChannels} />
+          <Menu onToggle={this._onMenuToggle} width={this.state.containerWidth}>
+            <Channels ref="channels" onLoad={this._updateChannels} />
+          </Menu>
           <Track isShrink={this.state.isCoverShrink} {...this.state.track} />
           <Controls {...this.state.track}
             onError={this._errorTrack}

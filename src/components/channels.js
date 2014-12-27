@@ -8,8 +8,7 @@ var _ = require("lodash");
 var Channels = React.createClass({
   propTypes: {
     channelsUrls: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    onUpdate: React.PropTypes.func.isRequired,
-    width: React.PropTypes.number.isRequired
+    onLoad: React.PropTypes.func.isRequired,
   },
 
   getDefaultProps: function () {
@@ -21,15 +20,14 @@ var Channels = React.createClass({
         "e_music_blues",
         "topinstrumentalmetal"
       ],
-      onUpdate: function () {}
+      onLoad: function () {}
     };
   },
 
   getInitialState: function () {
     return {
       channels: [],
-      channelsIdsToUrls: {},
-      isMenuOpen: false
+      channelsIdsToUrls: {}
     };
   },
 
@@ -41,6 +39,10 @@ var Channels = React.createClass({
     if (nextProps.channelsUrls !== this.props.channelsUrls) {
       this._updateChannels(this.props.channelsUrls, nextProps.channelsUrls);
     }
+  },
+
+  getChannels: function () {
+    return this.state.channels;
   },
 
   _updateChannels: function (prevChannelsUrls, nextChannelsUrls) {
@@ -76,7 +78,7 @@ var Channels = React.createClass({
         channels: _.union(channels, oldChannels),
         channelsIdsToUrls: channelsIdsToUrls
       }, function () {
-        this.props.onUpdate(this.state.channels);
+        this.props.onLoad(this.state.channels);
       });
     }.bind(this));
   },
@@ -93,62 +95,14 @@ var Channels = React.createClass({
     this.setState({channels: nextChannels});
   },
 
-  _toggleMenu: function (event) {
-    this.setState({isMenuOpen: !this.state.isMenuOpen}, function () {
-      if (!this.state.isMenuOpen) {
-        this.props.onUpdate(this.state.channels);
-      }
-    });
-
-    event.preventDefault();
-  },
-
-  _hideMenu: function (event) {
-    if (!this.state.isMenuOpen) {
-      return;
-    }
-
-    event.stopPropagation();
-
-    for (var el = event.target; el; el = el.parentNode) {
-      if (el === this.refs.menuItems.getDOMNode()) {
-        return;
-      }
-
-      if (el === this.refs.menu.getDOMNode()) {
-        break;
-      }
-    }
-
-    this._toggleMenu(event);
-  },
-
   render: function () {
-    var menuClasses = React.addons.classSet({
-      "channels-menu": true,
-      "channels-menu-open": this.state.isMenuOpen
-    });
-
     var items = this.state.channels.map(function (channel) {
       return (
         <ChannelsItem onCheck={this._toggleChannel} ref={"channel" + channel.id} key={channel.id} {...channel} />
       );
-    }.bind(this));
+    }, this);
 
-    return (
-      <div className="channels">
-        <a className="channels-button" onClick={this._toggleMenu}>
-          <Icon symbol={!this.state.isMenuOpen ? "humburger" : "back"} />
-        </a>
-        <div
-          className={menuClasses}
-          style={{width:this.props.width}}
-          onClick={this._hideMenu}
-          ref="menu">
-          <ul ref="menuItems" className="channels-menu-items">{items}</ul>
-        </div>
-      </div>
-    );
+    return (<ul className="channels">{items}</ul>);
   }
 });
 

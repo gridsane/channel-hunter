@@ -12,12 +12,12 @@ describe("Channels", function () {
   var Channels = require("../../components/channels");
   var TestUtils = React.addons.TestUtils;
   var channels = TestUtils.renderIntoDocument(
-    <Channels channelsUrls={[]} width={100} />
+    <Channels channelsUrls={[]} />
   );
 
   afterEach(function () {
     channels = TestUtils.renderIntoDocument(
-      <Channels channelsUrls={[]} width={100} />
+      <Channels channelsUrls={[]} />
     );
   });
 
@@ -26,7 +26,7 @@ describe("Channels", function () {
     channels.setProps({channelsUrls: ["channel_url"]});
 
     waitsFor(function () {
-      return channels.refs.menuItems.getDOMNode().children.length > 0;
+      return channels.getDOMNode().children.length > 0;
     }, "channels items should render", 100);
 
     runs(function () {

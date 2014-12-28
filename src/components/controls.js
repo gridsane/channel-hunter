@@ -82,6 +82,8 @@ var Controls = React.createClass({
 
         audioNode.addEventListener("loadeddata", loadingFalse);
         audioNode.addEventListener("seeked", loadingFalse);
+        audioNode.addEventListener("canplay", loadingFalse);
+        audioNode.addEventListener("playing", loadingFalse);
 
         var loadingTrue = function () {
           this.setState({loading: true});

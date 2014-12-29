@@ -1,8 +1,8 @@
-jest.dontMock("../../components/cover");
+jest.dontMock("../cover");
 
 describe("Cover", function () {
   var React = require("react/addons");
-  var Cover = require("../../components/cover");
+  var Cover = require("../cover");
   var TestUtils = React.addons.TestUtils;
 
   var cover = TestUtils.renderIntoDocument(<Cover />);

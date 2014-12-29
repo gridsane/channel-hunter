@@ -1,9 +1,9 @@
-jest.dontMock("../../components/progress");
+jest.dontMock("..//progress");
 
 describe("Progress", function () {
   var nodeOffset = require("../../utils/node_offset");
   var React = require("react/addons");
-  var Progress = require("../../components/progress");
+  var Progress = require("..//progress");
   var TestUtils = React.addons.TestUtils;
   var progress = TestUtils.renderIntoDocument(<Progress max="100" value="0" />);
   var valueComponent = TestUtils.findRenderedDOMComponentWithClass(progress, "progress-value");

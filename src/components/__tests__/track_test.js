@@ -1,8 +1,8 @@
-jest.dontMock("../../components/track");
+jest.dontMock("..//track");
 
 describe("Track", function () {
   var React = require("react/addons");
-  var Track = require("../../components/track");
+  var Track = require("..//track");
   var TestUtils = React.addons.TestUtils;
 
   var track = TestUtils.renderIntoDocument(<Track />);

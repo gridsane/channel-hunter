@@ -1,7 +1,7 @@
-jest.dontMock("../../server/cache");
+jest.dontMock("../cache");
 
 describe("Cache", function () {
-  var Cache = require("../../server/cache");
+  var Cache = require("../cache");
   var cache;
 
   beforeEach(function () {

@@ -1,7 +1,7 @@
-jest.dontMock("../../utils/format_duration");
+jest.dontMock("../format_duration");
 
 describe("Format duration", function () {
-  var formatDuration = require("../../utils/format_duration");
+  var formatDuration = require("../format_duration");
 
   it("pads minutes and seconds", function () {
     expect(formatDuration(350)).toBe("05:50");

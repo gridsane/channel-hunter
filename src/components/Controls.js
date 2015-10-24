@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {formatDuration} from '../utils/common';
 import {Icon} from './common'
+import Progress from './Progress'
 import {connect} from 'react-redux';
+import {togglePlaying} from '../actions/player';
 
 @connect((state) => {
   return {
@@ -11,15 +13,24 @@ import {connect} from 'react-redux';
   }
 })
 export default class Controls extends Component {
+
+  togglePlaying() {
+    console.log("asdasd");
+    this.props.dispatch(togglePlaying(!this.props.isPlaying));
+  }
+
   render() {
     let styles = this.getStyles();
 
     return <div style={styles.container}>
-      <Icon style={styles.playback} size={40}>{this.props.isPlaying ? 'pause' : 'play_arrow'}</Icon>
+      <Icon
+        onClick={::this.togglePlaying}
+        style={styles.playback} size={40}>{this.props.isPlaying ? 'pause' : 'play_arrow'}</Icon>
       <Icon style={styles.next} size={40}>skip_next</Icon>
       {this.renderTitle(styles)}
       <span style={styles.time}>{this.props.progress}</span>
       <Icon style={styles.star} size={24}>star_border</Icon>
+      <Progress />
     </div>
   }
 

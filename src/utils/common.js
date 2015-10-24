@@ -13,3 +13,19 @@ export function formatDuration(duration) {
 
   return pad(minutes.toFixed()) + ":" + pad(seconds.toFixed());
 }
+
+export function nodeOffset(node) {
+  let top = 0;
+  let left = 0;
+
+  do {
+    top += node.offsetTop  || 0;
+    left += node.offsetLeft || 0;
+    node = node.offsetParent;
+  } while (node);
+
+  return {
+    top: top,
+    left: left
+  };
+};

@@ -14,8 +14,6 @@ export default class Icon extends Component {
         verticalAlign: 'middle',
     }, this.props.style);
 
-    return <span className="material-icons" style={style}>
-        {this.props.children}
-    </span>
+    return <span {...this.props} className="material-icons" style={style} />
   }
 }

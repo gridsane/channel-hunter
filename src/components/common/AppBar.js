@@ -26,7 +26,6 @@ export default class AppBar extends Component {
           backgroundColor: colors.primary,
           boxShadow: shadow(4),
           color: colors.text,
-          overflow: 'hidden',
           padding: '0 16px',
         }
     }

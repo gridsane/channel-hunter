@@ -3,9 +3,9 @@ import {
   PLAYER_TRACK,
   PLAYER_TOGGLE_PLAYING,
   PLAYER_TOGGLE_LOADING,
-} from './actionTypes';
+} from './actionsTypes';
 
-export function progress(progress) {
+export function setProgress(progress) {
   return {type: PLAYER_PROGRESS, progress}
 }
 

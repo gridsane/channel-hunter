@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {AppBar} from './common';
 import Account from './Account';
 import Controls from './Controls';
+import Channels from './Channels';
+import Playlist from './Playlist';
 
 export default class Application extends Component {
   render() {
@@ -9,9 +11,13 @@ export default class Application extends Component {
 
     return <div style={styles.container}>
       <AppBar>
-        <Account />
-        <Controls />
+        <Account style={styles.navCol} />
+        <Controls style={styles.bodyCol} />
       </AppBar>
+      <div style={styles.body}>
+        <Channels style={styles.navCol} />
+        <Playlist style={styles.bodyCol} />
+      </div>
     </div>
   }
 
@@ -20,6 +26,20 @@ export default class Application extends Component {
 
       container: {
         fontFamily: 'Roboto',
+        paddingTop: '60px',
+      },
+
+      body: {
+        display: 'flex',
+        padding: '0 16px',
+      },
+
+      navCol: {
+        minWidth: '30%',
+      },
+
+      bodyCol: {
+        minWidth: '70%',
       },
 
     }

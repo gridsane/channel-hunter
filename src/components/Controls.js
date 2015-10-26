@@ -15,12 +15,12 @@ import {togglePlaying} from '../actions/player';
 export default class Controls extends Component {
 
   togglePlaying() {
-    console.log("asdasd");
     this.props.dispatch(togglePlaying(!this.props.isPlaying));
   }
 
   render() {
     let styles = this.getStyles();
+    styles.container = Object.assign({}, styles.container, this.props.style);
 
     return <div style={styles.container}>
       <Icon
@@ -56,7 +56,6 @@ export default class Controls extends Component {
     return {
 
       container: {
-        // outline: '1px solid red',
         boxSizing: 'border-box',
         height: '60px',
         padding: '10px 0',
@@ -64,13 +63,9 @@ export default class Controls extends Component {
         paddingRight: '106px',
         position: 'relative',
         whiteSpace: 'nowrap',
-        flexBasis: 1,
-        flexShrink: 1,
-        flexGrow: 2,
       },
 
       title: {
-        // outline: '1px solid green',
         display: 'inline-block',
         height: '40px',
         lineHeight: '40px',
@@ -87,7 +82,6 @@ export default class Controls extends Component {
       },
 
       time: {
-        // outline: '1px solid red',
         position: 'absolute',
         right: '48px',
         width: '56px',
@@ -98,7 +92,6 @@ export default class Controls extends Component {
       },
 
       star: {
-        // outline: '1px solid red',
         position: 'absolute',
         right: 0,
         height: '40px',
@@ -109,14 +102,12 @@ export default class Controls extends Component {
       },
 
       playback: {
-        // outline: '1px solid red',
         position: 'absolute',
         left: 0,
         ...clickable,
       },
 
       next: {
-        // outline: '1px solid red',
         position: 'absolute',
         left: '48px',
         ...clickable,

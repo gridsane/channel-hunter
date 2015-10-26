@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --hot --inline --info false --history-api-fallback --config webpack.config.dev.js --port $npm_package_config_devPort",
-    "build": "./node_modules/.bin/webpack --config webpack.config.prod.js"
+    "build": "./node_modules/.bin/webpack --config webpack.config.prod.js",
+    "test": "BABEL_JEST_STAGE=0 ./node_modules/.bin/jest"
   },
   "config": {
     "devPort": 3000
@@ -15,6 +16,7 @@
   "dependencies": {
     "datef": "^2.0.0",
     "react": "^0.14.0",
+    "react-addons-update": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
     "redux": "^3.0.4",
@@ -23,8 +25,11 @@
   "devDependencies": {
     "babel-core": "^5.8.25",
     "babel-eslint": "^4.1.3",
+    "babel-jest": "*",
     "babel-loader": "^5.3.2",
     "babel-plugin-react-transform": "^1.1.1",
+    "jest-cli": "*",
+    "react-addons-test-utils": "~0.14.0",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.1.1",
@@ -35,5 +40,14 @@
     "webpack-dev-middleware": "^1.2.0",
     "webpack-dev-server": "^1.12.1",
     "webpack-hot-middleware": "^2.4.1"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-addons-test-utils",
+      "<rootDir>/node_modules/fbjs"
+    ]
   }
 }

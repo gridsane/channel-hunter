@@ -5,7 +5,10 @@ import {colors} from '../../utils/styles';
 
 export default class ListItem extends Component {
   static propTypes = {
-    primaryText: React.PropTypes.string.isRequired,
+    primaryText: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.element
+    ]).isRequired,
     secondaryText: React.PropTypes.string,
     leftAvatar: React.PropTypes.string,
     rightIcon: React.PropTypes.string,

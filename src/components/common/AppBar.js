@@ -27,6 +27,7 @@ export default class AppBar extends Component {
           boxShadow: shadow(4),
           color: colors.text,
           padding: '0 16px',
+          zIndex: 4,
         }
     }
   }

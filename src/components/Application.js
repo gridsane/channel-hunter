@@ -4,6 +4,7 @@ import Account from './Account';
 import Controls from './Controls';
 import Channels from './Channels';
 import Playlist from './Playlist';
+import {shadow} from '../utils/styles';
 
 export default class Application extends Component {
   render() {
@@ -15,13 +16,33 @@ export default class Application extends Component {
         <Controls style={styles.bodyCol} />
       </AppBar>
       <div style={styles.body}>
-        <Channels style={styles.navCol} />
-        <Playlist style={styles.bodyCol} />
+        <div style={styles.channelsContainer}>
+          <Channels style={styles.channels} />
+        </div>
+        <div style={styles.playlistContainer}>
+          <Playlist style={styles.playlist} />
+        </div>
       </div>
     </div>
   }
 
   getStyles() {
+
+    const navCol = {
+      boxSizing: 'border-box',
+      minWidth: '40%',
+    }
+
+    const bodyCol = {
+      boxSizing: 'border-box',
+      minWidth: '60%',
+    }
+
+    const paper = {
+      height: '100%',
+      boxShadow: shadow(2),
+    }
+
     return {
 
       container: {
@@ -31,15 +52,27 @@ export default class Application extends Component {
 
       body: {
         display: 'flex',
-        padding: '0 16px',
       },
 
-      navCol: {
-        minWidth: '40%',
+      navCol: navCol,
+      bodyCol: bodyCol,
+
+      channelsContainer: {
+        padding: '0 8px 0 16px',
+        ...navCol,
       },
 
-      bodyCol: {
-        minWidth: '60%',
+      playlistContainer: {
+        padding: '0 16px 0 8px',
+        ...bodyCol,
+      },
+
+      channels: {
+        ...paper,
+      },
+
+      playlist: {
+        ...paper,
       },
 
     }

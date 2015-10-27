@@ -21,13 +21,19 @@ export default class Channels extends Component {
       return <ListItem
         key={channel.id}
         primaryText={channel.name}
-        secondaryText={this.enumerateTags(channel.tags)}
+        secondaryText={this.renderTags(channel.tags)}
+        leftAvatar={channel.image}
+        rightIcon="check"
       />
     })
 
     return <List style={styles.container}>
       {channels}
     </List>
+  }
+
+  renderTags(tags) {
+    return tags.join(', ')
   }
 
   getStyles() {

@@ -12,7 +12,7 @@ export default class FlatButton extends Component {
     return {
       common: {
         height: '36px',
-        padding: '0 16px',
+        padding: '0 24px',
         lineHeight: '16px',
         fontSize: '16px',
         textTransform: 'uppercase',

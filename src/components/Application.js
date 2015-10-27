@@ -35,11 +35,11 @@ export default class Application extends Component {
       },
 
       navCol: {
-        minWidth: '30%',
+        minWidth: '40%',
       },
 
       bodyCol: {
-        minWidth: '70%',
+        minWidth: '60%',
       },
 
     }

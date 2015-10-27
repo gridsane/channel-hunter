@@ -25,11 +25,11 @@ export default class Controls extends Component {
     return <div style={styles.container}>
       <Icon
         onClick={::this.togglePlaying}
-        style={styles.playback} size={40}>{this.props.isPlaying ? 'pause' : 'play_arrow'}</Icon>
-      <Icon style={styles.next} size={40}>skip_next</Icon>
+        style={styles.playback} size={32} boxSize={40}>{this.props.isPlaying ? 'pause' : 'play_arrow'}</Icon>
+      <Icon style={styles.next} size={32} boxSize={40}>skip_next</Icon>
       {this.renderTitle(styles)}
       <span style={styles.time}>{this.props.progress}</span>
-      <Icon style={styles.star} size={24}>star_border</Icon>
+      <Icon style={styles.star} size={24} boxSize={40}>star_border</Icon>
       <Progress />
     </div>
   }
@@ -94,10 +94,6 @@ export default class Controls extends Component {
       star: {
         position: 'absolute',
         right: 0,
-        height: '40px',
-        width: '40px',
-        textAlign: 'center',
-        lineHeight: '40px',
         ...clickable,
       },
 

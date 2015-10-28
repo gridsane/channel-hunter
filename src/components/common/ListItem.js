@@ -3,13 +3,15 @@ import Icon from './Icon';
 import Avatar from './Avatar';
 import {colors} from '../../utils/styles';
 
+const PropTypeStringOrComponent = React.PropTypes.oneOfType([
+  React.PropTypes.string,
+  React.PropTypes.element
+])
+
 export default class ListItem extends Component {
   static propTypes = {
-    primaryText: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element
-    ]).isRequired,
-    secondaryText: React.PropTypes.string,
+    primaryText: PropTypeStringOrComponent.isRequired,
+    secondaryText: PropTypeStringOrComponent,
     leftAvatar: React.PropTypes.string,
     rightIcon: React.PropTypes.string,
   };

@@ -10,5 +10,5 @@ export let colors = {
 }
 
 export function shadow(elevation) {
-  return `0px 1px ${elevation}px rgba(0, 0, 0, .54)`
+  return `0px 2px ${elevation}px rgba(0, 0, 0, .26)`
 }

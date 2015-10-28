@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {colors} from '../utils/styles';
-import {List, ListItem} from './common';
+import {List, ListItem, ListLabel} from './common';
 
 @connect((state) => {
   return {
@@ -28,6 +28,7 @@ export default class Channels extends Component {
     })
 
     return <List style={styles.container}>
+      <ListLabel text="Your channels" icon="settings" />
       {channels}
     </List>
   }

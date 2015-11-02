@@ -12,3 +12,14 @@ export function shallowRender(component) {
   shallowRenderer.render(component);
   return shallowRenderer.getRenderOutput();
 }
+
+export function createStore(state) {
+  let actions = [];
+
+  return {
+    dispatch: (action) => actions.push(action),
+    getActions: () => actions,
+    getState: () => state,
+    subscribe: () => null,
+  };
+}

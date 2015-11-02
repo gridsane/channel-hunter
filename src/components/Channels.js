@@ -23,9 +23,8 @@ export default class Channels extends Component {
         primaryText={channel.name}
         secondaryText={this.renderTags(channel.tags)}
         leftElement={<Avatar url={channel.image} />}
-        rightIcon="check"
-      />
-    })
+        rightIcon="check" />
+    });
 
     return <List style={styles.container}>
       <ListLabel text="Your channels" icon="settings" />

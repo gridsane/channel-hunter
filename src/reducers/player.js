@@ -17,7 +17,10 @@ export default function player(state = initialState, action) {
     case PLAYER_PROGRESS:
       return Object.assign({}, state, {progress: action.progress});
     case PLAYER_TRACK:
-      return Object.assign({}, state, {track: action.track});
+      return Object.assign({}, state, {
+        track: action.track,
+        progress: 0,
+      });
     case PLAYER_TOGGLE_PLAYING:
       return Object.assign({}, state, {isPlaying: action.isPlaying});
     case PLAYER_TOGGLE_LOADING:

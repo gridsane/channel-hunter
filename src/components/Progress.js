@@ -26,13 +26,13 @@ export default class Progress extends Component {
   };
 
   getPercentage() {
-    return (this.props.max / 100) * this.props.current
+    return (100 / this.props.max) * this.props.current
   }
 
   seek(e) {
     let node = this.refs.progress;
     let width = node.offsetWidth;
-    let pos = e.clientX - nodeOffset(node).left - this.refs.pointer.offsetWidth / 2;
+    let pos = e.clientX - nodeOffset(node).left;
     let value = (this.props.max / width) * pos;
     this.props.dispatch(setProgress(Math.round(value)))
   }
@@ -76,6 +76,7 @@ export default class Progress extends Component {
         position: 'absolute',
         top: '-4px',
         left: `${this.getPercentage()}%`,
+        marginLeft: '-8px',
         width: '12px',
         height: '12px',
         borderRadius: '50%',

@@ -14,6 +14,7 @@ export default class ListItem extends Component {
     leftElement: React.PropTypes.element,
     leftElementHeight: React.PropTypes.number,
     rightIcon: React.PropTypes.string,
+    onClick: React.PropTypes.func,
   };
 
   static defaultProps = {
@@ -21,12 +22,13 @@ export default class ListItem extends Component {
     leftElement: null,
     leftElementHeight: 40,
     rightIcon: null,
+    onClick: null,
   };
 
   render() {
     let styles = this.getStyles();
 
-    return <li style={styles.container}>
+    return <li style={styles.container} onClick={::this._click}>
       {this.renderLeftElement(styles.leftElement)}
       <span style={styles.primaryText}>{this.props.primaryText}</span>
       <span style={styles.secondaryText}>{this.props.secondaryText}</span>
@@ -35,14 +37,17 @@ export default class ListItem extends Component {
   }
 
   renderLeftElement(leftElementStyle) {
-    if (this.props.leftElement === null) {
+    const leftElement = this.props.leftElement;
+
+    if (leftElement === null) {
       return null;
     }
 
+    const style = Object.assign({}, leftElementStyle, leftElement.props.style);
+
     return React.cloneElement(
-      this.props.leftElement,
-      {style: leftElementStyle, ...this.props.leftElement.props},
-      this.props.leftElement.children
+      leftElement,
+      {...leftElement.props, style: style}
     );
   }
 
@@ -52,6 +57,12 @@ export default class ListItem extends Component {
     }
 
     return <Icon style={rightIconStyle} size={24}>{this.props.rightIcon}</Icon>
+  }
+
+  _click(event) {
+    if (this.props.onClick) {
+      this.props.onClick(event);
+    }
   }
 
   getStyles() {

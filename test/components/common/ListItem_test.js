@@ -1,6 +1,7 @@
 import React from 'react';
 import ListItem from '../../../src/components/common/ListItem';
 import Icon from '../../../src/components/common/Icon';
+import TestUtils from 'react-addons-test-utils';
 import ShallowTestUtils from 'react-shallow-testutils';
 import {renderDOM, shallowRender} from '../../utils';
 
@@ -52,34 +53,59 @@ describe('ListItem', () => {
   });
 
   it('adds right icon', () => {
+
     const tree = shallowRender(
       <ListItem primaryText="foo" rightIcon="bar" />
     );
 
     const icon = ShallowTestUtils.findWithType(tree, Icon);
     expect(icon.props.children).to.be('bar');
+
   });
 
   it('adds left element', () => {
+
     const tree = shallowRender(
       <ListItem
         primaryText="foo"
-        leftElement={<span className="left" />}
+        leftElement={<span className="left">bar</span>}
         leftElementHeight={40} />
     );
 
     const leftElement = ShallowTestUtils.findWithClass(tree, 'left');
     expect(leftElement.props.style.top).to.be('8px');
+    expect(leftElement.props.children).to.be('bar');
+
   });
 
-  it('saves left element style', () => {
+  it('merges with left element style', () => {
+
     const tree = shallowRender(
       <ListItem
         primaryText="foo"
-        leftElement={<span className="left" style={{top: '16px'}} />} />
+        leftElement={<span className="left" style={{color: 'red'}} />} />
     );
 
     const leftElement = ShallowTestUtils.findWithClass(tree, 'left');
-    expect(leftElement.props.style.top).to.be('16px');
+    expect(leftElement.props.style.top).to.be('8px');
+    expect(leftElement.props.style.color).to.be('red');
+
   });
+
+  it('handles click', (done) => {
+
+    const dom = renderDOM(
+      <ListItem
+        primaryText="foo"
+        onClick={callback} />
+    );
+
+    function callback() {
+      done();
+    }
+
+    TestUtils.Simulate.click(dom);
+
+  });
+
 });

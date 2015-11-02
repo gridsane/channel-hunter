@@ -1,7 +1,5 @@
-jest.dontMock('../../reducers/tracks');
-jest.dontMock('../../actions/actionsTypes');
-const reducer = require('../../reducers/tracks');
-const types = require('../../actions/actionsTypes');
+const reducer = require('../../src/reducers/tracks');
+const types = require('../../src/actions/actionsTypes');
 
 describe('Tracks reducer', () => {
 
@@ -24,7 +22,7 @@ describe('Tracks reducer', () => {
       ],
     });
 
-    expect(state).toEqual({
+    expect(state).to.eql({
       items: [
         {id: 1, title: 'foo'},
         {id: 2, title: 'bar'},
@@ -32,7 +30,7 @@ describe('Tracks reducer', () => {
       ],
     });
 
-    expect(state).toNotBe(initialState);
+    expect(state).to.not.be(initialState);
 
   });
 
@@ -53,13 +51,13 @@ describe('Tracks reducer', () => {
       channelId: 3,
     });
 
-    expect(state).toEqual({
+    expect(state).to.eql({
       items: [
         {id: 2, title: 'bar', channelId: 2},
       ],
     });
 
-    expect(state).toNotBe(initialState);
+    expect(state).to.not.be(initialState);
 
   });
 

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --hot --inline --info false --history-api-fallback --config webpack.config.dev.js --port $npm_package_config_devPort",
     "build": "./node_modules/.bin/webpack --config webpack.config.prod.js",
-    "test": "BABEL_JEST_STAGE=0 ./node_modules/.bin/jest"
+    "test": "./node_modules/.bin/mocha --compilers=js:babel-core/register --require ./test/setup --recursive './test/**/*_test.js'",
+    "jest": "BABEL_JEST_STAGE=0 ./node_modules/.bin/jest"
   },
   "config": {
     "devPort": 3000
@@ -19,6 +20,7 @@
     "react-addons-update": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
+    "react-shallow-testutils": "^0.6.0",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.0"
   },
@@ -28,7 +30,10 @@
     "babel-jest": "*",
     "babel-loader": "^5.3.2",
     "babel-plugin-react-transform": "^1.1.1",
+    "expect.js": "^0.3.1",
     "jest-cli": "*",
+    "jsdom": "^7.0.2",
+    "mocha": "^2.3.3",
     "react-addons-test-utils": "^0.14.0",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",

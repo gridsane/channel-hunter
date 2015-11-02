@@ -1,24 +1,25 @@
 import React, {Component} from 'react';
 import Icon from './Icon';
-import Avatar from './Avatar';
 import {colors} from '../../utils/styles';
 
 const PropTypeStringOrComponent = React.PropTypes.oneOfType([
   React.PropTypes.string,
   React.PropTypes.element
-])
+]);
 
 export default class ListItem extends Component {
   static propTypes = {
     primaryText: PropTypeStringOrComponent.isRequired,
     secondaryText: PropTypeStringOrComponent,
-    leftAvatar: React.PropTypes.string,
+    leftElement: React.PropTypes.element,
+    leftElementHeight: React.PropTypes.number,
     rightIcon: React.PropTypes.string,
   };
 
   static defaultProps = {
     secondaryText: null,
-    leftAvatar: null,
+    leftElement: null,
+    leftElementHeight: 40,
     rightIcon: null,
   };
 
@@ -26,19 +27,23 @@ export default class ListItem extends Component {
     let styles = this.getStyles();
 
     return <li style={styles.container}>
-      {this.renderLeftAvatar(styles.leftAvatar)}
+      {this.renderLeftElement(styles.leftElement)}
       <span style={styles.primaryText}>{this.props.primaryText}</span>
       <span style={styles.secondaryText}>{this.props.secondaryText}</span>
       {this.renderRightIcon(styles.rightIcon)}
     </li>
   }
 
-  renderLeftAvatar(leftAvatarStyle) {
-    if (this.props.leftAvatar === null) {
+  renderLeftElement(leftElementStyle) {
+    if (this.props.leftElement === null) {
       return null;
     }
 
-    return <Avatar style={leftAvatarStyle} url={this.props.leftAvatar} />
+    return React.cloneElement(
+      this.props.leftElement,
+      {style: leftElementStyle, ...this.props.leftElement.props},
+      this.props.leftElement.children
+    );
   }
 
   renderRightIcon(rightIconStyle) {
@@ -52,12 +57,12 @@ export default class ListItem extends Component {
   getStyles() {
     const height = this.props.secondaryText === null ? 56 : 72;
     const paddingRight = this.props.rightIcon === null ? 16 : 56;
-    const paddingLeft = this.props.leftAvatar === null ? 16 : 72;
+    const paddingLeft = this.props.leftElement === null ? 16 : 72;
     const ellipsis = {
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-    }
+    };
 
     return {
 
@@ -84,10 +89,10 @@ export default class ListItem extends Component {
         ...ellipsis,
       },
 
-      leftAvatar: {
+      leftElement: {
         position: 'absolute',
         left: '16px',
-        top: ((height - 40) / 2) + 'px',
+        top: ((height - this.props.leftElementHeight) / 2) + 'px',
       },
 
       rightIcon: {

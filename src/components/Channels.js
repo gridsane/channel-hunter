@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {colors} from '../utils/styles';
-import {List, ListItem, ListLabel} from './common';
+import {List, ListItem, ListLabel, Avatar} from './common';
 
 @connect((state) => {
   return {
@@ -22,7 +22,7 @@ export default class Channels extends Component {
         key={channel.id}
         primaryText={channel.name}
         secondaryText={this.renderTags(channel.tags)}
-        leftAvatar={channel.image}
+        leftElement={<Avatar url={channel.image} />}
         rightIcon="check"
       />
     })

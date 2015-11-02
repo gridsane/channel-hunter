@@ -1,7 +1,5 @@
-jest.dontMock('../../reducers/channels');
-jest.dontMock('../../actions/actionsTypes');
-const reducer = require('../../reducers/channels');
-const types = require('../../actions/actionsTypes');
+const reducer = require('../../src/reducers/channels');
+const types = require('../../src/actions/actionsTypes');
 
 describe('Channels reducer', () => {
 
@@ -19,7 +17,7 @@ describe('Channels reducer', () => {
       channel: {id: 2, name: 'bar'},
     });
 
-    expect(state).toEqual({
+    expect(state).to.eql({
       items: [
         {id: 1, name: 'foo'},
         {id: 2, name: 'bar'}
@@ -27,7 +25,7 @@ describe('Channels reducer', () => {
       picked: [],
     });
 
-    expect(state).toNotBe(initialState);
+    expect(state).to.not.be(initialState);
 
   });
 
@@ -43,12 +41,12 @@ describe('Channels reducer', () => {
       channelId: 1
     });
 
-    expect(state).toEqual({
+    expect(state).to.eql({
       items: [{id: 2, name: 'bar'}],
       picked: []
     });
 
-    expect(state).toNotBe(initialState);
+    expect(state).to.not.be(initialState);
 
   });
 
@@ -63,12 +61,12 @@ describe('Channels reducer', () => {
       channelId: 2,
     });
 
-    expect(state).toEqual({
+    expect(state).to.eql({
       items: [],
       picked: [1, 2]
     });
 
-    expect(state).toNotBe(initialState);
+    expect(state).to.not.be(initialState);
   });
 
   it('toggles channel off', () => {
@@ -82,12 +80,12 @@ describe('Channels reducer', () => {
       channelId: 1,
     });
 
-    expect(state).toEqual({
+    expect(state).to.eql({
       items: [],
       picked: [2]
     });
 
-    expect(state).toNotBe(initialState);
+    expect(state).to.not.be(initialState);
   });
 
 });

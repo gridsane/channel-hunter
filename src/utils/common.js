@@ -29,3 +29,7 @@ export function nodeOffset(node) {
     left: left
   };
 };
+
+export function curried(fn, ...args) {
+  return (...nArgs) => fn.apply(this, [...args, ...nArgs])
+}

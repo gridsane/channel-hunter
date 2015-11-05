@@ -1,14 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {colors} from '../utils/styles';
-import {List, ListItem, Icon} from './common';
+import {List, ListItem, ListLabel, Icon} from './common';
 import {curried} from '../utils/common';
 import {setTrack} from '../actions/player';
 
 @connect((state) => {
+  const tracks = state.tracks.items.filter((track) => {
+    return state.channels.picked.indexOf(track.channelId) !== -1;
+  });
+
   return {
     currentTrack: state.player.track,
-    tracks: state.tracks.items,
+    tracks: tracks,
+    tracksCount: tracks.length,
+    channelsCount: state.channels.picked.length,
   }
 })
 export default class Playlist extends Component {
@@ -17,6 +23,9 @@ export default class Playlist extends Component {
     styles.container = Object.assign({}, styles.container, this.props.style);
 
     return <List style={styles.container}>
+      <ListLabel
+        text={`${this.props.tracksCount} tracks from ${this.props.channelsCount} channels`}
+        icon="shuffle" />
       {this.renderTracks(styles)}
     </List>
   }

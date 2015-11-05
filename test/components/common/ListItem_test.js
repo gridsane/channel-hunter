@@ -108,4 +108,31 @@ describe('ListItem', () => {
 
   });
 
+  it('changes background when mouseEnter, if onClick is provided', () => {
+
+    const dom = renderDOM(
+      <ListItem primaryText="foo" onClick={() => null} />
+    );
+
+    const leaveColor = dom.style.getPropertyValue('background-color');
+
+    TestUtils.Simulate.mouseEnter(dom);
+    expect(dom.style.getPropertyValue('background-color')).to.not.be(leaveColor);
+
+    TestUtils.Simulate.mouseLeave(dom);
+    expect(dom.style.getPropertyValue('background-color')).to.be(leaveColor);
+
+  });
+
+  it('not changes background on mouseEnter, if onClick is not provided', () => {
+    const dom = renderDOM(
+      <ListItem primaryText="foo" />
+    );
+
+    const leaveColor = dom.style.getPropertyValue('background-color');
+
+    TestUtils.Simulate.mouseEnter(dom);
+    expect(dom.style.getPropertyValue('background-color')).to.be(leaveColor);
+  });
+
 });

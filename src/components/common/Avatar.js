@@ -9,6 +9,7 @@ export default class Avatar extends Component {
   render() {
     let style = Object.assign({}, {
       background: `url(${this.props.url}) center center`,
+      backgroundSize: 'cover',
       display: 'inline-block',
       width: '40px',
       height: '40px',

@@ -25,22 +25,11 @@ export default class Progress extends Component {
     max: 100,
   };
 
-  getPercentage() {
-    return (100 / this.props.max) * this.props.current
-  }
-
-  seek(e) {
-    let node = this.refs.progress;
-    let width = node.offsetWidth;
-    let pos = e.clientX - nodeOffset(node).left;
-    let value = (this.props.max / width) * pos;
-    this.props.dispatch(setProgress(Math.round(value)))
-  }
 
   render() {
     let styles = this.getStyles();
 
-    return <div ref="progress" style={styles.container} onClick={::this.seek}>
+    return <div ref="progress" style={styles.container} onClick={::this._seek}>
       <div style={styles.progress} />
       <div style={styles.pointer} ref="pointer">
         <div style={styles.pointerGlow} />
@@ -48,7 +37,17 @@ export default class Progress extends Component {
     </div>
   }
 
+  _seek(e) {
+    let node = this.refs.progress;
+    let width = node.offsetWidth;
+    let pos = e.clientX - nodeOffset(node).left;
+    let value = (this.props.max / width) * pos;
+    this.props.dispatch(setProgress(Math.round(value)))
+  }
+
   getStyles() {
+    const progressPercent = ((100 / this.props.max) * this.props.current) + '%';
+
     return {
 
       container: {
@@ -68,14 +67,14 @@ export default class Progress extends Component {
         height: '4px',
         left: 0,
         top: 0,
-        width: `${this.getPercentage()}%`,
+        width: progressPercent,
       },
 
       pointer: {
         zIndex: 10,
         position: 'absolute',
         top: '-4px',
-        left: `${this.getPercentage()}%`,
+        left: progressPercent,
         marginLeft: '-8px',
         width: '12px',
         height: '12px',

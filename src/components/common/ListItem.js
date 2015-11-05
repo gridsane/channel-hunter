@@ -25,10 +25,18 @@ export default class ListItem extends Component {
     onClick: null,
   };
 
+  state = {
+    mouseOver: false
+  };
+
   render() {
     let styles = this.getStyles();
 
-    return <li style={styles.container} onClick={::this._click}>
+    return <li
+      style={styles.container}
+      onClick={::this._click}
+      onMouseEnter={::this._mouseEnter}
+      onMouseLeave={::this._mouseLeave}>
       {this.renderLeftElement(styles.leftElement)}
       <span style={styles.primaryText}>{this.props.primaryText}</span>
       <span style={styles.secondaryText}>{this.props.secondaryText}</span>
@@ -65,15 +73,36 @@ export default class ListItem extends Component {
     }
   }
 
+  _mouseEnter(event) {
+    this.setState({mouseOver: true});
+  }
+
+  _mouseLeave(event) {
+    this.setState({mouseOver: false});
+  }
+
+  getMouseOverStyleProps() {
+    if (!this.props.onClick || !this.state.mouseOver) {
+      return null;
+    }
+
+    return {
+      backgroundColor: 'rgba(0,0,0,.08)',
+      cursor: 'pointer',
+    };
+  }
+
   getStyles() {
     const height = this.props.secondaryText === null ? 56 : 72;
     const paddingRight = this.props.rightIcon === null ? 16 : 56;
     const paddingLeft = this.props.leftElement === null ? 16 : 72;
+    const mouseOver = this.getMouseOverStyleProps();
     const ellipsis = {
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
     };
+
 
     return {
 
@@ -83,6 +112,7 @@ export default class ListItem extends Component {
         height: `${height}px`,
         padding: `20px ${paddingRight}px 20px ${paddingLeft}px`,
         lineHeight: '16px',
+        ...mouseOver,
       },
 
       primaryText: {

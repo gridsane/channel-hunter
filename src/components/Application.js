@@ -7,18 +7,31 @@ import Playlist from './Playlist';
 import {shadow} from '../utils/styles';
 
 export default class Application extends Component {
-  static propTypes = {
-    isNavOpen: PropTypes.bool,
-    isNavDocked: PropTypes.bool,
-  };
-
-  static defaultProps = {
+  state = {
+    isMobileMode: false,
     isNavOpen: true,
     isNavDocked: true,
   };
 
+  componentWillMount() {
+    this._updateNavigationMode();
+    window.addEventListener('resize', ::this._updateNavigationMode);
+  }
+
+  _updateNavigationMode() {
+    const isMobileMode = window.innerWidth < 960;
+
+    if (this.state.isMobileMode !== isMobileMode) {
+      this.setState({
+        isMobileMode: isMobileMode,
+        isNavDocked: !isMobileMode,
+        isNavOpen: !isMobileMode,
+      });
+    }
+  }
+
   render() {
-    const {isNavOpen, isNavDocked} = this.props;
+    const {isNavOpen, isNavDocked} = this.state;
     const styles = this.getStyles();
 
     return <div style={styles.container}>
@@ -40,7 +53,7 @@ export default class Application extends Component {
   }
 
   getStyles() {
-    const {isNavOpen, isNavDocked} = this.props;
+    const {isNavOpen, isNavDocked} = this.state;
     const navPadding = {
       paddingLeft: isNavOpen && isNavDocked ? '336px' : '16px',
       transition: 'padding-left .3s ease-out',

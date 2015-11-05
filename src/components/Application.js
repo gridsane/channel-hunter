@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {AppBar} from './common';
+import React, {Component, PropTypes} from 'react';
+import {AppBar, Navigation, Icon} from './common';
 import Account from './Account';
 import Controls from './Controls';
 import Channels from './Channels';
@@ -7,72 +7,73 @@ import Playlist from './Playlist';
 import {shadow} from '../utils/styles';
 
 export default class Application extends Component {
+  static propTypes = {
+    isNavOpen: PropTypes.bool,
+    isNavDocked: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    isNavOpen: true,
+    isNavDocked: true,
+  };
+
   render() {
-    let styles = this.getStyles();
+    const {isNavOpen, isNavDocked} = this.props;
+    const styles = this.getStyles();
 
     return <div style={styles.container}>
-      <AppBar>
-        <Account style={styles.navCol} />
-        <Controls style={styles.bodyCol} />
+      <Navigation
+        style={styles.nav}
+        open={isNavOpen}
+        docked={isNavDocked}>
+        <Channels />
+      </Navigation>
+
+      <AppBar style={styles.appBar}>
+        <Controls style={styles.controls} />
       </AppBar>
-      <div style={styles.body}>
-        <div style={styles.channelsContainer}>
-          <Channels style={styles.channels} />
-        </div>
-        <div style={styles.playlistContainer}>
-          <Playlist style={styles.playlist} />
-        </div>
+
+      <div style={styles.content}>
+        <Playlist style={styles.playlist} />
       </div>
     </div>
   }
 
   getStyles() {
-
-    const navCol = {
-      boxSizing: 'border-box',
-      minWidth: '40%',
-    }
-
-    const bodyCol = {
-      boxSizing: 'border-box',
-      minWidth: '60%',
-    }
-
-    const paper = {
-      height: '100%',
-      boxShadow: shadow(2),
-    }
+    const {isNavOpen, isNavDocked} = this.props;
+    const navPadding = {
+      paddingLeft: isNavOpen && isNavDocked ? '336px' : '16px',
+      transition: 'padding-left .3s ease-out',
+    };
 
     return {
-
       container: {
         fontFamily: 'Roboto',
         paddingTop: '60px',
+        paddingRight: '16px',
+        ...navPadding,
       },
 
-      body: {
-        display: 'flex',
+      nav: {
+        paddingTop: isNavDocked ? '60px' : 0,
       },
 
-      navCol: navCol,
-      bodyCol: bodyCol,
-
-      channelsContainer: {
-        padding: '0 8px 0 16px',
-        ...navCol,
+      appBar: {
+        ...navPadding,
       },
 
-      playlistContainer: {
-        padding: '0 16px 0 8px',
-        ...bodyCol,
+      content: {
+        margin: '-16px 0 64px 0',
       },
 
-      channels: {
-        ...paper,
+      controls: {
+        width: '100%',
       },
 
       playlist: {
-        ...paper,
+        paddingTop: '16px',
+        width: '100%',
+        boxShadow: shadow(20),
       },
 
     }

@@ -6,7 +6,7 @@ export let colors = {
   accent: '#FF4081',
   primaryText: '#212121',
   secondaryText: '#727272',
-  devider: '#B6B6B6',
+  divider: '#B6B6B6',
 }
 
 export function shadow(elevation) {

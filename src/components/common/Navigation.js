@@ -66,6 +66,7 @@ export default class Navigation extends Component {
           zIndex: 1,
           transition: 'left .3s ease-out',
           overflow: 'hidden',
+          overflowY: 'auto',
           ...this.props.style,
         }
     }

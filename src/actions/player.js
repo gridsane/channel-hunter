@@ -1,12 +1,12 @@
 import {
-  PLAYER_PROGRESS,
+  PLAYER_POSITION,
   PLAYER_TRACK,
   PLAYER_TOGGLE_PLAYING,
   PLAYER_TOGGLE_LOADING,
 } from './actionsTypes';
 
-export function setProgress(progress) {
-  return {type: PLAYER_PROGRESS, progress}
+export function seekPosition(position) {
+  return {type: PLAYER_POSITION, position}
 }
 
 export function setTrack(track) {

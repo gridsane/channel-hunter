@@ -1,10 +1,12 @@
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
+export function render(component) {
+  return TestUtils.renderIntoDocument(component);
+}
+
 export function renderDOM(component) {
-  return ReactDOM.findDOMNode(
-    TestUtils.renderIntoDocument(component)
-  );
+  return ReactDOM.findDOMNode(render(component));
 }
 
 export function shallowRender(component) {

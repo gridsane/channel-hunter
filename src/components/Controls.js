@@ -1,36 +1,38 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {formatDuration} from '../utils/common';
 import {Icon} from './common'
 import Progress from './Progress'
-import {connect} from 'react-redux';
-import {togglePlaying} from '../actions/player';
 
-@connect((state) => {
-  return {
-    track: state.player.track,
-    isPlaying: state.player.isPlaying,
-    progress: formatDuration(state.player.progress),
-  }
-})
 export default class Controls extends Component {
 
-  togglePlaying() {
-    this.props.dispatch(togglePlaying(!this.props.isPlaying));
-  }
+  static propTypes = {
+    track: PropTypes.object,
+    position: PropTypes.number.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
+    onToggle: PropTypes.func.isRequired,
+    onNext: PropTypes.func.isRequired,
+    onSeek: PropTypes.func.isRequired,
+  };
 
   render() {
-    let styles = this.getStyles();
-    styles.container = Object.assign({}, styles.container, this.props.style);
+    const {track, position} = this.props;
+    const duration = track ? track.duration : 0;
+    const styles = this.getStyles();
 
     return <div style={styles.container}>
       <Icon
-        onClick={::this.togglePlaying}
+        onClick={::this._togglePlaying}
         style={styles.playback} size={32} boxSize={40}>{this.props.isPlaying ? 'pause' : 'play_arrow'}</Icon>
-      <Icon style={styles.next} size={32} boxSize={40}>skip_next</Icon>
+      <Icon
+        onClick={this.props.onNext}
+        style={styles.next} size={32} boxSize={40}>skip_next</Icon>
       {this.renderTitle(styles)}
-      <span style={styles.time}>{this.props.progress}</span>
+      <span style={styles.time}>{formatDuration(this.props.position)}</span>
       <Icon style={styles.star} size={24} boxSize={40}>star_border</Icon>
-      <Progress />
+      <Progress
+        current={position}
+        max={duration}
+        onSeek={this.props.onSeek} />
     </div>
   }
 
@@ -48,6 +50,10 @@ export default class Controls extends Component {
     return <span style={styles.title}>No track</span>;
   }
 
+  _togglePlaying() {
+    this.props.onToggle(!this.props.isPlaying);
+  }
+
   getStyles() {
     let clickable = {
       cursor: 'pointer',
@@ -57,6 +63,7 @@ export default class Controls extends Component {
 
       container: {
         boxSizing: 'border-box',
+        width: '100%',
         height: '60px',
         padding: '10px 0',
         paddingLeft: '96px',

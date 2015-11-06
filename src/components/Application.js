@@ -1,94 +1,106 @@
 import React, {Component, PropTypes} from 'react';
-import {AppBar, Navigation, Icon} from './common';
-import Account from './Account';
+import {connect} from 'react-redux';
+import {setTrack, seekPosition, togglePlaying} from '../actions/player';
+import {toggleChannel} from '../actions/channels';
+import AppNavigation from './AppNavigation';
+import CoverAppBar from './CoverAppBar';
 import Controls from './Controls';
 import Channels from './Channels';
 import Playlist from './Playlist';
-import {shadow} from '../utils/styles';
 
+@connect((state) => {
+  const {player, channels, tracks} = state;
+
+  return {
+    selectedTrack: player.track ? player.track.id : null,
+    coverUrl: player.track ? player.track.cover : null,
+    player: player,
+    channels: channels,
+    tracks: tracks.items.filter((track) => {
+      return channels.picked.indexOf(track.channelId) !== -1;
+    }),
+  }
+})
 export default class Application extends Component {
   state = {
-    isMobileMode: false,
+    isSmallScreen: false,
     isNavOpen: true,
     isNavDocked: true,
   };
+
+  render() {
+    const {isSmallScreen, isNavOpen, isNavDocked} = this.state;
+    const {player, channels, tracks, selectedTrack, coverUrl} = this.props;
+
+    return <div>
+      <AppNavigation open={isNavOpen} docked={isNavDocked}>
+        <Channels
+          list={channels.items}
+          picked={channels.picked}
+          onToggle={::this._toggleChannel} />
+      </AppNavigation>
+
+      <CoverAppBar compact={isSmallScreen} coverUrl={coverUrl}>
+        <Controls
+          track={player.track}
+          position={player.position}
+          isPlaying={player.isPlaying}
+          onToggle={::this._togglePlaying}
+          onNext={::this._nextTrack}
+          onSeek={::this._seek} />
+      </CoverAppBar>
+
+      <Playlist
+        compact={isSmallScreen}
+        selectedTrack={selectedTrack}
+        list={tracks}
+        onSelect={::this._selectTrack} />
+    </div>
+  }
 
   componentWillMount() {
     this._updateNavigationMode();
     window.addEventListener('resize', ::this._updateNavigationMode);
   }
 
-  _updateNavigationMode() {
-    const isMobileMode = window.innerWidth < 960;
+  componentWillUnmount() {
+    window.removeEventListener('resize', ::this._updateNavigationMode);
+  }
 
-    if (this.state.isMobileMode !== isMobileMode) {
+  _updateNavigationMode() {
+    const isSmallScreen = window.innerWidth < 960;
+
+    if (this.state.isSmallScreen !== isSmallScreen) {
       this.setState({
-        isMobileMode: isMobileMode,
-        isNavDocked: !isMobileMode,
-        isNavOpen: !isMobileMode,
+        isSmallScreen: isSmallScreen,
+        isNavDocked: !isSmallScreen,
+        isNavOpen: !isSmallScreen,
       });
     }
   }
 
-  render() {
-    const {isNavOpen, isNavDocked} = this.state;
-    const styles = this.getStyles();
-
-    return <div style={styles.container}>
-      <Navigation
-        style={styles.nav}
-        open={isNavOpen}
-        docked={isNavDocked}>
-        <Channels />
-      </Navigation>
-
-      <AppBar style={styles.appBar}>
-        <Controls style={styles.controls} />
-      </AppBar>
-
-      <div style={styles.content}>
-        <Playlist style={styles.playlist} />
-      </div>
-    </div>
+  _toggleChannel(channel) {
+    this.props.dispatch(toggleChannel(channel.id));
   }
 
-  getStyles() {
-    const {isNavOpen, isNavDocked} = this.state;
-    const navPadding = {
-      paddingLeft: isNavOpen && isNavDocked ? '336px' : '16px',
-      transition: 'padding-left .3s ease-out',
-    };
-
-    return {
-      container: {
-        fontFamily: 'Roboto',
-        paddingTop: '60px',
-        paddingRight: '16px',
-        ...navPadding,
-      },
-
-      nav: {
-        paddingTop: isNavDocked ? '60px' : 0,
-      },
-
-      appBar: {
-        ...navPadding,
-      },
-
-      content: {
-        margin: '-16px 0 64px 0',
-      },
-
-      controls: {
-        width: '100%',
-      },
-
-      playlist: {
-        paddingTop: '16px',
-        width: '100%',
-        boxShadow: shadow(20),
-      },
-
-    }
+  _togglePlaying(isPlaying) {
+    this.props.dispatch(togglePlaying(isPlaying));
   }
+
+  _nextTrack() {
+    console.warn('nextTrack is not implemented yet');
+  }
+
+  _seek(position) {
+    this.props.dispatch(seekPosition(position));
+  }
+
+  _selectTrack(trackId) {
+    const selectedTrack = this.props.tracks.find((track) => {
+      return trackId === track.id;
+    });
+
+    this.props.dispatch(setTrack(selectedTrack));
+  }
+
 }

@@ -1,33 +1,17 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, {Component, PropTypes} from 'react';
 import {colors} from '../utils/styles';
-import {setProgress} from '../actions/player';
 import {nodeOffset} from '../utils/common';
-import {FlatButton} from './common';
 
-@connect((state) => {
-  let track = state.player.track;
-
-  return {
-    current: state.player.progress,
-    max: track ? track.duration : 0,
-  }
-})
 export default class Progress extends Component {
 
   static propTypes = {
-    current: React.PropTypes.number.isRequired,
-    max: React.PropTypes.number.isRequired,
+    current: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+    onSeek: PropTypes.func.isRequired,
   };
-
-  static defaultProps = {
-    current: 0,
-    max: 100,
-  };
-
 
   render() {
-    let styles = this.getStyles();
+    const styles = this.getStyles();
 
     return <div ref="progress" style={styles.container} onClick={::this._seek}>
       <div style={styles.progress} />
@@ -38,11 +22,10 @@ export default class Progress extends Component {
   }
 
   _seek(e) {
-    let node = this.refs.progress;
-    let width = node.offsetWidth;
-    let pos = e.clientX - nodeOffset(node).left;
-    let value = (this.props.max / width) * pos;
-    this.props.dispatch(setProgress(Math.round(value)))
+    const node = this.refs.progress;
+    const width = node.offsetWidth;
+    const pos = (this.props.max / width) * (e.clientX - nodeOffset(node).left);
+    this.props.onSeek(Math.round(pos));
   }
 
   getStyles() {
@@ -95,4 +78,5 @@ export default class Progress extends Component {
 
     }
   }
+
 }

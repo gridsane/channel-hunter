@@ -5,7 +5,7 @@ import TestUtils from 'react-addons-test-utils';
 import ShallowTestUtils from 'react-shallow-testutils';
 import {renderDOM, shallowRender} from '../../utils';
 
-describe('ListItem', () => {
+describe('ListItem component', () => {
 
   it('renders primaryText only', () => {
 

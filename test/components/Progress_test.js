@@ -3,31 +3,24 @@ import Progress from '../../src/components/Progress';
 import TestUtils from 'react-addons-test-utils';
 import {createStore, renderDOM} from '../utils';
 
-describe('Progress', () => {
+describe('Progress component', () => {
 
-  it('seeking a progress', () => {
-
-    const store = createStore({
-      player: {
-        track: {id: 1, duration: 200},
-        progress: 0,
-      },
-    });
+  it('seeks position', (done) => {
 
     const dom = renderDOM(
-      <Progress store={store} />
+      <Progress max={200} current={0} onSeek={seek} />
     );
 
     dom.offsetWidth = 200;
     dom.offsetLeft = 100;
     dom.children[1].offsetWidth = 50;
-    TestUtils.Simulate.click(dom, {clientX: 170});
-    TestUtils.Simulate.click(dom, {clientX: 130});
 
-    const actions = store.getActions();
-    expect(actions.length).to.be(2);
-    expect(actions[0].progress).to.be(70);
-    expect(actions[1].progress).to.be(30);
+    TestUtils.Simulate.click(dom, {clientX: 170});
+
+    function seek(pos) {
+      expect(pos).to.be(70);
+      done();
+    }
 
   });
 
@@ -38,15 +31,8 @@ describe('Progress', () => {
       {progress: 100, expected: '50%'},
       {progress: 150, expected: '75%'},
     ].forEach((testCase) => {
-      const store = createStore({
-        player: {
-          track: {duration: 200},
-          progress: testCase.progress,
-        }
-      });
-
       const dom = renderDOM(
-        <Progress store={store} />
+        <Progress current={testCase.progress} max={200} onSeek={() => null} />
       );
 
       expect(dom.children[0].style.getPropertyValue('width'))

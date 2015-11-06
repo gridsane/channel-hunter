@@ -3,16 +3,16 @@ const types = require('../../src/actions/actionsTypes');
 
 describe('Player actions', () => {
 
-  it('setProgress', () => {
+  it('seekPosition', () => {
 
-    expect(actions.setProgress(50)).to.eql({
-      type: types.PLAYER_PROGRESS,
-      progress: 50,
+    expect(actions.seekPosition(50)).to.eql({
+      type: types.PLAYER_POSITION,
+      position: 50,
     });
 
-    expect(actions.setProgress(100)).to.eql({
-      type: types.PLAYER_PROGRESS,
-      progress: 100,
+    expect(actions.seekPosition(100)).to.eql({
+      type: types.PLAYER_POSITION,
+      position: 100,
     });
 
   });

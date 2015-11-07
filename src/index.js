@@ -3,7 +3,7 @@ import thunkMiddleware from 'redux-thunk';
 import reducer from './reducers/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import initStore from './initStore';
+import initialState from './initialState';
 import {Provider} from 'react-redux';
 import Application from './components/Application';
 
@@ -20,7 +20,7 @@ const DevTools = createDevTools(
 const store = compose(
   applyMiddleware(thunkMiddleware),
   DevTools.instrument()
-)(createStore)(reducer);
+)(createStore)(reducer, initialState);
 
 window.dispatch = store.dispatch;
 

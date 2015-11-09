@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {setTrack, togglePlaying} from '../actions/player';
+import {selectItem, togglePlaying} from '../actions/playlist';
 import {toggleChannel} from '../actions/channels';
 import AppNavigation from './AppNavigation';
 import CoverAppBar from './CoverAppBar';
@@ -9,14 +9,14 @@ import Channels from './Channels';
 import Playlist from './Playlist';
 
 @connect((state) => {
-  const {player, channels, tracks} = state;
+  const {channels, playlist} = state;
 
   return {
-    selectedTrack: player.track ? player.track.id : null,
-    coverUrl: player.track ? player.track.cover : null,
-    player: player,
-    channels: channels,
-    tracks: tracks.items.filter((track) => {
+    selectedTrackId: playlist.selected ? playlist.selected.id : null,
+    coverUrl: playlist.selected ? playlist.selected.cover : null,
+    channels,
+    playlist,
+    tracks: playlist.items.filter((track) => {
       return channels.picked.indexOf(track.channelId) !== -1;
     }),
   };
@@ -30,7 +30,7 @@ export default class Application extends Component {
 
   render() {
     const {isSmallScreen, isNavOpen, isNavDocked} = this.state;
-    const {player, channels, tracks, selectedTrack, coverUrl} = this.props;
+    const {playlist, channels, tracks, selectedTrackId, coverUrl} = this.props;
 
     return <div>
       <AppNavigation open={isNavOpen} docked={isNavDocked}>
@@ -42,16 +42,15 @@ export default class Application extends Component {
 
       <CoverAppBar compact={isSmallScreen} coverUrl={coverUrl}>
         <Controls
-          track={player.track}
-          position={player.position}
-          isPlaying={player.isPlaying}
+          track={playlist.selected}
+          isPlaying={playlist.isPlaying}
           onToggle={::this._togglePlaying}
           onNext={::this._nextTrack} />
       </CoverAppBar>
 
       <Playlist
         compact={isSmallScreen}
-        selectedTrack={selectedTrack}
+        selectedId={selectedTrackId}
         list={tracks}
         onSelect={::this._selectTrack} />
     </div>;
@@ -95,7 +94,7 @@ export default class Application extends Component {
       return trackId === track.id;
     });
 
-    this.props.dispatch(setTrack(selectedTrack));
+    this.props.dispatch(selectItem(selectedTrack));
   }
 
 }

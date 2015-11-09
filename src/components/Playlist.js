@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import {colors, shadow} from '../utils/styles';
 import {List, ListItem, ListLabel, Icon} from './common';
 import {curried} from '../utils/common';
-import {setTrack} from '../actions/player';
 
 export default class Playlist extends Component {
 
@@ -10,12 +9,12 @@ export default class Playlist extends Component {
     compact: PropTypes.bool,
     onSelect: PropTypes.func.isRequired,
     list: PropTypes.array.isRequired,
-    selectedTrack: PropTypes.string,
+    selectedId: PropTypes.string,
   };
 
   static defaultProps = {
     compact: false,
-    selectedTrack: null,
+    selectedId: null,
   };
 
   render() {
@@ -34,7 +33,7 @@ export default class Playlist extends Component {
       return <ListItem
         key={track.id}
         leftElement={
-          this.props.selectedTrack === track.id
+          this.props.selectedId === track.id
           ? <Icon style={styles.currentIcon} size={24}>play_arrow</Icon>
           : null
         }

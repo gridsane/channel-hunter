@@ -14,7 +14,7 @@ describe('Playlist component', () => {
   ];
 
   const result = shallowRender(
-    <Playlist list={list} selectedTrack={2} onSelect={() => null} />
+    <Playlist list={list} selectedId={2} onSelect={() => null} />
   );
 
   const items = ShallowTestUtils.findAllWithType(result, ListItem);
@@ -36,7 +36,7 @@ describe('Playlist component', () => {
   it('should select track', (done) => {
 
     const dom = renderDOM(
-      <Playlist list={list} selectedTrack={2} onSelect={select} />
+      <Playlist list={list} selectedId={2} onSelect={select} />
     );
 
     TestUtils.Simulate.click(dom.children[dom.children.length - 1]);

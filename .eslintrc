@@ -8,6 +8,9 @@
   "globals": {
     "expect": true
   },
+  "plugins": [
+    "react"
+  ],
   "rules": {
     "comma-dangle": [2, "always-multiline"],
     "no-debugger": [1],
@@ -15,5 +18,8 @@
     "no-extra-semi": [2],
     "semi": [2, "always"],
     "no-undef": [2],
+    "no-unused-vars": [2],
+    "react/jsx-uses-react": 1,
+    "react/jsx-uses-vars": 1
   }
 }

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {colors, shadow} from '../../utils/styles';
+import {shadow} from '../../utils/styles';
 
 export default class Navigation extends Component {
   static propTypes = {

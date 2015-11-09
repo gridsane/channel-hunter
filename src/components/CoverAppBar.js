@@ -12,10 +12,6 @@ export default class CoverAppBar extends Component {
     coverUrl: null,
   };
 
-  state = {
-    backgroundPosition: '0%',
-  };
-
   render() {
     const styles = this.getStyles();
 
@@ -25,14 +21,6 @@ export default class CoverAppBar extends Component {
         <div style={styles.background} />
       </div>
     </AppBar>;
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (nextProps.coverUrl !== this.props.coverUrl) {
-      this.setState({
-        backgroundPosition: this.state.backgroundPosition === '0%' ? '100%' : '0%',
-      });
-    }
   }
 
   getStyles() {

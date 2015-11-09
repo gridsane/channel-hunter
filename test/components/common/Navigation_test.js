@@ -1,9 +1,6 @@
 import React from 'react';
 import Navigation from '../../../src/components/common/Navigation';
-import Icon from '../../../src/components/common/Icon';
-import TestUtils from 'react-addons-test-utils';
-import ShallowTestUtils from 'react-shallow-testutils';
-import {renderDOM, shallowRender} from '../../utils';
+import {renderDOM} from '../../utils';
 
 describe('Navigation component', () => {
 

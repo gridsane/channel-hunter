@@ -1,10 +1,7 @@
 import React from 'react';
 import Controls from '../../src/components/Controls';
-import Progress from '../../src/components/Progress';
-import {Icon} from '../../src/components/common';
 import TestUtils from 'react-addons-test-utils';
-import ShallowTestUtils from 'react-shallow-testutils';
-import {shallowRender, renderDOM, render} from '../utils';
+import {renderDOM, render} from '../utils';
 
 describe('Controls component', () => {
 

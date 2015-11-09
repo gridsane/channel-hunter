@@ -1,7 +1,7 @@
 import React from 'react';
 import Progress from '../../src/components/Progress';
 import TestUtils from 'react-addons-test-utils';
-import {createStore, renderDOM} from '../utils';
+import {renderDOM} from '../utils';
 
 describe('Progress component', () => {
 

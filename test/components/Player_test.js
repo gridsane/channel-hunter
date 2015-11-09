@@ -1,8 +1,6 @@
 import React from 'react';
 import Player from '../../src/components/Player';
-import TestUtils from 'react-addons-test-utils';
-import ShallowTestUtils from 'react-shallow-testutils';
-import {shallowRender, render, renderDOM} from '../utils';
+import {renderDOM} from '../utils';
 
 describe('Player component', () => {
 

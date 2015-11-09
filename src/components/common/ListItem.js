@@ -73,11 +73,11 @@ export default class ListItem extends Component {
     }
   }
 
-  _mouseEnter(event) {
+  _mouseEnter() {
     this.setState({mouseOver: true});
   }
 
-  _mouseLeave(event) {
+  _mouseLeave() {
     this.setState({mouseOver: false});
   }
 

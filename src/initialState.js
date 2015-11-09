@@ -257,19 +257,15 @@ const fakeTracks = [
 ];
 
 export default {
-  player: {
-    track: null,
-    position: 0,
-    isPlaying: false,
-    isLoading: false,
-  },
-
   channels: {
     picked: [111111, 222222],
     items: fakeChannels,
   },
 
-  tracks: {
+  playlist: {
+    selected: null,
+    isPlaying: false,
+    isLoading: false,
     items: fakeTracks,
   },
 };

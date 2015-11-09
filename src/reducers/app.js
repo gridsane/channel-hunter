@@ -1,10 +1,8 @@
 import {combineReducers} from 'redux';
-import player from './player';
 import channels from './channels';
-import tracks from './tracks';
+import playlist from './playlist';
 
 export default combineReducers({
-  player,
   channels,
-  tracks,
+  playlist,
 });

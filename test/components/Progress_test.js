@@ -13,7 +13,6 @@ describe('Progress component', () => {
 
     dom.offsetWidth = 200;
     dom.offsetLeft = 100;
-    dom.children[1].offsetWidth = 50;
 
     TestUtils.Simulate.click(dom, {clientX: 170});
 
@@ -35,7 +34,7 @@ describe('Progress component', () => {
         <Progress current={testCase.progress} max={200} onSeek={() => null} />
       );
 
-      expect(dom.children[0].style.getPropertyValue('width'))
+      expect(dom.children[1].style.getPropertyValue('width'))
         .to.be(testCase.expected);
     });
 

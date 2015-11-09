@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {colors} from '../utils/styles';
-import {nodeOffset} from '../utils/common';
+import {nodeOffset, curried} from '../utils/common';
 
 export default class Progress extends Component {
 
@@ -10,15 +10,28 @@ export default class Progress extends Component {
     onSeek: PropTypes.func.isRequired,
   };
 
+  state = {
+    mouseEnter: false,
+  };
+
   render() {
     const styles = this.getStyles();
 
-    return <div ref="progress" style={styles.container} onClick={::this._seek}>
+    return <div ref="progress"
+      style={styles.container}
+      onMouseEnter={curried(::this._mouseEnter, true)}
+      onMouseLeave={curried(::this._mouseEnter, false)}
+      onClick={::this._seek}>
+      <div style={styles.background} />
       <div style={styles.progress} />
       <div style={styles.pointer} ref="pointer">
         <div style={styles.pointerGlow} />
       </div>
     </div>;
+  }
+
+  _mouseEnter(state) {
+    this.setState({mouseEnter: state});
   }
 
   _seek(e) {
@@ -29,19 +42,29 @@ export default class Progress extends Component {
   }
 
   getStyles() {
+    const {mouseEnter} = this.state;
     const progressPercent = ((100 / this.props.max) * this.props.current) + '%';
 
     return {
 
       container: {
         boxSizing: 'border-box',
-        height: '4px',
+        height: '16px',
         position: 'absolute',
-        backgroundColor: 'rgba(255, 255, 255, .24)',
-        bottom: 0,
+        bottom: '-6px',
         left: 0,
         right: 0,
         cursor: 'pointer',
+      },
+
+      background: {
+        position: 'absolute',
+        bottom: '6px',
+        left: 0,
+        right: 0,
+        height: '4px',
+        backgroundColor: 'rgba(255, 255, 255, .24)',
+        zIndex: -1,
       },
 
       progress: {
@@ -49,20 +72,23 @@ export default class Progress extends Component {
         backgroundColor: colors.accent,
         height: '4px',
         left: 0,
-        top: 0,
+        bottom: '6px',
         width: progressPercent,
       },
 
       pointer: {
         zIndex: 10,
         position: 'absolute',
-        top: '-4px',
+        top: '2px',
         left: progressPercent,
         marginLeft: '-8px',
         width: '12px',
         height: '12px',
         borderRadius: '50%',
         backgroundColor: colors.accent,
+        opacity: mouseEnter ? 1 : 0,
+        transform: 'scale(' + (mouseEnter ? '1' : '.3') +')',
+        transition: 'opacity .1s ease-out, transform .2s ease-out',
       },
 
       pointerGlow: {

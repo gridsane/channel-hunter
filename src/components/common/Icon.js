@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 export default class Icon extends Component {
   static propTypes = {
-    size: React.PropTypes.number,
-    boxSize: React.PropTypes.number,
+    size: PropTypes.number,
+    boxSize: PropTypes.number,
   };
 
   static defaultProps = {
@@ -12,8 +12,9 @@ export default class Icon extends Component {
   };
 
   render() {
-    let boxSizePx = (this.props.boxSize === null ? this.props.size : this.props.boxSize) + 'px';
-    let style = Object.assign({}, {
+    const {size, boxSize, children} = this.props;
+    const boxSizePx = (boxSize === null ? size : boxSize) + 'px';
+    const style = {
         display: 'inline-block',
         position: 'relative',
         width: boxSizePx,
@@ -23,8 +24,9 @@ export default class Icon extends Component {
         fontSize: this.props.size + 'px',
         color: '#fff',
         verticalAlign: 'middle',
-    }, this.props.style);
+        ...this.props.style,
+    };
 
-    return <span {...this.props} className="material-icons" style={style} />;
+    return <span className="material-icons" style={style}>{children}</span>;
   }
 }

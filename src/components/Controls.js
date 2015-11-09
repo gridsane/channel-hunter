@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {formatDuration} from '../utils/common';
-import {Icon} from './common';
+import {IconButton} from './common';
 import Progress from './Progress';
 import Player from './Player';
 
@@ -25,15 +25,15 @@ export default class Controls extends Component {
     const styles = this.getStyles();
 
     return <div style={styles.container}>
-      <Icon
+      <IconButton
         onClick={::this._togglePlaying}
-        style={styles.playback} size={32} boxSize={40}>{isPlaying ? 'pause' : 'play_arrow'}</Icon>
-      <Icon
+        style={styles.playback} size={32} boxSize={40}>{isPlaying ? 'pause' : 'play_arrow'}</IconButton>
+      <IconButton
         onClick={onNext}
-        style={styles.next} size={32} boxSize={40}>skip_next</Icon>
+        style={styles.next} size={32} boxSize={40}>skip_next</IconButton>
       {this.renderTitle(styles)}
       <span style={styles.time}>{formatDuration(position)}</span>
-      <Icon style={styles.star} size={24} boxSize={40}>star_border</Icon>
+      <IconButton style={styles.star} size={24} boxSize={40}>star_border</IconButton>
       <Progress
         current={position}
         max={duration}
@@ -86,10 +86,6 @@ export default class Controls extends Component {
   }
 
   getStyles() {
-    let clickable = {
-      cursor: 'pointer',
-    };
-
     return {
 
       container: {
@@ -132,19 +128,16 @@ export default class Controls extends Component {
       star: {
         position: 'absolute',
         right: 0,
-        ...clickable,
       },
 
       playback: {
         position: 'absolute',
         left: 0,
-        ...clickable,
       },
 
       next: {
         position: 'absolute',
         left: '48px',
-        ...clickable,
       },
 
     };

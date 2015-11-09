@@ -3,6 +3,7 @@ export default {
   Avatar: require('./Avatar'),
   FlatButton: require('./FlatButton'),
   Icon: require('./Icon'),
+  IconButton: require('./IconButton'),
   List: require('./List'),
   ListItem: require('./ListItem'),
   ListLabel: require('./ListLabel'),

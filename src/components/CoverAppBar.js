@@ -65,8 +65,7 @@ export default class CoverAppBar extends Component {
         backgroundRepeatY: 'repeat',
         backgroundSize: 'cover',
         WebkitFilter: 'blur(8px)',
-        backgroundPositionY: this.state.backgroundPosition,
-        transition: 'background-position-y 30s linear',
+        animation: 'CoverAppBar-background 60s linear infinite alternate',
         opacity: .5,
       },
 

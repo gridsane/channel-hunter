@@ -41,7 +41,7 @@ export default class ListItem extends Component {
       <span style={styles.primaryText}>{this.props.primaryText}</span>
       <span style={styles.secondaryText}>{this.props.secondaryText}</span>
       {this.renderRightIcon(styles.rightIcon)}
-    </li>
+    </li>;
   }
 
   renderLeftElement(leftElementStyle) {
@@ -64,7 +64,7 @@ export default class ListItem extends Component {
       return null;
     }
 
-    return <Icon style={rightIconStyle} size={24}>{this.props.rightIcon}</Icon>
+    return <Icon style={rightIconStyle} size={24}>{this.props.rightIcon}</Icon>;
   }
 
   _click(event) {
@@ -143,6 +143,6 @@ export default class ListItem extends Component {
         color: colors.primaryText,
       },
 
-    }
+    };
   }
 }

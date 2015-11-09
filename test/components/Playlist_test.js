@@ -37,7 +37,7 @@ describe('Playlist component', () => {
 
     const dom = renderDOM(
       <Playlist list={list} selectedTrack={2} onSelect={select} />
-    )
+    );
 
     TestUtils.Simulate.click(dom.children[dom.children.length - 1]);
 

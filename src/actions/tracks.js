@@ -4,9 +4,9 @@ import {
 } from './actionsTypes';
 
 export function addTracks(tracks) {
-  return {type: TRACKS_ADD, tracks}
+  return {type: TRACKS_ADD, tracks};
 }
 
 export function removeTracksByChannelId(channelId) {
-  return {type: TRACKS_REMOVE, channelId}
+  return {type: TRACKS_REMOVE, channelId};
 }

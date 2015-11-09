@@ -5,6 +5,10 @@
     "node": true
   },
   "rules": {
-    "comma-dangle": [2, "always-multiline"]
+    "comma-dangle": [2, "always-multiline"],
+    "no-debugger": [1],
+    "no-empty": [1],
+    "no-extra-semi": [2],
+    "semi": [2, "always"]
   }
 }

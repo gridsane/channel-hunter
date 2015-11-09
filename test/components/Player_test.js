@@ -65,7 +65,7 @@ describe('Player component', () => {
 
     dom.play = function play() {
       done();
-    }
+    };
 
     dom.dispatchEvent(new Event('loadstart'));
 
@@ -79,7 +79,7 @@ describe('Player component', () => {
 
     dom.pause = function pause() {
       done();
-    }
+    };
 
     dom.dispatchEvent(new Event('loadstart'));
 

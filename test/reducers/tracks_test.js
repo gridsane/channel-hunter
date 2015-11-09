@@ -11,14 +11,14 @@ describe('Tracks reducer', () => {
       type: types.TRACKS_ADD,
       tracks: [
         {id: 1, title: 'foo'},
-        {id: 2, title: 'bar'}
+        {id: 2, title: 'bar'},
       ],
     });
 
     state = reducer(state, {
       type: types.TRACKS_ADD,
       tracks: [
-        {id: 3, title: 'baz'}
+        {id: 3, title: 'baz'},
       ],
     });
 
@@ -26,7 +26,7 @@ describe('Tracks reducer', () => {
       items: [
         {id: 1, title: 'foo'},
         {id: 2, title: 'bar'},
-        {id: 3, title: 'baz'}
+        {id: 3, title: 'baz'},
       ],
     });
 
@@ -38,7 +38,7 @@ describe('Tracks reducer', () => {
     let initialState = {items: [
       {id: 1, title: 'foo', channelId: 1},
       {id: 2, title: 'bar', channelId: 2},
-      {id: 3, title: 'baz', channelId: 3}
+      {id: 3, title: 'baz', channelId: 3},
     ]};
 
     let state = reducer(initialState, {

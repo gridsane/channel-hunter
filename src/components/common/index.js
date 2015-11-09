@@ -7,4 +7,4 @@ export default {
   ListItem: require('./ListItem'),
   ListLabel: require('./ListLabel'),
   Navigation: require('./Navigation'),
-}
+};

@@ -28,8 +28,8 @@ export function nodeOffset(node) {
     top: top,
     left: left,
   };
-};
+}
 
 export function curried(fn, ...args) {
-  return (...nArgs) => fn.apply(this, [...args, ...nArgs])
+  return (...nArgs) => fn.apply(this, [...args, ...nArgs]);
 }

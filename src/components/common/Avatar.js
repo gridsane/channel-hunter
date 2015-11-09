@@ -16,6 +16,6 @@ export default class Avatar extends Component {
       borderRadius: '50%',
     }, this.props.style);
 
-    return <span {...this.props} style={style} />
+    return <span {...this.props} style={style} />;
   }
 }

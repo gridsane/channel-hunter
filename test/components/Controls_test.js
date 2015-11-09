@@ -59,7 +59,7 @@ describe('Controls component', () => {
 
     function toggle(isPlaying) {
       expect(isPlaying).to.be(true);
-      done()
+      done();
     }
 
   });
@@ -104,7 +104,7 @@ describe('Controls component', () => {
     TestUtils.Simulate.click(nextIcon[0]);
 
     function next() {
-      done()
+      done();
     }
 
   });

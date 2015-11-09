@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {formatDuration} from '../utils/common';
-import {Icon} from './common'
-import Progress from './Progress'
-import Player from './Player'
+import {Icon} from './common';
+import Progress from './Progress';
+import Player from './Player';
 
 export default class Controls extends Component {
 
@@ -47,8 +47,7 @@ export default class Controls extends Component {
           this._updatePosition(nextPosition);
         }}
         onEnd={onNext} /> : null}
-    </div>
-
+    </div>;
   }
 
   renderTitle(styles) {
@@ -59,7 +58,7 @@ export default class Controls extends Component {
           {' by '}
           {this.props.track.artist}
         </span>
-      </span>
+      </span>;
     }
 
     return <span style={styles.title}>No track</span>;
@@ -89,7 +88,7 @@ export default class Controls extends Component {
   getStyles() {
     let clickable = {
       cursor: 'pointer',
-    }
+    };
 
     return {
 
@@ -147,6 +146,7 @@ export default class Controls extends Component {
         left: '48px',
         ...clickable,
       },
-    }
+
+    };
   }
 }

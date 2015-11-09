@@ -26,7 +26,7 @@ export default class Playlist extends Component {
         text={`${this.props.list.length} tracks`}
         icon="shuffle" />
       {this.renderTracks(styles)}
-    </List>
+    </List>;
   }
 
   renderTracks(styles) {
@@ -41,7 +41,7 @@ export default class Playlist extends Component {
         leftElementHeight={24}
         primaryText={this.renderTrackName(track, styles)}
         rightIcon="more_vert"
-        onClick={curried(this.props.onSelect, track.id) } />
+        onClick={curried(this.props.onSelect, track.id) } />;
     });
   }
 
@@ -51,7 +51,7 @@ export default class Playlist extends Component {
       <span style={styles.artist}>
         {` by ${track.artist}`}
       </span>
-    </span>
+    </span>;
   }
 
   getStyles() {
@@ -73,6 +73,6 @@ export default class Playlist extends Component {
         color: colors.secondaryText,
       },
 
-    }
+    };
   }
 }

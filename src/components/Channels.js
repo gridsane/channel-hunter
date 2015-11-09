@@ -17,17 +17,17 @@ export default class Channels extends Component {
         secondaryText={this.renderTags(channel.tags)}
         leftElement={<Avatar url={channel.image} />}
         rightIcon={this._isPicked(channel.id) ? "check" : null}
-        onClick={curried(this.props.onToggle, channel)} />
+        onClick={curried(this.props.onToggle, channel)} />;
     });
 
     return <List>
       <ListLabel text="Your channels" icon="settings" />
       {channels}
-    </List>
+    </List>;
   }
 
   renderTags(tags) {
-    return tags.join(', ')
+    return tags.join(', ');
   }
 
   _isPicked(channelId) {

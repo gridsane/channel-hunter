@@ -29,7 +29,7 @@ export default class Player extends Component {
     return <audio
       src={this.props.src}
       preload="none"
-      ref="audio" />
+      ref="audio" />;
   }
 
   _togglePause(isPaused) {

@@ -5,13 +5,13 @@ import {
 } from './actionsTypes';
 
 export function setTrack(track) {
-  return {type: PLAYER_TRACK, track}
+  return {type: PLAYER_TRACK, track};
 }
 
 export function togglePlaying(isPlaying) {
-  return {type: PLAYER_TOGGLE_PLAYING, isPlaying}
+  return {type: PLAYER_TOGGLE_PLAYING, isPlaying};
 }
 
 export function toggleLoading(isLoading) {
-  return {type: PLAYER_TOGGLE_LOADING, isLoading}
+  return {type: PLAYER_TOGGLE_LOADING, isLoading};
 }

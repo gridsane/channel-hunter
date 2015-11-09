@@ -16,12 +16,12 @@ export default class ListLabel extends Component {
   };
 
   render() {
-    let styles = this.getStyles();
+    const styles = this.getStyles();
 
     return <li style={styles.container}>
       <span style={styles.text}>{this.props.text}</span>
       {this.renderIcon(styles.icon)}
-    </li>
+    </li>;
   }
 
   renderIcon(iconStyle) {
@@ -29,7 +29,9 @@ export default class ListLabel extends Component {
       return null;
     }
 
-    return <Icon style={iconStyle} size={24} boxSize={24}>{this.props.icon}</Icon>
+    return <Icon style={iconStyle} size={24} boxSize={24}>
+      {this.props.icon}
+    </Icon>;
   }
 
   getStyles() {
@@ -38,12 +40,11 @@ export default class ListLabel extends Component {
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-    }
+    };
 
     return {
 
       container: {
-        // outline: '1px solid red',
         position: 'relative',
         boxSizing: 'border-box',
         padding: '0 16px',
@@ -60,13 +61,12 @@ export default class ListLabel extends Component {
       },
 
       icon: {
-        // outline: '1px solid red',
         position: 'absolute',
         right: '16px',
         top: '12px',
         color: colors.secondaryText,
       },
 
-    }
+    };
   }
 }

@@ -5,7 +5,7 @@ describe('Channels reducer', () => {
 
   it('adds a channel', () => {
 
-    let initialState = {items: [], picked: []}
+    let initialState = {items: [], picked: []};
 
     let state = reducer(initialState, {
       type: types.CHANNELS_ADD,
@@ -20,7 +20,7 @@ describe('Channels reducer', () => {
     expect(state).to.eql({
       items: [
         {id: 1, name: 'foo'},
-        {id: 2, name: 'bar'}
+        {id: 2, name: 'bar'},
       ],
       picked: [],
     });
@@ -38,12 +38,12 @@ describe('Channels reducer', () => {
 
     let state = reducer(initialState, {
       type: types.CHANNELS_REMOVE,
-      channelId: 1
+      channelId: 1,
     });
 
     expect(state).to.eql({
       items: [{id: 2, name: 'bar'}],
-      picked: []
+      picked: [],
     });
 
     expect(state).to.not.be(initialState);
@@ -63,7 +63,7 @@ describe('Channels reducer', () => {
 
     expect(state).to.eql({
       items: [],
-      picked: [1, 2]
+      picked: [1, 2],
     });
 
     expect(state).to.not.be(initialState);
@@ -82,7 +82,7 @@ describe('Channels reducer', () => {
 
     expect(state).to.eql({
       items: [],
-      picked: [2]
+      picked: [2],
     });
 
     expect(state).to.not.be(initialState);

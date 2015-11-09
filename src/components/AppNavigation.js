@@ -13,7 +13,7 @@ export default class AppNavigation extends Component {
 
     return <Navigation open={open} docked={docked} style={styles.container}>
       {this.props.children}
-    </Navigation>
+    </Navigation>;
   }
 
   getStyles() {
@@ -23,6 +23,6 @@ export default class AppNavigation extends Component {
         paddingTop: this.props.docked ? '60px' : 0,
       },
 
-    }
+    };
   }
 }

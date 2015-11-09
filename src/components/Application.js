@@ -19,7 +19,7 @@ import Playlist from './Playlist';
     tracks: tracks.items.filter((track) => {
       return channels.picked.indexOf(track.channelId) !== -1;
     }),
-  }
+  };
 })
 export default class Application extends Component {
   state = {
@@ -54,7 +54,7 @@ export default class Application extends Component {
         selectedTrack={selectedTrack}
         list={tracks}
         onSelect={::this._selectTrack} />
-    </div>
+    </div>;
   }
 
   componentWillMount() {

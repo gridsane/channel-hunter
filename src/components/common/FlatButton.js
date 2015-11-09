@@ -5,7 +5,7 @@ export default class FlatButton extends Component {
     let styles = this.getStyles();
     let style = Object.assign({}, styles.common, this.props.style);
 
-    return <button style={style}>{this.props.label}</button>
+    return <button style={style}>{this.props.label}</button>;
   }
 
   getStyles() {

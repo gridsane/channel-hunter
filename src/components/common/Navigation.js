@@ -21,7 +21,7 @@ export default class Navigation extends Component {
       <div style={styles.panel}>
         {this.props.children}
       </div>
-    </div>
+    </div>;
   }
 
   getStyles() {
@@ -69,6 +69,6 @@ export default class Navigation extends Component {
           overflowY: 'auto',
           ...this.props.style,
         },
-    }
+    };
   }
 }

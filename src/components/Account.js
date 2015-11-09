@@ -9,7 +9,7 @@ export default class Account extends Component {
 
     return <div style={styles.container}>
       <FlatButton style={styles.signinButton} label="sign in" />
-    </div>
+    </div>;
   }
 
   getStyles() {
@@ -25,6 +25,6 @@ export default class Account extends Component {
         color: colors.text,
       },
 
-    }
+    };
   }
 }

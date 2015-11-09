@@ -7,7 +7,7 @@
     "start": "./node_modules/.bin/webpack-dev-server --hot --inline --info false --history-api-fallback --config webpack.config.dev.js --port $npm_package_config_devPort",
     "build": "./node_modules/.bin/webpack --config webpack.config.prod.js",
     "test": "./node_modules/.bin/mocha --compilers=js:babel-core/register --require ./test/setup --recursive './test/**/*_test.js'",
-    "lint": "./node_modules/.bin/eslint src"
+    "lint": "./node_modules/.bin/eslint src test"
   },
   "config": {
     "devPort": 3000

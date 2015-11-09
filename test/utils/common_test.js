@@ -1,7 +1,7 @@
 import {
   formatDuration,
   nodeOffset,
-  curried
+  curried,
 } from '../../src/utils/common';
 
 describe('Utils', () => {
@@ -44,4 +44,4 @@ describe('Utils', () => {
 
   });
 
-})
+});

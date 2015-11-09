@@ -44,7 +44,7 @@ describe('Channels component', () => {
 
     const dom = renderDOM(
       <Channels list={list} picked={picked} onToggle={toggleFunc} />
-    )
+    );
 
     TestUtils.Simulate.click(dom.children[dom.children.length - 1]);
 

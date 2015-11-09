@@ -8,7 +8,7 @@ export default class AppBar extends Component {
 
     return <div style={styles.container}>
       {this.props.children}
-    </div>
+    </div>;
   }
 
   getStyles() {
@@ -33,7 +33,7 @@ export default class AppBar extends Component {
         ...this.props.style,
       },
 
-    }
+    };
   }
 
 }

@@ -24,7 +24,7 @@ export default class CoverAppBar extends Component {
       <div style={styles.backgroundContainer}>
         <div style={styles.background} />
       </div>
-    </AppBar>
+    </AppBar>;
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -70,6 +70,6 @@ export default class CoverAppBar extends Component {
         opacity: .5,
       },
 
-    }
+    };
   }
 }

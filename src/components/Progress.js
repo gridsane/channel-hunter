@@ -18,7 +18,7 @@ export default class Progress extends Component {
       <div style={styles.pointer} ref="pointer">
         <div style={styles.pointerGlow} />
       </div>
-    </div>
+    </div>;
   }
 
   _seek(e) {
@@ -76,7 +76,7 @@ export default class Progress extends Component {
         opacity: .24,
       },
 
-    }
+    };
   }
 
 }

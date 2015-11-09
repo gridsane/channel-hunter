@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {setTrack, seekPosition, togglePlaying} from '../actions/player';
+import {setTrack, togglePlaying} from '../actions/player';
 import {toggleChannel} from '../actions/channels';
 import AppNavigation from './AppNavigation';
 import CoverAppBar from './CoverAppBar';
@@ -46,8 +46,7 @@ export default class Application extends Component {
           position={player.position}
           isPlaying={player.isPlaying}
           onToggle={::this._togglePlaying}
-          onNext={::this._nextTrack}
-          onSeek={::this._seek} />
+          onNext={::this._nextTrack} />
       </CoverAppBar>
 
       <Playlist
@@ -89,10 +88,6 @@ export default class Application extends Component {
 
   _nextTrack() {
     console.warn('nextTrack is not implemented yet');
-  }
-
-  _seek(position) {
-    this.props.dispatch(seekPosition(position));
   }
 
   _selectTrack(trackId) {

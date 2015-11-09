@@ -1,5 +1,4 @@
 import {
-  PLAYER_POSITION,
   PLAYER_TRACK,
   PLAYER_TOGGLE_PLAYING,
   PLAYER_TOGGLE_LOADING,
@@ -14,8 +13,6 @@ let initialState = {
 
 export default function player(state = initialState, action) {
   switch(action.type) {
-    case PLAYER_POSITION:
-      return Object.assign({}, state, {position: action.position});
     case PLAYER_TRACK:
       return Object.assign({}, state, {
         track: action.track,

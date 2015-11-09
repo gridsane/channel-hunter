@@ -11,11 +11,9 @@ describe('Controls component', () => {
   function mergeWithDefaults(props) {
     return Object.assign({
       track: {id: 1, title: 'track_title', artist: 'track_artist', duration: 100},
-      position: 0,
       isPlaying: false,
       onToggle: () => null,
       onNext: () => null,
-      onSeek: () => null,
     }, props);
   }
 
@@ -27,16 +25,6 @@ describe('Controls component', () => {
     );
 
     expect(dom.textContent).to.contain('No track');
-
-  });
-
-  it('shows position time', () => {
-    const props = mergeWithDefaults({position: 80});
-    const dom = renderDOM(
-      <Controls {...props} />
-    );
-
-    expect(dom.textContent).to.contain('01:20');
 
   });
 
@@ -120,21 +108,5 @@ describe('Controls component', () => {
     }
 
   });
-
-  it('calls onSeek func on progress seeking', () => {
-
-    function seek() {};
-    const props = mergeWithDefaults({onSeek: seek});
-
-    const result = shallowRender(
-      <Controls {...props} />
-    );
-
-    const progress = ShallowTestUtils.findWithType(result, Progress);
-
-    expect(progress.props.onSeek).to.be(seek);
-
-  });
-
 
 });

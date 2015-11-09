@@ -17,7 +17,6 @@ export default class CoverAppBar extends Component {
   };
 
   render() {
-    console.log(this.state);
     const styles = this.getStyles();
 
     return <AppBar style={styles.container}>

@@ -2,38 +2,53 @@ import React, {Component, PropTypes} from 'react';
 import {formatDuration} from '../utils/common';
 import {Icon} from './common'
 import Progress from './Progress'
+import Player from './Player'
 
 export default class Controls extends Component {
 
   static propTypes = {
     track: PropTypes.object,
-    position: PropTypes.number.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
     onNext: PropTypes.func.isRequired,
-    onSeek: PropTypes.func.isRequired,
+  };
+
+  state = {
+    position: 0,
+    seekedPosition: 0,
   };
 
   render() {
-    const {track, position} = this.props;
+    const {position, seekedPosition} = this.state;
+    const {track, isPlaying, onNext} = this.props;
     const duration = track ? track.duration : 0;
     const styles = this.getStyles();
 
     return <div style={styles.container}>
       <Icon
         onClick={::this._togglePlaying}
-        style={styles.playback} size={32} boxSize={40}>{this.props.isPlaying ? 'pause' : 'play_arrow'}</Icon>
+        style={styles.playback} size={32} boxSize={40}>{isPlaying ? 'pause' : 'play_arrow'}</Icon>
       <Icon
-        onClick={this.props.onNext}
+        onClick={onNext}
         style={styles.next} size={32} boxSize={40}>skip_next</Icon>
       {this.renderTitle(styles)}
-      <span style={styles.time}>{formatDuration(this.props.position)}</span>
+      <span style={styles.time}>{formatDuration(position)}</span>
       <Icon style={styles.star} size={24} boxSize={40}>star_border</Icon>
       <Progress
         current={position}
         max={duration}
-        onSeek={this.props.onSeek} />
+        onSeek={::this._seek} />
+
+      {track ? <Player
+        src={track.url}
+        position={seekedPosition}
+        paused={!isPlaying}
+        onTimeUpdate={(nextPosition) => {
+          this._updatePosition(nextPosition);
+        }}
+        onEnd={onNext} /> : null}
     </div>
+
   }
 
   renderTitle(styles) {
@@ -48,6 +63,23 @@ export default class Controls extends Component {
     }
 
     return <span style={styles.title}>No track</span>;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.track !== this.props.track) {
+      this._seek(0);
+    }
+  }
+
+  _seek(position) {
+    this.setState({
+      position: position,
+      seekedPosition: position,
+    });
+  }
+
+  _updatePosition(position) {
+    this.setState({position});
   }
 
   _togglePlaying() {

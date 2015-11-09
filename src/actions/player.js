@@ -1,13 +1,8 @@
 import {
-  PLAYER_POSITION,
   PLAYER_TRACK,
   PLAYER_TOGGLE_PLAYING,
   PLAYER_TOGGLE_LOADING,
 } from './actionsTypes';
-
-export function seekPosition(position) {
-  return {type: PLAYER_POSITION, position}
-}
 
 export function setTrack(track) {
   return {type: PLAYER_TRACK, track}

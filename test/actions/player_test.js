@@ -3,16 +3,39 @@ const types = require('../../src/actions/actionsTypes');
 
 describe('Player actions', () => {
 
-  it('seekPosition', () => {
+  it('sets a track', () => {
 
-    expect(actions.seekPosition(50)).to.eql({
-      type: types.PLAYER_POSITION,
-      position: 50,
+    expect(actions.setTrack({id: 10})).to.eql({
+      type: types.PLAYER_TRACK,
+      track: {id: 10},
     });
 
-    expect(actions.seekPosition(100)).to.eql({
-      type: types.PLAYER_POSITION,
-      position: 100,
+  });
+
+  it('toggles playing', () => {
+
+    expect(actions.togglePlaying(true)).to.eql({
+      type: types.PLAYER_TOGGLE_PLAYING,
+      isPlaying: true,
+    });
+
+    expect(actions.togglePlaying(false)).to.eql({
+      type: types.PLAYER_TOGGLE_PLAYING,
+      isPlaying: false,
+    });
+
+  });
+
+  it('toggles loading', () => {
+
+    expect(actions.toggleLoading(true)).to.eql({
+      type: types.PLAYER_TOGGLE_LOADING,
+      isLoading: true,
+    });
+
+    expect(actions.toggleLoading(false)).to.eql({
+      type: types.PLAYER_TOGGLE_LOADING,
+      isLoading: false,
     });
 
   });

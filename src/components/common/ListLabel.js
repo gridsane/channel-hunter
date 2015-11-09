@@ -6,7 +6,7 @@ export default class ListLabel extends Component {
   static propTypes = {
     text: React.PropTypes.oneOfType([
       React.PropTypes.string,
-      React.PropTypes.element
+      React.PropTypes.element,
     ]).isRequired,
     icon: React.PropTypes.string,
   };

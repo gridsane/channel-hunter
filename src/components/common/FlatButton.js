@@ -9,7 +9,9 @@ export default class FlatButton extends Component {
   }
 
   getStyles() {
+
     return {
+
       common: {
         height: '36px',
         padding: '0 24px',
@@ -18,7 +20,9 @@ export default class FlatButton extends Component {
         textTransform: 'uppercase',
         border: 'none',
         background: 'none',
-      }
-    }
+      },
+
+    };
+
   }
 }

@@ -14,7 +14,7 @@ export default function player(state = initialState, action) {
   switch(action.type) {
     case CHANNELS_ADD:
       return update(state, {
-        items: {$push: [action.channel]}
+        items: {$push: [action.channel]},
       })
 
     case CHANNELS_REMOVE:
@@ -27,7 +27,7 @@ export default function player(state = initialState, action) {
       })
 
       return update(state, {
-        items: {$splice: spliceArgs}
+        items: {$splice: spliceArgs},
       })
 
     case CHANNELS_TOGGLE:
@@ -41,7 +41,7 @@ export default function player(state = initialState, action) {
       }
 
       return update(state, {
-        picked: operation
+        picked: operation,
       })
 
     default:

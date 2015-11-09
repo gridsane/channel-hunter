@@ -68,7 +68,7 @@ export default class Navigation extends Component {
           overflow: 'hidden',
           overflowY: 'auto',
           ...this.props.style,
-        }
+        },
     }
   }
 }

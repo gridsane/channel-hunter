@@ -6,5 +6,5 @@ import tracks from './tracks';
 export default combineReducers({
   player,
   channels,
-  tracks
+  tracks,
 });

@@ -69,7 +69,7 @@ export default class Player extends Component {
 
     [
       'seeking',
-      'waiting'
+      'waiting',
     ].forEach((event) => {
       audio.addEventListener(event, loadingTrueCb);
     });
@@ -78,7 +78,7 @@ export default class Player extends Component {
       'loadeddata',
       'seeked',
       'canplay',
-      'playing'
+      'playing',
     ].forEach((event) => {
       audio.addEventListener(event, loadingFalseCb);
     });

@@ -4,7 +4,7 @@ import {colors} from '../../utils/styles';
 
 const PropTypeStringOrComponent = React.PropTypes.oneOfType([
   React.PropTypes.string,
-  React.PropTypes.element
+  React.PropTypes.element,
 ]);
 
 export default class ListItem extends Component {
@@ -26,7 +26,7 @@ export default class ListItem extends Component {
   };
 
   state = {
-    mouseOver: false
+    mouseOver: false,
   };
 
   render() {

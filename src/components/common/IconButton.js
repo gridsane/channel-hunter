@@ -48,6 +48,7 @@ export default class IconButton extends Component {
         outline: 'none',
         margin: 0,
         padding: 0,
+        cursor: 'pointer',
         ...style,
       },
 

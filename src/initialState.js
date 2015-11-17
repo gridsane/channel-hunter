@@ -256,16 +256,21 @@ const fakeTracks = [
   },
 ];
 
+let tracks = {};
+fakeTracks.forEach((track) => {
+  tracks[track.id] = track;
+});
+
 export default {
   channels: {
     picked: [111111, 222222],
     items: fakeChannels,
   },
 
-  playlist: {
+  tracks: {
     selected: null,
     isPlaying: false,
     isLoading: false,
-    items: fakeTracks,
+    items: tracks,
   },
 };

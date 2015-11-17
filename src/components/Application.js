@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {selectItem, togglePlaying} from '../actions/playlist';
+import {selectItem, togglePlaying} from '../actions/tracks';
 import {toggleChannel} from '../actions/channels';
 import AppNavigation from './AppNavigation';
 import CoverAppBar from './CoverAppBar';
@@ -9,16 +9,21 @@ import Channels from './Channels';
 import Playlist from './Playlist';
 
 @connect((state) => {
-  const {channels, playlist} = state;
+  const {channels, tracks} = state;
+  const selectedTrack = tracks.selected ? tracks.items[tracks.selected] : null;
+  let playlist = [];
+  Object.keys(tracks.items).forEach((key) => {
+    if (channels.picked.indexOf(tracks.items[key].channelId) !== -1) {
+      playlist.push(tracks.items[key]);
+    }
+  });
 
   return {
-    selectedTrackId: playlist.selected ? playlist.selected.id : null,
-    coverUrl: playlist.selected ? playlist.selected.cover : null,
+    selectedTrack,
     channels,
+    tracks,
     playlist,
-    tracks: playlist.items.filter((track) => {
-      return channels.picked.indexOf(track.channelId) !== -1;
-    }),
+    coverUrl: selectedTrack ? selectedTrack.cover : null,
   };
 })
 export default class Application extends Component {
@@ -30,7 +35,7 @@ export default class Application extends Component {
 
   render() {
     const {isSmallScreen, isNavOpen, isNavDocked} = this.state;
-    const {playlist, channels, tracks, selectedTrackId, coverUrl} = this.props;
+    const {playlist, channels, tracks, selectedTrack, coverUrl} = this.props;
 
     return <div>
       <AppNavigation open={isNavOpen} docked={isNavDocked}>
@@ -42,16 +47,16 @@ export default class Application extends Component {
 
       <CoverAppBar compact={isSmallScreen} coverUrl={coverUrl}>
         <Controls
-          track={playlist.selected}
-          isPlaying={playlist.isPlaying}
+          track={selectedTrack}
+          isPlaying={tracks.isPlaying}
           onToggle={::this._togglePlaying}
           onNext={::this._nextTrack} />
       </CoverAppBar>
 
       <Playlist
         compact={isSmallScreen}
-        selectedId={selectedTrackId}
-        list={tracks}
+        selectedId={tracks.selected}
+        list={playlist}
         onSelect={::this._selectTrack} />
     </div>;
   }
@@ -90,11 +95,7 @@ export default class Application extends Component {
   }
 
   _selectTrack(trackId) {
-    const selectedTrack = this.props.tracks.find((track) => {
-      return trackId === track.id;
-    });
-
-    this.props.dispatch(selectItem(selectedTrack));
+    this.props.dispatch(selectItem(trackId));
   }
 
 }

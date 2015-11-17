@@ -8,25 +8,7 @@ import Controls from './Controls';
 import Channels from './Channels';
 import Playlist from './Playlist';
 
-@connect((state) => {
-  const {channels, tracks} = state;
-  const selectedTrack = tracks.selected ? tracks.items[tracks.selected] : null;
-  let playlist = [];
-  Object.keys(tracks.items).forEach((key) => {
-    if (channels.picked.indexOf(tracks.items[key].channelId) !== -1) {
-      playlist.push(tracks.items[key]);
-    }
-  });
-
-  return {
-    selectedTrack,
-    channels,
-    tracks,
-    playlist,
-    coverUrl: selectedTrack ? selectedTrack.cover : null,
-  };
-})
-export default class Application extends Component {
+export class Application extends Component {
   state = {
     isSmallScreen: false,
     isNavOpen: true,
@@ -91,7 +73,24 @@ export default class Application extends Component {
   }
 
   _nextTrack() {
-    console.warn('nextTrack is not implemented yet');
+
+    const {tracks, playlist} = this.props;
+
+    let index = -1;
+    playlist.find((track, i) => {
+      if (track.id === tracks.selected) {
+        index = i;
+        return true;
+      }
+    });
+
+    const nextIndex = index + 1;
+    if (nextIndex > playlist.length - 1) {
+      this.props.dispatch(togglePlaying(false));
+    } else {
+      this.props.dispatch(selectItem(playlist[nextIndex].id));
+    }
+
   }
 
   _selectTrack(trackId) {
@@ -99,3 +98,24 @@ export default class Application extends Component {
   }
 
 }
+
+function mapToProps(state) {
+  const {channels, tracks} = state;
+  const selectedTrack = tracks.selected ? tracks.items[tracks.selected] : null;
+  let playlist = [];
+  Object.keys(tracks.items).forEach((key) => {
+    if (channels.picked.indexOf(tracks.items[key].channelId) !== -1) {
+      playlist.push(tracks.items[key]);
+    }
+  });
+
+  return {
+    selectedTrack,
+    channels,
+    tracks,
+    playlist,
+    coverUrl: selectedTrack ? selectedTrack.cover : null,
+  };
+}
+
+export default connect(mapToProps)(Application);

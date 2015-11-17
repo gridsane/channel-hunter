@@ -17,7 +17,7 @@ describe('Channels reducer', () => {
       channel: {id: 2, name: 'bar'},
     });
 
-    expect(state).to.eql({
+    expect(state).toEqual({
       items: [
         {id: 1, name: 'foo'},
         {id: 2, name: 'bar'},
@@ -25,7 +25,7 @@ describe('Channels reducer', () => {
       picked: [],
     });
 
-    expect(state).to.not.be(initialState);
+    expect(state).toNotBe(initialState);
 
   });
 
@@ -41,12 +41,12 @@ describe('Channels reducer', () => {
       channelId: 1,
     });
 
-    expect(state).to.eql({
+    expect(state).toEqual({
       items: [{id: 2, name: 'bar'}],
       picked: [],
     });
 
-    expect(state).to.not.be(initialState);
+    expect(state).toNotBe(initialState);
 
   });
 
@@ -61,12 +61,12 @@ describe('Channels reducer', () => {
       channelId: 2,
     });
 
-    expect(state).to.eql({
+    expect(state).toEqual({
       items: [],
       picked: [1, 2],
     });
 
-    expect(state).to.not.be(initialState);
+    expect(state).toNotBe(initialState);
   });
 
   it('toggles channel off', () => {
@@ -80,12 +80,12 @@ describe('Channels reducer', () => {
       channelId: 1,
     });
 
-    expect(state).to.eql({
+    expect(state).toEqual({
       items: [],
       picked: [2],
     });
 
-    expect(state).to.not.be(initialState);
+    expect(state).toNotBe(initialState);
   });
 
 });

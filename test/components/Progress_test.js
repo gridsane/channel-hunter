@@ -17,7 +17,7 @@ describe('Progress component', () => {
     TestUtils.Simulate.click(dom, {clientX: 170});
 
     function seek(pos) {
-      expect(pos).to.be(70);
+      expect(pos).toBe(70);
       done();
     }
 
@@ -35,7 +35,7 @@ describe('Progress component', () => {
       );
 
       expect(dom.children[1].style.getPropertyValue('width'))
-        .to.be(testCase.expected);
+        .toBe(testCase.expected);
     });
 
   });

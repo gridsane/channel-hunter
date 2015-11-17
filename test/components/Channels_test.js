@@ -23,20 +23,20 @@ describe('Channels component', () => {
 
   it('should render channels', () => {
 
-    expect(items.length).to.be(3);
+    expect(items.length).toBe(3);
 
     const {primaryText, secondaryText, leftElement} = items[0].props;
-    expect(primaryText).to.be('foo');
-    expect(secondaryText).to.be('a, b');
-    expect(leftElement.props.url).to.be('foo.jpg');
+    expect(primaryText).toBe('foo');
+    expect(secondaryText).toBe('a, b');
+    expect(leftElement.props.url).toBe('foo.jpg');
 
   });
 
   it('should mark picked channels', () => {
 
-    expect(items[0].props.rightIcon).to.be(null);
-    expect(items[1].props.rightIcon).to.be('check');
-    expect(items[2].props.rightIcon).to.be('check');
+    expect(items[0].props.rightIcon).toBe(null);
+    expect(items[1].props.rightIcon).toBe('check');
+    expect(items[2].props.rightIcon).toBe('check');
 
   });
 
@@ -49,7 +49,7 @@ describe('Channels component', () => {
     TestUtils.Simulate.click(dom.children[dom.children.length - 1]);
 
     function toggleFunc(channel) {
-      expect(channel).to.eql(list[2]);
+      expect(channel).toEqual(list[2]);
       done();
     }
 

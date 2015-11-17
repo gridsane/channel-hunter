@@ -21,7 +21,7 @@ describe('Controls component', () => {
       <Controls {...props} />
     );
 
-    expect(dom.textContent).to.contain('No track');
+    expect(dom.textContent).toContain('No track');
 
   });
 
@@ -31,7 +31,7 @@ describe('Controls component', () => {
       <Controls {...props} />
     );
 
-    expect(dom.textContent).to.contain('track_title by track_artist');
+    expect(dom.textContent).toContain('track_title by track_artist');
 
   });
 
@@ -50,12 +50,12 @@ describe('Controls component', () => {
       return el.textContent === 'pause';
     });
 
-    expect(pauseIcon.length).to.be(0);
+    expect(pauseIcon.length).toBe(0);
 
     TestUtils.Simulate.click(playIcon[0]);
 
     function toggle(isPlaying) {
-      expect(isPlaying).to.be(true);
+      expect(isPlaying).toBe(true);
       done();
     }
 
@@ -76,12 +76,12 @@ describe('Controls component', () => {
       return el.textContent === 'play_arrow';
     });
 
-    expect(playIcon.length).to.be(0);
+    expect(playIcon.length).toBe(0);
 
     TestUtils.Simulate.click(pauseIcon[0]);
 
     function toggle(isPlaying) {
-      expect(isPlaying).to.be(false);
+      expect(isPlaying).toBe(false);
       done();
     }
 

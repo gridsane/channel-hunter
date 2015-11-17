@@ -7,7 +7,7 @@ describe('Player component', () => {
   it('sets src prop for the audio', () => {
 
     const dom = renderDOM(<Player src="foo" />);
-    expect(dom.attributes.getNamedItem('src').value).to.be('foo');
+    expect(dom.attributes.getNamedItem('src').value).toBe('foo');
 
   });
 
@@ -21,7 +21,7 @@ describe('Player component', () => {
     dom.dispatchEvent(new Event('timeupdate'));
 
     function timeupdate(time) {
-      expect(time).to.eql(10);
+      expect(time).toEqual(10);
       done();
     }
 
@@ -129,7 +129,7 @@ function onLoadingTestCase(event, expectedArg, done) {
   dom.dispatchEvent(new Event(event));
 
   function callback(arg) {
-    expect(arg).to.be(expectedArg);
+    expect(arg).toBe(expectedArg);
     done();
   }
 }

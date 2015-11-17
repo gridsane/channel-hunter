@@ -18,7 +18,7 @@ describe('Tracks reducer', () => {
     let state = reducer(initialState, addItems([{id: 10}, {id: 20}]));
     state = reducer(state, addItems([{id: 10}, {id: 30}]));
 
-    expect(state).to.eql({
+    expect(state).toEqual({
       items: {
         10: {id: 10},
         20: {id: 20},
@@ -26,7 +26,7 @@ describe('Tracks reducer', () => {
       },
     });
 
-    expect(state).not.to.be(initialState);
+    expect(state).toNotBe(initialState);
 
   });
 
@@ -37,12 +37,12 @@ describe('Tracks reducer', () => {
     };
 
     let state = reducer(initialState, selectItem(10));
-    expect(state).to.eql({selected: 10});
+    expect(state).toEqual({selected: 10});
 
     state = reducer(state, selectItem(20));
-    expect(state).to.eql({selected: 20});
+    expect(state).toEqual({selected: 20});
 
-    expect(state).not.to.be(initialState);
+    expect(state).toNotBe(initialState);
 
   });
 
@@ -51,12 +51,12 @@ describe('Tracks reducer', () => {
     const initialState = {isPlaying: false};
 
     let state = reducer(initialState, togglePlaying(true));
-    expect(state).to.eql({isPlaying: true});
+    expect(state).toEqual({isPlaying: true});
 
     state = reducer(initialState, togglePlaying(false));
-    expect(state).to.eql({isPlaying: false});
+    expect(state).toEqual({isPlaying: false});
 
-    expect(state).to.not.be(initialState);
+    expect(state).toNotBe(initialState);
 
   });
 
@@ -65,12 +65,12 @@ describe('Tracks reducer', () => {
     const initialState = {isLoading: false};
 
     let state = reducer(initialState, toggleLoading(true));
-    expect(state).to.eql({isLoading: true});
+    expect(state).toEqual({isLoading: true});
 
     state = reducer(initialState, toggleLoading(false));
-    expect(state).to.eql({isLoading: false});
+    expect(state).toEqual({isLoading: false});
 
-    expect(state).to.not.be(initialState);
+    expect(state).toNotBe(initialState);
 
   });
 

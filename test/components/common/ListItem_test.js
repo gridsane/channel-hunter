@@ -13,7 +13,7 @@ describe('ListItem component', () => {
       <ListItem primaryText="foo" />
     );
 
-    expect(dom.textContent).to.be('foo');
+    expect(dom.textContent).toBe('foo');
 
   });
 
@@ -23,7 +23,7 @@ describe('ListItem component', () => {
       <ListItem primaryText="foo" secondaryText="bar" />
     );
 
-    expect(dom.textContent).to.be('foobar');
+    expect(dom.textContent).toBe('foobar');
 
   });
 
@@ -33,7 +33,7 @@ describe('ListItem component', () => {
       <ListItem primaryText={<span>foo</span>} secondaryText={<span>bar</span>} />
     );
 
-    expect(dom.textContent).to.be('foobar');
+    expect(dom.textContent).toBe('foobar');
 
   });
 
@@ -48,7 +48,7 @@ describe('ListItem component', () => {
     );
 
     expect(primaryTextDom.style.getPropertyValue('height'))
-      .to.not.be(bothTextsDom.style.getPropertyValue('height'));
+      .toNotBe(bothTextsDom.style.getPropertyValue('height'));
 
   });
 
@@ -59,7 +59,7 @@ describe('ListItem component', () => {
     );
 
     const icon = ShallowTestUtils.findWithType(tree, Icon);
-    expect(icon.props.children).to.be('bar');
+    expect(icon.props.children).toBe('bar');
 
   });
 
@@ -73,8 +73,8 @@ describe('ListItem component', () => {
     );
 
     const leftElement = ShallowTestUtils.findWithClass(tree, 'left');
-    expect(leftElement.props.style.top).to.be('8px');
-    expect(leftElement.props.children).to.be('bar');
+    expect(leftElement.props.style.top).toBe('8px');
+    expect(leftElement.props.children).toBe('bar');
 
   });
 
@@ -87,8 +87,8 @@ describe('ListItem component', () => {
     );
 
     const leftElement = ShallowTestUtils.findWithClass(tree, 'left');
-    expect(leftElement.props.style.top).to.be('8px');
-    expect(leftElement.props.style.color).to.be('red');
+    expect(leftElement.props.style.top).toBe('8px');
+    expect(leftElement.props.style.color).toBe('red');
 
   });
 
@@ -117,10 +117,10 @@ describe('ListItem component', () => {
     const leaveColor = dom.style.getPropertyValue('background-color');
 
     TestUtils.Simulate.mouseEnter(dom);
-    expect(dom.style.getPropertyValue('background-color')).to.not.be(leaveColor);
+    expect(dom.style.getPropertyValue('background-color')).toNotBe(leaveColor);
 
     TestUtils.Simulate.mouseLeave(dom);
-    expect(dom.style.getPropertyValue('background-color')).to.be(leaveColor);
+    expect(dom.style.getPropertyValue('background-color')).toBe(leaveColor);
 
   });
 
@@ -132,7 +132,7 @@ describe('ListItem component', () => {
     const leaveColor = dom.style.getPropertyValue('background-color');
 
     TestUtils.Simulate.mouseEnter(dom);
-    expect(dom.style.getPropertyValue('background-color')).to.be(leaveColor);
+    expect(dom.style.getPropertyValue('background-color')).toBe(leaveColor);
   });
 
 });

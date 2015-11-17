@@ -43,7 +43,25 @@ describe('Application component', () => {
 
   });
 
-  function shallowRenderGetControls(dispatch, selected) {
+  it('dispatches togglePlaying action', () => {
+
+    let dispatch, controls;
+
+    dispatch = expect.createSpy();
+    controls = shallowRenderGetControls(dispatch);
+    controls.props.onToggle(true);
+
+    expect(dispatch.calls[0].arguments[0]).toEqual(togglePlaying(true));
+
+    dispatch = expect.createSpy();
+    controls = shallowRenderGetControls(dispatch);
+    controls.props.onToggle(false);
+
+    expect(dispatch.calls[0].arguments[0]).toEqual(togglePlaying(false));
+
+  });
+
+  function shallowRenderGetControls(dispatch, selected = null) {
     const props = {
       selectedTrack: null,
       channels: {picked: [], items: []},

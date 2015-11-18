@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server --hot --inline --info false --history-api-fallback --config webpack.config.dev.js --port $npm_package_config_devPort",
-    "build": "./node_modules/.bin/webpack --config webpack.config.prod.js",
+    "clean": "rm -rf assets/*.js assets/*.map",
+    "start": "if [ -z $PORT ]; then PORT=$npm_package_config_devPort; fi; ./node_modules/.bin/babel-node server.js",
+    "build": "npm run clean && ./node_modules/.bin/webpack --config webpack.config.prod.js",
     "test": "./node_modules/.bin/mocha --compilers=js:babel-core/register --require ./test/setup --recursive './test/**/*_test.js'",
     "lint": "./node_modules/.bin/eslint src test"
   },
@@ -15,7 +16,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel": "^5.8.34",
     "datef": "^2.0.0",
+    "express": "^4.13.3",
     "react": "^0.14.0",
     "react-addons-update": "^0.14.0",
     "react-dom": "^0.14.0",

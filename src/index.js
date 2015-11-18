@@ -7,7 +7,7 @@ import initialState from './initialState';
 import {Provider} from 'react-redux';
 import Application from './components/Application';
 
-import { createDevTools } from 'redux-devtools';
+import {createDevTools} from 'redux-devtools';
 import DockMonitor from 'redux-devtools-dock-monitor';
 import LogMonitor from 'redux-devtools-log-monitor';
 

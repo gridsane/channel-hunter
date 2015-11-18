@@ -4,15 +4,15 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: [
-    './src/index'
+    './src/index',
   ],
   output: {
     path: path.join(__dirname, 'assets'),
     filename: 'bundle.js',
-    publicPath: '/assets/'
+    publicPath: '/assets/',
   },
   plugins: [
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
   ],
   module: {
     loaders: [{
@@ -27,14 +27,14 @@ module.exports = {
             "transforms": [{
               transform: "react-transform-hmr",
               imports: ["react"],
-              locals: ["module"]
+              locals: ["module"],
             }, {
               transform: "react-transform-catch-errors",
-              imports: ["react", "redbox-react"]
-            }]
-          }
-        }
-      }
-    }]
-  }
+              imports: ["react", "redbox-react"],
+            }],
+          },
+        },
+      },
+    }],
+  },
 };

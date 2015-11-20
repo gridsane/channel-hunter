@@ -25,7 +25,8 @@
     "react-redux": "^4.0.0",
     "react-shallow-testutils": "^0.6.0",
     "redux": "^3.0.4",
-    "redux-thunk": "^1.0.0"
+    "redux-thunk": "^1.0.0",
+    "superagent": "^1.4.0"
   },
   "devDependencies": {
     "babel-core": "^5.8.25",
@@ -37,6 +38,7 @@
     "expect": "^1.13.0",
     "jsdom": "^7.0.2",
     "mocha": "^2.3.3",
+    "nock": "^3.1.0",
     "react-addons-test-utils": "^0.14.0",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",

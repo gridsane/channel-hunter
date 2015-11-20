@@ -21,7 +21,7 @@ describe('Utils', () => {
       },
     };
 
-    expect(nodeOffset(node)).to.be.eql({
+    expect(nodeOffset(node)).toEqual({
       top: 150,
       left: 60,
     });
@@ -30,17 +30,17 @@ describe('Utils', () => {
 
   it('formats duration', () => {
 
-    expect(formatDuration(1)).to.be('00:01');
-    expect(formatDuration(59)).to.be('00:59');
-    expect(formatDuration(119)).to.be('01:59');
-    expect(formatDuration(900)).to.be('15:00');
+    expect(formatDuration(1)).toBe('00:01');
+    expect(formatDuration(59)).toBe('00:59');
+    expect(formatDuration(119)).toBe('01:59');
+    expect(formatDuration(900)).toBe('15:00');
 
   });
 
   it('curries functions', () => {
 
-    expect(curried((x, y) => x + y, 1)(2)).to.be(3);
-    expect(curried((x, y) => x * y, 2, 3)()).to.be(6);
+    expect(curried((x, y) => x + y, 1)(2)).toBe(3);
+    expect(curried((x, y) => x * y, 2, 3)()).toBe(6);
 
   });
 

@@ -8,6 +8,7 @@
     "start": "if [ -z $PORT ]; then PORT=$npm_package_config_devPort; fi; ./node_modules/.bin/babel-node server.js",
     "build": "npm run clean && ./node_modules/.bin/webpack --config webpack.config.prod.js",
     "test": "./node_modules/.bin/mocha --compilers=js:babel-core/register --require ./test/setup --recursive './test/**/*_test.js'",
+    "test_wo_db": "npm run test -- --grep @database --invert",
     "lint": "./node_modules/.bin/eslint src test"
   },
   "config": {
@@ -19,6 +20,7 @@
     "babel": "^5.8.34",
     "datef": "^2.0.0",
     "express": "^4.13.3",
+    "mongodb": "^2.0.49",
     "react": "^0.14.0",
     "react-addons-update": "^0.14.0",
     "react-dom": "^0.14.0",

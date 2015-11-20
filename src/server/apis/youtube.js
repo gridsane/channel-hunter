@@ -39,6 +39,10 @@ export default class YoutubeApi {
     });
   }
 
+  hasChannel(url) {
+    return /^https?:\/\/(www\.)?youtube.com\/channel/.test(url);
+  }
+
   _request(resource, params) {
     return new Promise((resolve, reject) => {
       superagent

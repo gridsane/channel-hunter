@@ -67,6 +67,28 @@ describe('Youtube API', () => {
 
   });
 
+  it('handles youtube urls only', () => {
+
+    expect(api.hasChannel('https://www.youtube.com/channel/UCMtXiWYvBB8X2ynT74bqK6A'))
+      .toBe(true);
+
+    expect(api.hasChannel('http://www.youtube.com/channel/channelname'))
+      .toBe(true);
+
+    expect(api.hasChannel('https://vk.com/channelname'))
+      .toBe(false);
+
+    expect(api.hasChannel('http://vk.com/youtube/channel/name'))
+      .toBe(false);
+
+    expect(api.hasChannel('foobar'))
+      .toBe(false);
+
+    expect(api.hasChannel('youtube/channel'))
+      .toBe(false);
+
+  });
+
 });
 
 const RESPONSES = {

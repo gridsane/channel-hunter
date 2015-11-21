@@ -10,7 +10,7 @@ describe('Youtube API', () => {
     nock.cleanAll();
   });
 
-  it('gets youtube channel by url', async () => {
+  it('gets youtube channel by user url', async () => {
 
     nock('https://www.googleapis.com')
       .get(`/youtube/v3/channels?key=${key}&part=snippet&forUsername=channelmathrock`)
@@ -26,6 +26,37 @@ describe('Youtube API', () => {
       image: 'https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s240-c-k-no/photo.jpg',
       createdAt: '2014-04-06T18:16:25.000Z',
     });
+
+  });
+
+  it('gets youtube channel by channel url', async () => {
+
+    nock('https://www.googleapis.com')
+      .get(`/youtube/v3/channels?key=${key}&part=snippet&id=LONG_ID`)
+      .reply(200, RESPONSES.channels);
+
+    const channel = await api.getChannelByUrl('https://www.youtube.com/channel/LONG_ID');
+
+    expect(channel).toEqual({
+      source: 'youtube',
+      id: 'UCywl3vgm261NHTzzcgkrQiA',
+      title: 'Math Rock Channel',
+      description: 'I DO NOT OWN ALL THE TRACKS',
+      image: 'https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s240-c-k-no/photo.jpg',
+      createdAt: '2014-04-06T18:16:25.000Z',
+    });
+
+  });
+
+  it('returns null if no channel found', async () => {
+
+    nock('https://www.googleapis.com')
+      .get(`/youtube/v3/channels?key=${key}&part=snippet&id=NOT_EXISTS`)
+      .reply(200, RESPONSES.empty_channels);
+
+    const channel = await api.getChannelByUrl('https://www.youtube.com/channel/NOT_EXISTS');
+
+    expect(channel).toBe(null);
 
   });
 
@@ -67,9 +98,25 @@ describe('Youtube API', () => {
 
   });
 
+  it('returns empty array if no tracks found', async () => {
+
+    nock('https://www.googleapis.com')
+      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&channelId=EMPTY_CHANNEL_ID&maxResults=50`)
+      .reply(200, RESPONSES.empty_search);
+
+    const tracks = await api.getTracks('EMPTY_CHANNEL_ID');
+
+    expect(tracks).toBeA(Array);
+    expect(tracks.length).toBe(0);
+
+  });
+
   it('handles youtube urls only', () => {
 
     expect(api.hasChannel('https://www.youtube.com/channel/UCMtXiWYvBB8X2ynT74bqK6A'))
+      .toBe(true);
+
+    expect(api.hasChannel('https://www.youtube.com/user/channelmathrock'))
       .toBe(true);
 
     expect(api.hasChannel('http://www.youtube.com/channel/channelname'))
@@ -128,6 +175,17 @@ const RESPONSES = {
       },
     ],
   },
+
+  empty_channels: {
+    "kind":"youtube#channelListResponse",
+    "etag":"\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/-bPvcDKRT_OFZ_sZUyuZaUOtZbs\"",
+    "pageInfo":{
+      "totalResults": 0,
+      "resultsPerPage": 0,
+    },
+    "items": [],
+  },
+
   search: {
     "kind": "youtube#searchListResponse",
     "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/oJ-XWTNnpHXdL2lRQ56Cht_DAtw\"",
@@ -193,6 +251,16 @@ const RESPONSES = {
         },
       },
     ],
+  },
+
+  empty_search: {
+    "kind": "youtube#searchListResponse",
+    "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/oJ-XWTNnpHXdL2lRQ56Cht_DAtw\"",
+    "pageInfo": {
+      "totalResults": 0,
+      "resultsPerPage": 0,
+    },
+    "items": [],
   },
 
   videos: {

@@ -1,18 +1,18 @@
 import mongo from 'mongodb';
 import Storage from '../../src/server/storage';
-import {MONGO_URI} from '../../config.js';
+import {MONGO_URI_TEST} from '../../config.js';
 
 describe('Storage @database', () => {
 
   afterEach((done) => {
-    mongo.connect(MONGO_URI, (err, db) => {
+    mongo.connect(MONGO_URI_TEST, (err, db) => {
       db.collection('channels').deleteMany({}, done);
     });
   });
 
   it('adds channel and gets channels', async () => {
 
-    const storage = new Storage(MONGO_URI);
+    const storage = new Storage(MONGO_URI_TEST);
     const channel = await storage.addOrUpdateChannel({
       source: 'testing',
       id: 'test_id',
@@ -29,7 +29,7 @@ describe('Storage @database', () => {
 
   it('updates channel by external id', async () => {
 
-    const storage = new Storage(MONGO_URI);
+    const storage = new Storage(MONGO_URI_TEST);
     await storage.addOrUpdateChannel({
       name: 'foo',
       id: 'test_id',
@@ -52,7 +52,7 @@ describe('Storage @database', () => {
 
   it('inserts channels', async () => {
 
-    const storage = new Storage(MONGO_URI);
+    const storage = new Storage(MONGO_URI_TEST);
     await storage.addOrUpdateChannel({name: 'foo', id: 'id1'});
     await storage.addOrUpdateChannel({name: 'bar', id: 'id2'});
 

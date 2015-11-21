@@ -7,22 +7,36 @@ export default class YoutubeApi {
   }
 
   async getChannelByUrl(url) {
-    const username = url.split('/').splice(-1, 1)[0];
+
+    const urlParts = url.split('/');
+    const [kind, channelId] = urlParts.slice(Math.max(urlParts.length - 2, 1));
+    const params = kind === 'channel' ? {id: channelId} : {forUsername: channelId};
+
     const response = await this._request('channels', {
       part: 'snippet',
-      forUsername: username,
+      ...params,
     });
 
+    if (!response.items || response.items.length === 0) {
+      return null;
+    }
+
     return this._convertChannel(response.items[0]);
+
   }
 
   async getTracks(channelId, maxResults = 50) {
+
     const snippetResponse = await this._request('search', {
       part: 'snippet',
       type: 'video',
       channelId,
       maxResults,
     });
+
+    if (!snippetResponse.items || snippetResponse.items.length === 0) {
+      return [];
+    }
 
     const ids = snippetResponse.items.map((track) => {
       return track.id.videoId;
@@ -40,7 +54,7 @@ export default class YoutubeApi {
   }
 
   hasChannel(url) {
-    return /^https?:\/\/(www\.)?youtube.com\/channel/.test(url);
+    return /^https?:\/\/(www\.)?youtube.com\/(channel|user)/.test(url);
   }
 
   _request(resource, params) {

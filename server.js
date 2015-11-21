@@ -1,5 +1,7 @@
 import path from 'path';
 import express from 'express';
+import router from './src/server/router';
+import bodyParser from 'body-parser';
 
 const config = {
   port: parseInt(process.env.PORT || 3000),
@@ -27,7 +29,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app
+  .use(bodyParser.json())
   .use("/assets", express.static(__dirname + '/../assets'))
+  .use('/api', router(express.Router()))
   .use(function (req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
   })

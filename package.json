@@ -18,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "babel": "^5.8.34",
+    "body-parser": "^1.14.1",
     "datef": "^2.0.0",
     "express": "^4.13.3",
     "mongodb": "^2.0.49",

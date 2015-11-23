@@ -1,6 +1,6 @@
 import superagent from 'superagent';
 
-export default class YoutubeApi {
+export default class YoutubeAPI {
 
   constructor(key) {
     this.key = key;
@@ -77,7 +77,7 @@ export default class YoutubeApi {
     return {
       source: 'youtube',
       id: res.id,
-      title: res.snippet.title,
+      name: res.snippet.title,
       description: res.snippet.description,
       image: res.snippet.thumbnails.medium.url,
       createdAt: res.snippet.publishedAt,

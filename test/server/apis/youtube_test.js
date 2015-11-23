@@ -21,7 +21,7 @@ describe('Youtube API', () => {
     expect(channel).toEqual({
       source: 'youtube',
       id: 'UCywl3vgm261NHTzzcgkrQiA',
-      title: 'Math Rock Channel',
+      name: 'Math Rock Channel',
       description: 'I DO NOT OWN ALL THE TRACKS',
       image: 'https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s240-c-k-no/photo.jpg',
       createdAt: '2014-04-06T18:16:25.000Z',
@@ -40,7 +40,7 @@ describe('Youtube API', () => {
     expect(channel).toEqual({
       source: 'youtube',
       id: 'UCywl3vgm261NHTzzcgkrQiA',
-      title: 'Math Rock Channel',
+      name: 'Math Rock Channel',
       description: 'I DO NOT OWN ALL THE TRACKS',
       image: 'https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s240-c-k-no/photo.jpg',
       createdAt: '2014-04-06T18:16:25.000Z',

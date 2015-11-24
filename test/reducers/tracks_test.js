@@ -3,7 +3,7 @@ import reducer from '../../src/reducers/tracks';
 const {
   addItems,
   togglePlaying,
-  toggleLoading,
+  toggleTracksLoading,
   selectItem,
 } = require('../../src/actions/tracks');
 
@@ -64,10 +64,10 @@ describe('Tracks reducer', () => {
 
     const initialState = {isLoading: false};
 
-    let state = reducer(initialState, toggleLoading(true));
+    let state = reducer(initialState, toggleTracksLoading(true));
     expect(state).toEqual({isLoading: true});
 
-    state = reducer(initialState, toggleLoading(false));
+    state = reducer(initialState, toggleTracksLoading(false));
     expect(state).toEqual({isLoading: false});
 
     expect(state).toNotBe(initialState);

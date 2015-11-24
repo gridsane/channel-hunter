@@ -10,7 +10,6 @@ let initialState = {
   selected: null,
   isPlaying: false,
   isLoading: false,
-  playlist: [],
   items: {},
 };
 

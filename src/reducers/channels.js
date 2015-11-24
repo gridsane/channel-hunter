@@ -2,10 +2,12 @@ import {
   CHANNELS_ADD,
   CHANNELS_REMOVE,
   CHANNELS_TOGGLE,
+  CHANNELS_LOADING,
 } from '../actions/actionsTypes';
 import update from 'react-addons-update';
 
 let initialState = {
+  isLoading: false,
   items: [],
   picked: [],
 };
@@ -13,8 +15,15 @@ let initialState = {
 export default function player(state = initialState, action) {
   switch(action.type) {
     case CHANNELS_ADD:
+      let pick = {};
+
+      if (action.isPicked) {
+        pick.picked = {$push: [action.channel.id]};
+      }
+
       return update(state, {
         items: {$push: [action.channel]},
+        ...pick,
       });
 
     case CHANNELS_REMOVE:
@@ -42,6 +51,11 @@ export default function player(state = initialState, action) {
 
       return update(state, {
         picked: operation,
+      });
+
+    case CHANNELS_LOADING:
+      return update(state, {
+        isLoading: {$set: action.isLoading},
       });
 
     default:

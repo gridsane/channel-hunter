@@ -1,21 +1,14 @@
-const reducer = require('../../src/reducers/channels');
-const types = require('../../src/actions/actionsTypes');
+import reducer from '../../src/reducers/channels';
+import * as actions from '../../src/actions/channels';
 
 describe('Channels reducer', () => {
 
   it('adds a channel', () => {
 
-    let initialState = {items: [], picked: []};
+    const initialState = {items: [], picked: []};
 
-    let state = reducer(initialState, {
-      type: types.CHANNELS_ADD,
-      channel: {id: 1, name: 'foo'},
-    });
-
-    state = reducer(state, {
-      type: types.CHANNELS_ADD,
-      channel: {id: 2, name: 'bar'},
-    });
+    let state = reducer(initialState, actions.addChannel({id: 1, name: 'foo'}));
+    state = reducer(state, actions.addChannel({id: 2, name: 'bar'}));
 
     expect(state).toEqual({
       items: [
@@ -27,19 +20,27 @@ describe('Channels reducer', () => {
 
     expect(state).toNotBe(initialState);
 
+    state = reducer(state, actions.addChannel({id: 3, name: 'baz'}, true));
+
+    expect(state).toEqual({
+      items: [
+        {id: 1, name: 'foo'},
+        {id: 2, name: 'bar'},
+        {id: 3, name: 'baz'},
+      ],
+      picked: [3],
+    });
+
   });
 
   it('removes a channel', () => {
 
-    let initialState = {
+    const initialState = {
       items: [{id: 1, name: 'foo'}, {id: 2, name: 'bar'}],
       picked: [],
     };
 
-    let state = reducer(initialState, {
-      type: types.CHANNELS_REMOVE,
-      channelId: 1,
-    });
+    let state = reducer(initialState, actions.removeChannel(1));
 
     expect(state).toEqual({
       items: [{id: 2, name: 'bar'}],
@@ -51,15 +52,12 @@ describe('Channels reducer', () => {
   });
 
   it('toggles channel on', () => {
-    let initialState = {
+    const initialState = {
       items: [],
       picked: [1],
     };
 
-    let state = reducer(initialState, {
-      type: types.CHANNELS_TOGGLE,
-      channelId: 2,
-    });
+    let state = reducer(initialState, actions.toggleChannel(2));
 
     expect(state).toEqual({
       items: [],
@@ -70,15 +68,12 @@ describe('Channels reducer', () => {
   });
 
   it('toggles channel off', () => {
-    let initialState = {
+    const initialState = {
       items: [],
       picked: [1, 2],
     };
 
-    let state = reducer(initialState, {
-      type: types.CHANNELS_TOGGLE,
-      channelId: 1,
-    });
+    let state = reducer(initialState, actions.toggleChannel(1));
 
     expect(state).toEqual({
       items: [],
@@ -86,6 +81,23 @@ describe('Channels reducer', () => {
     });
 
     expect(state).toNotBe(initialState);
+  });
+
+  it('toggles loading', () => {
+
+    const initialState = {
+      isLoading: false,
+      items: [],
+      picked: [],
+    };
+
+    let state = reducer(initialState, actions.toggleChannelsLoading(true));
+    expect(state.isLoading).toBe(true);
+    expect(state).toNotBe(initialState);
+
+    state = reducer(initialState, actions.toggleChannelsLoading(false));
+    expect(state.isLoading).toBe(false);
+
   });
 
 });

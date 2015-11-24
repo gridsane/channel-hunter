@@ -6,6 +6,7 @@
   "scripts": {
     "clean": "rm -rf assets/*.js assets/*.map",
     "start": "if [ -z $PORT ]; then PORT=$npm_package_config_devPort; fi; ./node_modules/.bin/babel-node server.js",
+    "nodemon": "if [ -z $PORT ]; then PORT=$npm_package_config_devPort; fi; ./node_modules/.bin/nodemon -x './node_modules/.bin/babel-node' -w './src/server' server.js",
     "build": "npm run clean && ./node_modules/.bin/webpack --config webpack.config.prod.js",
     "test": "./node_modules/.bin/mocha --compilers=js:babel-core/register --require ./test/setup --recursive './test/**/*_test.js'",
     "test_wo_db": "npm run test -- --grep @database --invert",
@@ -18,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "babel": "^5.8.34",
+    "babel-polyfill": "^6.2.0",
     "body-parser": "^1.14.1",
     "datef": "^2.0.0",
     "express": "^4.13.3",
@@ -42,6 +44,7 @@
     "jsdom": "^7.0.2",
     "mocha": "^2.3.3",
     "nock": "^3.1.0",
+    "nodemon": "^1.8.1",
     "react-addons-test-utils": "^0.14.0",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",

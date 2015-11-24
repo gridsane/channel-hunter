@@ -13,7 +13,7 @@ export function togglePlaying(isPlaying) {
   return {type: TRACKS_TOGGLE_PLAYING, isPlaying};
 }
 
-export function toggleLoading(isLoading) {
+export function toggleTracksLoading(isLoading) {
   return {type: TRACKS_TOGGLE_LOADING, isLoading};
 }
 

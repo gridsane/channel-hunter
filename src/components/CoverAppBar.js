@@ -55,6 +55,7 @@ export default class CoverAppBar extends Component {
         WebkitFilter: 'blur(8px)',
         animation: 'CoverAppBar-background 60s linear infinite alternate',
         opacity: .5,
+        transition: 'background 2s ease-out',
       },
 
     };

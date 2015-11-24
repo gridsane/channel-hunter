@@ -1,4 +1,3 @@
-import path from 'path';
 import express from 'express';
 import router from './src/server/router';
 import bodyParser from 'body-parser';
@@ -31,11 +30,8 @@ if (process.env.NODE_ENV !== 'production') {
 app
   .use(bodyParser.json())
   .use("/assets", express.static(__dirname + '/../assets'))
-  .use('/api', router(express.Router()))
-  .use(function (req, res) {
-    res.sendFile(path.join(__dirname, '/index.html'));
-  })
-  .listen(config.port, function (err) {
+  .use(router(express.Router()))
+  .listen(config.port, (err) => {
     if (err) {
       console.error(err);
     }

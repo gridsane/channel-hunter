@@ -59,10 +59,7 @@ export default class Player extends Component {
     audio.currentTime = position;
     this.setState({lastSeekedPosition: this.props.position});
 
-    audio.addEventListener('loadstart', () => {
-      paused ? audio.pause() : audio.play();
-    });
-
+    audio.addEventListener('loadstart', () => this._togglePause(this.props.paused));
     audio.addEventListener('timeupdate', () => onTimeUpdate(Math.round(audio.currentTime)));
     audio.addEventListener('ended', onEnd);
     audio.addEventListener('error', onError);

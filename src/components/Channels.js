@@ -10,7 +10,7 @@ export default class Channels extends Component {
   }
 
   render() {
-    let channels = this.props.list.map((channel) => {
+    const channels = this.props.list.map((channel) => {
       return <ListItem
         key={channel.id}
         primaryText={channel.name}
@@ -27,6 +27,10 @@ export default class Channels extends Component {
   }
 
   renderTags(tags) {
+    if (!tags) {
+      return null;
+    }
+
     return tags.join(', ');
   }
 

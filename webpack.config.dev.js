@@ -4,6 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: [
+    'babel-polyfill',
     './src/index',
   ],
   output: {

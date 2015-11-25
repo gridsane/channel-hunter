@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {formatDuration} from '../utils/common';
-import {IconButton} from './common';
+import {Loader, IconButton} from './common';
 import Progress from './Progress';
 import Player from './Player';
 
@@ -16,10 +16,11 @@ export default class Controls extends Component {
   state = {
     position: 0,
     seekedPosition: 0,
+    isLoading: false,
   };
 
   render() {
-    const {position, seekedPosition} = this.state;
+    const {position, seekedPosition, isLoading} = this.state;
     const {track, isPlaying, onNext} = this.props;
     const duration = track ? track.duration : 0;
     const styles = this.getStyles();
@@ -35,6 +36,7 @@ export default class Controls extends Component {
       <span style={styles.time}>{formatDuration(position)}</span>
       <IconButton style={styles.star} size={24} boxSize={40}>star_border</IconButton>
       <Progress
+        isLoading={isLoading}
         current={position}
         max={duration}
         onSeek={::this._seek} />
@@ -46,7 +48,10 @@ export default class Controls extends Component {
         onTimeUpdate={(nextPosition) => {
           this._updatePosition(nextPosition);
         }}
+        onLoadingChange={::this._toggleLoading}
         onEnd={onNext} /> : null}
+
+        {isLoading ? <Loader size={24} style={styles.loader} /> : null}
     </div>;
   }
 
@@ -85,7 +90,13 @@ export default class Controls extends Component {
     this.props.onToggle(!this.props.isPlaying);
   }
 
+  _toggleLoading(isLoading) {
+    this.setState({isLoading});
+  }
+
   getStyles() {
+    const {isLoading} = this.state;
+
     return {
 
       container: {
@@ -94,7 +105,7 @@ export default class Controls extends Component {
         height: '60px',
         padding: '10px 0',
         paddingLeft: '96px',
-        paddingRight: '106px',
+        paddingRight: isLoading ? 146 : 106,
         position: 'relative',
         whiteSpace: 'nowrap',
       },
@@ -138,6 +149,12 @@ export default class Controls extends Component {
       next: {
         position: 'absolute',
         left: '48px',
+      },
+
+      loader: {
+        position: 'absolute',
+        top: '18px',
+        right: '106px',
       },
 
     };

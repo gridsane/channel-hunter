@@ -8,6 +8,7 @@ export default class Progress extends Component {
     current: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
     onSeek: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool,
   };
 
   state = {
@@ -42,8 +43,21 @@ export default class Progress extends Component {
   }
 
   getStyles() {
+    const {isLoading} = this.props;
     const {mouseEnter} = this.state;
     const progressPercent = ((100 / this.props.max) * this.props.current) + '%';
+
+    const bufferBackground = {
+      backgroundImage: 'radial-gradient(rgb(169, 192, 233) 0%, rgb(169, 192, 233) 24%, transparent 50%)',
+      backgroundSize: '10px 10px',
+      backgroundPosition: '0px center',
+      backgroundRepeat: 'repeat-x',
+      animation: 'Progress-buffer 3s infinite linear',
+    };
+
+    const playingBackground = {
+      background: 'rgba(255, 255, 255, .24)',
+    };
 
     return {
 
@@ -63,8 +77,8 @@ export default class Progress extends Component {
         left: 0,
         right: 0,
         height: '4px',
-        backgroundColor: 'rgba(255, 255, 255, .24)',
         zIndex: -1,
+        ...(isLoading ? bufferBackground : playingBackground),
       },
 
       progress: {

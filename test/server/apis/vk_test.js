@@ -240,7 +240,7 @@ const RESPONSES = {
         post_type:'post',
         text:'text',
         is_pinned:1,
-      }
+      },
     ],
   }},
 

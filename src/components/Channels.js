@@ -5,7 +5,6 @@ import {List, ListItem, ListLabel, Avatar} from './common';
 export default class Channels extends Component {
   static propTypes = {
     list: PropTypes.array.isRequired,
-    picked: PropTypes.array.isRequired,
     onToggle: PropTypes.func.isRequired,
   }
 
@@ -16,7 +15,7 @@ export default class Channels extends Component {
         primaryText={channel.name}
         secondaryText={this.renderTags(channel.tags)}
         leftElement={<Avatar url={channel.image} />}
-        rightIcon={this._isPicked(channel.id) ? "check" : null}
+        rightIcon={channel.isEnabled ? "check" : null}
         onClick={curried(this.props.onToggle, channel)} />;
     });
 
@@ -32,10 +31,6 @@ export default class Channels extends Component {
     }
 
     return tags.join(', ');
-  }
-
-  _isPicked(channelId) {
-    return this.props.picked.indexOf(channelId) != -1;
   }
 
 }

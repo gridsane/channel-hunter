@@ -15,7 +15,7 @@ const api = new APIWrapper({
 
 export default function (router) {
 
-  const main = mainRouter(storage, api);
+  const main = mainRouter(storage);
   const channels = channelsRouter(storage, api);
   const tracks = tracksRouter(api);
 

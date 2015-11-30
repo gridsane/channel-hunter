@@ -3,6 +3,7 @@ import {
   CHANNELS_REMOVE,
   CHANNELS_TOGGLE,
   CHANNELS_LOADING,
+  CHANNELS_ITEM_LOADING,
 } from './actionsTypes';
 
 export function addChannel(channel, isPicked) {
@@ -19,4 +20,8 @@ export function toggleChannel(channelId) {
 
 export function toggleChannelsLoading(isLoading) {
   return {type: CHANNELS_LOADING, isLoading};
+}
+
+export function toggleChannelsItemLoading(channelId, isLoading) {
+  return {type: CHANNELS_ITEM_LOADING, isLoading, channelId};
 }

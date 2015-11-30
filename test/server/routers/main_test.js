@@ -36,17 +36,21 @@ describe('Main router', () => {
     expect(JSON.parse(res.send.calls[0].arguments[0])).toEqual({
       channels: {
         isLoading: false,
-        items: [{id: 1, source: 'vk'}],
-        picked: [1],
+        items: [
+          {
+            id: 1,
+            source: 'vk',
+            isLoading: false,
+            isEnabled: true,
+          },
+        ],
       },
 
       tracks: {
         isPlaying: false,
         isLoading: false,
         selected: null,
-        items: {
-          2: {id: 2, channelId: 1},
-        },
+        items: [],
       },
     });
 

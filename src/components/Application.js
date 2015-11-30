@@ -23,7 +23,6 @@ export class Application extends Component {
       <AppNavigation open={isNavOpen} docked={isNavDocked}>
         <Channels
           list={channels.items}
-          picked={channels.picked}
           onToggle={::this._toggleChannel} />
       </AppNavigation>
 

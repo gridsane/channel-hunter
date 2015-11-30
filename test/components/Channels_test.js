@@ -8,20 +8,18 @@ import {shallowRender, renderDOM} from '../utils';
 describe('Channels component', () => {
 
   const list = [
-    {id: 1, name: 'foo', image: 'foo.jpg', tags: ['a', 'b']},
-    {id: 2, name: 'bar', image: 'bar.jpg', tags: ['c', 'd']},
-    {id: 3, name: 'baz', image: 'baz.jpg', tags: ['e', 'f']},
+    {id: 1, name: 'foo', image: 'foo.jpg', tags: ['a', 'b'], isEnabled: false, isLoading: true},
+    {id: 2, name: 'bar', image: 'bar.jpg', isEnabled: true, isLoading: true},
+    {id: 3, name: 'baz', image: 'baz.jpg', tags: ['e', 'f'], isEnabled: true, isLoading: true},
   ];
 
-  const picked = [2, 3];
-
   const result = shallowRender(
-    <Channels list={list} picked={picked} onToggle={() => null} />
+    <Channels list={list} onToggle={() => null} />
   );
 
   const items = ShallowTestUtils.findAllWithType(result, ListItem);
 
-  it('should render channels', () => {
+  it('renders channels', () => {
 
     expect(items.length).toBe(3);
 
@@ -32,7 +30,13 @@ describe('Channels component', () => {
 
   });
 
-  it('should mark picked channels', () => {
+  it('skips empty tags', () => {
+
+    expect(items[1].props.secondaryText).toBe(null);
+
+  });
+
+  it('marks enabled channels', () => {
 
     expect(items[0].props.rightIcon).toBe(null);
     expect(items[1].props.rightIcon).toBe('check');
@@ -40,10 +44,10 @@ describe('Channels component', () => {
 
   });
 
-  it('should toggle channels', (done) => {
+  it('toggles channels', (done) => {
 
     const dom = renderDOM(
-      <Channels list={list} picked={picked} onToggle={toggleFunc} />
+      <Channels list={list} onToggle={toggleFunc} />
     );
 
     TestUtils.Simulate.click(dom.children[dom.children.length - 1]);

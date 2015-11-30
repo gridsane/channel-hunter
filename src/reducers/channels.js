@@ -3,6 +3,7 @@ import {
   CHANNELS_REMOVE,
   CHANNELS_TOGGLE,
   CHANNELS_LOADING,
+  CHANNELS_ITEM_LOADING,
 } from '../actions/actionsTypes';
 import update from 'react-addons-update';
 
@@ -10,6 +11,7 @@ let initialState = {
   isLoading: false,
   items: [],
   picked: [],
+  loaded: [],
 };
 
 export default function player(state = initialState, action) {
@@ -40,22 +42,30 @@ export default function player(state = initialState, action) {
       });
 
     case CHANNELS_TOGGLE:
-      let index = state.picked.indexOf(action.channelId);
-      let operation = null;
-
-      if (index === -1) {
-        operation = {$push: [action.channelId]};
-      } else {
-        operation = {$splice: [[index, 1]]};
-      }
-
       return update(state, {
-        picked: operation,
+        items: {$set: state.items.map((item) => {
+          if (item.id === action.channelId) {
+            item.isEnabled = !item.isEnabled;
+          }
+
+          return item;
+        })},
       });
 
     case CHANNELS_LOADING:
       return update(state, {
         isLoading: {$set: action.isLoading},
+      });
+
+    case CHANNELS_ITEM_LOADING:
+      return update(state, {
+        items: {$set: state.items.map((item) => {
+          if (item.id === action.channelId) {
+            item.isLoading = action.isLoading;
+          }
+
+          return item;
+        })},
       });
 
     default:

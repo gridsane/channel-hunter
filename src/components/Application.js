@@ -7,7 +7,6 @@ import CoverAppBar from './CoverAppBar';
 import Controls from './Controls';
 import Channels from './Channels';
 import Playlist from './Playlist';
-import {filterMap} from '../utils/common';
 
 export class Application extends Component {
   state = {
@@ -102,7 +101,9 @@ export class Application extends Component {
 export function mapToProps(state) {
   const {channels, tracks} = state;
   const selectedTrack = tracks.selected ? tracks.items[tracks.selected] : null;
-  const channelsIds = filterMap(channels.items, (item) => item.isEnabled, (item) => item.id);
+  const channelsIds = channels.items
+    .filter((item) => item.isEnabled)
+    .map((item) => item.id);
 
   const playlist = tracks.items
     .filter((item) => -1 !== channelsIds.indexOf(item.channelId));

@@ -40,10 +40,4 @@ describe('Utils', () => {
 
   });
 
-  it('filters and maps array', () => {
-
-    expect(utils.filterMap([10, 20, 30], (x) => x > 15, (x) => x * 3)).toEqual([60, 90]);
-
-  });
-
 });

@@ -10,22 +10,13 @@ import update from 'react-addons-update';
 let initialState = {
   isLoading: false,
   items: [],
-  picked: [],
-  loaded: [],
 };
 
 export default function player(state = initialState, action) {
   switch(action.type) {
     case CHANNELS_ADD:
-      let pick = {};
-
-      if (action.isPicked) {
-        pick.picked = {$push: [action.channel.id]};
-      }
-
       return update(state, {
         items: {$push: [action.channel]},
-        ...pick,
       });
 
     case CHANNELS_REMOVE:

@@ -1,7 +1,8 @@
 import React from 'react';
-import {Application} from '../../src/components/Application';
+import {Application, mapToProps} from '../../src/components/Application';
 import Controls from '../../src/components/Controls';
 import Channels from '../../src/components/Channels';
+import Playlist from '../../src/components/Playlist';
 import ShallowTestUtils from 'react-shallow-testutils';
 import {shallowRender} from '../utils';
 import {selectItem, togglePlaying} from '../../src/actions/tracks';
@@ -68,7 +69,10 @@ describe('Application component', () => {
     let dispatch = expect.createSpy();
     let channels = getChannels(shallowRenderApp(dispatch));
 
-    expect(channels.props.list).toEqual([{id: 1, name: 'foo'}]);
+    expect(channels.props.list).toEqual([
+      {id: 1, name: 'foo', isEnabled: true},
+      {id: 2, name: 'bar', isEnabled: false},
+    ]);
 
     channels.props.onToggle({id: 1});
 
@@ -76,21 +80,56 @@ describe('Application component', () => {
 
   });
 
-  function shallowRenderApp(dispatch, selected = null) {
+  it('passes playlist for enabled channels', () => {
+
+    let playlist = getPlaylist(shallowRenderApp());
+
+    expect(playlist.props.list).toEqual([
+      {id: '10', channelId: 1},
+      {id: '20', channelId: 1},
+      {id: '30', channelId: 1},
+    ]);
+
+  });
+
+  it('maps tracks from enabled channels only', () => {
+
+    const props = mapToProps({
+      channels: {items: [
+        {id: 1, name: 'foo', isEnabled: true},
+        {id: 2, name: 'bar', isEnabled: false},
+      ]},
+      tracks: {
+        items: [
+          {id: 10, channelId: 1},
+          {id: 20, channelId: 2},
+        ],
+      },
+    });
+
+    expect(props.playlist).toEqual([
+      {id: 10, channelId: 1},
+    ]);
+
+  });
+
+  function shallowRenderApp(dispatch = () => null, selected = null) {
     const props = {
       selectedTrack: null,
       channels: {items: [
-        {id: 1, name: 'foo'},
+        {id: 1, name: 'foo', isEnabled: true},
+        {id: 2, name: 'bar', isEnabled: false},
       ]},
       tracks: {
         selected,
         isPlaying: false,
         isLoading: false,
-        items: {
-          '10': {id: '10', channelId: 1},
-          '20': {id: '20', channelId: 1},
-          '30': {id: '30', channelId: 1},
-        },
+        items: [
+          {id: '10', channelId: 1},
+          {id: '20', channelId: 1},
+          {id: '30', channelId: 1},
+          {id: '40', channelId: 2},
+        ],
       },
       playlist: [
         {id: '10', channelId: 1},
@@ -112,6 +151,10 @@ describe('Application component', () => {
 
   function getChannels(tree) {
     return ShallowTestUtils.findWithType(tree, Channels);
+  }
+
+  function getPlaylist(tree) {
+    return ShallowTestUtils.findWithType(tree, Playlist);
   }
 
 });

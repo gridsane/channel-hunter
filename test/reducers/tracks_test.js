@@ -12,18 +12,18 @@ describe('Tracks reducer', () => {
   it('adds items', () => {
 
     const initialState = {
-      items: {},
+      items: [],
     };
 
     let state = reducer(initialState, addItems([{id: 10}, {id: 20}]));
     state = reducer(state, addItems([{id: 10}, {id: 30}]));
 
     expect(state).toEqual({
-      items: {
-        10: {id: 10},
-        20: {id: 20},
-        30: {id: 30},
-      },
+      items: [
+        {id: 10},
+        {id: 20},
+        {id: 30},
+      ],
     });
 
     expect(state).toNotBe(initialState);

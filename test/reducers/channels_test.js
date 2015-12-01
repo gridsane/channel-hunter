@@ -5,7 +5,7 @@ describe('Channels reducer', () => {
 
   it('adds a channel', () => {
 
-    const initialState = {items: [], picked: []};
+    const initialState = {items: []};
 
     let state = reducer(initialState, actions.addChannel({id: 1, name: 'foo'}));
     state = reducer(state, actions.addChannel({id: 2, name: 'bar'}));
@@ -15,21 +15,9 @@ describe('Channels reducer', () => {
         {id: 1, name: 'foo'},
         {id: 2, name: 'bar'},
       ],
-      picked: [],
     });
 
     expect(state).toNotBe(initialState);
-
-    state = reducer(state, actions.addChannel({id: 3, name: 'baz'}, true));
-
-    expect(state).toEqual({
-      items: [
-        {id: 1, name: 'foo'},
-        {id: 2, name: 'bar'},
-        {id: 3, name: 'baz'},
-      ],
-      picked: [3],
-    });
 
   });
 
@@ -37,14 +25,12 @@ describe('Channels reducer', () => {
 
     const initialState = {
       items: [{id: 1, name: 'foo'}, {id: 2, name: 'bar'}],
-      picked: [],
     };
 
     let state = reducer(initialState, actions.removeChannel(1));
 
     expect(state).toEqual({
       items: [{id: 2, name: 'bar'}],
-      picked: [],
     });
 
     expect(state).toNotBe(initialState);
@@ -84,7 +70,6 @@ describe('Channels reducer', () => {
     const initialState = {
       isLoading: false,
       items: [],
-      picked: [],
     };
 
     let state = reducer(initialState, actions.toggleChannelsLoading(true));

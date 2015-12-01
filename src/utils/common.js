@@ -33,3 +33,15 @@ export function nodeOffset(node) {
 export function curried(fn, ...args) {
   return (...nArgs) => fn.apply(this, [...args, ...nArgs]);
 }
+
+export function filterMap(target, filterFn, mapFn) {
+  let result = [];
+
+  target.forEach((item) => {
+    if (filterFn(item)) {
+      result.push(mapFn(item));
+    }
+  });
+
+  return result;
+}

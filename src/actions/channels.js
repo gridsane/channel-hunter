@@ -6,8 +6,8 @@ import {
   CHANNELS_ITEM_LOADING,
 } from './actionsTypes';
 
-export function addChannel(channel, isPicked) {
-  return {type: CHANNELS_ADD, channel, isPicked};
+export function addChannel(channel) {
+  return {type: CHANNELS_ADD, channel};
 }
 
 export function removeChannel(channelId) {

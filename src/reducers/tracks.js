@@ -10,19 +10,17 @@ let initialState = {
   selected: null,
   isPlaying: false,
   isLoading: false,
-  items: {},
+  items: [],
 };
 
 export default function tracks(state = initialState, action) {
   switch(action.type) {
     case TRACKS_ITEMS_ADD:
-      let items = {};
-      action.items.forEach((item) => {
-        items[item.id] = item;
-      });
+      const ids = state.items.map((item) => item.id);
+      const items = action.items.filter((item) => -1 === ids.indexOf(item.id));
 
       return update(state, {
-        items: {$merge: items},
+        items: {$push: items},
       });
 
     case TRACKS_SELECT:

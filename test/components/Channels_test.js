@@ -46,6 +46,7 @@ describe('Channels component', () => {
 
     expect(items[1].props.rightElement.type).toBe(Icon);
     expect(items[1].props.rightElement.props.children).toBe('check');
+    expect(items[2].props.rightElementHeight).toBe(24);
 
   });
 
@@ -53,6 +54,7 @@ describe('Channels component', () => {
 
     expect(items[2].props.rightElement.type).toBe(Loader);
     expect(items[2].props.rightElement.props.size).toBe(24);
+    expect(items[2].props.rightElementHeight).toBe(24);
 
   });
 

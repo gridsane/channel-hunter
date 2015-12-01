@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {curried} from '../utils/common';
+import {colors} from '../utils/styles';
 import {List, ListItem, ListLabel, Avatar, Icon, Loader} from './common';
 
 export default class Channels extends Component {
@@ -16,6 +17,7 @@ export default class Channels extends Component {
         secondaryText={this._renderTags(channel.tags)}
         leftElement={<Avatar url={channel.image} />}
         rightElement={this._renderRightElement(channel)}
+        rightElementHeight={24}
         onClick={curried(this.props.onToggle, channel)} />;
     });
 
@@ -35,7 +37,7 @@ export default class Channels extends Component {
 
   _renderRightElement(channel) {
     if (channel.isLoading) {
-      return <Loader size={24} />;
+      return <Loader size={24} color={colors.primaryText} />;
     }
 
     return channel.isEnabled ? <Icon size={24}>check</Icon> : null;

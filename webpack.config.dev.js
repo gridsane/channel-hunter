@@ -5,7 +5,7 @@ module.exports = {
   devtool: 'eval',
   entry: [
     'babel-polyfill',
-    './src/index',
+    './src/client',
   ],
   output: {
     path: path.join(__dirname, 'assets'),

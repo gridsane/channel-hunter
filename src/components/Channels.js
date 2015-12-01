@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {curried} from '../utils/common';
-import {List, ListItem, ListLabel, Avatar} from './common';
+import {List, ListItem, ListLabel, Avatar, Icon, Loader} from './common';
 
 export default class Channels extends Component {
   static propTypes = {
@@ -13,9 +13,9 @@ export default class Channels extends Component {
       return <ListItem
         key={channel.id}
         primaryText={channel.name}
-        secondaryText={this.renderTags(channel.tags)}
+        secondaryText={this._renderTags(channel.tags)}
         leftElement={<Avatar url={channel.image} />}
-        rightIcon={channel.isEnabled ? "check" : null}
+        rightElement={this._renderRightElement(channel)}
         onClick={curried(this.props.onToggle, channel)} />;
     });
 
@@ -25,12 +25,20 @@ export default class Channels extends Component {
     </List>;
   }
 
-  renderTags(tags) {
+  _renderTags(tags) {
     if (!tags) {
       return null;
     }
 
     return tags.join(', ');
+  }
+
+  _renderRightElement(channel) {
+    if (channel.isLoading) {
+      return <Loader size={24} />;
+    }
+
+    return channel.isEnabled ? <Icon size={24}>check</Icon> : null;
   }
 
 }

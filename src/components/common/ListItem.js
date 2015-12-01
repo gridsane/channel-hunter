@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Icon from './Icon';
 import {colors} from '../../utils/styles';
 
 const PropTypeStringOrComponent = React.PropTypes.oneOfType([
@@ -13,7 +12,8 @@ export default class ListItem extends Component {
     secondaryText: PropTypeStringOrComponent,
     leftElement: React.PropTypes.element,
     leftElementHeight: React.PropTypes.number,
-    rightIcon: React.PropTypes.string,
+    rightElement: React.PropTypes.element,
+    rightElementHeight: React.PropTypes.number,
     onClick: React.PropTypes.func,
   };
 
@@ -21,7 +21,8 @@ export default class ListItem extends Component {
     secondaryText: null,
     leftElement: null,
     leftElementHeight: 40,
-    rightIcon: null,
+    rightElement: null,
+    rightElementHeight: 40,
     onClick: null,
   };
 
@@ -30,41 +31,32 @@ export default class ListItem extends Component {
   };
 
   render() {
-    let styles = this.getStyles();
+    const styles = this.getStyles();
+    const {leftElement, rightElement} = this.props;
 
     return <li
       style={styles.container}
       onClick={::this._click}
       onMouseEnter={::this._mouseEnter}
       onMouseLeave={::this._mouseLeave}>
-      {this.renderLeftElement(styles.leftElement)}
+      {this.renderElement(leftElement, styles.leftElement)}
       <span style={styles.primaryText}>{this.props.primaryText}</span>
       <span style={styles.secondaryText}>{this.props.secondaryText}</span>
-      {this.renderRightIcon(styles.rightIcon)}
+      {this.renderElement(rightElement, styles.rightElement)}
     </li>;
   }
 
-  renderLeftElement(leftElementStyle) {
-    const leftElement = this.props.leftElement;
-
-    if (leftElement === null) {
+  renderElement(element, elementStyle) {
+    if (element === null) {
       return null;
     }
 
-    const style = Object.assign({}, leftElementStyle, leftElement.props.style);
+    const style = Object.assign({}, elementStyle, element.props.style);
 
     return React.cloneElement(
-      leftElement,
-      {...leftElement.props, style: style}
+      element,
+      {...element.props, style}
     );
-  }
-
-  renderRightIcon(rightIconStyle) {
-    if (this.props.rightIcon === null) {
-      return null;
-    }
-
-    return <Icon style={rightIconStyle} size={24}>{this.props.rightIcon}</Icon>;
   }
 
   _click(event) {
@@ -103,7 +95,6 @@ export default class ListItem extends Component {
       overflow: 'hidden',
     };
 
-
     return {
 
       container: {
@@ -133,16 +124,21 @@ export default class ListItem extends Component {
       leftElement: {
         position: 'absolute',
         left: '16px',
-        top: ((height - this.props.leftElementHeight) / 2) + 'px',
+        top: this._getSideElementTop(height, this.props.leftElementHeight),
+        color: colors.primaryText,
       },
 
-      rightIcon: {
+      rightElement: {
         position: 'absolute',
         right: '16px',
-        top: '16px',
+        top: this._getSideElementTop(height, this.props.rightElementHeight),
         color: colors.primaryText,
       },
 
     };
+  }
+
+  _getSideElementTop(itemHeight, elementHeight) {
+    return ((itemHeight - elementHeight) / 2) + 'px';
   }
 }

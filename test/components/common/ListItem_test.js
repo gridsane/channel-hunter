@@ -1,6 +1,5 @@
 import React from 'react';
 import ListItem from '../../../src/components/common/ListItem';
-import Icon from '../../../src/components/common/Icon';
 import TestUtils from 'react-addons-test-utils';
 import ShallowTestUtils from 'react-shallow-testutils';
 import {renderDOM, shallowRender} from '../../utils';
@@ -52,28 +51,17 @@ describe('ListItem component', () => {
 
   });
 
-  it('adds right icon', () => {
-
-    const tree = shallowRender(
-      <ListItem primaryText="foo" rightIcon="bar" />
-    );
-
-    const icon = ShallowTestUtils.findWithType(tree, Icon);
-    expect(icon.props.children).toBe('bar');
-
-  });
-
   it('adds left element', () => {
 
     const tree = shallowRender(
       <ListItem
         primaryText="foo"
         leftElement={<span className="left">bar</span>}
-        leftElementHeight={40} />
+        leftElementHeight={38} />
     );
 
     const leftElement = ShallowTestUtils.findWithClass(tree, 'left');
-    expect(leftElement.props.style.top).toBe('8px');
+    expect(leftElement.props.style.top).toBe('9px');
     expect(leftElement.props.children).toBe('bar');
 
   });
@@ -89,6 +77,35 @@ describe('ListItem component', () => {
     const leftElement = ShallowTestUtils.findWithClass(tree, 'left');
     expect(leftElement.props.style.top).toBe('8px');
     expect(leftElement.props.style.color).toBe('red');
+
+  });
+
+  it('adds right element', () => {
+
+    const tree = shallowRender(
+      <ListItem
+        primaryText="foo"
+        rightElement={<span className="right">bar</span>}
+        rightElementHeight={38} />
+    );
+
+    const rightElement = ShallowTestUtils.findWithClass(tree, 'right');
+    expect(rightElement.props.style.top).toBe('9px');
+    expect(rightElement.props.children).toBe('bar');
+
+  });
+
+  it('merges with right element style', () => {
+
+    const tree = shallowRender(
+      <ListItem
+        primaryText="foo"
+        rightElement={<span className="right" style={{color: 'red'}} />} />
+    );
+
+    const rightElement = ShallowTestUtils.findWithClass(tree, 'right');
+    expect(rightElement.props.style.top).toBe('8px');
+    expect(rightElement.props.style.color).toBe('red');
 
   });
 

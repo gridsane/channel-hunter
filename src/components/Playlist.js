@@ -39,7 +39,6 @@ export default class Playlist extends Component {
         }
         leftElementHeight={24}
         primaryText={this.renderTrackName(track, styles)}
-        rightIcon="more_vert"
         onClick={curried(this.props.onSelect, track.id) } />;
     });
   }

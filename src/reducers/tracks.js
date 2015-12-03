@@ -25,6 +25,7 @@ export default function tracks(state = initialState, action) {
 
     case TRACKS_SELECT:
       return update(state, {
+        isPlaying: {$set: true},
         selected: {$set: action.track},
       });
 

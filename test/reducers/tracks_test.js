@@ -27,14 +27,29 @@ describe('Tracks reducer', () => {
   it('selects track', () => {
 
     const initialState = {
+      isPlaying: true,
       selected: null,
     };
 
     let state = reducer(initialState, actions.selectTrack(10));
-    expect(state).toEqual({selected: 10});
+    expect(state).toEqual({selected: 10, isPlaying: true});
 
     state = reducer(state, actions.selectTrack(20));
-    expect(state).toEqual({selected: 20});
+    expect(state).toEqual({selected: 20, isPlaying: true});
+
+    expect(state).toNotBe(initialState);
+
+  });
+
+  it('starts playing after track selecting', () => {
+
+    const initialState = {
+      isPlaying: false,
+      selected: null,
+    };
+
+    const state = reducer(initialState, actions.selectTrack(10));
+    expect(state).toEqual({selected: 10, isPlaying: true});
 
     expect(state).toNotBe(initialState);
 

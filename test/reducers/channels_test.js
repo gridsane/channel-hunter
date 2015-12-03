@@ -3,17 +3,18 @@ import * as actions from '../../src/actions/channels';
 
 describe('Channels reducer', () => {
 
-  it('adds a channel', () => {
+  it('adds channels', () => {
 
     const initialState = {items: []};
 
-    let state = reducer(initialState, actions.addChannel({id: 1, name: 'foo'}));
-    state = reducer(state, actions.addChannel({id: 2, name: 'bar'}));
+    let state = reducer(initialState, actions.addChannels([{id: 1}]));
+    state = reducer(state, actions.addChannels([{id: 2}, {id: 3}]));
 
     expect(state).toEqual({
       items: [
-        {id: 1, name: 'foo'},
-        {id: 2, name: 'bar'},
+        {id: 1},
+        {id: 2},
+        {id: 3},
       ],
     });
 
@@ -37,34 +38,6 @@ describe('Channels reducer', () => {
 
   });
 
-  it('toggles channel', () => {
-    const initialState = {
-      items: [
-        {id: 1, isEnabled: false},
-        {id: 2, isEnabled: false},
-      ],
-    };
-
-    let state = reducer(initialState, actions.toggleChannel(1));
-
-    expect(state).toEqual({
-      items: [
-        {id: 1, isEnabled: true},
-        {id: 2, isEnabled: false},
-      ],
-    });
-
-    state = reducer(initialState, actions.toggleChannel(1));
-    expect(state).toEqual({
-      items: [
-        {id: 1, isEnabled: false},
-        {id: 2, isEnabled: false},
-      ],
-    });
-
-    expect(state).toNotBe(initialState);
-  });
-
   it('toggles loading', () => {
 
     const initialState = {
@@ -72,11 +45,11 @@ describe('Channels reducer', () => {
       items: [],
     };
 
-    let state = reducer(initialState, actions.toggleChannelsLoading(true));
+    let state = reducer(initialState, actions.setChannelsLoading(true));
     expect(state.isLoading).toBe(true);
     expect(state).toNotBe(initialState);
 
-    state = reducer(initialState, actions.toggleChannelsLoading(false));
+    state = reducer(initialState, actions.setChannelsLoading(false));
     expect(state.isLoading).toBe(false);
 
   });
@@ -89,17 +62,64 @@ describe('Channels reducer', () => {
       ],
     };
 
-    let state = reducer(initialState, actions.toggleChannelsItemLoading(1, true));
+    let state = reducer(initialState, actions.setChannelLoading(1, true));
     expect(state).toEqual({
       items: [
         {id: 1, isLoading: true},
       ],
     });
 
-    state = reducer(state, actions.toggleChannelsItemLoading(1, false));
+    state = reducer(state, actions.setChannelLoading(1, false));
     expect(state).toEqual({
       items: [
         {id: 1, isLoading: false},
+      ],
+    });
+
+    expect(state).toNotBe(initialState);
+
+  });
+
+  it('toggles item loaded', () => {
+
+    const initialState = {
+      items: [
+        {id: 1},
+      ],
+    };
+
+    let state = reducer(initialState, actions.setChannelLoaded(1, true));
+    expect(state).toEqual({
+      items: [
+        {id: 1, isLoaded: true},
+      ],
+    });
+
+    state = reducer(state, actions.setChannelLoaded(1, false));
+    expect(state).toEqual({
+      items: [
+        {id: 1, isLoaded: false},
+      ],
+    });
+
+    expect(state).toNotBe(initialState);
+
+  });
+
+  it('sets channel props', () => {
+
+    const initialState = {
+      items: [{id: 1}],
+    };
+
+    let state = reducer(initialState, actions.setChannelProps(1, {
+      isEnabled: true,
+      isLoaded: false,
+    }));
+
+    expect(state).toEqual({
+      items: [
+        {id: 1, isEnabled: true, isLoaded: false},
       ],
     });
 

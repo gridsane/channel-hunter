@@ -5,8 +5,8 @@ import Channels from '../../src/components/Channels';
 import Playlist from '../../src/components/Playlist';
 import ShallowTestUtils from 'react-shallow-testutils';
 import {shallowRender} from '../utils';
-import {selectItem, togglePlaying} from '../../src/actions/tracks';
-import {toggleChannel} from '../../src/actions/channels';
+import {selectTrack, togglePlaying} from '../../src/actions/tracks';
+import * as channelsActions from '../../src/actions/channels';
 
 describe('Application component', () => {
 
@@ -18,7 +18,7 @@ describe('Application component', () => {
     controls.props.onNext();
 
     expect(dispatch.calls.length).toBe(1);
-    expect(dispatch.calls[0].arguments[0]).toEqual(selectItem('20'));
+    expect(dispatch.calls[0].arguments[0]).toEqual(selectTrack('20'));
 
   });
 
@@ -30,7 +30,7 @@ describe('Application component', () => {
     controls.props.onNext();
 
     expect(dispatch.calls.length).toBe(1);
-    expect(dispatch.calls[0].arguments[0]).toEqual(selectItem('10'));
+    expect(dispatch.calls[0].arguments[0]).toEqual(selectTrack('10'));
 
   });
 
@@ -64,19 +64,25 @@ describe('Application component', () => {
 
   });
 
-  it('toggles Channels', () => {
+  it('enables channel', () => {
 
     let dispatch = expect.createSpy();
     let channels = getChannels(shallowRenderApp(dispatch));
+
+    expect.spyOn(channelsActions, 'setChannelEnabled').andCall(function (...args) {
+      return args;
+    });
 
     expect(channels.props.list).toEqual([
       {id: 1, name: 'foo', isEnabled: true},
       {id: 2, name: 'bar', isEnabled: false},
     ]);
 
-    channels.props.onToggle({id: 1});
+    channels.props.onToggle({id: 1, isEnabled: true});
 
-    expect(dispatch.calls[0].arguments[0]).toEqual(toggleChannel(1));
+    expect(dispatch.calls[0].arguments[0]).toEqual(
+      channelsActions.setChannelEnabled({id: 1, isEnabled: true}, false)
+    );
 
   });
 
@@ -110,6 +116,23 @@ describe('Application component', () => {
     expect(props.playlist).toEqual([
       {id: 10, channelId: 1},
     ]);
+
+  });
+
+  it('maps selected track', () => {
+
+    const props = mapToProps({
+      channels: {items: []},
+      tracks: {
+        selected: 20,
+        items: [
+          {id: 10, channelId: 1},
+          {id: 20, channelId: 2},
+        ],
+      },
+    });
+
+    expect(props.selectedTrack).toEqual({id: 20, channelId: 2});
 
   });
 

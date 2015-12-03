@@ -17,7 +17,7 @@ export default function tracks(state = initialState, action) {
   switch(action.type) {
     case TRACKS_ITEMS_ADD:
       const ids = state.items.map((item) => item.id);
-      const items = action.items.filter((item) => -1 === ids.indexOf(item.id));
+      const items = action.tracks.filter((item) => -1 === ids.indexOf(item.id));
 
       return update(state, {
         items: {$push: items},
@@ -25,7 +25,7 @@ export default function tracks(state = initialState, action) {
 
     case TRACKS_SELECT:
       return update(state, {
-        selected: {$set: action.item},
+        selected: {$set: action.track},
       });
 
     case TRACKS_TOGGLE_PLAYING:

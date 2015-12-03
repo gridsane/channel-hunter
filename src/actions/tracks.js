@@ -1,22 +1,17 @@
-import {
-  TRACKS_ITEMS_ADD,
-  TRACKS_TOGGLE_PLAYING,
-  TRACKS_TOGGLE_LOADING,
-  TRACKS_SELECT,
-} from './actionsTypes';
+import * as types from './actionsTypes';
 
-export function addItems(items) {
-  return {type: TRACKS_ITEMS_ADD, items};
+export function addTracks(tracks) {
+  return {type: types.TRACKS_ITEMS_ADD, tracks};
 }
 
 export function togglePlaying(isPlaying) {
-  return {type: TRACKS_TOGGLE_PLAYING, isPlaying};
+  return {type: types.TRACKS_TOGGLE_PLAYING, isPlaying};
 }
 
-export function toggleTracksLoading(isLoading) {
-  return {type: TRACKS_TOGGLE_LOADING, isLoading};
+export function setTracksLoading(isLoading) {
+  return {type: types.TRACKS_TOGGLE_LOADING, isLoading};
 }
 
-export function selectItem(item) {
-  return {type: TRACKS_SELECT, item};
+export function selectTrack(track) {
+  return {type: types.TRACKS_SELECT, track};
 }

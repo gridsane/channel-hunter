@@ -7,7 +7,6 @@ export default function (storage) {
     index: async function index(req, res) {
 
       const channels = await storage.getChannels();
-
       const initialState = {
         tracks: {
           selected: null,
@@ -19,8 +18,9 @@ export default function (storage) {
           isLoading: false,
           items: channels.map(function (channel) {
             return Object.assign(channel, {
-              isEnabled: true,
+              isEnabled: false,
               isLoading: false,
+              isLoaded: false,
             });
           }),
         },

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {selectItem, togglePlaying} from '../actions/tracks';
-import {toggleChannel} from '../actions/channels';
+import {selectTrack, togglePlaying, loadChannelItems} from '../actions/tracks';
+import {setChannelEnabled} from '../actions/channels';
 import AppNavigation from './AppNavigation';
 import CoverAppBar from './CoverAppBar';
 import Controls from './Controls';
@@ -47,6 +47,14 @@ export class Application extends Component {
     window.addEventListener('resize', ::this._updateNavigationMode);
   }
 
+  componentDidMount() {
+    this.props.channels.items.forEach((channel) => {
+      if (channel.isEnabled) {
+        this.props.dispatch(loadChannelItems(channel.source, channel.id));
+      }
+    });
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', ::this._updateNavigationMode);
   }
@@ -64,7 +72,7 @@ export class Application extends Component {
   }
 
   _toggleChannel(channel) {
-    this.props.dispatch(toggleChannel(channel.id));
+    this.props.dispatch(setChannelEnabled(channel, !channel.isEnabled));
   }
 
   _togglePlaying(isPlaying) {
@@ -87,20 +95,20 @@ export class Application extends Component {
     if (nextIndex > playlist.length - 1) {
       this.props.dispatch(togglePlaying(false));
     } else {
-      this.props.dispatch(selectItem(playlist[nextIndex].id));
+      this.props.dispatch(selectTrack(playlist[nextIndex].id));
     }
 
   }
 
   _selectTrack(trackId) {
-    this.props.dispatch(selectItem(trackId));
+    this.props.dispatch(selectTrack(trackId));
   }
 
 }
 
 export function mapToProps(state) {
   const {channels, tracks} = state;
-  const selectedTrack = tracks.selected ? tracks.items[tracks.selected] : null;
+  const selectedTrack = tracks.selected ? tracks.items.find((item) => item.id === tracks.selected) : null;
   const channelsIds = channels.items
     .filter((item) => item.isEnabled)
     .map((item) => item.id);

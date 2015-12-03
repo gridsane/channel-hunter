@@ -27,7 +27,7 @@ export default class Loader extends Component {
           r="20"
           fill="none"
           strokeWidth={strokeWidth} />
-        </svg>
+      </svg>
     </div>;
   }
 

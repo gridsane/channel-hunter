@@ -19,7 +19,8 @@ describe('VK API', () => {
 
     expect(channel).toEqual({
       source: 'vk',
-      id: '26457580',
+      id: 'vk-26457580',
+      originalId: '26457580',
       name: 'E:\music\stoner',
       description: 'Group description',
       image: 'https://pp.vk.me/...2a1/x2sP4RGbPpQ.jpg',
@@ -51,24 +52,26 @@ describe('VK API', () => {
     expect(tracks).toEqual([
       {
         source: 'vk',
-        id: '415029890',
+        id: 'vk-415029890',
+        originalId: '415029890',
         date: 1448049845,
         artist: 'Dreadnought',
         title: 'Feeling Good',
         url: 'https://cs3-3v4.v...d9jyaYxXpr9Sri2ykMw',
         duration: 214,
-        channelId: '1000',
+        channelId: 'vk-1000',
         cover: 'https://pp.vk.me/...b37/ep7zbIzb7mU.jpg',
       },
       {
         source: 'vk',
-        id: '415071124',
+        id: 'vk-415071124',
+        originalId: '415071124',
         date: 1448049845,
         artist: 'Dreadnought',
         title: 'Cocaine',
         url: 'https://cs3-3v4.v...-fmz6Qfe9dlNpzVShVT',
         duration: 148,
-        channelId: '1000',
+        channelId: 'vk-1000',
         cover: 'https://pp.vk.me/...b37/ep7zbIzb7mU.jpg',
       },
     ]);

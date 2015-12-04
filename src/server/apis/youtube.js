@@ -76,7 +76,8 @@ export default class YoutubeAPI {
   _convertChannel(res) {
     return {
       source: 'youtube',
-      id: res.id,
+      id: 'youtube-' + res.id,
+      originalId: res.id,
       name: res.snippet.title,
       description: res.snippet.description,
       image: res.snippet.thumbnails.medium.url,
@@ -90,14 +91,15 @@ export default class YoutubeAPI {
     const title = titleArr.splice(1).join('-').trim();
 
     return {
-      source: "youtube",
-      id: snippetRes.id.videoId,
+      source: 'youtube',
+      id: 'youtube-' + snippetRes.id.videoId,
+      originalId: snippetRes.id.videoId,
       date: (new Date(snippetRes.snippet.publishedAt)).getTime(),
       artist,
       title,
       url: null,
       duration: this._durationToSeconds(detailsRes.contentDetails.duration),
-      channelId: snippetRes.snippet.channelId,
+      channelOriginalId: snippetRes.snippet.channelId,
       cover: snippetRes.snippet.thumbnails.high.url,
     };
   }

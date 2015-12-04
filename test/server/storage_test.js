@@ -13,51 +13,69 @@ describe('Storage @database', () => {
   it('adds channel and gets channels', async () => {
 
     const storage = new Storage(MONGO_URI_TEST);
-    const channel = await storage.addOrUpdateChannel({
-      source: 'testing',
-      id: 'test_id',
+    const inputChannel = {
+      source: 'vk',
+      id: 'vk-10',
+      originalId: '10',
       name: 'test channel name',
       image: 'path/to/image',
-    });
+    };
+
+    const outputChannel = await storage.addOrUpdateChannel(inputChannel);
+
+    expect(outputChannel).toEqual(inputChannel);
 
     const channels = await storage.getChannels();
     expect(channels.length).toBe(1);
-    expect(channel.id).toBe('test_id');
-    expect(channels[0]).toEqual(channel);
+    expect(channels[0]).toEqual(inputChannel);
 
   });
 
-  it('updates channel by external id', async () => {
+  it('updates channel by source and originalId pair', async () => {
 
     const storage = new Storage(MONGO_URI_TEST);
     await storage.addOrUpdateChannel({
+      source: 'vk',
+      id: 'vk-10',
+      originalId: '10',
       name: 'foo',
-      id: 'test_id',
+    });
+    await storage.addOrUpdateChannel({
+      source: 'youtube',
+      id: 'youtube-10',
+      originalId: '10',
+      name: 'bar',
     });
 
     const firstChannels = await storage.getChannels();
-    expect(firstChannels.length).toBe(1);
-    expect(firstChannels[0].name).toBe('foo');
+    expect(firstChannels.length).toBe(2);
 
     await storage.addOrUpdateChannel({
-      name: 'bar',
-      id: 'test_id',
+      source: 'vk',
+      id: 'vk-10',
+      originalId: '10',
+      name: 'baz',
     });
 
     const secondChannels = await storage.getChannels();
-    expect(secondChannels.length).toBe(1);
-    expect(secondChannels[0].name).toBe('bar');
+
+    const vkChannel = secondChannels.find((c) => c.source == 'vk');
+    const youtubeChannel = secondChannels.find((c) => c.source == 'youtube');
+
+    expect(vkChannel.name).toBe('baz');
+    expect(youtubeChannel.name).toBe('bar');
 
   });
 
   it('inserts channels', async () => {
 
     const storage = new Storage(MONGO_URI_TEST);
-    await storage.addOrUpdateChannel({name: 'foo', id: 'id1'});
-    await storage.addOrUpdateChannel({name: 'bar', id: 'id2'});
+    await storage.addOrUpdateChannel({source: 'vk', id: 'vk-10', originalId: '10'});
+    await storage.addOrUpdateChannel({source: 'vk', id: 'vk-20', originalId: '20'});
+    await storage.addOrUpdateChannel({source: 'youtube', id: 'youtube-10', originalId: '10'});
 
     const channels = await storage.getChannels();
-    expect(channels.length).toBe(2);
+    expect(channels.length).toBe(3);
 
   });
 

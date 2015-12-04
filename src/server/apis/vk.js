@@ -81,9 +81,12 @@ export default class VkAPI {
   }
 
   _convertChannel(res) {
+    const id = res.id.toString();
+
     return {
       source: 'vk',
-      id: res.id.toString(),
+      id: 'vk-' + id,
+      originalId: id,
       name: res.name,
       description: res.description,
       image: res.photo_100,
@@ -92,15 +95,18 @@ export default class VkAPI {
   }
 
   _convertTrack(audio, channelId, cover) {
+    const id = audio.id.toString();
+
     return {
       source: 'vk',
-      id: audio.id.toString(),
+      id: 'vk-' + id,
+      originalId: id,
       date: audio.date,
       artist: audio.artist,
       title: audio.title,
       url: audio.url,
       duration: audio.duration,
-      channelId: channelId,
+      channelId: 'vk-' + channelId,
       cover: cover,
     };
   }

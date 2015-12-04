@@ -1,5 +1,11 @@
 import mongo from 'mongodb';
 
+function removeIdKey(value) {
+  delete value._id;
+
+  return value;
+}
+
 export default class Storage {
 
   constructor(mongoUri) {
@@ -14,7 +20,7 @@ export default class Storage {
         if (err) {
           reject(err);
         } else {
-          resolve(channels);
+          resolve(channels.map(removeIdKey));
         }
       });
     });
@@ -27,15 +33,13 @@ export default class Storage {
       db.collection('channels').findAndModify(
         {id: channel.id},
         [],
-        {
-          $set: channel,
-        },
+        {$set: channel},
         {new: true, upsert: true},
         (err, data) => {
           if (err) {
             reject(err);
           } else {
-            resolve(data.value);
+            resolve(removeIdKey(data.value));
           }
         }
       );

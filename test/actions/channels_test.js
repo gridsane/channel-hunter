@@ -11,11 +11,13 @@ describe('Channels actions', () => {
 
     await actions.setChannelEnabled({
       id: 1,
+      originalId: 11,
       source: 'vk',
       isEnabled: false,
       isLoaded: false,
     }, true)(dispatch);
 
+    expect(api.getTracks.calls[0].arguments).toEqual(['vk', 11]);
     expect(dispatch.calls[0].arguments[0]).toEqual(actions.setChannelLoading(1, true));
     expect(dispatch.calls[1].arguments[0]).toEqual(tracksActions.addTracks([1, 2, 3]));
     expect(dispatch.calls[2].arguments[0]).toEqual(actions.setChannelProps(1, {
@@ -32,6 +34,7 @@ describe('Channels actions', () => {
 
     await actions.setChannelEnabled({
       id: 1,
+      originalId: 11,
       source: 'vk',
       isEnabled: true,
       isLoaded: true,
@@ -52,6 +55,7 @@ describe('Channels actions', () => {
 
     await actions.setChannelEnabled({
       id: 1,
+      originalId: 11,
       source: 'vk',
       isEnabled: false,
       isLoaded: true,

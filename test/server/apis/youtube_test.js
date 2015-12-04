@@ -3,7 +3,7 @@ import nock from 'nock';
 
 describe('Youtube API', () => {
 
-  const key = 'YOUTUBE_API_KEY';
+  const key = 'YOUTUBE-API_KEY';
   const api = new YoutubeAPI(key);
 
   afterEach(() => {
@@ -20,7 +20,8 @@ describe('Youtube API', () => {
 
     expect(channel).toEqual({
       source: 'youtube',
-      id: 'UCywl3vgm261NHTzzcgkrQiA',
+      id: 'youtube-UCywl3vgm261NHTzzcgkrQiA',
+      originalId: 'UCywl3vgm261NHTzzcgkrQiA',
       name: 'Math Rock Channel',
       description: 'I DO NOT OWN ALL THE TRACKS',
       image: 'https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s240-c-k-no/photo.jpg',
@@ -39,7 +40,8 @@ describe('Youtube API', () => {
 
     expect(channel).toEqual({
       source: 'youtube',
-      id: 'UCywl3vgm261NHTzzcgkrQiA',
+      id: 'youtube-UCywl3vgm261NHTzzcgkrQiA',
+      originalId: 'UCywl3vgm261NHTzzcgkrQiA',
       name: 'Math Rock Channel',
       description: 'I DO NOT OWN ALL THE TRACKS',
       image: 'https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s240-c-k-no/photo.jpg',
@@ -74,24 +76,26 @@ describe('Youtube API', () => {
     expect(tracks).toEqual([
       {
         source: 'youtube',
-        id: 'AmyoEy0pzWs',
+        id: 'youtube-AmyoEy0pzWs',
+        originalId: 'AmyoEy0pzWs',
         date: 1397162021000,
         artist: 'Cleft',
         title: 'Ghost Thighs',
         url: null,
         duration: 240,
-        channelId: 'UCywl3vgm261NHTzzcgkrQiA',
+        channelOriginalId: 'UCywl3vgm261NHTzzcgkrQiA',
         cover: 'https://i.ytimg.com/vi/AmyoEy0pzWs/hqdefault.jpg',
       },
       {
         source: 'youtube',
-        id: 'Xy8EGXRBOEU',
+        id: 'youtube-Xy8EGXRBOEU',
+        originalId: 'Xy8EGXRBOEU',
         date: 1397162687000,
         artist: 'Cleft',
         title: 'Elephant In The Bar Room',
         url: null,
         duration: 224,
-        channelId: 'UCywl3vgm261NHTzzcgkrQiA',
+        channelOriginalId: 'UCywl3vgm261NHTzzcgkrQiA',
         cover: 'https://i.ytimg.com/vi/Xy8EGXRBOEU/hqdefault.jpg',
       },
     ]);

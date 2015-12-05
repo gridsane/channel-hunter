@@ -15,6 +15,7 @@ export default class ListItem extends Component {
     rightElement: React.PropTypes.element,
     rightElementHeight: React.PropTypes.number,
     onClick: React.PropTypes.func,
+    style: React.PropTypes.object,
   };
 
   static defaultProps = {
@@ -24,6 +25,7 @@ export default class ListItem extends Component {
     rightElement: null,
     rightElementHeight: 40,
     onClick: null,
+    style: null,
   };
 
   state = {
@@ -79,7 +81,7 @@ export default class ListItem extends Component {
     }
 
     return {
-      backgroundColor: 'rgba(0,0,0,.08)',
+      backgroundColor: 'rgba(0,0,0,.05)',
       cursor: 'pointer',
     };
   }
@@ -103,6 +105,7 @@ export default class ListItem extends Component {
         height: `${height}px`,
         padding: `20px ${paddingRight}px 20px ${paddingLeft}px`,
         lineHeight: '16px',
+        ...this.props.style,
         ...mouseOver,
       },
 

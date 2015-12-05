@@ -30,13 +30,16 @@ export default class Playlist extends Component {
 
   renderTracks(styles) {
     return this.props.list.map((track) => {
+      const isCurrent = this.props.selectedId === track.id;
+
       return <ListItem
         key={track.id}
         leftElement={
-          this.props.selectedId === track.id
+          isCurrent
           ? <Icon style={styles.currentIcon} size={24}>play_arrow</Icon>
           : null
         }
+        style={isCurrent ? styles.currentTrack : styles.track}
         leftElementHeight={24}
         primaryText={this.renderTrackName(track, styles)}
         onClick={curried(this.props.onSelect, track.id) } />;
@@ -61,6 +64,15 @@ export default class Playlist extends Component {
       container: {
         margin: `60px 16px 64px ${marginLeft}`,
         boxShadow: shadow(20),
+        backgroundColor: '#fff',
+      },
+
+      track: {
+        transition: 'background-color .1s ease-out',
+      },
+
+      currentTrack: {
+        backgroundColor: 'rgba(0, 0, 0, .08)',
       },
 
       artist: {

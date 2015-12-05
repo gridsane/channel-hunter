@@ -61,7 +61,7 @@ export default class Navigation extends Component {
           left: open ? 0 : '-320px',
           bottom: 0,
           width: '320px',
-          backgroundColor: '#fff',
+          backgroundColor: docked ? 'none' : '#fff',
           boxShadow: docked ? 'none' : shadow(30),
           zIndex: 1,
           transition: 'left .3s ease-out',

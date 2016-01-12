@@ -72,7 +72,7 @@ describe('VK API', () => {
         url: 'https://cs3-3v4.v...-fmz6Qfe9dlNpzVShVT',
         duration: 148,
         channelId: 'vk-1000',
-        cover: 'https://pp.vk.me/...b37/ep7zbIzb7mU.jpg',
+        cover: null,
       },
     ]);
 
@@ -136,9 +136,6 @@ const RESPONSES = {
               album_id:-7,
               owner_id:-26457580,
               user_id:100,
-              photo_75:'https://pp.vk.me/...b34/CS-JvdHS0Jk.jpg',
-              photo_130:'https://pp.vk.me/...b35/oFijYdXjflc.jpg',
-              photo_604:'https://pp.vk.me/...b36/dsAIeNT_88g.jpg',
               photo_807:'https://pp.vk.me/...b37/ep7zbIzb7mU.jpg',
               photo_1280:'https://pp.vk.me/...b38/oOKgHmhSyyw.jpg',
               photo_2560:'https://pp.vk.me/...b39/K5wXUkE9h1M.jpg',
@@ -163,6 +160,21 @@ const RESPONSES = {
               genre_id:18,
             },
           },
+        ],
+        post_source:{type:'vk'},
+        comments:{count:15, can_post:1},
+        likes:{count:317, user_likes:0, can_like:1, can_publish:1},
+        reposts:{count:114, user_reposted:0},
+      },
+      {
+        id:72652,
+        from_id:-26457580,
+        owner_id:-26457580,
+        date:1448112012,
+        post_type:'post',
+        text:'text',
+        is_pinned:1,
+        attachments:[
           {
             type:'audio',
             audio:{

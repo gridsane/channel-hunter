@@ -50,6 +50,7 @@ describe('Main router', () => {
       tracks: {
         isPlaying: false,
         isLoading: false,
+        sort: {attr: 'date', dir: 'desc'},
         selected: null,
         items: [],
       },

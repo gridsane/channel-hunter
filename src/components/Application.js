@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {selectTrack, togglePlaying, loadChannelItems} from '../actions/tracks';
+import {selectTrack, togglePlaying, loadChannelItems, setTracksSort} from '../actions/tracks';
 import {setChannelEnabled} from '../actions/channels';
 import AppNavigation from './AppNavigation';
 import CoverAppBar from './CoverAppBar';
@@ -17,7 +17,7 @@ export class Application extends Component {
 
   render() {
     const {isSmallScreen, isNavOpen, isNavDocked} = this.state;
-    const {playlist, channels, tracks, selectedTrack, coverUrl} = this.props;
+    const {playlist, isShuffle, channels, tracks, selectedTrack, coverUrl} = this.props;
 
     return <div>
       <AppNavigation open={isNavOpen} docked={isNavDocked}>
@@ -38,7 +38,9 @@ export class Application extends Component {
         compact={isSmallScreen}
         selectedId={tracks.selected}
         list={playlist}
-        onSelect={::this._selectTrack} />
+        isShuffle={isShuffle}
+        onSelect={::this._selectTrack}
+        onToggleShuffle={::this._toggleShuffle} />
     </div>;
   }
 
@@ -79,6 +81,10 @@ export class Application extends Component {
     this.props.dispatch(togglePlaying(isPlaying));
   }
 
+  _toggleShuffle() {
+    this.props.dispatch(setTracksSort(this.props.isShuffle ? 'date' : '_seed', 'desc'));
+  }
+
   _nextTrack() {
 
     const {tracks, playlist} = this.props;
@@ -109,18 +115,34 @@ export class Application extends Component {
 export function mapToProps(state) {
   const {channels, tracks} = state;
   const selectedTrack = tracks.selected ? tracks.items.find((item) => item.id === tracks.selected) : null;
-  const channelsIds = channels.items
-    .filter((item) => item.isEnabled)
-    .map((item) => item.id);
+
+  const enabledChannels = channels.items
+    .filter((item) => item.isEnabled);
+  const channelsIds = enabledChannels.map((item) => item.id);
+  let channelsData = [];
+  enabledChannels.forEach((channel) => {
+    channelsData[channel.id] = channel;
+  });
 
   const playlist = tracks.items
-    .filter((item) => -1 !== channelsIds.indexOf(item.channelId));
+    .filter((item) => -1 !== channelsIds.indexOf(item.channelId))
+    .map((item) => Object.assign(item, {
+      channelImage: channelsData[item.channelId].image,
+    }));
+
+  if (tracks.sort && tracks.sort.attr) {
+    const {attr, dir} = tracks.sort;
+    playlist.sort((a, b) => {
+      return dir === 'asc' ? a[attr] - b[attr] : b[attr] - a[attr];
+    });
+  }
 
   return {
     selectedTrack,
     channels,
     tracks,
     playlist,
+    isShuffle: tracks.sort.attr === '_seed',
     coverUrl: selectedTrack ? selectedTrack.cover : null,
   };
 }

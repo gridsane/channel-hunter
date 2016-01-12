@@ -3,6 +3,7 @@ import {
   TRACKS_TOGGLE_PLAYING,
   TRACKS_TOGGLE_LOADING,
   TRACKS_SELECT,
+  TRACKS_SORT,
 } from '../actions/actionsTypes';
 import update from 'react-addons-update';
 
@@ -10,6 +11,7 @@ let initialState = {
   selected: null,
   isPlaying: false,
   isLoading: false,
+  sort: {attr: 'date', dir: 'desc'},
   items: [],
 };
 
@@ -20,7 +22,7 @@ export default function tracks(state = initialState, action) {
       const items = action.tracks.filter((item) => -1 === ids.indexOf(item.id));
 
       return update(state, {
-        items: {$push: items},
+        items: {$push: seedItems(items)},
       });
 
     case TRACKS_SELECT:
@@ -39,7 +41,27 @@ export default function tracks(state = initialState, action) {
         isLoading: {$set: action.isLoading},
       });
 
+    case TRACKS_SORT:
+      let updateSeed = {};
+      if (action.attr === '_seed') {
+        updateSeed.items = {
+          $set: seedItems(state.items),
+        };
+      }
+
+      return update(state, {
+        sort: {$set: {attr: action.attr, dir: action.dir}},
+        ...updateSeed,
+      });
+
     default:
       return state;
   }
+}
+
+function seedItems(items) {
+  return items.map((item) => {
+    item._seed = Math.random();
+    return item;
+  });
 }

@@ -12,21 +12,33 @@ export default class Icon extends Component {
   };
 
   render() {
-    const {size, boxSize, children} = this.props;
-    const boxSizePx = (boxSize === null ? size : boxSize) + 'px';
-    const style = {
+    const style = this.getStyle();
+
+    return <span className="material-icons" style={style.container}>
+      {this.props.children}
+    </span>;
+  }
+
+  getStyle() {
+    const {size, boxSize, style} = this.props;
+    const boxSizePx = (boxSize || size) + 'px';
+
+    return {
+
+      container: {
         display: 'inline-block',
         position: 'relative',
         width: boxSizePx,
         height: boxSizePx,
         lineHeight: boxSizePx,
         textAlign: 'center',
-        fontSize: this.props.size + 'px',
+        fontSize: size + 'px',
         color: '#fff',
         verticalAlign: 'middle',
-        ...this.props.style,
+        ...style,
+      },
+
     };
 
-    return <span className="material-icons" style={style}>{children}</span>;
   }
 }

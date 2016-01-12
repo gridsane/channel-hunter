@@ -1,9 +1,8 @@
 import React from 'react';
 import Playlist from '../../src/components/Playlist';
-import {ListItem} from '../../src/components/common';
-import TestUtils from 'react-addons-test-utils';
+import {ListItem, ListLabel} from '../../src/components/common';
 import ShallowTestUtils from 'react-shallow-testutils';
-import {shallowRender, render, renderDOM} from '../utils';
+import {shallowRender, render} from '../utils';
 
 describe('Playlist component', () => {
 
@@ -14,7 +13,7 @@ describe('Playlist component', () => {
   ];
 
   const result = shallowRender(
-    <Playlist list={list} selectedId={'2'} onSelect={() => null} />
+    <Playlist list={list} selectedId={'2'} onSelect={() => null} onToggleShuffle={() => null} />
   );
 
   const items = ShallowTestUtils.findAllWithType(result, ListItem);
@@ -34,19 +33,30 @@ describe('Playlist component', () => {
 
   });
 
-  it('should select track', (done) => {
+  it('should select track', () => {
 
-    const dom = renderDOM(
-      <Playlist list={list} selectedId={'2'} onSelect={select} />
+    const select = expect.createSpy();
+    const result = shallowRender(
+      <Playlist list={list} selectedId={'2'} onSelect={select} onToggleShuffle={() => null} />
+    );
+    const items = ShallowTestUtils.findAllWithType(result, ListItem);
+
+    items[2].props.onClick();
+
+    expect(select.calls[0].arguments).toEqual(['3']);
+
+  });
+
+  it('should call onToggleShuffle callback', () => {
+    const toggleShuffle = expect.createSpy();
+    const result = shallowRender(
+      <Playlist list={list} selectedId={'2'} onSelect={() => null} onToggleShuffle={toggleShuffle} />
     );
 
-    TestUtils.Simulate.click(dom.children[dom.children.length - 1]);
+    const label = ShallowTestUtils.findAllWithType(result, ListLabel);
+    label[0].props.rightElement.props.onClick();
 
-    function select(trackId) {
-      expect(trackId).toEqual('3');
-      done();
-    }
-
+    expect(toggleShuffle.calls[0].arguments).toEqual([]);
   });
 
 });

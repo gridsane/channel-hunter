@@ -3,19 +3,34 @@ import React, {Component} from 'react';
 export default class Avatar extends Component {
   static propTypes = {
     url: React.PropTypes.string.isRequired,
-    // size: React.PropTypes.number.isRequired,
-  }
+    size: React.PropTypes.number,
+  };
+
+  static defaultProps = {
+    size: 40,
+  };
 
   render() {
-    let style = Object.assign({}, {
-      background: `url(${this.props.url}) center center`,
-      backgroundSize: 'cover',
-      display: 'inline-block',
-      width: '40px',
-      height: '40px',
-      borderRadius: '50%',
-    }, this.props.style);
+    const style = this.getStyle();
 
-    return <span {...this.props} style={style} />;
+    return <span {...this.props} style={style.container} />;
+  }
+
+  getStyle() {
+    const {url, style, size} = this.props;
+
+    return {
+
+      container: {
+        background: `url(${url}) center center`,
+        backgroundSize: 'cover',
+        display: 'inline-block',
+        width: size,
+        height: size,
+        borderRadius: '50%',
+        ...style,
+      },
+
+    };
   }
 }

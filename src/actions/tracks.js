@@ -12,6 +12,10 @@ export function setTracksLoading(isLoading) {
   return {type: types.TRACKS_TOGGLE_LOADING, isLoading};
 }
 
+export function setTracksSort(attr, dir) {
+  return {type: types.TRACKS_SORT, attr, dir};
+}
+
 export function selectTrack(track) {
   return {type: types.TRACKS_SELECT, track};
 }

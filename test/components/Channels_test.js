@@ -1,9 +1,8 @@
 import React from 'react';
 import Channels from '../../src/components/Channels';
 import {ListItem, Icon, Loader} from '../../src/components/common';
-import TestUtils from 'react-addons-test-utils';
 import ShallowTestUtils from 'react-shallow-testutils';
-import {shallowRender, renderDOM} from '../utils';
+import {shallowRender} from '../utils';
 
 describe('Channels component', () => {
 
@@ -58,18 +57,19 @@ describe('Channels component', () => {
 
   });
 
-  it('toggles channels', (done) => {
+  it('toggles channels', () => {
 
-    const dom = renderDOM(
-      <Channels list={list} onToggle={toggleFunc} />
+    const toggle = expect.createSpy();
+    const result = shallowRender(
+      <Channels list={list} onToggle={toggle} />
     );
+    const items = ShallowTestUtils.findAllWithType(result, ListItem);
 
-    TestUtils.Simulate.click(dom.children[dom.children.length - 1]);
+    items[0].props.onClick();
+    items[1].props.onClick();
 
-    function toggleFunc(channel) {
-      expect(channel).toEqual(list[2]);
-      done();
-    }
+    expect(toggle.calls[0].arguments).toEqual([list[0]]);
+    expect(toggle.calls[1].arguments).toEqual([list[1]]);
 
   });
 

@@ -10,9 +10,12 @@ export default class Channels extends Component {
   }
 
   render() {
+    const styles = this.getStyles();
+
     const channels = this.props.list.map((channel) => {
       return <ListItem
         key={channel.id}
+        style={styles.channel}
         primaryText={channel.name}
         secondaryText={this._renderTags(channel.tags)}
         leftElement={<Avatar url={channel.image} />}
@@ -21,10 +24,10 @@ export default class Channels extends Component {
         onClick={curried(this.props.onToggle, channel)} />;
     });
 
-    return <List>
-      <ListLabel text="Your channels" icon="settings" />
-      {channels}
-    </List>;
+    return <div>
+      <ListLabel text="Your channels" />
+      <List>{channels}</List>
+    </div>;
   }
 
   _renderTags(tags) {
@@ -43,4 +46,13 @@ export default class Channels extends Component {
     return channel.isEnabled ? <Icon size={24}>check</Icon> : null;
   }
 
+  getStyles() {
+    return {
+
+      channel: {
+        fontSize: 14,
+      },
+
+    };
+  }
 }

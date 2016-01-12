@@ -12,7 +12,7 @@ export default class List extends Component {
 
       container: {
         listStyleType: 'none',
-        margin: '8px 0',
+        margin: 0,
         padding: 0,
         ...this.props.style,
       },

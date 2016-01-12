@@ -105,6 +105,7 @@ export default class ListItem extends Component {
         height: `${height}px`,
         padding: `20px ${paddingRight}px 20px ${paddingLeft}px`,
         lineHeight: '16px',
+        fontSize: '16px',
         ...this.props.style,
         ...mouseOver,
       },
@@ -112,7 +113,6 @@ export default class ListItem extends Component {
       primaryText: {
         display: 'inline-block',
         width: '100%',
-        fontSize: '16px',
         ...ellipsis,
       },
 

@@ -12,15 +12,20 @@ describe('Tracks reducer', () => {
     let state = reducer(initialState, actions.addTracks([{id: 10}, {id: 20}]));
     state = reducer(state, actions.addTracks([{id: 10}, {id: 30}]));
 
-    expect(state).toEqual({
-      items: [
-        {id: 10},
-        {id: 20},
-        {id: 30},
-      ],
-    });
+    expect(state.items.length).toEqual(3);
+    expect(state.items[0].id).toEqual(10);
+    expect(state.items[1].id).toEqual(20);
+    expect(state.items[2].id).toEqual(30);
 
     expect(state).toNotBe(initialState);
+
+  });
+
+  it('seeds tracks on add', () => {
+
+    const initialState = {items: []};
+    const state = reducer(initialState,actions.addTracks([{id: 10}, {id: 20}]));
+    expect(state.items[0]._seed).toNotEqual(state.items[1]._seed);
 
   });
 
@@ -80,6 +85,40 @@ describe('Tracks reducer', () => {
     expect(state).toEqual({isLoading: false});
 
     expect(state).toNotBe(initialState);
+
+  });
+
+  it('sets tracks sort property', () => {
+
+    const initialState = {sort: {attr: null, dir: null}};
+    let state = reducer(initialState, actions.setTracksSort('date', 'asc'));
+    expect(state).toEqual({sort: {attr: 'date', dir: 'asc'}});
+
+    state = reducer(initialState, actions.setTracksSort(null));
+    expect(state).toEqual({sort: {attr: null, dir: null}});
+
+    expect(state).toNotBe(initialState);
+  });
+
+  it('refreshes seed, when sort attribute changed to seed', () => {
+
+    const initialState = {
+      sort: {attr: null, dir: null},
+      items: [
+        {id: 1, _seed: 0},
+        {id: 2, _seed: 0},
+      ],
+    };
+
+    const state = reducer(initialState, actions.setTracksSort('_seed', 'desc'));
+
+    expect(state.items[0]._seed).toNotEqual(0);
+    expect(state.items[1]._seed).toNotEqual(0);
+
+    const nextState = reducer(state, actions.setTracksSort('date', 'desc'));
+
+    expect(nextState.items[0]._seed).toEqual(state.items[0]._seed);
+    expect(nextState.items[1]._seed).toEqual(state.items[1]._seed);
 
   });
 

@@ -20,7 +20,7 @@ export default class AppNavigation extends Component {
     return {
 
       container: {
-        paddingTop: this.props.docked ? '60px' : 0,
+        paddingTop: this.props.docked ? '68px' : 0,
       },
 
     };

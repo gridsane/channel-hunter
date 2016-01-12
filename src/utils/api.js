@@ -1,11 +1,11 @@
 import superagent from 'superagent';
 
-export async function getChannels() {
-   return await get('/api/channels');
+export function getChannels() {
+  return get('/api/channels');
 }
 
-export async function getTracks(source, channelId) {
-   return await get(`/api/tracks/${source}/${channelId}`);
+export function getTracks(source, channelId) {
+  return get(`/api/tracks/${source}/${channelId}`);
 }
 
 function get(url, query) {

@@ -8,30 +8,33 @@ export default class ListLabel extends Component {
       React.PropTypes.string,
       React.PropTypes.element,
     ]).isRequired,
-    icon: React.PropTypes.string,
+    rightElement: React.PropTypes.element,
   };
 
   static defaultProps = {
-    icon: null,
+    rightElement: null,
   };
 
   render() {
     const styles = this.getStyles();
 
-    return <li style={styles.container}>
+    return <div style={styles.container}>
       <span style={styles.text}>{this.props.text}</span>
-      {this.renderIcon(styles.icon)}
-    </li>;
+      {this.renderElement(this.props.rightElement, styles.rightElement)}
+    </div>;
   }
 
-  renderIcon(iconStyle) {
-    if (this.props.icon === null) {
+  renderElement(element, elementStyle) {
+    if (element === null) {
       return null;
     }
 
-    return <Icon style={iconStyle} size={24} boxSize={24}>
-      {this.props.icon}
-    </Icon>;
+    const style = Object.assign({}, elementStyle, element.props.style);
+
+    return React.cloneElement(
+      element,
+      {...element.props, style}
+    );
   }
 
   getStyles() {
@@ -60,7 +63,7 @@ export default class ListLabel extends Component {
         ...ellipsis,
       },
 
-      icon: {
+      rightElement: {
         position: 'absolute',
         right: '16px',
         top: '12px',

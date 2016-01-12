@@ -102,10 +102,11 @@ describe('Application component', () => {
 
     const props = mapToProps({
       channels: {items: [
-        {id: 1, name: 'foo', isEnabled: true},
-        {id: 2, name: 'bar', isEnabled: false},
+        {id: 1, name: 'foo', isEnabled: true, image: "//image/1"},
+        {id: 2, name: 'bar', isEnabled: false, image: "//image/2"},
       ]},
       tracks: {
+        sort: {attr: 'date', dir: 'desc'},
         items: [
           {id: 10, channelId: 1},
           {id: 20, channelId: 2},
@@ -114,7 +115,7 @@ describe('Application component', () => {
     });
 
     expect(props.playlist).toEqual([
-      {id: 10, channelId: 1},
+      {id: 10, channelImage: '//image/1', channelId: 1},
     ]);
 
   });
@@ -125,6 +126,7 @@ describe('Application component', () => {
       channels: {items: []},
       tracks: {
         selected: 20,
+        sort: {attr: 'date', dir: 'desc'},
         items: [
           {id: 10, channelId: 1},
           {id: 20, channelId: 2},
@@ -134,6 +136,33 @@ describe('Application component', () => {
 
     expect(props.selectedTrack).toEqual({id: 20, channelId: 2});
 
+  });
+
+  it('sorts playlist', () => {
+
+    [
+      {attr: 'date', dir: 'asc', expected: [50, 20, 10, 30, 40]},
+      {attr: 'date', dir: 'desc', expected: [40, 30, 10, 20, 50]},
+    ].forEach((testCase, index) => {
+      const props = mapToProps({
+        channels: {items: [
+          {id: 1, name: 'foo', isEnabled: true},
+        ]},
+        tracks: {
+          sort: {attr: testCase.attr, dir: testCase.dir},
+          items: [
+            {id: 10, channelId: 1, date: 2},
+            {id: 20, channelId: 1, date: 1},
+            {id: 30, channelId: 1, date: 3},
+            {id: 40, channelId: 1, date: 8},
+            {id: 50, channelId: 1, date: 0},
+          ],
+        },
+      });
+
+      expect(props.playlist.map((i) => i.id)).toEqual(testCase.expected, `TestCase #${index}`);
+
+    });
   });
 
   function shallowRenderApp(dispatch = () => null, selected = null) {
@@ -147,6 +176,7 @@ describe('Application component', () => {
         selected,
         isPlaying: false,
         isLoading: false,
+        sort: {attr: 'date', dir: 'desc'},
         items: [
           {id: '10', channelId: 1},
           {id: '20', channelId: 1},

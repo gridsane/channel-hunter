@@ -12,6 +12,7 @@ export default function (storage) {
           selected: null,
           isPlaying: false,
           isLoading: false,
+          sort: {attr: 'date', dir: 'desc'},
           items: [],
         },
         channels: {

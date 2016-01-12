@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {colors, shadow} from '../utils/styles';
-import {List, ListItem, ListLabel, Icon} from './common';
+import {List, ListItem, ListLabel, Icon, IconButton, Avatar} from './common';
 import {curried} from '../utils/common';
 
 export default class Playlist extends Component {
@@ -8,6 +8,7 @@ export default class Playlist extends Component {
   static propTypes = {
     compact: PropTypes.bool,
     onSelect: PropTypes.func.isRequired,
+    onToggleShuffle: PropTypes.func.isRequired,
     list: PropTypes.array.isRequired,
     selectedId: PropTypes.string,
   };
@@ -15,38 +16,47 @@ export default class Playlist extends Component {
   static defaultProps = {
     compact: false,
     selectedId: null,
+    isShuffle: false,
   };
 
   render() {
+    const {list} = this.props;
     const styles = this.getStyles();
 
-    return <List style={styles.container}>
+    return <div style={styles.container}>
       <ListLabel
         text={`${this.props.list.length} tracks`}
-        icon="shuffle" />
-      {this.renderTracks(styles)}
-    </List>;
+        rightElement={this._renderShuffleButton(styles)} />
+      <List style={styles.list}>
+        {list.map(curried(::this._renderTrack, styles))}
+      </List>
+    </div>;
   }
 
-  renderTracks(styles) {
-    return this.props.list.map((track) => {
-      const isCurrent = this.props.selectedId === track.id;
+  _renderTrack(styles, track) {
+    const {onSelect, selectedId} = this.props;
+    const isCurrent = selectedId === track.id;
 
-      return <ListItem
-        key={track.id}
-        leftElement={
-          isCurrent
-          ? <Icon style={styles.currentIcon} size={24}>play_arrow</Icon>
-          : null
-        }
-        style={isCurrent ? styles.currentTrack : styles.track}
-        leftElementHeight={24}
-        primaryText={this.renderTrackName(track, styles)}
-        onClick={curried(this.props.onSelect, track.id) } />;
-    });
+    return <ListItem
+      key={track.id}
+      leftElement={
+        isCurrent
+        ? <Icon style={styles.currentIcon} size={24}>play_arrow</Icon>
+        : null
+      }
+      rightElement={
+        track.channelImage
+        ? <Avatar url={track.channelImage} style={styles.channelAvatar} size={24} />
+        : null
+      }
+      rightElementHeight={24}
+      style={isCurrent ? styles.currentTrack : styles.track}
+      leftElementHeight={24}
+      primaryText={this._renderTrackName(track, styles)}
+      onClick={curried(onSelect, track.id) } />;
   }
 
-  renderTrackName(track, styles) {
+  _renderTrackName(track, styles) {
     return <span>
       {track.title}
       <span style={styles.artist}>
@@ -55,14 +65,26 @@ export default class Playlist extends Component {
     </span>;
   }
 
+  _renderShuffleButton(styles) {
+    return <IconButton
+      style={styles.shuffle}
+      size={24}
+      onClick={this.props.onToggleShuffle}>
+      shuffle
+    </IconButton>;
+  }
+
   getStyles() {
-    const {compact} = this.props;
+    const {compact, isShuffle} = this.props;
     const marginLeft = compact ? '16px' : '336px';
 
     return {
 
       container: {
-        margin: `60px 16px 64px ${marginLeft}`,
+        margin: `68px 16px 64px ${marginLeft}`,
+      },
+
+      list: {
         boxShadow: shadow(20),
         backgroundColor: '#fff',
       },
@@ -81,6 +103,14 @@ export default class Playlist extends Component {
 
       currentIcon: {
         color: colors.secondaryText,
+      },
+
+      shuffle: {
+        color: isShuffle ? colors.primaryText : colors.secondaryText,
+      },
+
+      channelAvatar: {
+        opacity: .5,
       },
 
     };

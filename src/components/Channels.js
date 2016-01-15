@@ -7,7 +7,7 @@ export default class Channels extends Component {
   static propTypes = {
     list: PropTypes.array.isRequired,
     onToggle: PropTypes.func.isRequired,
-  }
+  };
 
   render() {
     const styles = this.getStyles();

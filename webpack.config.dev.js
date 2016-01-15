@@ -22,10 +22,8 @@ module.exports = {
       loader: 'babel',
       include: path.join(__dirname, 'src'),
       query: {
-        stage: 0,
-        plugins: ['react-transform'],
-        extra: {
-          'react-transform': {
+        plugins: [
+          ['react-transform', {
             'transforms': [{
               transform: 'react-transform-hmr',
               imports: ['react'],
@@ -34,8 +32,8 @@ module.exports = {
               transform: 'react-transform-catch-errors',
               imports: ['react', 'redbox-react'],
             }],
-          },
-        },
+          }],
+        ],
       },
     }],
   },

@@ -12,7 +12,7 @@ export function setTracksLoading(isLoading) {
   return {type: types.TRACKS_TOGGLE_LOADING, isLoading};
 }
 
-export function setTracksSort(attr, dir) {
+export function setTracksSort(attr = null, dir = null) {
   return {type: types.TRACKS_SORT, attr, dir};
 }
 

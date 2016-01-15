@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Icon from './Icon';
 import {colors} from '../../utils/styles';
 
 export default class ListLabel extends Component {

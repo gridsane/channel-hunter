@@ -6,8 +6,8 @@ export default function (storage) {
 
     index: async function index(req, res) {
 
-      const channels = await storage.getChannels();
-      const initialState = {
+      let channels = await storage.getChannels();
+      let initialState = {
         tracks: {
           selected: null,
           isPlaying: false,

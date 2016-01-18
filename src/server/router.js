@@ -5,7 +5,7 @@ import Storage from './storage';
 import YoutubeAPI from './apis/youtube';
 import VkAPI from './apis/vk';
 import APIWrapper from './api_wrapper';
-import {MONGO_URI, YOUTUBE_KEY} from '../../config';
+import {MONGO_URI, YOUTUBE_KEY} from '../config';
 
 const storage = new Storage(MONGO_URI);
 const api = new APIWrapper({

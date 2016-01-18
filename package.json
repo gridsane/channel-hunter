@@ -4,22 +4,20 @@
   "description": "Music player built with ReactJS",
   "author": "gridsane <gridsane@gmail.com>",
   "license": "MIT",
-  "main": "src/server.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/gridsane/channel-hunter.git"
   },
   "scripts": {
-    "clean": "rm -rf assets/*.js assets/*.map",
-    "start": "if [ -z $PORT ]; then PORT=$npm_package_config_devPort; fi; `npm bin`/babel-node server.js",
-    "nodemon": "if [ -z $PORT ]; then PORT=$npm_package_config_devPort; fi; `npm bin`/nodemon -x '`npm bin`/babel-node' -w './src/server' server.js",
-    "build": "npm run clean && `npm bin`/webpack --config webpack.config.prod.js",
+    "clean": "rm -rf assets/*.js assets/*.map build",
+    "build": "npm run clean && npm run build-client && npm run build-server",
+    "build-client": "`npm bin`/webpack --config webpack.config.prod.js",
+    "build-server": "`npm bin`/babel -d build src",
+    "start": "NODE_ENV=production node build/server.js",
+    "nodemon": "`npm bin`/nodemon -x '`npm bin`/babel-node' -w './src/server' src/server.js",
     "test": "`npm bin`/mocha --compilers=js:babel-core/register --require=babel-polyfill --require=./test/setup --recursive './test/**/*_test.js'",
     "test_wo_db": "npm run test -- --grep @database --invert",
     "lint": "`npm bin`/eslint src test"
-  },
-  "config": {
-    "devPort": 3000
   },
   "dependencies": {
     "babel": "^6.3.26",

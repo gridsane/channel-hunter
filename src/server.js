@@ -1,5 +1,6 @@
+import 'babel-polyfill';
 import express from 'express';
-import router from './src/server/router';
+import router from './server/router';
 import bodyParser from 'body-parser';
 
 const config = {
@@ -10,7 +11,7 @@ const app = express();
 
 if (process.env.NODE_ENV !== 'production') {
   const webpack = require('webpack');
-  const webpackConfig = require('./webpack.config.dev');
+  const webpackConfig = require('../webpack.config.dev');
 
   webpackConfig.entry.push('webpack-hot-middleware/client');
   webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
@@ -23,8 +24,6 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 
   app.use(require('webpack-hot-middleware')(compiler));
-} else {
-  app.use("/assets", express.static(__dirname + "/assets"));
 }
 
 app
@@ -34,6 +33,7 @@ app
   .listen(config.port, (err) => {
     if (err) {
       console.error(err);
+      return;
     }
 
     console.log("Server listening on port " + config.port);

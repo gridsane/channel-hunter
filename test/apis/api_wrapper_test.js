@@ -1,4 +1,4 @@
-import APIWrapper from '../../src/server/api_wrapper';
+import APIWrapper from '../../src/apis/api_wrapper';
 
 describe('APIWrapper', () => {
 

@@ -1,6 +1,6 @@
 import mongo from 'mongodb';
 import Storage from '../../src/server/storage';
-import {MONGO_URI_TEST} from '../../config.js';
+import {MONGO_URI_TEST} from '../../src/config.js';
 
 describe('Storage @database', () => {
 

@@ -1,4 +1,4 @@
-import VkAPI from '../../../src/server/apis/vk';
+import VkAPI from '../../src/apis/vk';
 import nock from 'nock';
 
 describe('VK API', () => {

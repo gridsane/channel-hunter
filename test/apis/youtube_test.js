@@ -1,4 +1,4 @@
-import YoutubeAPI from '../../../src/server/apis/youtube';
+import YoutubeAPI from '../../src/apis/youtube';
 import nock from 'nock';
 
 describe('Youtube API', () => {

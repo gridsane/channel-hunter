@@ -78,6 +78,24 @@ describe('VK API', () => {
 
   });
 
+  it('applies middleware', async () => {
+
+    nock('http://middleware.local')
+      .get('/?v=5.40&https=1&owner_id=-1000&count=10')
+      .reply(200, {response: {items: []}});
+
+    function middleware(req) {
+      req.url = 'http://middleware.local';
+
+      return req;
+    }
+
+    const apiWithMiddleware = new VkAPI(null, middleware);
+    const res = await apiWithMiddleware.getTracks('1000');
+    expect(res).toEqual([]);
+
+  });
+
   it('handles vk urls only', () => {
 
     expect(api.hasChannel('https://www.vk.com/channel'))

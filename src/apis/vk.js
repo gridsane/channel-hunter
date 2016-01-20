@@ -2,8 +2,9 @@ import superagent from 'superagent';
 
 export default class VkAPI {
 
-  constructor(key) {
+  constructor(key, middleware = null) {
     this.key = key;
+    this.middleware = middleware;
   }
 
   async getChannelByUrl(url) {
@@ -49,6 +50,7 @@ export default class VkAPI {
     return new Promise((resolve, reject) => {
       superagent
         .get('https://api.vk.com/method/' + method)
+        .use(this.middleware || (x => x))
         .query({
           v: '5.40',
           https: 1,

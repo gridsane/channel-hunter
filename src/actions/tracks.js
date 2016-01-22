@@ -19,3 +19,7 @@ export function setTracksSort(attr = null, dir = null) {
 export function selectTrack(track) {
   return {type: types.TRACKS_SELECT, track};
 }
+
+export function setTrackError(trackId, error = null) {
+  return {type: types.TRACKS_ERROR, trackId, error};
+}

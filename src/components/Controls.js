@@ -11,6 +11,7 @@ export default class Controls extends Component {
     isPlaying: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
     onNext: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
   };
 
   state = {
@@ -49,6 +50,7 @@ export default class Controls extends Component {
           this._updatePosition(nextPosition);
         }}
         onLoadingChange={::this._toggleLoading}
+        onError={this.props.onError}
         onEnd={onNext} /> : null}
 
         {isLoading ? <Loader size={24} style={styles.loader} /> : null}

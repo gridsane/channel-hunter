@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {selectTrack, togglePlaying, loadChannelItems, setTracksSort} from '../actions/tracks';
+import {
+  selectTrack,
+  togglePlaying,
+  loadChannelItems,
+  setTracksSort,
+  setTrackError,
+} from '../actions/tracks';
 import {setChannelEnabled} from '../actions/channels';
 import AppNavigation from './AppNavigation';
 import CoverAppBar from './CoverAppBar';
@@ -31,6 +37,7 @@ export class Application extends Component {
           track={selectedTrack}
           isPlaying={tracks.isPlaying}
           onToggle={::this._togglePlaying}
+          onError={::this._trackError}
           onNext={::this._nextTrack} />
       </CoverAppBar>
 
@@ -86,7 +93,6 @@ export class Application extends Component {
   }
 
   _nextTrack() {
-
     const {tracks, playlist} = this.props;
 
     let index = -1;
@@ -110,11 +116,22 @@ export class Application extends Component {
     this.props.dispatch(selectTrack(trackId));
   }
 
+  _trackError(error) {
+    const {tracks, dispatch} = this.props;
+
+    if (tracks.selected !== null) {
+      dispatch(setTrackError(tracks.selected, error));
+      this._nextTrack();
+    }
+  }
+
 }
 
 export function mapToProps(state) {
   const {channels, tracks} = state;
-  const selectedTrack = tracks.selected ? tracks.items.find((item) => item.id === tracks.selected) : null;
+  const selectedTrack = tracks.selected !== null
+    ? tracks.items.find((item) => item.id === tracks.selected)
+    : null;
 
   const enabledChannels = channels.items
     .filter((item) => item.isEnabled);

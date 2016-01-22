@@ -7,6 +7,7 @@ export const colors = {
   primaryText: '#212121',
   secondaryText: '#727272',
   divider: '#B6B6B6',
+  error: '#F44336',
 };
 
 export function shadow(elevation) {

@@ -5,7 +5,7 @@ import Channels from '../../src/components/Channels';
 import Playlist from '../../src/components/Playlist';
 import ShallowTestUtils from 'react-shallow-testutils';
 import {shallowRender} from '../utils';
-import {selectTrack, togglePlaying} from '../../src/actions/tracks';
+import {selectTrack, togglePlaying, setTrackError} from '../../src/actions/tracks';
 import * as channelsActions from '../../src/actions/channels';
 
 describe('Application component', () => {
@@ -14,11 +14,11 @@ describe('Application component', () => {
 
     let dispatch = expect.createSpy();
 
-    const controls = getControls(shallowRenderApp(dispatch, '10'));
+    const controls = getControls(shallowRenderApp(dispatch, '20'));
     controls.props.onNext();
 
     expect(dispatch.calls.length).toBe(1);
-    expect(dispatch.calls[0].arguments[0]).toEqual(selectTrack('20'));
+    expect(dispatch.calls[0].arguments[0]).toEqual(selectTrack('30'));
 
   });
 
@@ -163,6 +163,19 @@ describe('Application component', () => {
       expect(props.playlist.map((i) => i.id)).toEqual(testCase.expected, `TestCase #${index}`);
 
     });
+  });
+
+  it('toggles track error and selects next track', () => {
+
+    const dispatch = expect.createSpy();
+    const controls = getControls(shallowRenderApp(dispatch, '10'));
+
+    controls.props.onError('error text');
+
+    expect(dispatch.calls.length).toBe(2);
+    expect(dispatch.calls[0].arguments[0]).toEqual(setTrackError('10', 'error text'));
+    expect(dispatch.calls[1].arguments[0]).toEqual(selectTrack('20'));
+
   });
 
   function shallowRenderApp(dispatch = () => null, selected = null) {

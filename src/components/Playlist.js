@@ -35,14 +35,19 @@ export default class Playlist extends Component {
 
   _renderTrack(styles, track) {
     const {onSelect, selectedId} = this.props;
+    const hasError = track.hasOwnProperty('error');
     const isCurrent = selectedId === track.id;
 
     return <ListItem
       key={track.id}
       leftElement={
-        isCurrent
-        ? <Icon style={styles.currentIcon} size={24}>play_arrow</Icon>
-        : null
+        hasError
+        ? <Icon style={styles.errorIcon} size={24}>error</Icon>
+        : (
+          isCurrent
+          ? <Icon style={styles.currentIcon} size={24}>play_arrow</Icon>
+          : null
+        )
       }
       rightElement={
         track.channelImage
@@ -50,16 +55,24 @@ export default class Playlist extends Component {
         : null
       }
       rightElementHeight={24}
-      style={isCurrent ? styles.currentTrack : styles.track}
+      style={
+        hasError
+        ? styles.errorTrack
+        : (
+          isCurrent
+          ? styles.currentTrack
+          : styles.track
+        )
+      }
       leftElementHeight={24}
-      primaryText={this._renderTrackName(track, styles)}
+      primaryText={this._renderTrackName(track, hasError, styles)}
       onClick={curried(onSelect, track.id) } />;
   }
 
-  _renderTrackName(track, styles) {
+  _renderTrackName(track, hasError, styles) {
     return <span>
       {track.title}
-      <span style={styles.artist}>
+      <span style={hasError ? null : styles.artist}>
         {` by ${track.artist}`}
       </span>
     </span>;
@@ -97,12 +110,20 @@ export default class Playlist extends Component {
         backgroundColor: 'rgba(0, 0, 0, .08)',
       },
 
+      errorTrack: {
+        color: colors.error,
+      },
+
       artist: {
         color: colors.secondaryText,
       },
 
       currentIcon: {
         color: colors.secondaryText,
+      },
+
+      errorIcon: {
+        color: colors.error,
       },
 
       shuffle: {

@@ -4,6 +4,7 @@ import {
   TRACKS_TOGGLE_LOADING,
   TRACKS_SELECT,
   TRACKS_SORT,
+  TRACKS_ERROR,
 } from '../actions/actionsTypes';
 import update from 'react-addons-update';
 
@@ -53,6 +54,17 @@ export default function tracks(state = initialState, action) {
         sort: {$set: {attr: action.attr, dir: action.dir}},
         ...updateSeed,
       });
+
+    case TRACKS_ERROR:
+      return update(state, {
+        items: {$set: state.items.map((item) => {
+          if (action.trackId === item.id) {
+            return {...item, ...{error: action.error}};
+          }
+
+          return item;
+        }),
+      }});
 
     default:
       return state;

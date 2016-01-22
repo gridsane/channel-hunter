@@ -122,4 +122,22 @@ describe('Tracks reducer', () => {
 
   });
 
+  it('adds error to the track', () => {
+
+    const initialState = {
+      sort: {attr: null, dir: null},
+      items: [
+        {id: 1, _seed: 0},
+        {id: 2, _seed: 0},
+      ],
+    };
+
+    const state = reducer(initialState, actions.setTrackError(2, 'error text'));
+    expect(state.items[1]).toEqual({id: 2, _seed: 0, error: 'error text'});
+
+    const nextState = reducer(state, actions.setTrackError(2));
+    expect(nextState.items[1].error).toBe(null);
+
+  });
+
 });

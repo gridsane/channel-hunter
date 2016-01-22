@@ -1,7 +1,9 @@
 import React from 'react';
 import Controls from '../../src/components/Controls';
+import Player from '../../src/components/Player';
 import TestUtils from 'react-addons-test-utils';
-import {renderDOM, render} from '../utils';
+import ShallowTestUtils from 'react-shallow-testutils';
+import {renderDOM, render, shallowRender} from '../utils';
 
 describe('Controls component', () => {
 
@@ -11,6 +13,7 @@ describe('Controls component', () => {
       isPlaying: false,
       onToggle: () => null,
       onNext: () => null,
+      onError: () => null,
     }, props);
   }
 
@@ -35,9 +38,10 @@ describe('Controls component', () => {
 
   });
 
-  it('calls onToggle func on play icon click', (done) => {
+  it('calls onToggle func on play icon click', () => {
 
-    const props = mergeWithDefaults({onToggle: toggle});
+    const toggleHandler = expect.createSpy();
+    const props = mergeWithDefaults({onToggle: toggleHandler});
     const dom = render(
       <Controls {...props} />
     );
@@ -54,16 +58,15 @@ describe('Controls component', () => {
 
     TestUtils.Simulate.click(playIcon[0]);
 
-    function toggle(isPlaying) {
-      expect(isPlaying).toBe(true);
-      done();
-    }
+    expect(toggleHandler.calls.length).toBe(1);
+    expect(toggleHandler.calls[0].arguments).toEqual([true]);
 
   });
 
-  it('shows pause icon and toggle playing on click', (done) => {
+  it('shows pause icon and toggle playing on click', () => {
 
-    const props = mergeWithDefaults({isPlaying: true, onToggle: toggle});
+    const toggleHandler = expect.createSpy();
+    const props = mergeWithDefaults({isPlaying: true, onToggle: toggleHandler});
     const dom = render(
       <Controls {...props} />
     );
@@ -80,16 +83,15 @@ describe('Controls component', () => {
 
     TestUtils.Simulate.click(pauseIcon[0]);
 
-    function toggle(isPlaying) {
-      expect(isPlaying).toBe(false);
-      done();
-    }
+    expect(toggleHandler.calls.length).toBe(1);
+    expect(toggleHandler.calls[0].arguments).toEqual([false]);
 
   });
 
-  it('calls onNext func on next icon click', (done) => {
+  it('calls onNext func on next icon click', () => {
 
-    const props = mergeWithDefaults({onNext: next});
+    const nextHandler = expect.createSpy();
+    const props = mergeWithDefaults({onNext: nextHandler});
     const dom = render(
       <Controls {...props} />
     );
@@ -100,9 +102,20 @@ describe('Controls component', () => {
 
     TestUtils.Simulate.click(nextIcon[0]);
 
-    function next() {
-      done();
-    }
+    expect(nextHandler.calls.length).toBe(1);
+
+  });
+
+  it('calls onError when Player triggers error', () =>{
+
+    const errorHandler = expect.createSpy();
+    const props = mergeWithDefaults({onError: errorHandler});
+    const result = shallowRender(<Controls {...props} />);
+    const player = ShallowTestUtils.findAllWithType(result, Player);
+    player[0].props.onError('error!');
+
+    expect(errorHandler.calls.length).toBe(1);
+    expect(errorHandler.calls[0].arguments).toEqual(['error!']);
 
   });
 

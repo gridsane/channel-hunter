@@ -4,6 +4,7 @@ export default {
   FlatButton: require('./FlatButton'),
   Icon: require('./Icon'),
   IconButton: require('./IconButton'),
+  LazyList: require('./LazyList'),
   List: require('./List'),
   ListItem: require('./ListItem'),
   ListLabel: require('./ListLabel'),

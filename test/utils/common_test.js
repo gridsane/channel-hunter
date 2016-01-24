@@ -40,4 +40,25 @@ describe('Utils', () => {
 
   });
 
+  it('throttles function', (done) => {
+
+    const spy = expect.createSpy();
+    const throttled = utils.throttle(spy, 5);
+
+    throttled(1);
+    throttled(2);
+
+    setTimeout(() => {
+      throttled(3);
+    }, 5);
+
+    setTimeout(() => {
+      expect(spy.calls.length).toBe(2);
+      expect(spy.calls[0].arguments).toEqual([1]);
+      expect(spy.calls[1].arguments).toEqual([3]);
+      done();
+    }, 15);
+
+  });
+
 });

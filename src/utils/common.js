@@ -33,3 +33,16 @@ export function nodeOffset(node) {
 export function curried(fn, ...args) {
   return (...nArgs) => fn.apply(this, [...args, ...nArgs]);
 }
+
+export function throttle(fn, timeout) {
+  let timer = false;
+
+  return function(...args) {
+    if(!timer) {
+      timer = setTimeout(() => {
+        fn.apply(this, args);
+        timer = false;
+      }, timeout);
+    }
+  };
+}

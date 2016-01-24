@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {colors, shadow} from '../utils/styles';
-import {List, ListItem, ListLabel, Icon, IconButton, Avatar} from './common';
+import {LazyList, ListItem, ListLabel, Icon, IconButton, Avatar} from './common';
 import {curried} from '../utils/common';
 
 export default class Playlist extends Component {
@@ -20,16 +20,19 @@ export default class Playlist extends Component {
   };
 
   render() {
-    const {list} = this.props;
     const styles = this.getStyles();
 
     return <div style={styles.container}>
       <ListLabel
         text={`${this.props.list.length} tracks`}
         rightElement={this._renderShuffleButton(styles)} />
-      <List style={styles.list}>
-        {list.map(curried(::this._renderTrack, styles))}
-      </List>
+      <LazyList
+        items={this.props.list}
+        renderItem={curried(::this._renderTrack, styles)}
+        itemHeight={56}
+        updateDelay={10}
+        itemsBuffer={20}
+        style={styles.list} />
     </div>;
   }
 

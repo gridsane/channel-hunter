@@ -1,85 +1,70 @@
 import React from 'react';
 import Playlist from '../../src/components/Playlist';
-import {ListItem, ListLabel} from '../../src/components/common';
+import {LazyList, ListLabel} from '../../src/components/common';
 import ShallowTestUtils from 'react-shallow-testutils';
-import {shallowRender, render} from '../utils';
+import {shallowRender, renderDOM} from '../utils';
 
 describe('Playlist component', () => {
 
-  const list = [
+  const items = [
     {id: '1', title: 'foo_title', artist: 'foo_artist'},
     {id: '2', title: 'bar_title', artist: 'bar_artist'},
     {id: '3', title: 'baz_title', artist: 'baz_artist'},
   ];
 
-  const result = shallowRender(
-    <Playlist list={list} selectedId={'2'} onSelect={() => null} onToggleShuffle={() => null} />
-  );
+  var result, lazyList, renderItem, renderItemDOM, selectSpy, toggleShuffleSpy;
 
-  const items = ShallowTestUtils.findAllWithType(result, ListItem);
+  beforeEach(() => {
+    selectSpy = expect.createSpy();
+    toggleShuffleSpy = expect.createSpy();
+
+    result = shallowRender(
+      <Playlist
+        list={items}
+        selectedId={'2'}
+        onSelect={selectSpy}
+        onToggleShuffle={toggleShuffleSpy} />
+    );
+    lazyList = ShallowTestUtils.findWithType(result, LazyList);
+    renderItem = lazyList.props.renderItem;
+    renderItemDOM = (...args) => renderDOM(lazyList.props.renderItem(...args));
+  });
 
   it('renders tracks', () => {
 
-    expect(items.length).toBe(3);
-    const primaryText = render(items[0].props.primaryText).textContent;
-    expect(primaryText).toContain('foo_title by foo_artist');
+    expect(lazyList.props.items.length).toBe(3);
+    expect(renderItemDOM(items[0]).textContent).toBe('foo_title by foo_artist');
 
   });
 
   it('marks current track', () => {
 
-    expect(items[0].props.leftElement).toBe(null);
-    expect(items[1].props.leftElement).toNotBe(null);
+    expect(renderItem(items[0]).props.leftElement).toBe(null);
+    expect(renderItem(items[1]).props.leftElement).toNotBe(null);
 
   });
 
   it('selects track', () => {
 
-    const select = expect.createSpy();
-    const result = shallowRender(
-      <Playlist list={list} selectedId={'2'} onSelect={select} onToggleShuffle={() => null} />
-    );
-    const items = ShallowTestUtils.findAllWithType(result, ListItem);
-
-    items[2].props.onClick();
-
-    expect(select.calls[0].arguments).toEqual(['3']);
-
-  });
-
-  it('calls onToggleShuffle callback', () => {
-
-    const toggleShuffle = expect.createSpy();
-    const result = shallowRender(
-      <Playlist list={list} selectedId={'2'} onSelect={() => null} onToggleShuffle={toggleShuffle} />
-    );
-
-    const label = ShallowTestUtils.findAllWithType(result, ListLabel);
-    label[0].props.rightElement.props.onClick();
-
-    expect(toggleShuffle.calls[0].arguments).toEqual([]);
+    renderItem({id: '99'}).props.onClick();
+    expect(selectSpy.calls[0].arguments).toEqual(['99']);
 
   });
 
   it('shows error on track', () => {
 
-    const list = [
-      {id: '1', title: 'foo_title', artist: 'foo_artist', error: null},
-      {id: '2', title: 'bar_title', artist: 'bar_artist', error: 'Error message'},
-      {id: '3', title: 'baz_title', artist: 'baz_artist'},
-    ];
+    expect(renderItemDOM(items[0]).textContent).toNotContain('error');
+    expect(renderItemDOM({...items[0], error: null}).textContent).toContain('error');
+    expect(renderItemDOM({...items[0], error: 'message'}).textContent).toContain('error');
 
-    const result = shallowRender(
-      <Playlist list={list} selectedId={'1'} onSelect={() => null} />
-    );
+  });
 
-    const items = ShallowTestUtils.findAllWithType(result, ListItem);
+  it('calls onToggleShuffle callback', () => {
 
-    expect(items[0].props.leftElement).toNotBe(null);
-    expect(items[0].props.leftElement.props.children).toBe('error');
-    expect(items[1].props.leftElement).toNotBe(null);
-    expect(items[1].props.leftElement.props.children).toBe('error');
-    expect(items[2].props.leftElement).toBe(null);
+    const label = ShallowTestUtils.findWithType(result, ListLabel);
+    label.props.rightElement.props.onClick();
+
+    expect(toggleShuffleSpy.calls[0].arguments).toEqual([]);
 
   });
 

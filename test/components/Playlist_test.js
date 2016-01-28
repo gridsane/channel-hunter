@@ -68,4 +68,20 @@ describe('Playlist component', () => {
 
   });
 
+  it('shows empty state', () => {
+
+    const emptyResult = renderDOM(
+      <Playlist
+        list={[]}
+        selectedId={null}
+        onSelect={selectSpy}
+        onToggleShuffle={toggleShuffleSpy} />
+    );
+
+    expect(emptyResult.textContent).toNotContain('shuffle');
+    expect(emptyResult.textContent).toNotContain('0');
+    expect(emptyResult.textContent).toContain('empty');
+
+  });
+
 });

@@ -20,14 +20,25 @@ export default class Playlist extends Component {
   };
 
   render() {
+    const {list} = this.props;
     const styles = this.getStyles();
+
+    if (list.length === 0) {
+      return <div style={styles.container}>
+        <div style={styles.emptyMessage}>
+          <Icon size={64} style={styles.emptyIcon}>headset</Icon>
+          <h2>Playlist is empty</h2>
+          <span>Choose any channel to begin</span>
+        </div>
+      </div>;
+    }
 
     return <div style={styles.container}>
       <ListLabel
-        text={`${this.props.list.length} tracks`}
+        text={`${list.length} tracks`}
         rightElement={this._renderShuffleButton(styles)} />
       <LazyList
-        items={this.props.list}
+        items={list}
         renderItem={curried(::this._renderTrack, styles)}
         itemHeight={56}
         updateDelay={40}
@@ -135,6 +146,15 @@ export default class Playlist extends Component {
 
       channelAvatar: {
         opacity: .5,
+      },
+
+      emptyMessage: {
+        textAlign: 'center',
+        paddingTop: 64,
+      },
+
+      emptyIcon: {
+        color: colors.secondaryText,
       },
 
     };

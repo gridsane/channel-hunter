@@ -33,7 +33,9 @@ export default class VkAPI {
           return attachment.type === 'photo';
         });
 
-        const cover = photoAttachment && photoAttachment.photo.photo_807 || null;
+        const cover = photoAttachment
+          ? (photoAttachment.photo.photo_807 || photoAttachment.photo.photo_604)
+          : null;
 
         return post.attachments
           .filter((attachment) => attachment.type === 'audio')

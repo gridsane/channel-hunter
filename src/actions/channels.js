@@ -26,6 +26,22 @@ export function setChannelLoaded(channelId, isLoaded) {
   return setChannelProps(channelId, {isLoaded});
 }
 
+export function loadChannelTracks(channel) {
+  return async (dispatch) => {
+
+    dispatch(setChannelLoading(channel.id, true));
+
+    const tracks = await api.getTracks(channel.source, channel.originalId);
+    dispatch(addTracks(tracks));
+
+    dispatch(setChannelProps(channel.id, {
+      isLoaded: true,
+      isLoading: false,
+    }));
+
+  };
+}
+
 export function setChannelEnabled(channel, isEnabled) {
   return async (dispatch) => {
 
@@ -34,15 +50,10 @@ export function setChannelEnabled(channel, isEnabled) {
       return;
     }
 
-    dispatch(setChannelLoading(channel.id, true));
-
-    const tracks = await api.getTracks(channel.source, channel.originalId);
-    dispatch(addTracks(tracks));
+    dispatch(loadChannelTracks(channel));
 
     dispatch(setChannelProps(channel.id, {
       isEnabled: true,
-      isLoaded: true,
-      isLoading: false,
     }));
   };
 }

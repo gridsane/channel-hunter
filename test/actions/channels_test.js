@@ -4,12 +4,12 @@ import * as tracksActions from '../../src/actions/tracks';
 
 describe('Channels actions', () => {
 
-  it('loads tracks for not loaded channel when enables', async () => {
+  it('loads channels tracks', async () => {
 
     expect.spyOn(api, 'getTracks').andReturn([1, 2, 3]);
     const dispatch = expect.createSpy();
 
-    await actions.setChannelEnabled({
+    await actions.loadChannelTracks({
       id: 1,
       originalId: 11,
       source: 'vk',
@@ -21,18 +21,16 @@ describe('Channels actions', () => {
     expect(dispatch.calls[0].arguments[0]).toEqual(actions.setChannelLoading(1, true));
     expect(dispatch.calls[1].arguments[0]).toEqual(tracksActions.addTracks([1, 2, 3]));
     expect(dispatch.calls[2].arguments[0]).toEqual(actions.setChannelProps(1, {
-      isEnabled: true,
       isLoading: false,
       isLoaded: true,
     }));
+
   });
 
-  it('disables channel without loading', async () => {
+  it('disables channel without loading', () => {
 
-    expect.spyOn(api, 'getTracks');
     const dispatch = expect.createSpy();
-
-    await actions.setChannelEnabled({
+    actions.setChannelEnabled({
       id: 1,
       originalId: 11,
       source: 'vk',
@@ -48,12 +46,10 @@ describe('Channels actions', () => {
 
   });
 
-  it('do not loads tracks for loaded channel', async () => {
+  it('do not loads tracks for loaded channel when enables', () => {
 
-    expect.spyOn(api, 'getTracks');
     const dispatch = expect.createSpy();
-
-    await actions.setChannelEnabled({
+    actions.setChannelEnabled({
       id: 1,
       originalId: 11,
       source: 'vk',
@@ -63,6 +59,27 @@ describe('Channels actions', () => {
 
     expect(dispatch.calls.length).toBe(1);
     expect(dispatch.calls[0].arguments[0]).toEqual(actions.setChannelProps(1, {
+      isEnabled: true,
+    }));
+
+  });
+
+  it('loads tracks for not loaded channel when enables', () => {
+
+    const dispatch = expect.createSpy();
+    const channel = {
+      id: 1,
+      originalId: 11,
+      source: 'vk',
+      isEnabled: false,
+      isLoaded: false,
+    };
+
+    actions.setChannelEnabled(channel, true)(dispatch);
+
+    expect(dispatch.calls.length).toBe(2);
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.loadChannelTracks(channel));
+    expect(dispatch.calls[1].arguments[0]).toEqual(actions.setChannelProps(1, {
       isEnabled: true,
     }));
 

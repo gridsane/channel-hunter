@@ -1,5 +1,6 @@
 import reducer from '../../src/reducers/channels';
 import * as actions from '../../src/actions/channels';
+import {REHYDRATE} from 'redux-persist/constants';
 
 describe('Channels reducer', () => {
 
@@ -124,6 +125,56 @@ describe('Channels reducer', () => {
     });
 
     expect(state).toNotBe(initialState);
+
+  });
+
+  it('rehydrates state', () => {
+
+    const initialState = {
+      items: [
+        {
+          id: 1,
+          isEnabled: false,
+          isLoading: false,
+          isLoaded: false,
+        },
+        {
+          id: 2,
+          isEnabled: false,
+          isLoading: false,
+          isLoaded: false,
+        },
+      ],
+    };
+
+    const state = reducer(initialState, {
+      type: REHYDRATE,
+      payload: {items: [
+        {
+          id: 1,
+          isEnabled: true,
+          isLoading: true,
+          isLoaded: true,
+        },
+      ]},
+    });
+
+    expect(state).toEqual({
+      items: [
+        {
+          id: 1,
+          isEnabled: true,
+          isLoading: false,
+          isLoaded: false,
+        },
+        {
+          id: 2,
+          isEnabled: false,
+          isLoading: false,
+          isLoaded: false,
+        },
+      ],
+    });
 
   });
 

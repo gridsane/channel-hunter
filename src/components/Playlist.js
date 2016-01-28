@@ -30,7 +30,7 @@ export default class Playlist extends Component {
         items={this.props.list}
         renderItem={curried(::this._renderTrack, styles)}
         itemHeight={56}
-        updateDelay={10}
+        updateDelay={40}
         itemsBuffer={20}
         style={styles.list} />
     </div>;

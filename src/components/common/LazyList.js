@@ -33,6 +33,16 @@ export default class LazyList extends Component {
       : ::this._updateState;
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const {firstIndex, lastIndex} = this.state;
+    const {items, renderItem} = this.props;
+
+    return nextState.firstIndex !== firstIndex
+      || nextState.lastIndex !== lastIndex
+      || items !== nextProps.items
+      || renderItem !== nextProps.renderItem;
+  }
+
   componentDidMount() {
     this.setState(this._computeState());
     this.props.container.addEventListener('scroll', this._throttledUpdateState);

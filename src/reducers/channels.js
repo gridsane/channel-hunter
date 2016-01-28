@@ -4,50 +4,75 @@ import {
   CHANNELS_LOADING,
   CHANNELS_ITEM_PROPS,
 } from '../actions/actionsTypes';
+import {REHYDRATE} from 'redux-persist/constants';
 import update from 'react-addons-update';
 
-let initialState = {
+const initialState = {
   isLoading: false,
   items: [],
 };
 
 export default function player(state = initialState, action) {
-  switch(action.type) {
-    case CHANNELS_ADD:
+  return handlers[action.type] && handlers[action.type](state, action) || state;
+}
+
+const handlers = {
+
+  [CHANNELS_ADD]: (state, action) => {
       return update(state, {
         items: {$push: action.channels},
       });
+  },
 
-    case CHANNELS_REMOVE:
-      let spliceArgs = [];
-
-      state.items.forEach(function (item, index) {
+  [CHANNELS_REMOVE]: (state, action) => {
+    return update(state, {
+      items: {$splice: state.items.reduce(function (spliceArgs, item, index) {
         if (item.id === action.channelId) {
           spliceArgs.push([index, 1]);
         }
-      });
 
-      return update(state, {
-        items: {$splice: spliceArgs},
-      });
+        return spliceArgs;
+      }, [])},
+    });
+  },
 
-    case CHANNELS_LOADING:
-      return update(state, {
-        isLoading: {$set: action.isLoading},
-      });
+  [CHANNELS_LOADING]: (state, action) => {
+    return update(state, {
+      isLoading: {$set: action.isLoading},
+    });
+  },
 
-    case CHANNELS_ITEM_PROPS:
-      return update(state, {
-        items: {$set: state.items.map((item) => {
-          if (item.id === action.channelId) {
-            item = {...item, ...action.props};
-          }
+  [CHANNELS_ITEM_PROPS]: (state, action) => {
+    return update(state, {
+      items: {$set: state.items.map((item) => {
+        if (item.id === action.channelId) {
+          item = {...item, ...action.props};
+        }
 
-          return item;
-        })},
-      });
+        return item;
+      })},
+    });
+  },
 
-    default:
-      return state;
-  }
-}
+  [REHYDRATE]: (state, action) => {
+    let items = action.payload.items.map((item) => {
+      return {
+        ...item,
+        isLoaded: false,
+        isLoading: false,
+      };
+    });
+
+    const ids = items.map((x) => x.id);
+    state.items.forEach((x) => {
+      if (ids.indexOf(x.id) === -1) {
+        items.push(x);
+      }
+    });
+
+    return update(state, {
+      items: {$set: items},
+    });
+  },
+
+};

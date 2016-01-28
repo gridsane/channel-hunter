@@ -151,6 +151,7 @@ export default class Playlist extends Component {
       emptyMessage: {
         textAlign: 'center',
         paddingTop: 64,
+        color: colors.secondaryText,
       },
 
       emptyIcon: {

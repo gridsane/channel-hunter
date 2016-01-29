@@ -26,22 +26,15 @@ export default class VkAPI {
       count: maxResults,
     });
 
-    return response.items
-      .filter((post) => post.attachments)
-      .map((post) => {
-        const photoAttachment = post.attachments.find((attachment) => {
-          return attachment.type === 'photo';
-        });
+    return this._getTracksFromPosts(response.items, channelId);
+  }
 
-        const cover = photoAttachment
-          ? (photoAttachment.photo.photo_807 || photoAttachment.photo.photo_604)
-          : null;
+  async getTrack(track) {
+    const response = await this._request('wall.getById', {
+      posts: `-${track.channelId}_${track.extra.postId}`,
+    });
 
-        return post.attachments
-          .filter((attachment) => attachment.type === 'audio')
-          .map((attachment) => this._convertTrack(attachment.audio, channelId, cover));
-      })
-      .reduce((prev, curr) => prev.push(...curr) && prev, []);
+    return this._getTracksFromPosts(response, track.channelId);
   }
 
   hasChannel(url) {
@@ -74,6 +67,25 @@ export default class VkAPI {
     });
   }
 
+  _getTracksFromPosts(posts, channelId) {
+    return posts
+      .filter((post) => post.attachments)
+      .map((post) => {
+        const photoAttachment = post.attachments.find((attachment) => {
+          return attachment.type === 'photo';
+        });
+
+        const cover = photoAttachment
+          ? (photoAttachment.photo.photo_807 || photoAttachment.photo.photo_604)
+          : null;
+
+        return post.attachments
+          .filter((attachment) => attachment.type === 'audio')
+          .map((attachment) => this._convertTrack(attachment.audio, channelId, cover, post.id));
+      })
+      .reduce((prev, curr) => prev.push(...curr) && prev, []);
+  }
+
   _convertChannel(res) {
     const id = res.id.toString();
 
@@ -88,7 +100,7 @@ export default class VkAPI {
     };
   }
 
-  _convertTrack(audio, channelId, cover) {
+  _convertTrack(audio, channelId, cover, postId) {
     const id = audio.id.toString();
 
     return {
@@ -102,6 +114,7 @@ export default class VkAPI {
       duration: audio.duration,
       channelId: 'vk-' + channelId,
       cover: cover,
+      extra: {postId: postId.toString()},
     };
   }
 

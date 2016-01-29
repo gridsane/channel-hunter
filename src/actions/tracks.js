@@ -1,4 +1,5 @@
 import * as types from './actionsTypes';
+import * as api from '../../src/utils/api';
 
 export function addTracks(tracks) {
   return {type: types.TRACKS_ITEMS_ADD, tracks};
@@ -22,4 +23,13 @@ export function selectTrack(track) {
 
 export function setTrackError(trackId, error = null) {
   return {type: types.TRACKS_ERROR, trackId, error};
+}
+
+export function loadTrack(track) {
+  return async (dispatch) => {
+    dispatch(setTracksLoading(true));
+    const tracks = await api.getTrack(track);
+    dispatch(addTracks(tracks));
+    dispatch(setTracksLoading(false));
+  };
 }

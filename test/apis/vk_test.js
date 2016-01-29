@@ -61,6 +61,7 @@ describe('VK API', () => {
         duration: 214,
         channelId: 'vk-1000',
         cover: 'post1_photo807.jpg',
+        extra: {postId: '1'},
       },
       {
         source: 'vk',
@@ -73,6 +74,7 @@ describe('VK API', () => {
         duration: 148,
         channelId: 'vk-1000',
         cover: null,
+        extra: {postId: '2'},
       },
       {
         source: 'vk',
@@ -85,6 +87,38 @@ describe('VK API', () => {
         duration: 154,
         channelId: 'vk-1000',
         cover: 'post3_photo604.jpg',
+        extra: {postId: '3'},
+      },
+    ]);
+
+  });
+
+  it('get tracks by track definition', async () => {
+
+    nock('https://api.vk.com/method')
+      .get('/wall.getById?v=5.40&https=1&posts=-1000_99')
+      .reply(200, RESPONSES.single_post);
+
+    const tracks = await api.getTrack({
+      id: 40,
+      channelId: '1000',
+      source: 'vk',
+      extra: {postId: 99},
+    });
+
+    expect(tracks).toEqual([
+      {
+        source: 'vk',
+        id: 'vk-40',
+        originalId: '40',
+        date: 1448049846,
+        artist: 'Libido Fuzz',
+        title: 'Sweet Hours',
+        url: 'track40_url',
+        duration: 133,
+        channelId: 'vk-1000',
+        cover: null,
+        extra: {postId: '99'},
       },
     ]);
 
@@ -231,5 +265,23 @@ const RESPONSES = {
       },
     ],
   }},
+
+  single_post: {response: [{
+    id: 99,
+    date: 1448284803,
+    attachments: [
+      {
+        type: 'audio',
+        audio: {
+          id: 40,
+          artist: 'Libido Fuzz',
+          title: 'Sweet Hours',
+          duration: 133,
+          date: 1448049846,
+          url: 'track40_url',
+        },
+      },
+    ],
+  }]},
 
 };

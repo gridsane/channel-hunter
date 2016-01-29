@@ -15,6 +15,10 @@ export function getTracks(source, channelId) {
   return externalApi.getTracks(source, channelId);
 }
 
+export function getTrack(track) {
+  return externalApi.getTrack(track);
+}
+
 function get(url, query) {
   return new Promise((resolve, reject) => {
     superagent

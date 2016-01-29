@@ -6,26 +6,30 @@ export default class APIWrapper {
 
   getChannelByUrl(url) {
 
-    const suitableKeys = Object.keys(this.apis).filter((key) => {
-      return this.apis[key].hasChannel(url);
-    });
-
-    if (suitableKeys.length === 0) {
-      throw new Error(`unknown channel url '${url}'`);
+    for (let source in this.apis) {
+      if (this.apis[source].hasChannel(url)) {
+        return this.apis[source].getChannelByUrl(url);
+      }
     }
 
-    return this.apis[suitableKeys[0]].getChannelByUrl(url);
+    throw new Error(`unknown channel url '${url}'`);
 
   }
 
   getTracks(source, channelId) {
+    return this._getApi(source).getTracks(channelId);
+  }
 
-    if (!this.apis.hasOwnProperty(source)) {
-      throw new Error(`tracks source '${source}' is unknown`);
+  getTrack(track) {
+    return this._getApi(track.source).getTrack(track);
+  }
+
+  _getApi(source) {
+    if (typeof(this.apis[source]) === 'undefined') {
+      throw new Error(`source ${source} is unknown`);
     }
 
-    return this.apis[source].getTracks(channelId);
-
+    return this.apis[source];
   }
 
 }

@@ -5,12 +5,14 @@ describe('APIWrapper', () => {
   const fooAPI = {
     getChannelByUrl: null,
     getTracks: null,
+    getTrack: null,
     hasChannel: null,
   };
 
   const barAPI = {
     getChannelByUrl: null,
     getTracks: null,
+    getTrack: null,
     hasChannel: null,
   };
 
@@ -26,19 +28,17 @@ describe('APIWrapper', () => {
 
   it('gets channel by url from suitable API', () => {
 
-    fooAPI.hasChannel.andReturn(true);
-    fooAPI.getChannelByUrl.andReturn('foo result');
-    barAPI.hasChannel.andReturn(false);
+    fooAPI.hasChannel.andReturn(false);
+    barAPI.hasChannel.andReturn(true);
+    barAPI.getChannelByUrl.andReturn('bar result');
 
-    const result = api.getChannelByUrl('http://foo/channelId');
+    const result = api.getChannelByUrl('http://bar/channelId');
 
-    expect(fooAPI.hasChannel.calls.length).toBe(1);
-    expect(barAPI.hasChannel.calls.length).toBe(1);
-    expect(fooAPI.getChannelByUrl.calls.length).toBe(1);
-    expect(barAPI.getChannelByUrl.calls.length).toBe(0);
+    expect(fooAPI.getChannelByUrl.calls.length).toBe(0);
+    expect(barAPI.getChannelByUrl.calls.length).toBe(1);
 
-    expect(fooAPI.getChannelByUrl.calls[0].arguments).toEqual(['http://foo/channelId']);
-    expect(result).toBe('foo result');
+    expect(barAPI.getChannelByUrl.calls[0].arguments).toEqual(['http://bar/channelId']);
+    expect(result).toBe('bar result');
 
   });
 
@@ -47,7 +47,7 @@ describe('APIWrapper', () => {
     fooAPI.hasChannel.andReturn(false);
     barAPI.hasChannel.andReturn(false);
 
-    expect(api.getChannelByUrl).withArgs('http://foobar').toThrow(Error);
+    expect(() => api.getChannelByUrl('http://foobar')).toThrow(/unknown/);
 
   });
 
@@ -67,7 +67,21 @@ describe('APIWrapper', () => {
 
   it('throws error, if tracks source is unknown', () => {
 
-    expect(api.getTracks).withArgs('baz', 'channelId').toThrow(Error);
+    expect(() => api.getTracks('baz', 'channelId')).toThrow(/unknown/);
+
+  });
+
+  it('get track from suitable API', () => {
+
+    api.getTrack({id: 22, source: 'bar'});
+    expect(barAPI.getTrack.calls.length).toBe(1);
+    expect(barAPI.getTrack.calls[0].arguments).toEqual([{id: 22, source: 'bar'}]);
+
+  });
+
+  it('throws error, if track source is unknown', () => {
+
+    expect(() => api.getTrack({source: 'baz'})).toThrow(/unknown/);
 
   });
 

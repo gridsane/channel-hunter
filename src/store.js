@@ -28,7 +28,7 @@ persistStore(store, {
 export default store;
 
 function getWindowProp(prop, defaultValue = null) {
-  return typeof window === 'object' && window[prop] !== 'undefined'
+  return typeof window === 'object' && typeof(window[prop]) !== 'undefined'
     ? window[prop]
     : defaultValue;
 }

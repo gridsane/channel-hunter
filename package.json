@@ -9,6 +9,7 @@
     "url": "git://github.com/gridsane/channel-hunter.git"
   },
   "scripts": {
+    "postinstall": "npm run build",
     "clean": "rm -rf assets/*.js assets/*.map build",
     "build": "npm run clean && npm run build-client && npm run build-server",
     "build-client": "`npm bin`/webpack --config webpack.config.prod.js",

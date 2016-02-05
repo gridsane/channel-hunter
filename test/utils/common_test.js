@@ -31,6 +31,10 @@ describe('Utils', () => {
     expect(utils.formatDuration(119)).toBe('01:59');
     expect(utils.formatDuration(900)).toBe('15:00');
 
+    expect(utils.formatDuration(60 * 60)).toBe('~1h');
+    expect(utils.formatDuration(2.6 * 60 * 60)).toBe('~3h');
+    expect(utils.formatDuration(25.4 * 60 * 60)).toBe('~25h');
+
   });
 
   it('curries functions', () => {

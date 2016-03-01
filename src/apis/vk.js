@@ -83,7 +83,10 @@ export default class VkAPI {
           .filter((attachment) => attachment.type === 'audio')
           .map((attachment) => this._convertTrack(attachment.audio, channelId, cover, post.id));
       })
-      .reduce((prev, curr) => prev.push(...curr) && prev, []);
+      .reduce((prev, curr) => {
+        prev.push(...curr);
+        return prev;
+      }, []);
   }
 
   _convertChannel(res) {

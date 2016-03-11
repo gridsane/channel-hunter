@@ -51,16 +51,29 @@ describe('Application component', () => {
     let dispatch, controls;
 
     dispatch = expect.createSpy();
-    controls = getControls(shallowRenderApp(dispatch));
+    controls = getControls(shallowRenderApp(dispatch, '10'));
     controls.props.onToggle(true);
 
     expect(dispatch.calls[0].arguments[0]).toEqual(togglePlaying(true));
 
     dispatch = expect.createSpy();
-    controls = getControls(shallowRenderApp(dispatch));
+    controls = getControls(shallowRenderApp(dispatch, '10'));
     controls.props.onToggle(false);
 
     expect(dispatch.calls[0].arguments[0]).toEqual(togglePlaying(false));
+
+  });
+
+  it('selects the first track in a playlist on togglePlay, if not track selected', () => {
+
+    let dispatch, controls;
+
+    dispatch = expect.createSpy();
+    controls = getControls(shallowRenderApp(dispatch));
+    controls.props.onToggle(true);
+
+    expect(dispatch.calls[0].arguments[0]).toEqual(selectTrack('10'));
+    expect(dispatch.calls[1].arguments[0]).toEqual(togglePlaying(true));
 
   });
 

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {colors} from '../utils/styles';
 import {AppBar} from './common';
-const logoSvg = require('../assets/logo.svg');
+const logoSvg = require('fs').readFileSync(`${__dirname}/../assets/logo.svg`);
 
 export default class CoverAppBar extends Component {
   static propTypes = {

@@ -37,7 +37,7 @@ export function loadChannelTracks(channel) {
     dispatch(setChannelProps(channel.id, {
       isLoaded: true,
       isLoading: false,
-      lastFetchedAt: channel.fetchedAt,
+      lastFetchedAt: channel.fetchedAt || null,
       fetchedAt: Math.floor(Date.now() / 1000),
     }));
 

@@ -7,9 +7,9 @@ import {shallowRender} from '../utils';
 describe('Channels component', () => {
 
   const list = [
-    {id: 1, name: 'foo', image: 'foo.jpg', tags: ['a', 'b'], isEnabled: false, isLoading: false},
+    {id: 1, name: 'foo', image: 'foo.jpg', isEnabled: false, isLoading: false},
     {id: 2, name: 'bar', image: 'bar.jpg', isEnabled: true, isLoading: false},
-    {id: 3, name: 'baz', image: 'baz.jpg', tags: ['e', 'f'], isEnabled: true, isLoading: true},
+    {id: 3, name: 'baz', image: 'baz.jpg', isEnabled: true, isLoading: true},
   ];
 
   const result = shallowRender(
@@ -22,16 +22,9 @@ describe('Channels component', () => {
 
     expect(items.length).toBe(3);
 
-    const {primaryText, secondaryText, leftElement} = items[0].props;
+    const {primaryText, leftElement} = items[0].props;
     expect(primaryText).toBe('foo');
-    expect(secondaryText).toBe('a, b');
     expect(leftElement.props.url).toBe('foo.jpg');
-
-  });
-
-  it('skips empty tags', () => {
-
-    expect(items[1].props.secondaryText).toBe(null);
 
   });
 

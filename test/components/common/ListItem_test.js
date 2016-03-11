@@ -36,7 +36,7 @@ describe('ListItem component', () => {
 
   });
 
-  it('has different height with both texts', () => {
+  it('has different paddings with both texts', () => {
 
     const primaryTextDom = renderDOM(
       <ListItem primaryText="foo" />
@@ -46,8 +46,8 @@ describe('ListItem component', () => {
       <ListItem primaryText="foo" secondaryText="bar" />
     );
 
-    expect(primaryTextDom.style.getPropertyValue('height'))
-      .toNotBe(bothTextsDom.style.getPropertyValue('height'));
+    expect(primaryTextDom.style.getPropertyValue('padding'))
+      .toNotBe(bothTextsDom.style.getPropertyValue('padding'));
 
   });
 

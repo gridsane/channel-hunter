@@ -52,8 +52,8 @@ describe('VK API', () => {
     expect(tracks).toEqual([
       {
         source: 'vk',
-        id: 'vk-10',
-        originalId: '10',
+        id: 'vk-00_10',
+        originalId: '00_10',
         date: 1448049845,
         artist: 'Dreadnought',
         title: 'Feeling Good',
@@ -65,8 +65,8 @@ describe('VK API', () => {
       },
       {
         source: 'vk',
-        id: 'vk-20',
-        originalId: '20',
+        id: 'vk-01_20',
+        originalId: '01_20',
         date: 1448049845,
         artist: 'Dreadnought',
         title: 'Cocaine',
@@ -78,8 +78,8 @@ describe('VK API', () => {
       },
       {
         source: 'vk',
-        id: 'vk-30',
-        originalId: '30',
+        id: 'vk-01_30',
+        originalId: '01_30',
         date: 1448049845,
         artist: 'God Lives on the Sun',
         title: 'Chaika',
@@ -109,8 +109,8 @@ describe('VK API', () => {
     expect(tracks).toEqual([
       {
         source: 'vk',
-        id: 'vk-40',
-        originalId: '40',
+        id: 'vk-02_40',
+        originalId: '02_40',
         date: 1448049846,
         artist: 'Libido Fuzz',
         title: 'Sweet Hours',
@@ -198,6 +198,7 @@ const RESPONSES = {
             type: 'audio',
             audio: {
               id: 10,
+              owner_id: '00',
               artist: 'Dreadnought',
               title: 'Feeling Good',
               duration: 214,
@@ -215,6 +216,7 @@ const RESPONSES = {
             type: 'audio',
             audio: {
               id: 20,
+              owner_id: '01',
               artist: 'Dreadnought',
               title: 'Cocaine',
               duration: 148,
@@ -238,6 +240,7 @@ const RESPONSES = {
             type: 'audio',
             audio: {
               id: 30,
+              owner_id: '01',
               artist: 'God Lives on the Sun',
               title: 'Chaika',
               duration: 154,
@@ -274,6 +277,7 @@ const RESPONSES = {
         type: 'audio',
         audio: {
           id: 40,
+          owner_id: '02',
           artist: 'Libido Fuzz',
           title: 'Sweet Hours',
           duration: 133,

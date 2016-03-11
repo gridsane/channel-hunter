@@ -7,9 +7,9 @@ import {shallowRender, renderDOM} from '../utils';
 describe('Playlist component', () => {
 
   const items = [
-    {id: '1', title: 'foo_title', artist: 'foo_artist'},
-    {id: '2', title: 'bar_title', artist: 'bar_artist'},
-    {id: '3', title: 'baz_title', artist: 'baz_artist'},
+    {id: '1', title: 'foo_title', artist: 'foo_artist', duration: 65},
+    {id: '2', title: 'bar_title', artist: 'bar_artist', duration: 125},
+    {id: '3', title: 'baz_title', artist: 'baz_artist', duration: 185},
   ];
 
   var result, lazyList, renderItem, renderItemDOM, selectSpy, toggleShuffleSpy;
@@ -33,7 +33,7 @@ describe('Playlist component', () => {
   it('renders tracks', () => {
 
     expect(lazyList.props.items.length).toBe(3);
-    expect(renderItemDOM(items[0]).textContent).toBe('foo_title by foo_artist');
+    expect(renderItemDOM(items[0]).textContent).toBe('foo_title by foo_artist01:05');
 
   });
 

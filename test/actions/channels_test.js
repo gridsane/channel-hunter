@@ -1,6 +1,7 @@
 import * as api from '../../src/utils/api';
 import * as actions from '../../src/actions/channels';
 import * as tracksActions from '../../src/actions/tracks';
+import * as actionsTypes from '../../src/actions/actionsTypes';
 
 describe('Channels actions', () => {
 
@@ -20,11 +21,30 @@ describe('Channels actions', () => {
     expect(api.getTracks.calls[0].arguments).toEqual(['vk', 11]);
     expect(dispatch.calls[0].arguments[0]).toEqual(actions.setChannelLoading(1, true));
     expect(dispatch.calls[1].arguments[0]).toEqual(tracksActions.addTracks([1, 2, 3]));
-    expect(dispatch.calls[2].arguments[0]).toEqual(actions.setChannelProps(1, {
-      isLoading: false,
-      isLoaded: true,
-    }));
 
+    const channelPropsAction = dispatch.calls[2].arguments[0];
+    expect(channelPropsAction.type).toBe(actionsTypes.CHANNELS_ITEM_PROPS);
+    expect(channelPropsAction.props.isLoading).toBe(false);
+    expect(channelPropsAction.props.isLoaded).toBe(true);
+    expect(channelPropsAction.props.fetchedAt > 0).toBe(true);
+    expect(channelPropsAction.props.lastFetchedAt).toBe(null);
+
+  });
+
+  it('sets lastFetchedAt when channel tracks loaded', async () => {
+    expect.spyOn(api, 'getTracks').andReturn([1, 2, 3]);
+    const dispatch = expect.createSpy();
+
+    await actions.loadChannelTracks({
+      id: 1,
+      originalId: 11,
+      source: 'vk',
+      fetchedAt: 12345,
+      isEnabled: false,
+      isLoaded: false,
+    }, true)(dispatch);
+
+    expect(dispatch.calls[2].arguments[0].props.lastFetchedAt).toBe(12345);
   });
 
   it('disables channel without loading', () => {

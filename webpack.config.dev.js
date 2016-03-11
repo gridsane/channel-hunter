@@ -20,6 +20,10 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
+        loader: 'transform?brfs',
+      },
+      {
+        test: /\.js$/,
         loader: 'babel',
         include: path.join(__dirname, 'src'),
         query: {
@@ -36,10 +40,6 @@ module.exports = {
             }],
           ],
         },
-      },
-      {
-        test: /\.svg$/,
-        loader: 'svg-inline-loader',
       },
     ],
   },

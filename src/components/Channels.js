@@ -17,10 +17,11 @@ export default class Channels extends Component {
         key={channel.id}
         style={styles.channel}
         primaryText={channel.name}
-        secondaryText={this._renderTags(channel.tags)}
-        leftElement={<Avatar url={channel.image} />}
+        leftElement={<Avatar size={32} url={channel.image} />}
+        leftElementHeight={32}
         rightElement={this._renderRightElement(channel)}
         rightElementHeight={24}
+        height={48}
         onClick={curried(this.props.onToggle, channel)} />;
     });
 
@@ -28,14 +29,6 @@ export default class Channels extends Component {
       <ListLabel text="Your channels" />
       <List>{channels}</List>
     </div>;
-  }
-
-  _renderTags(tags) {
-    if (!tags) {
-      return null;
-    }
-
-    return tags.join(', ');
   }
 
   _renderRightElement(channel) {

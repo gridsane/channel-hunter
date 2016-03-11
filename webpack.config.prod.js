@@ -27,10 +27,16 @@ module.exports = {
     }),
   ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['babel-loader'],
-      include: path.join(__dirname, 'src'),
-    }],
+    loaders: [
+      {
+        test: /\.js$/,
+        loaders: ['babel-loader'],
+        include: path.join(__dirname, 'src'),
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader',
+      },
+    ],
   },
 };

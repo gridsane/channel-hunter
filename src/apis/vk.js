@@ -104,7 +104,7 @@ export default class VkAPI {
   }
 
   _convertTrack(audio, channelId, cover, postId) {
-    const id = audio.id.toString();
+    const id = [audio.owner_id.toString(), audio.id.toString()].join('_');
 
     return {
       source: 'vk',

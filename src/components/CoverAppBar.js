@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {colors} from '../utils/styles';
 import {AppBar} from './common';
+const logoSvg = require('../assets/logo.svg');
 
 export default class CoverAppBar extends Component {
   static propTypes = {
@@ -16,6 +17,10 @@ export default class CoverAppBar extends Component {
     const styles = this.getStyles();
 
     return <AppBar style={styles.container}>
+      <div
+        style={styles.logo}
+        dangerouslySetInnerHTML={{__html: logoSvg}}>
+      </div>
       {this.props.children}
       <div style={styles.backgroundContainer}>
         <div style={styles.background} />
@@ -27,8 +32,20 @@ export default class CoverAppBar extends Component {
     return {
 
       container: {
-        paddingLeft: this.props.compact ? '16px' : '336px',
+        paddingLeft: this.props.compact ? '16px' : '296px',
         transition: 'padding-left .3s ease-out',
+      },
+
+      logo: {
+        position: 'absolute',
+        left: 24,
+        top: 13,
+        fontSize: 24,
+        fontFamily: 'Roboto Condensed, sans-serif',
+        fontWeight: 400,
+        display: this.props.compact ? 'none' : null,
+        width: 32,
+        height: 32,
       },
 
       backgroundContainer: {

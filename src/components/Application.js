@@ -85,6 +85,10 @@ export class Application extends Component {
   }
 
   _togglePlaying(isPlaying) {
+    if (!this.props.tracks.selected) {
+      this._nextTrack();
+    }
+
     this.props.dispatch(togglePlaying(isPlaying));
   }
 

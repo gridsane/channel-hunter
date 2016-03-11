@@ -24,6 +24,7 @@ export default class ListItem extends Component {
     leftElementHeight: 40,
     rightElement: null,
     rightElementHeight: 40,
+    height: 56,
     onClick: null,
     style: null,
   };
@@ -87,7 +88,8 @@ export default class ListItem extends Component {
   }
 
   getStyles() {
-    const height = this.props.secondaryText === null ? 56 : 72;
+    const height = this.props.height;
+    const paddingVert = height/2 - (this.props.secondaryText ? 16 : 8);
     const paddingRight = this.props.rightIcon === null ? 16 : 56;
     const paddingLeft = this.props.leftElement === null ? 16 : 72;
     const mouseOver = this.getMouseOverStyleProps();
@@ -101,11 +103,11 @@ export default class ListItem extends Component {
 
       container: {
         position: 'relative',
+        height,
         boxSizing: 'border-box',
-        height: `${height}px`,
-        padding: `20px ${paddingRight}px 20px ${paddingLeft}px`,
-        lineHeight: '16px',
-        fontSize: '16px',
+        padding: `${paddingVert}px ${paddingRight}px ${paddingVert}px ${paddingLeft}px`,
+        lineHeight: 1,
+        fontSize: 16,
         ...this.props.style,
         ...mouseOver,
       },
@@ -119,21 +121,21 @@ export default class ListItem extends Component {
       secondaryText: {
         display: 'inline-block',
         width: '100%',
-        fontSize: '14px',
+        fontSize: 14,
         color: colors.secondaryText,
         ...ellipsis,
       },
 
       leftElement: {
         position: 'absolute',
-        left: '16px',
+        left: 16,
         top: this._getSideElementTop(height, this.props.leftElementHeight),
         color: colors.primaryText,
       },
 
       rightElement: {
         position: 'absolute',
-        right: '16px',
+        right: 16,
         top: this._getSideElementTop(height, this.props.rightElementHeight),
         color: colors.primaryText,
       },

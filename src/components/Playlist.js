@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {colors, shadow} from '../utils/styles';
 import {LazyList, ListItem, ListLabel, Icon, IconButton, Avatar} from './common';
-import {curried} from '../utils/common';
+import {curried, formatDuration} from '../utils/common';
 
 export default class Playlist extends Component {
 
@@ -89,6 +89,7 @@ export default class Playlist extends Component {
       <span style={hasError ? null : styles.artist}>
         {` by ${track.artist}`}
       </span>
+      <span style={styles.duration}>{formatDuration(track.duration)}</span>
     </span>;
   }
 
@@ -103,7 +104,7 @@ export default class Playlist extends Component {
 
   getStyles() {
     const {compact, isShuffle} = this.props;
-    const marginLeft = compact ? '16px' : '336px';
+    const marginLeft = compact ? '16px' : '296px';
 
     return {
 
@@ -130,6 +131,14 @@ export default class Playlist extends Component {
 
       artist: {
         color: colors.secondaryText,
+      },
+
+      duration: {
+        color: colors.secondaryText,
+        fontSize: 14,
+        display: 'inline-block',
+        position: 'absolute',
+        right: 56,
       },
 
       currentIcon: {

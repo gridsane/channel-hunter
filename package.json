@@ -20,6 +20,9 @@
     "test_wo_db": "npm run test -- --grep @database --invert",
     "lint": "eslint src test"
   },
+  "engines": {
+    "node": "4.2.1"
+  },
   "dependencies": {
     "babel-polyfill": "^6.2.0",
     "body-parser": "^1.14.1",

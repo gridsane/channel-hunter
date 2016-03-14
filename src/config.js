@@ -2,20 +2,32 @@ import fs from 'fs';
 
 // @todo its a shameless plug. Find another way to store YOUTUBE_API when
 // running locally
-const dotEnvVars = fs.readFileSync('.env')
-  .toString()
-  .split("\n")
-  .reduce((p, str) => {
-    const [key, val] = str.split('=');
-    if (key) {
-      p[key] = val;
-    }
+let dotEnvVars = null;
 
-    return p;
-  }, {});
+function getVars() {
+  return fs.readFileSync('.env')
+    .toString()
+    .split("\n")
+    .reduce((p, str) => {
+      const [key, val] = str.split('=');
+      if (key) {
+        p[key] = val;
+      }
+
+      return p;
+    }, {});
+}
 
 function resolveVar(varName) {
-  return process.env[varName] || dotEnvVars[varName];
+  if (process.env[varName]) {
+    return process.env[varName];
+  }
+
+  if (!dotEnvVars) {
+    dotEnvVars = getVars();
+  }
+
+  return dotEnvVars[varName];
 }
 
 export const MONGO_URI = resolveVar('MONGO_URI');

@@ -30,12 +30,12 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['babel-loader'],
-        include: path.join(__dirname, 'src'),
+        loader: 'transform?brfs',
       },
       {
-        test: /\.svg$/,
-        loader: 'svg-inline-loader',
+        test: /\.js$/,
+        loaders: ['babel-loader'],
+        include: path.join(__dirname, 'src'),
       },
     ],
   },

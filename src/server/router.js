@@ -5,7 +5,7 @@ import Storage from './storage';
 import YoutubeAPI from '../apis/youtube';
 import VkAPI from '../apis/vk';
 import APIWrapper from '../apis/api_wrapper';
-import {MONGO_URI, YOUTUBE_KEY} from '../config';
+import {MONGO_URI, YOUTUBE_KEY, ANALYTICS_ID} from '../config';
 
 const storage = new Storage(MONGO_URI);
 const api = new APIWrapper({
@@ -15,7 +15,7 @@ const api = new APIWrapper({
 
 export default function (router) {
 
-  const main = mainRouter(storage);
+  const main = mainRouter(storage, ANALYTICS_ID);
   const channels = channelsRouter(storage, api);
   const tracks = tracksRouter(api);
 

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-export default function (storage) {
+export default function (storage, analyticsId = null) {
   return {
 
     index: async function index(req, res) {
@@ -28,10 +28,10 @@ export default function (storage) {
       };
 
       fs.readFile(path.join(__dirname, '../../../index.html'), (err, template) => {
-        res.send(template.toString().replace(
-          '%INITIAL_STATE%',
-          JSON.stringify(initialState)
-        ));
+        res.send(template.toString()
+          .replace('%ANALYTICS_ID%', analyticsId || '')
+          .replace('%INITIAL_STATE%', JSON.stringify(initialState))
+        );
       });
     },
 

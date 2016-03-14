@@ -27,9 +27,10 @@ function resolveVar(varName) {
     dotEnvVars = getVars();
   }
 
-  return dotEnvVars[varName];
+  return dotEnvVars[varName] || null;
 }
 
 export const MONGO_URI = resolveVar('MONGO_URI');
 export const MONGO_URI_TEST = resolveVar('MONGO_URI_TEST');
 export const YOUTUBE_KEY = resolveVar('YOUTUBE_KEY');
+export const ANALYTICS_ID = resolveVar('ANALYTICS_ID');

@@ -191,7 +191,17 @@ describe('Application component', () => {
 
   });
 
-  function shallowRenderApp(dispatch = () => null, selected = null) {
+  it('does not hide controls if playlist is not empty', () => {
+    const controls = getControls(shallowRenderApp());
+    expect(controls.props.hidden).toBe(false);
+  });
+
+  it('hides controls if playlist is empty', () => {
+    const controls = getControls(shallowRenderApp(() => null, null, []));
+    expect(controls.props.hidden).toBe(true);
+  });
+
+  function shallowRenderApp(dispatch = () => null, selected = null, playlist = null) {
     const props = {
       selectedTrack: null,
       channels: {items: [
@@ -210,7 +220,7 @@ describe('Application component', () => {
           {id: '40', channelId: 2},
         ],
       },
-      playlist: [
+      playlist: playlist || [
         {id: '10', channelId: 1},
         {id: '20', channelId: 1},
         {id: '30', channelId: 1},

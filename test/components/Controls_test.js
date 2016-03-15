@@ -119,4 +119,16 @@ describe('Controls component', () => {
 
   });
 
+  it('hides when \'hidden\' property is true and current track is empty', () => {
+    const props = mergeWithDefaults({hidden: true, track: null});
+    const result = shallowRender(<Controls {...props} />);
+    expect(result.props.style.display).toBe('none');
+  });
+
+  it('does not hides when \'hidden\' property is true and current track is not empty', () => {
+    const props = mergeWithDefaults({hidden: true});
+    const result = shallowRender(<Controls {...props} />);
+    expect(result.props.style.display).toBe(null);
+  });
+
 });

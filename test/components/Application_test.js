@@ -3,7 +3,7 @@ import {Application, mapToProps} from '../../src/components/Application';
 import Controls from '../../src/components/Controls';
 import Channels from '../../src/components/Channels';
 import Playlist from '../../src/components/Playlist';
-import ShallowTestUtils from 'react-shallow-testutils';
+import {findWithType} from 'react-shallow-testutils';
 import {shallowRender} from '../utils';
 import {selectTrack, togglePlaying, setTrackError} from '../../src/actions/tracks';
 import * as channelsActions from '../../src/actions/channels';
@@ -225,15 +225,15 @@ describe('Application component', () => {
   }
 
   function getControls(tree) {
-    return ShallowTestUtils.findWithType(tree, Controls);
+    return findWithType(tree, Controls);
   }
 
   function getChannels(tree) {
-    return ShallowTestUtils.findWithType(tree, Channels);
+    return findWithType(tree, Channels);
   }
 
   function getPlaylist(tree) {
-    return ShallowTestUtils.findWithType(tree, Playlist);
+    return findWithType(tree, Playlist);
   }
 
 });

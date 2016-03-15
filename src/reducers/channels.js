@@ -55,7 +55,7 @@ const handlers = {
   },
 
   [REHYDRATE]: (state, action) => {
-    let items = action.payload.items.map((item) => {
+    let items = action.payload.channels.items.map((item) => {
       return {
         ...item,
         isLoaded: false,

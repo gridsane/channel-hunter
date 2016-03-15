@@ -16,13 +16,11 @@ const store = compose(
 persistStore(store, {
   whitelist: ['channels'],
 }, () => {
-
   store.getState().channels.items.filter((channel) => {
     return channel.isEnabled;
   }).forEach((channel) => {
     store.dispatch(loadChannelTracks(channel));
   });
-
 });
 
 export default store;

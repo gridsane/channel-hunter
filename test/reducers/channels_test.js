@@ -149,14 +149,14 @@ describe('Channels reducer', () => {
 
     const state = reducer(initialState, {
       type: REHYDRATE,
-      payload: {items: [
+      payload: {channels: {items: [
         {
           id: 1,
           isEnabled: true,
           isLoading: true,
           isLoaded: true,
         },
-      ]},
+      ]}},
     });
 
     expect(state).toEqual({

@@ -2,7 +2,7 @@ import React from 'react';
 import Controls from '../../src/components/Controls';
 import Player from '../../src/components/Player';
 import TestUtils from 'react-addons-test-utils';
-import ShallowTestUtils from 'react-shallow-testutils';
+import {findAllWithType} from 'react-shallow-testutils';
 import {renderDOM, render, shallowRender} from '../utils';
 
 describe('Controls component', () => {
@@ -111,7 +111,7 @@ describe('Controls component', () => {
     const errorHandler = expect.createSpy();
     const props = mergeWithDefaults({onError: errorHandler});
     const result = shallowRender(<Controls {...props} />);
-    const player = ShallowTestUtils.findAllWithType(result, Player);
+    const player = findAllWithType(result, Player);
     player[0].props.onError('error!');
 
     expect(errorHandler.calls.length).toBe(1);

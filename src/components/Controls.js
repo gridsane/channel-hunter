@@ -12,6 +12,12 @@ export default class Controls extends Component {
     onToggle: PropTypes.func.isRequired,
     onNext: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
+    hidden: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    track: null,
+    hidden: true,
   };
 
   state = {
@@ -98,6 +104,7 @@ export default class Controls extends Component {
 
   getStyles() {
     const {isLoading} = this.state;
+    const {hidden, track} = this.props;
 
     return {
 
@@ -110,6 +117,7 @@ export default class Controls extends Component {
         paddingRight: isLoading ? 146 : 106,
         position: 'relative',
         whiteSpace: 'nowrap',
+        display: hidden && !track ? 'none' : null,
       },
 
       title: {

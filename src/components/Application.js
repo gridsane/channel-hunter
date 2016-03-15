@@ -34,6 +34,7 @@ export class Application extends Component {
 
       <CoverAppBar compact={isSmallScreen} coverUrl={coverUrl}>
         <Controls
+          hidden={playlist.length === 0}
           track={selectedTrack}
           isPlaying={tracks.isPlaying}
           onToggle={::this._togglePlaying}

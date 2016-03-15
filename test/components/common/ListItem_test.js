@@ -1,7 +1,7 @@
 import React from 'react';
 import ListItem from '../../../src/components/common/ListItem';
 import TestUtils from 'react-addons-test-utils';
-import ShallowTestUtils from 'react-shallow-testutils';
+import {findWithClass} from 'react-shallow-testutils';
 import {renderDOM, shallowRender} from '../../utils';
 
 describe('ListItem component', () => {
@@ -60,7 +60,7 @@ describe('ListItem component', () => {
         leftElementHeight={38} />
     );
 
-    const leftElement = ShallowTestUtils.findWithClass(tree, 'left');
+    const leftElement = findWithClass(tree, 'left');
     expect(leftElement.props.style.top).toBe('9px');
     expect(leftElement.props.children).toBe('bar');
 
@@ -74,7 +74,7 @@ describe('ListItem component', () => {
         leftElement={<span className="left" style={{color: 'red'}} />} />
     );
 
-    const leftElement = ShallowTestUtils.findWithClass(tree, 'left');
+    const leftElement = findWithClass(tree, 'left');
     expect(leftElement.props.style.top).toBe('8px');
     expect(leftElement.props.style.color).toBe('red');
 
@@ -89,7 +89,7 @@ describe('ListItem component', () => {
         rightElementHeight={38} />
     );
 
-    const rightElement = ShallowTestUtils.findWithClass(tree, 'right');
+    const rightElement = findWithClass(tree, 'right');
     expect(rightElement.props.style.top).toBe('9px');
     expect(rightElement.props.children).toBe('bar');
 
@@ -103,7 +103,7 @@ describe('ListItem component', () => {
         rightElement={<span className="right" style={{color: 'red'}} />} />
     );
 
-    const rightElement = ShallowTestUtils.findWithClass(tree, 'right');
+    const rightElement = findWithClass(tree, 'right');
     expect(rightElement.props.style.top).toBe('8px');
     expect(rightElement.props.style.color).toBe('red');
 

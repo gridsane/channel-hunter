@@ -1,7 +1,7 @@
 import React from 'react';
 import Playlist from '../../src/components/Playlist';
 import {LazyList, ListLabel} from '../../src/components/common';
-import ShallowTestUtils from 'react-shallow-testutils';
+import {findWithType} from 'react-shallow-testutils';
 import {shallowRender, renderDOM} from '../utils';
 
 describe('Playlist component', () => {
@@ -25,7 +25,7 @@ describe('Playlist component', () => {
         onSelect={selectSpy}
         onToggleShuffle={toggleShuffleSpy} />
     );
-    lazyList = ShallowTestUtils.findWithType(result, LazyList);
+    lazyList = findWithType(result, LazyList);
     renderItem = lazyList.props.renderItem;
     renderItemDOM = (...args) => renderDOM(lazyList.props.renderItem(...args));
   });
@@ -61,7 +61,7 @@ describe('Playlist component', () => {
 
   it('calls onToggleShuffle callback', () => {
 
-    const label = ShallowTestUtils.findWithType(result, ListLabel);
+    const label = findWithType(result, ListLabel);
     label.props.rightElement.props.onClick();
 
     expect(toggleShuffleSpy.calls[0].arguments).toEqual([]);

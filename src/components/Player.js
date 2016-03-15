@@ -15,6 +15,7 @@ export default class Player extends Component {
   static defaultProps = {
     src: null,
     paused: false,
+    position: 0,
     onEnd: () => null,
     onError: () => null,
     onLoadingChange: () => null,

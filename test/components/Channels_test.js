@@ -1,7 +1,7 @@
 import React from 'react';
 import Channels from '../../src/components/Channels';
 import {ListItem, Icon, Loader} from '../../src/components/common';
-import ShallowTestUtils from 'react-shallow-testutils';
+import {findAllWithType} from 'react-shallow-testutils';
 import {shallowRender} from '../utils';
 
 describe('Channels component', () => {
@@ -16,7 +16,7 @@ describe('Channels component', () => {
     <Channels list={list} onToggle={() => null} />
   );
 
-  const items = ShallowTestUtils.findAllWithType(result, ListItem);
+  const items = findAllWithType(result, ListItem);
 
   it('renders channels', () => {
 
@@ -56,7 +56,7 @@ describe('Channels component', () => {
     const result = shallowRender(
       <Channels list={list} onToggle={toggle} />
     );
-    const items = ShallowTestUtils.findAllWithType(result, ListItem);
+    const items = findAllWithType(result, ListItem);
 
     items[0].props.onClick();
     items[1].props.onClick();

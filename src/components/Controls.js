@@ -41,7 +41,6 @@ export default class Controls extends Component {
         style={styles.next} size={32} boxSize={40}>skip_next</IconButton>
       {this.renderTitle(styles)}
       <span style={styles.time}>{formatDuration(position)}</span>
-      <IconButton style={styles.star} size={24} boxSize={40}>star_border</IconButton>
       <Progress
         isLoading={isLoading}
         current={position}
@@ -52,9 +51,7 @@ export default class Controls extends Component {
         src={track.url}
         position={seekedPosition}
         paused={!isPlaying}
-        onTimeUpdate={(nextPosition) => {
-          this._updatePosition(nextPosition);
-        }}
+        onTimeUpdate={::this._updatePosition}
         onLoadingChange={::this._toggleLoading}
         onError={this.props.onError}
         onEnd={onNext} /> : null}
@@ -114,7 +111,7 @@ export default class Controls extends Component {
         height: '60px',
         padding: '10px 0',
         paddingLeft: '96px',
-        paddingRight: isLoading ? 146 : 106,
+        paddingRight: isLoading ? 102 : 64,
         position: 'relative',
         whiteSpace: 'nowrap',
         display: hidden && !track ? 'none' : null,
@@ -138,17 +135,12 @@ export default class Controls extends Component {
 
       time: {
         position: 'absolute',
-        right: '48px',
+        right: '4px',
         width: '56px',
-        textAlign: 'right',
+        textAlign: 'center',
         fontSize: '16px',
         verticalAlign: 'middle',
         lineHeight: '40px',
-      },
-
-      star: {
-        position: 'absolute',
-        right: 0,
       },
 
       playback: {
@@ -164,7 +156,7 @@ export default class Controls extends Component {
       loader: {
         position: 'absolute',
         top: '18px',
-        right: '106px',
+        right: '64px',
       },
 
     };

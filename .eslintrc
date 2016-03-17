@@ -6,7 +6,8 @@
     "mocha": true
   },
   "globals": {
-    "expect": true
+    "expect": true,
+    "Promise": true
   },
   "plugins": [
     "react"

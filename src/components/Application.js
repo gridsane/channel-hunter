@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-  selectTrack,
-  togglePlaying,
   loadChannelItems,
-  setTracksSort,
+  loadTrack,
+  selectTrack,
   setTrackError,
+  setTracksSort,
+  togglePlaying,
 } from '../actions/tracks';
 import {setChannelEnabled} from '../actions/channels';
 import AppNavigation from './AppNavigation';
@@ -122,12 +123,19 @@ export class Application extends Component {
   }
 
   _trackError(error) {
-    const {tracks, dispatch} = this.props;
+    const {selectedTrack, dispatch} = this.props;
 
-    if (tracks.selected !== null) {
-      dispatch(setTrackError(tracks.selected, error));
-      this._nextTrack();
+    if (!selectedTrack) {
+      return;
     }
+
+    if (!selectedTrack.lastFetchedAt || selectedTrack.lastFetchedAt < Date.now() - 60000) {
+      dispatch(loadTrack(selectedTrack));
+      return;
+    }
+
+    dispatch(setTrackError(selectedTrack.id, error));
+    this._nextTrack();
   }
 
 }

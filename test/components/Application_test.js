@@ -5,7 +5,7 @@ import Channels from '../../src/components/Channels';
 import Playlist from '../../src/components/Playlist';
 import {findWithType} from 'react-shallow-testutils';
 import {shallowRender} from '../utils';
-import {selectTrack, togglePlaying, setTrackError} from '../../src/actions/tracks';
+import {selectTrack, togglePlaying, loadTrack, setTrackError} from '../../src/actions/tracks';
 import * as channelsActions from '../../src/actions/channels';
 
 describe('Application component', () => {
@@ -14,7 +14,7 @@ describe('Application component', () => {
 
     let dispatch = expect.createSpy();
 
-    const controls = getControls(shallowRenderApp(dispatch, '20'));
+    const controls = getControls(shallowRenderApp({dispatch, selected: '20'}));
     controls.props.onNext();
 
     expect(dispatch.calls.length).toBe(1);
@@ -26,7 +26,7 @@ describe('Application component', () => {
 
     let dispatch = expect.createSpy();
 
-    const controls = getControls(shallowRenderApp(dispatch, null));
+    const controls = getControls(shallowRenderApp({dispatch, selected: null}));
     controls.props.onNext();
 
     expect(dispatch.calls.length).toBe(1);
@@ -38,7 +38,7 @@ describe('Application component', () => {
 
     let dispatch = expect.createSpy();
 
-    const controls = getControls(shallowRenderApp(dispatch, '30'));
+    const controls = getControls(shallowRenderApp({dispatch, selected: '30'}));
     controls.props.onNext();
 
     expect(dispatch.calls.length).toBe(1);
@@ -51,13 +51,13 @@ describe('Application component', () => {
     let dispatch, controls;
 
     dispatch = expect.createSpy();
-    controls = getControls(shallowRenderApp(dispatch, '10'));
+    controls = getControls(shallowRenderApp({dispatch, selected: '10'}));
     controls.props.onToggle(true);
 
     expect(dispatch.calls[0].arguments[0]).toEqual(togglePlaying(true));
 
     dispatch = expect.createSpy();
-    controls = getControls(shallowRenderApp(dispatch, '10'));
+    controls = getControls(shallowRenderApp({dispatch, selected: '10'}));
     controls.props.onToggle(false);
 
     expect(dispatch.calls[0].arguments[0]).toEqual(togglePlaying(false));
@@ -69,7 +69,7 @@ describe('Application component', () => {
     let dispatch, controls;
 
     dispatch = expect.createSpy();
-    controls = getControls(shallowRenderApp(dispatch));
+    controls = getControls(shallowRenderApp({dispatch}));
     controls.props.onToggle(true);
 
     expect(dispatch.calls[0].arguments[0]).toEqual(selectTrack('10'));
@@ -80,7 +80,7 @@ describe('Application component', () => {
   it('enables channel', () => {
 
     let dispatch = expect.createSpy();
-    let channels = getChannels(shallowRenderApp(dispatch));
+    let channels = getChannels(shallowRenderApp({dispatch}));
 
     expect.spyOn(channelsActions, 'setChannelEnabled').andCall(function (...args) {
       return args;
@@ -178,38 +178,71 @@ describe('Application component', () => {
     });
   });
 
-  it('toggles track error and selects next track', () => {
-
-    const dispatch = expect.createSpy();
-    const controls = getControls(shallowRenderApp(dispatch, '10'));
-
-    controls.props.onError('error text');
-
-    expect(dispatch.calls.length).toBe(2);
-    expect(dispatch.calls[0].arguments[0]).toEqual(setTrackError('10', 'error text'));
-    expect(dispatch.calls[1].arguments[0]).toEqual(selectTrack('20'));
-
-  });
-
   it('does not hide controls if playlist is not empty', () => {
     const controls = getControls(shallowRenderApp());
     expect(controls.props.hidden).toBe(false);
   });
 
   it('hides controls if playlist is empty', () => {
-    const controls = getControls(shallowRenderApp(() => null, null, []));
+    const controls = getControls(shallowRenderApp({playlist: []}));
     expect(controls.props.hidden).toBe(true);
   });
 
-  function shallowRenderApp(dispatch = () => null, selected = null, playlist = null) {
-    const props = {
+  it('reloads track on error', () => {
+    const dispatch = expect.createSpy();
+    const controls = getControls(shallowRenderApp({
+      dispatch,
+      selected: '10',
+      selectedTrack: {
+        id: '10',
+        lastFetchedAt: Date.now() - 60001,
+      },
+    }));
+
+    controls.props.onError('error text');
+    expect(dispatch.calls.length).toBe(1);
+    expect(dispatch.calls[0].arguments[0]).toEqual(loadTrack({id: '10'}));
+  });
+
+  it('toggles track error and selects next track, if track was fetched less than a minute ago', () => {
+    const dispatch = expect.createSpy();
+    const controls = getControls(shallowRenderApp({
+      dispatch,
+      selected: '10',
+      selectedTrack: {
+        id: '10',
+        lastFetchedAt: Date.now() - 30000,
+      },
+    }));
+
+    controls.props.onError('error text');
+
+    expect(dispatch.calls.length).toBe(2);
+    expect(dispatch.calls[0].arguments[0]).toEqual(setTrackError('10', 'error text'));
+    expect(dispatch.calls[1].arguments[0]).toEqual(selectTrack('20'));
+  });
+
+  function shallowRenderApp(params) {
+    params = {
+      dispatch: () => null,
+      selected: null,
+      playlist: [
+        {id: '10', channelId: 1},
+        {id: '20', channelId: 1},
+        {id: '30', channelId: 1},
+      ],
       selectedTrack: null,
+      ...params,
+    };
+
+    const props = {
+      selectedTrack: params.selectedTrack,
       channels: {items: [
         {id: 1, name: 'foo', isEnabled: true},
         {id: 2, name: 'bar', isEnabled: false},
       ]},
       tracks: {
-        selected,
+        selected: params.selected,
         isPlaying: false,
         isLoading: false,
         sort: {attr: 'date', dir: 'desc'},
@@ -220,13 +253,9 @@ describe('Application component', () => {
           {id: '40', channelId: 2},
         ],
       },
-      playlist: playlist || [
-        {id: '10', channelId: 1},
-        {id: '20', channelId: 1},
-        {id: '30', channelId: 1},
-      ],
+      playlist: params.playlist,
       coverUrl: null,
-      dispatch,
+      dispatch: params.dispatch,
     };
 
     const tree = shallowRender(<Application {...props} />);

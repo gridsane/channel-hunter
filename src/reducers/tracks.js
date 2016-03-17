@@ -19,11 +19,14 @@ let initialState = {
 export default function tracks(state = initialState, action) {
   switch(action.type) {
     case TRACKS_ITEMS_ADD:
-      const ids = state.items.map((item) => item.id);
-      const items = action.tracks.filter((item) => -1 === ids.indexOf(item.id));
+      const newIds = action.tracks.map((track) => track.id);
+      const items = state.items.filter((item) => -1 === newIds.indexOf(item.id));
 
       return update(state, {
-        items: {$push: seedItems(items)},
+        items: {$set: [...items, ...seedItems(action.tracks).map((track) => {
+          track.lastFetchedAt = Date.now();
+          return track;
+        })]},
       });
 
     case TRACKS_SELECT:

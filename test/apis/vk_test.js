@@ -93,7 +93,7 @@ describe('VK API', () => {
 
   });
 
-  it('get tracks by track definition', async () => {
+  it('get tracks by track definition @now', async () => {
 
     nock('https://api.vk.com/method')
       .get('/wall.getById?v=5.40&https=1&posts=-1000_99')
@@ -101,7 +101,7 @@ describe('VK API', () => {
 
     const tracks = await api.getTrack({
       id: 40,
-      channelId: '1000',
+      channelId: 'vk-1000',
       source: 'vk',
       extra: {postId: 99},
     });

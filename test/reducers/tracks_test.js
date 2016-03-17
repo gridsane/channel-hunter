@@ -9,13 +9,25 @@ describe('Tracks reducer', () => {
       items: [],
     };
 
-    let state = reducer(initialState, actions.addTracks([{id: 10}, {id: 20}]));
-    state = reducer(state, actions.addTracks([{id: 10}, {id: 30}]));
+    let state = reducer(initialState, actions.addTracks([
+      {id: 10, title: 'foo'},
+      {id: 20},
+    ]));
+
+    state = reducer(state, actions.addTracks([
+      {id: 10, title: 'bar'},
+      {id: 30},
+    ]));
 
     expect(state.items.length).toEqual(3);
-    expect(state.items[0].id).toEqual(10);
-    expect(state.items[1].id).toEqual(20);
+    expect(state.items[0].id).toEqual(20);
+    expect(state.items[1].id).toEqual(10);
+    expect(state.items[1].title).toEqual('bar');
     expect(state.items[2].id).toEqual(30);
+
+    expect(state.items[0].lastFetchedAt).toBeA('number');
+    expect(state.items[1].lastFetchedAt).toBeA('number');
+    expect(state.items[2].lastFetchedAt).toBeA('number');
 
     expect(state).toNotBe(initialState);
 

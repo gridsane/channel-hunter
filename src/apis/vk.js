@@ -30,11 +30,12 @@ export default class VkAPI {
   }
 
   async getTrack(track) {
+    const originalChannelId = track.channelId.substr(3);
     const response = await this._request('wall.getById', {
-      posts: `-${track.channelId}_${track.extra.postId}`,
+      posts: `-${originalChannelId}_${track.extra.postId}`,
     });
 
-    return this._getTracksFromPosts(response, track.channelId);
+    return this._getTracksFromPosts(response, originalChannelId);
   }
 
   hasChannel(url) {

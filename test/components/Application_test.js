@@ -5,8 +5,7 @@ import Channels from '../../src/components/Channels';
 import Playlist from '../../src/components/Playlist';
 import {findWithType} from 'react-shallow-testutils';
 import {shallowRender} from '../utils';
-import {selectTrack, togglePlaying, loadTrack, setTrackError} from '../../src/actions/tracks';
-import * as channelsActions from '../../src/actions/channels';
+import * as actions from '../../src/actions/feed';
 
 describe('Application component', () => {
 
@@ -18,7 +17,7 @@ describe('Application component', () => {
     controls.props.onNext();
 
     expect(dispatch.calls.length).toBe(1);
-    expect(dispatch.calls[0].arguments[0]).toEqual(selectTrack('30'));
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.selectNextTrack());
 
   });
 
@@ -30,7 +29,7 @@ describe('Application component', () => {
     controls.props.onNext();
 
     expect(dispatch.calls.length).toBe(1);
-    expect(dispatch.calls[0].arguments[0]).toEqual(selectTrack('10'));
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.selectTrack('10'));
 
   });
 
@@ -42,11 +41,11 @@ describe('Application component', () => {
     controls.props.onNext();
 
     expect(dispatch.calls.length).toBe(1);
-    expect(dispatch.calls[0].arguments[0]).toEqual(togglePlaying(false));
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.togglePlaying(false));
 
   });
 
-  it('dispatches togglePlaying action', () => {
+  it('dispatches actions.togglePlaying action', () => {
 
     let dispatch, controls;
 
@@ -54,13 +53,13 @@ describe('Application component', () => {
     controls = getControls(shallowRenderApp({dispatch, selected: '10'}));
     controls.props.onToggle(true);
 
-    expect(dispatch.calls[0].arguments[0]).toEqual(togglePlaying(true));
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.togglePlaying(true));
 
     dispatch = expect.createSpy();
     controls = getControls(shallowRenderApp({dispatch, selected: '10'}));
     controls.props.onToggle(false);
 
-    expect(dispatch.calls[0].arguments[0]).toEqual(togglePlaying(false));
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.togglePlaying(false));
 
   });
 
@@ -72,8 +71,8 @@ describe('Application component', () => {
     controls = getControls(shallowRenderApp({dispatch}));
     controls.props.onToggle(true);
 
-    expect(dispatch.calls[0].arguments[0]).toEqual(selectTrack('10'));
-    expect(dispatch.calls[1].arguments[0]).toEqual(togglePlaying(true));
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.selectTrack('10'));
+    expect(dispatch.calls[1].arguments[0]).toEqual(actions.togglePlaying(true));
 
   });
 
@@ -82,7 +81,7 @@ describe('Application component', () => {
     let dispatch = expect.createSpy();
     let channels = getChannels(shallowRenderApp({dispatch}));
 
-    expect.spyOn(channelsActions, 'setChannelEnabled').andCall(function (...args) {
+    expect.spyOn(actions, 'setChannelEnabled').andCall(function (...args) {
       return args;
     });
 
@@ -94,7 +93,7 @@ describe('Application component', () => {
     channels.props.onToggle({id: 1, isEnabled: true});
 
     expect(dispatch.calls[0].arguments[0]).toEqual(
-      channelsActions.setChannelEnabled({id: 1, isEnabled: true}, false)
+      actions.setChannelEnabled({id: 1, isEnabled: true}, false)
     );
 
   });
@@ -201,7 +200,7 @@ describe('Application component', () => {
 
     controls.props.onError('error text');
     expect(dispatch.calls.length).toBe(1);
-    expect(dispatch.calls[0].arguments[0]).toEqual(loadTrack({id: '10'}));
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.loadTrack({id: '10'}));
   });
 
   it('toggles track error and selects next track, if track was fetched less than a minute ago', () => {
@@ -218,8 +217,8 @@ describe('Application component', () => {
     controls.props.onError('error text');
 
     expect(dispatch.calls.length).toBe(2);
-    expect(dispatch.calls[0].arguments[0]).toEqual(setTrackError('10', 'error text'));
-    expect(dispatch.calls[1].arguments[0]).toEqual(selectTrack('20'));
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.setTrackError('10', 'error text'));
+    expect(dispatch.calls[1].arguments[0]).toEqual(actions.selectTrack('20'));
   });
 
   function shallowRenderApp(params) {

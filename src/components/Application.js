@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
+  setChannelEnabled,
   loadChannelItems,
   loadTrack,
   selectTrack,
   setTrackError,
   setTracksSort,
   togglePlaying,
-} from '../actions/tracks';
-import {setChannelEnabled} from '../actions/channels';
+} from '../actions/feed';
 import AppNavigation from './AppNavigation';
 import CoverAppBar from './CoverAppBar';
 import Controls from './Controls';

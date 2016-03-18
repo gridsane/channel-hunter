@@ -1,21 +1,16 @@
 import * as types from './actionsTypes';
-import {addTracks} from './tracks';
 import * as api from '../../src/utils/api';
 
 export function addChannels(channels) {
-  return {type: types.CHANNELS_ADD, channels};
+  return {type: types.FEED_ADD_CHANNELS, channels};
 }
 
-export function removeChannel(channelId) {
-  return {type: types.CHANNELS_REMOVE, channelId};
-}
-
-export function setChannelsLoading(isLoading) {
-  return {type: types.CHANNELS_LOADING, isLoading};
+export function removeChannels(channelsIds) {
+  return {type: types.FEED_REMOVE_CHANNELS, channelsIds};
 }
 
 export function setChannelProps(channelId, props) {
-  return {type: types.CHANNELS_ITEM_PROPS, channelId, props};
+  return {type: types.FEED_SET_PROPS_CHANNEL, channelId, props};
 }
 
 export function setChannelLoading(channelId, isLoading) {
@@ -37,7 +32,7 @@ export function loadChannelTracks(channel) {
     dispatch(setChannelProps(channel.id, {
       isLoaded: true,
       isLoading: false,
-      lastFetchedAt: channel.fetchedAt || null,
+      prevFetchedAt: channel.fetchedAt || null,
       fetchedAt: Math.floor(Date.now() / 1000),
     }));
 
@@ -57,5 +52,32 @@ export function setChannelEnabled(channel, isEnabled) {
     dispatch(setChannelProps(channel.id, {
       isEnabled: true,
     }));
+  };
+}
+
+export function addTracks(tracks) {
+  return {type: types.FEED_ADD_TRACKS, tracks};
+}
+
+export function setCurrentTrack(trackId) {
+  return {type: types.FEED_SET_CURRENT_TRACK, trackId};
+}
+
+export function selectNextTrack() {
+  return {type: types.FEED_SELECT_NEXT_TRACK};
+}
+
+export function setTracksSort(prop = null, dir = null) {
+  return {type: types.FEED_SET_SORT_TRACKS, prop, dir};
+}
+
+export function setTrackError(trackId, error = null) {
+  return {type: types.FEED_SET_ERROR_TRACK, trackId, error};
+}
+
+export function loadTrack(track) {
+  return async (dispatch) => {
+    const tracks = await api.getTrack(track);
+    dispatch(addTracks(tracks));
   };
 }

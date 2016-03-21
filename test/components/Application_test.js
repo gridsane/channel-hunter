@@ -91,9 +91,10 @@ describe('Application component', () => {
   });
 
   it('passes props to the playlist', () => {
-    const playlist = getPlaylist(shallowRenderApp());
-    expect(playlist.props.list).toEqual(defaultProps.playlist);
-    expect(playlist.props.isShuffle).toEqual(defaultProps.isShuffle);
+    const playlist = getPlaylist(shallowRenderApp({currentTrack: {id: '10'}}));
+    expect(playlist.props.tracks).toEqual(defaultProps.playlist);
+    expect(playlist.props.isShuffle).toBe(defaultProps.isShuffle);
+    expect(playlist.props.currentTrackId).toBe('10');
   });
 
   it('selects track', () => {
@@ -125,12 +126,12 @@ describe('Application component', () => {
     let controls = getControls(renderer.getRenderOutput());
     expect(controls.props.isPlaying).toBe(false);
 
-    controls.props.onToggle();
+    controls.props.onTogglePlay();
 
     controls = getControls(renderer.getRenderOutput());
     expect(controls.props.isPlaying).toBe(true);
 
-    controls.props.onToggle();
+    controls.props.onTogglePlay();
 
     expect(getControls(renderer.getRenderOutput()).props.isPlaying).toBe(false);
   });

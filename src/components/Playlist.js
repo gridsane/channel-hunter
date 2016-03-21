@@ -9,21 +9,21 @@ export default class Playlist extends Component {
     compact: PropTypes.bool,
     onSelect: PropTypes.func.isRequired,
     onToggleShuffle: PropTypes.func.isRequired,
-    list: PropTypes.array.isRequired,
-    selectedId: PropTypes.string,
+    tracks: PropTypes.array.isRequired,
+    currentTrackId: PropTypes.string,
   };
 
   static defaultProps = {
     compact: false,
-    selectedId: null,
+    currentTrackId: null,
     isShuffle: false,
   };
 
   render() {
-    const {list} = this.props;
+    const {tracks} = this.props;
     const styles = this.getStyles();
 
-    if (list.length === 0) {
+    if (tracks.length === 0) {
       return <div style={styles.container}>
         <div style={styles.emptyMessage}>
           <Icon size={64} style={styles.emptyIcon}>headset</Icon>
@@ -35,22 +35,22 @@ export default class Playlist extends Component {
 
     return <div style={styles.container}>
       <ListLabel
-        text={`${list.length} tracks`}
+        text={`${tracks.length} tracks`}
         rightElement={this._renderShuffleButton(styles)} />
       <LazyList
-        items={list}
+        items={tracks}
         renderItem={curried(::this._renderTrack, styles)}
         itemHeight={56}
         updateDelay={40}
         itemsBuffer={20}
-        style={styles.list} />
+        style={styles.tracks} />
     </div>;
   }
 
   _renderTrack(styles, track) {
-    const {onSelect, selectedId} = this.props;
+    const {onSelect, currentTrackId} = this.props;
     const hasError = track.hasOwnProperty('error');
-    const isCurrent = selectedId === track.id;
+    const isCurrent = currentTrackId === track.id;
 
     return <ListItem
       key={track.id}
@@ -112,7 +112,7 @@ export default class Playlist extends Component {
         margin: `68px 16px 64px ${marginLeft}`,
       },
 
-      list: {
+      tracks: {
         boxShadow: shadow(20),
         backgroundColor: '#fff',
       },

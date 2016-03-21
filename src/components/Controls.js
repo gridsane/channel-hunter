@@ -9,10 +9,9 @@ export default class Controls extends Component {
   static propTypes = {
     track: PropTypes.object,
     isPlaying: PropTypes.bool.isRequired,
-    onToggle: PropTypes.func.isRequired,
+    onTogglePlay: PropTypes.func.isRequired,
     onNext: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
-    hidden: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -92,7 +91,7 @@ export default class Controls extends Component {
   }
 
   _togglePlaying() {
-    this.props.onToggle(!this.props.isPlaying);
+    this.props.onTogglePlay(!this.props.isPlaying);
   }
 
   _toggleLoading(isLoading) {

@@ -9,10 +9,14 @@ export function renderDOM(component) {
   return ReactDOM.findDOMNode(render(component));
 }
 
-export function shallowRender(component) {
+export function getShallowRenderer(component) {
   const shallowRenderer = TestUtils.createRenderer();
   shallowRenderer.render(component);
-  return shallowRenderer.getRenderOutput();
+  return shallowRenderer;
+}
+
+export function shallowRender(component) {
+  return getShallowRenderer(component).getRenderOutput();
 }
 
 export function createStore(state) {

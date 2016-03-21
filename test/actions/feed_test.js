@@ -4,6 +4,12 @@ import * as actionsTypes from '../../src/actions/actionsTypes';
 
 describe('Feed actions', () => {
 
+  afterEach(() => {
+    if (typeof(api.getTrack.restore) === 'function') {
+      api.getTrack.restore();
+    }
+  });
+
   it('loads channels tracks', async () => {
     expect.spyOn(api, 'getTracks').andReturn([1, 2, 3]);
     const dispatch = expect.createSpy();
@@ -104,6 +110,33 @@ describe('Feed actions', () => {
 
     expect(api.getTrack.calls[0].arguments).toEqual([{id: 11, source: 'vk'}]);
     expect(dispatch.calls[0].arguments[0]).toEqual(actions.addTracks([1, 2, 3]));
+  });
+
+  it('tries to refetch track before setting error', async () => {
+    const tracksFromApi = {id: '10', url: 'bar'};
+    expect.spyOn(api, 'getTrack').andReturn(tracksFromApi);
+    const dispatch = expect.createSpy();
+
+    const track = {id: '10', url: 'foo'};
+    await actions.refetchTrackOrError(track, 'error message')(dispatch);
+
+    expect(api.getTrack.calls.length).toBe(1);
+    expect(api.getTrack.calls[0].arguments).toEqual([track]);
+    expect(dispatch.calls.length).toBe(1);
+    expect(dispatch.calls[0].arguments).toEqual([actions.addTracks(tracksFromApi)]);
+  });
+
+  it('does not reload track on error if it fetched recently', async () => {
+    const tracksFromApi = {id: '10', url: 'baz'};
+    expect.spyOn(api, 'getTrack').andReturn(tracksFromApi);
+    const dispatch = expect.createSpy();
+
+    const track = {id: '10', url: 'bar', lastFetchedAt: Math.floor(Date.now() / 1000) - 58};
+    await actions.refetchTrackOrError(track, 'error message')(dispatch);
+
+    expect(api.getTrack.calls.length).toBe(0);
+    expect(dispatch.calls.length).toBe(1);
+    expect(dispatch.calls[0].arguments).toEqual([actions.setTrackError('10', 'error message')]);
   });
 
 });

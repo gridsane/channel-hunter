@@ -8,22 +8,16 @@ export default function (storage, analyticsId = null) {
 
       let channels = await storage.getChannels();
       let initialState = {
-        tracks: {
-          selected: null,
-          isPlaying: false,
-          isLoading: false,
-          sort: {attr: 'date', dir: 'desc'},
-          items: [],
-        },
-        channels: {
-          isLoading: false,
-          items: channels.map(function (channel) {
+        feed: {
+          channels: channels.map(function (channel) {
             return Object.assign(channel, {
               isEnabled: false,
               isLoading: false,
               isLoaded: false,
             });
           }),
+          tracks: [],
+          tracksSort: {prop: 'date', dir: 'desc'},
         },
       };
 

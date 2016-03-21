@@ -16,8 +16,8 @@ const initialState = {
   channels: [],
   tracks: [],
   tracksSort: {
-    prop: null,
-    dir: null,
+    prop: 'date',
+    dir: 'desc',
   },
 };
 
@@ -43,7 +43,7 @@ const handlers = {
 
   [FEED_SET_PROPS_CHANNEL]: (state, action) => {
     return update(state, {
-      items: {$set: state.items.map((item) => {
+      channels: {$set: state.channels.map((item) => {
         if (item.id === action.channelId) {
           item = {...item, ...action.props};
         }
@@ -59,14 +59,14 @@ const handlers = {
 
     return update(state, {
       tracks: {$set: [...tracks, ...seedTracks(action.tracks).map((track) => {
-        track.lastFetchedAt = Date.now();
+        track.lastFetchedAt = Math.floor(Date.now() / 1000);
         return track;
       })]},
     });
   },
 
   [FEED_SET_CURRENT_TRACK]: (state, action) => {
-    const track = state.tracks.find((t) => t.id === action.trackId) || null;
+    const track = getTrackById(state, action.trackId);
 
     return update(state, {
       currentTrackId: {$set: track ? track.id : null},
@@ -93,14 +93,7 @@ const handlers = {
   },
 
   [FEED_SELECT_NEXT_TRACK]: (state) => {
-    const channelsIds = state.channels.reduce((acc, c) => c.isEnabled ? [c.id, ...acc] : acc, []);
-    let playlist = state.tracks.filter((t) => channelsIds.indexOf(t.channelId) !== -1);
-
-    const {prop, dir} = state.tracksSort;
-    playlist.sort((a, b) => {
-      return dir === 'asc' ? a[prop] - b[prop] : b[prop] - a[prop];
-    });
-
+    const playlist = getSortedPlaylist(state);
     const currentTrackIndex = playlist.map(t => t.id).indexOf(state.currentTrackId);
     const nextIndex = Math.min(playlist.length - 1, currentTrackIndex + 1);
     return update(state, {
@@ -114,6 +107,22 @@ function seedTracks(tracks) {
     track._seed = Math.random();
     return track;
   });
+}
+
+export function getTrackById(state, trackId) {
+  return state.tracks.find((t) => t.id === trackId) || null;
+}
+
+export function getSortedPlaylist(state) {
+  const channelsIds = state.channels.reduce((acc, c) => c.isEnabled ? [c.id, ...acc] : acc, []);
+  let playlist = state.tracks.filter((t) => channelsIds.indexOf(t.channelId) !== -1);
+
+  const {prop, dir} = state.tracksSort;
+  playlist.sort((a, b) => {
+    return dir === 'asc' ? a[prop] - b[prop] : b[prop] - a[prop];
+  });
+
+  return playlist;
 }
 
 export default function feed(state = initialState, action) {

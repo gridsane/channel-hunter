@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
   setChannelEnabled,
-  loadChannelItems,
-  loadTrack,
-  selectTrack,
-  setTrackError,
+  selectNextTrack,
   setTracksSort,
-  togglePlaying,
+  refetchTrackOrError,
+  setCurrentTrack,
 } from '../actions/feed';
+import {
+  getTrackById,
+  getSortedPlaylist,
+} from '../reducers/feed';
 import AppNavigation from './AppNavigation';
 import CoverAppBar from './CoverAppBar';
 import Controls from './Controls';
@@ -20,32 +22,33 @@ export class Application extends Component {
     isSmallScreen: false,
     isNavOpen: true,
     isNavDocked: true,
+    isPlaying: false,
   };
 
   render() {
-    const {isSmallScreen, isNavOpen, isNavDocked} = this.state;
-    const {playlist, isShuffle, channels, tracks, selectedTrack, coverUrl} = this.props;
+    const {isPlaying, isSmallScreen, isNavOpen, isNavDocked} = this.state;
+    const {channels, currentTrack, playlist, isShuffle} = this.props;
 
     return <div>
       <AppNavigation open={isNavOpen} docked={isNavDocked}>
         <Channels
-          list={channels.items}
+          list={channels}
           onToggle={::this._toggleChannel} />
       </AppNavigation>
 
-      <CoverAppBar compact={isSmallScreen} coverUrl={coverUrl}>
+      <CoverAppBar compact={isSmallScreen} coverUrl={currentTrack ? currentTrack.cover : null}>
         <Controls
-          hidden={playlist.length === 0}
-          track={selectedTrack}
-          isPlaying={tracks.isPlaying}
+          isPlaying={isPlaying}
+          track={currentTrack}
           onToggle={::this._togglePlaying}
           onError={::this._trackError}
-          onNext={::this._nextTrack} />
+          onNext={::this._nextTrack}
+          style={{display: playlist.length || currentTrack ? null : 'none'}} />
       </CoverAppBar>
 
       <Playlist
         compact={isSmallScreen}
-        selectedId={tracks.selected}
+        selectedId={currentTrack ? currentTrack.id : null}
         list={playlist}
         isShuffle={isShuffle}
         onSelect={::this._selectTrack}
@@ -58,12 +61,10 @@ export class Application extends Component {
     window.addEventListener('resize', ::this._updateNavigationMode);
   }
 
-  componentDidMount() {
-    this.props.channels.items.forEach((channel) => {
-      if (channel.isEnabled) {
-        this.props.dispatch(loadChannelItems(channel.source, channel.id));
-      }
-    });
+  componentWillReceiveProps(nextProps) {
+    if (this.props.currentTrack === null && nextProps.currentTrack !== null) {
+      this.setState({isPlaying: true});
+    }
   }
 
   componentWillUnmount() {
@@ -82,98 +83,46 @@ export class Application extends Component {
     }
   }
 
+  _nextTrack() {
+    this.props.dispatch(selectNextTrack());
+  }
+
   _toggleChannel(channel) {
     this.props.dispatch(setChannelEnabled(channel, !channel.isEnabled));
   }
 
-  _togglePlaying(isPlaying) {
-    if (!this.props.tracks.selected) {
-      this._nextTrack();
-    }
-
-    this.props.dispatch(togglePlaying(isPlaying));
+  _togglePlaying() {
+    this.setState({isPlaying: !this.state.isPlaying});
   }
 
   _toggleShuffle() {
     this.props.dispatch(setTracksSort(this.props.isShuffle ? 'date' : '_seed', 'desc'));
   }
 
-  _nextTrack() {
-    const {tracks, playlist} = this.props;
-
-    let index = -1;
-    playlist.find((track, i) => {
-      if (track.id === tracks.selected) {
-        index = i;
-        return true;
-      }
-    });
-
-    const nextIndex = index + 1;
-    if (nextIndex > playlist.length - 1) {
-      this.props.dispatch(togglePlaying(false));
-    } else {
-      this.props.dispatch(selectTrack(playlist[nextIndex].id));
-    }
-
-  }
-
   _selectTrack(trackId) {
-    this.props.dispatch(selectTrack(trackId));
+    this.props.dispatch(setCurrentTrack(trackId));
   }
 
   _trackError(error) {
-    const {selectedTrack, dispatch} = this.props;
-
-    if (!selectedTrack) {
-      return;
-    }
-
-    if (!selectedTrack.lastFetchedAt || selectedTrack.lastFetchedAt < Date.now() - 60000) {
-      dispatch(loadTrack(selectedTrack));
-      return;
-    }
-
-    dispatch(setTrackError(selectedTrack.id, error));
-    this._nextTrack();
+    const {currentTrack, dispatch} = this.props;
+    dispatch(refetchTrackOrError(currentTrack, error));
   }
-
 }
 
 export function mapToProps(state) {
-  const {channels, tracks} = state;
-  const selectedTrack = tracks.selected !== null
-    ? tracks.items.find((item) => item.id === tracks.selected)
-    : null;
-
-  const enabledChannels = channels.items
-    .filter((item) => item.isEnabled);
-  const channelsIds = enabledChannels.map((item) => item.id);
-  let channelsData = [];
-  enabledChannels.forEach((channel) => {
-    channelsData[channel.id] = channel;
-  });
-
-  const playlist = tracks.items
-    .filter((item) => -1 !== channelsIds.indexOf(item.channelId))
-    .map((item) => Object.assign(item, {
-      channelImage: channelsData[item.channelId].image,
-    }));
-
-  if (tracks.sort && tracks.sort.attr) {
-    const {attr, dir} = tracks.sort;
-    playlist.sort((a, b) => {
-      return dir === 'asc' ? a[attr] - b[attr] : b[attr] - a[attr];
-    });
-  }
+  const {feed} = state;
+  const channelsById = feed.channels.reduce((acc, c) => {
+    acc[c.id] = c;
+    return acc;
+  }, {});
 
   return {
-    selectedTrack,
-    channels,
-    tracks,
-    playlist,
-    isShuffle: tracks.sort.attr === '_seed',
-    coverUrl: selectedTrack ? selectedTrack.cover : null,
+    currentTrack: getTrackById(feed, feed.currentTrackId),
+    channels: feed.channels,
+    isShuffle: feed.tracksSort.prop === '_seed',
+    playlist: getSortedPlaylist(feed).map((t) => {
+      return {...t, channelImage: channelsById[t.channelId].image};
+    }),
   };
 }
 

@@ -14,7 +14,6 @@ describe('Feed reducer', () => {
       {id: 2},
       {id: 3},
     ]});
-
     expect(state).toNotBe(initialState);
   });
 
@@ -37,9 +36,8 @@ describe('Feed reducer', () => {
   });
 
   it('sets channel props', () => {
-
     const initialState = {
-      items: [{id: 1}],
+      channels: [{id: 1}],
     };
 
     let state = reducer(initialState, actions.setChannelProps(1, {
@@ -48,17 +46,15 @@ describe('Feed reducer', () => {
     }));
 
     expect(state).toEqual({
-      items: [
+      channels: [
         {id: 1, isEnabled: true, isLoaded: false},
       ],
     });
 
     expect(state).toNotBe(initialState);
-
   });
 
   it('adds tracks', () => {
-
     const initialState = {
       tracks: [],
     };
@@ -84,15 +80,12 @@ describe('Feed reducer', () => {
     expect(state.tracks[2].lastFetchedAt).toBeA('number');
 
     expect(state).toNotBe(initialState);
-
   });
 
   it('seeds tracks on add', () => {
-
     const initialState = {tracks: []};
     const state = reducer(initialState,actions.addTracks([{id: 10}, {id: 20}]));
     expect(state.tracks[0]._seed).toNotEqual(state.tracks[1]._seed);
-
   });
 
   it('sets current track', () => {

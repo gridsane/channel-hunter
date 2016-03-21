@@ -23,7 +23,6 @@ export function setChannelLoaded(channelId, isLoaded) {
 
 export function loadChannelTracks(channel) {
   return async (dispatch) => {
-
     dispatch(setChannelLoading(channel.id, true));
 
     const tracks = await api.getTracks(channel.source, channel.originalId);
@@ -35,13 +34,11 @@ export function loadChannelTracks(channel) {
       prevFetchedAt: channel.fetchedAt || null,
       fetchedAt: Math.floor(Date.now() / 1000),
     }));
-
   };
 }
 
 export function setChannelEnabled(channel, isEnabled) {
   return async (dispatch) => {
-
     if (!isEnabled || channel.isLoaded) {
       dispatch(setChannelProps(channel.id, {isEnabled}));
       return;
@@ -73,6 +70,18 @@ export function setTracksSort(prop = null, dir = null) {
 
 export function setTrackError(trackId, error = null) {
   return {type: types.FEED_SET_ERROR_TRACK, trackId, error};
+}
+
+export function refetchTrackOrError(track, error = null) {
+  return async (dispatch) => {
+    if (track.lastFetchedAt && track.lastFetchedAt >= Math.floor(Date.now() / 1000) - 60) {
+      dispatch(setTrackError(track.id, error));
+      return;
+    }
+
+    const updatedTracks = await api.getTrack(track);
+    dispatch(addTracks(updatedTracks));
+  };
 }
 
 export function loadTrack(track) {

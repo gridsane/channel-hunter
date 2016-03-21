@@ -40,7 +40,7 @@ export class Application extends Component {
         <Controls
           isPlaying={isPlaying}
           track={currentTrack}
-          onToggle={::this._togglePlaying}
+          onTogglePlay={::this._togglePlaying}
           onError={::this._trackError}
           onNext={::this._nextTrack}
           style={{display: playlist.length || currentTrack ? null : 'none'}} />
@@ -48,8 +48,8 @@ export class Application extends Component {
 
       <Playlist
         compact={isSmallScreen}
-        selectedId={currentTrack ? currentTrack.id : null}
-        list={playlist}
+        currentTrackId={currentTrack ? currentTrack.id : null}
+        tracks={playlist}
         isShuffle={isShuffle}
         onSelect={::this._selectTrack}
         onToggleShuffle={::this._toggleShuffle} />

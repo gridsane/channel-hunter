@@ -11,21 +11,19 @@ describe('Controls component', () => {
     return Object.assign({
       track: {id: 1, title: 'track_title', artist: 'track_artist', duration: 100},
       isPlaying: false,
-      onToggle: () => null,
+      onTogglePlay: () => null,
       onNext: () => null,
       onError: () => null,
     }, props);
   }
 
   it('shows "No track", when no track presented', () => {
-
     const props = mergeWithDefaults({track: null});
     const dom = renderDOM(
       <Controls {...props} />
     );
 
     expect(dom.textContent).toContain('No track');
-
   });
 
   it('shows track duration', () => {
@@ -35,13 +33,11 @@ describe('Controls component', () => {
     );
 
     expect(dom.textContent).toContain('track_title by track_artist');
-
   });
 
-  it('calls onToggle func on play icon click', () => {
-
+  it('calls onTogglePlay func on play icon click', () => {
     const toggleHandler = expect.createSpy();
-    const props = mergeWithDefaults({onToggle: toggleHandler});
+    const props = mergeWithDefaults({onTogglePlay: toggleHandler});
     const dom = render(
       <Controls {...props} />
     );
@@ -60,13 +56,11 @@ describe('Controls component', () => {
 
     expect(toggleHandler.calls.length).toBe(1);
     expect(toggleHandler.calls[0].arguments).toEqual([true]);
-
   });
 
   it('shows pause icon and toggle playing on click', () => {
-
     const toggleHandler = expect.createSpy();
-    const props = mergeWithDefaults({isPlaying: true, onToggle: toggleHandler});
+    const props = mergeWithDefaults({isPlaying: true, onTogglePlay: toggleHandler});
     const dom = render(
       <Controls {...props} />
     );
@@ -85,11 +79,9 @@ describe('Controls component', () => {
 
     expect(toggleHandler.calls.length).toBe(1);
     expect(toggleHandler.calls[0].arguments).toEqual([false]);
-
   });
 
   it('calls onNext func on next icon click', () => {
-
     const nextHandler = expect.createSpy();
     const props = mergeWithDefaults({onNext: nextHandler});
     const dom = render(
@@ -103,11 +95,9 @@ describe('Controls component', () => {
     TestUtils.Simulate.click(nextIcon[0]);
 
     expect(nextHandler.calls.length).toBe(1);
-
   });
 
   it('calls onError when Player triggers error', () =>{
-
     const errorHandler = expect.createSpy();
     const props = mergeWithDefaults({onError: errorHandler});
     const result = shallowRender(<Controls {...props} />);
@@ -116,19 +106,6 @@ describe('Controls component', () => {
 
     expect(errorHandler.calls.length).toBe(1);
     expect(errorHandler.calls[0].arguments).toEqual(['error!']);
-
-  });
-
-  it('hides when \'hidden\' property is true and current track is empty', () => {
-    const props = mergeWithDefaults({hidden: true, track: null});
-    const result = shallowRender(<Controls {...props} />);
-    expect(result.props.style.display).toBe('none');
-  });
-
-  it('does not hides when \'hidden\' property is true and current track is not empty', () => {
-    const props = mergeWithDefaults({hidden: true});
-    const result = shallowRender(<Controls {...props} />);
-    expect(result.props.style.display).toBe(null);
   });
 
 });

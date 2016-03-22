@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react';
+import Radium from 'radium';
 import {colors} from '../utils/styles';
 import {AppBar} from './common';
 const logoSvg = require('fs').readFileSync(`${__dirname}/../assets/logo.svg`);
 
+@Radium
 export default class CoverAppBar extends Component {
   static propTypes = {
     compact: PropTypes.bool.isRequired,
@@ -30,7 +32,6 @@ export default class CoverAppBar extends Component {
 
   getStyles() {
     return {
-
       container: {
         paddingLeft: this.props.compact ? 16 : 296,
         transition: 'padding-left .3s ease-out',
@@ -70,11 +71,20 @@ export default class CoverAppBar extends Component {
         backgroundRepeatY: 'repeat',
         backgroundSize: 'cover',
         WebkitFilter: 'blur(8px)',
-        animation: 'CoverAppBar-background 60s linear infinite alternate',
+        animation: 'x 60s linear infinite alternate',
+        animationName: coverSliding,
         opacity: .5,
         transition: 'background 2s ease-out',
       },
-
     };
   }
 }
+
+const coverSliding = Radium.keyframes({
+  'from': {
+    backgroundPositionY: '0%',
+  },
+  'to': {
+    backgroundPositionY: '100%',
+  },
+});

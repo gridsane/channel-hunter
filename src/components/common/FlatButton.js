@@ -1,28 +1,24 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 export default class FlatButton extends Component {
-  render() {
-    let styles = this.getStyles();
-    let style = Object.assign({}, styles.common, this.props.style);
+  static propTypes = {
+    label: PropTypes.node.isRequired,
+  };
 
-    return <button style={style}>{this.props.label}</button>;
+  render() {
+    return <button style={this.getStyle()}>{this.props.label}</button>;
   }
 
   getStyles() {
-
     return {
-
-      common: {
-        height: '36px',
-        padding: '0 24px',
-        lineHeight: '16px',
-        fontSize: '16px',
-        textTransform: 'uppercase',
-        border: 'none',
-        background: 'none',
-      },
-
+      height: 36,
+      padding: '0 24px',
+      lineHeight: 16,
+      fontSize: 16,
+      textTransform: 'uppercase',
+      border: 'none',
+      background: 'none',
+      ...this.props.style,
     };
-
   }
 }

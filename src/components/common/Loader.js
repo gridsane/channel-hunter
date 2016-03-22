@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
+import Radium from 'radium';
 
+@Radium
 export default class Loader extends Component {
 
   static propTypes = {
@@ -35,12 +37,10 @@ export default class Loader extends Component {
     const {size, color, style} = this.props;
 
     return {
-
       container: {
         position: 'relative',
         width: size,
         height: size,
-        zIndex: '999999',
         ...style,
       },
 
@@ -54,7 +54,8 @@ export default class Loader extends Component {
         left: 0,
         right: 0,
         margin: 'auto',
-        animation: 'Loader-rotate 2s linear infinite',
+        animation: 'x 2s linear infinite',
+        animationName: loaderRotateAnimation,
       },
 
       path: {
@@ -62,9 +63,30 @@ export default class Loader extends Component {
         strokeDashoffset: 0,
         strokeLinecap: 'round',
         stroke: color,
-        animation: 'Loader-dash 1.5s ease-in-out infinite',
+        animation: 'x 1.5s ease-in-out infinite',
+        animationName: loaderDashAnimation,
       },
-
     };
   }
 }
+
+const loaderRotateAnimation = Radium.keyframes({
+  '100%': {
+    transform: 'rotate(360deg)',
+  },
+});
+
+const loaderDashAnimation = Radium.keyframes({
+  '0%': {
+    strokeDasharray: '1,200',
+    strokeDashoffset: 0,
+  },
+  '50%': {
+    strokeDasharray: '89,200',
+    strokeDashoffset: '-35px',
+  },
+  '100%': {
+    strokeDasharray: '89,200',
+    strokeDashoffset: '-124px',
+  },
+});

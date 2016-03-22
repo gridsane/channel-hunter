@@ -11,26 +11,20 @@ export default class Avatar extends Component {
   };
 
   render() {
-    const style = this.getStyle();
-
-    return <span {...this.props} style={style.container} />;
+    return <span {...this.props} style={this.getStyle()} />;
   }
 
   getStyle() {
     const {url, style, size} = this.props;
 
     return {
-
-      container: {
-        background: `url(${url}) center center`,
-        backgroundSize: 'cover',
-        display: 'inline-block',
-        width: size,
-        height: size,
-        borderRadius: '50%',
-        ...style,
-      },
-
+      background: `url(${url}) center center`,
+      backgroundSize: 'cover',
+      display: 'inline-block',
+      width: size,
+      height: size,
+      borderRadius: '50%',
+      ...style,
     };
   }
 }

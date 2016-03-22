@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from 'react';
+import Radium from 'radium';
 import {colors} from '../utils/styles';
 import {nodeOffset, curried} from '../utils/common';
 
+@Radium
 export default class Progress extends Component {
 
   static propTypes = {
@@ -52,7 +54,8 @@ export default class Progress extends Component {
       backgroundSize: '10px 10px',
       backgroundPosition: '0px center',
       backgroundRepeat: 'repeat-x',
-      animation: 'Progress-buffer 3s infinite linear',
+      animation: 'x 3s infinite linear',
+      animationName: progressBuffer,
     };
 
     const playingBackground = {
@@ -60,12 +63,11 @@ export default class Progress extends Component {
     };
 
     return {
-
       container: {
         boxSizing: 'border-box',
-        height: '16px',
+        height: 16,
         position: 'absolute',
-        bottom: '-6px',
+        bottom: -6,
         left: 0,
         right: 0,
         cursor: 'pointer',
@@ -73,10 +75,10 @@ export default class Progress extends Component {
 
       background: {
         position: 'absolute',
-        bottom: '6px',
+        bottom: 6,
         left: 0,
         right: 0,
-        height: '4px',
+        height: 4,
         zIndex: -1,
         ...(isLoading ? bufferBackground : playingBackground),
       },
@@ -84,20 +86,20 @@ export default class Progress extends Component {
       progress: {
         position: 'absolute',
         backgroundColor: colors.accent,
-        height: '4px',
+        height: 4,
         left: 0,
-        bottom: '6px',
+        bottom: 6,
         width: progressPercent,
       },
 
       pointer: {
         zIndex: 10,
         position: 'absolute',
-        top: '2px',
+        top: 2,
         left: progressPercent,
-        marginLeft: '-8px',
-        width: '12px',
-        height: '12px',
+        marginLeft: -8,
+        width: 12,
+        height: 12,
         borderRadius: '50%',
         backgroundColor: colors.accent,
         opacity: mouseEnter ? 1 : 0,
@@ -107,16 +109,28 @@ export default class Progress extends Component {
 
       pointerGlow: {
         position: 'absolute',
-        top: '-6px',
-        left: '-6px',
-        width: '24px',
-        height: '24px',
+        top: -6,
+        left: -6,
+        width: 24,
+        height: 24,
         borderRadius: '50%',
         backgroundColor: colors.accent,
         opacity: .24,
       },
-
     };
   }
-
 }
+
+const progressBuffer = Radium.keyframes({
+  '0%': {
+    opacity: 1,
+    backgroundPosition: '0px center',
+  },
+  '50%': {
+    opacity: 0,
+  },
+  '100%': {
+    opacity: 1,
+    backgroundPosition: '-200px center',
+  },
+});

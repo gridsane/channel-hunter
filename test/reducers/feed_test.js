@@ -1,5 +1,6 @@
 import reducer from '../../src/reducers/feed';
 import * as actions from '../../src/actions/feed';
+import {REHYDRATE} from 'redux-persist/constants';
 
 describe('Feed reducer', () => {
 
@@ -199,6 +200,29 @@ describe('Feed reducer', () => {
     }, actions.selectNextTrack());
 
     expect(state.currentTrackId).toBe(1);
+  });
+
+  it('rehydrates channels', () => {
+    const initialState = {
+      channels: [
+        {id: 1, isEnabled: false, isLoaded: false, isLoading: false},
+        {id: 2, isEnabled: false, isLoaded: false, isLoading: false},
+      ],
+    };
+
+    const state = reducer(initialState, {
+      type: REHYDRATE,
+      payload: {feed: {channels: [
+        {id: 1, isEnabled: true, isLoaded: true, isLoading: false},
+        {id: 3, isEnabled: false, isLoaded: false, isLoading: true},
+      ]}},
+    });
+
+    expect(state.channels).toEqual([
+      {id: 1, isEnabled: true, isLoaded: false, isLoading: false},
+      {id: 3, isEnabled: false, isLoaded: false, isLoading: false},
+      {id: 2, isEnabled: false, isLoaded: false, isLoading: false},
+    ]);
   });
 
 });

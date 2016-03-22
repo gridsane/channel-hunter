@@ -8,6 +8,7 @@ import {
   FEED_SET_SORT_TRACKS,
   FEED_SET_ERROR_TRACK,
 } from '../actions/actionsTypes';
+import {REHYDRATE} from 'redux-persist/constants';
 import update from 'react-addons-update';
 
 const initialState = {
@@ -98,6 +99,23 @@ const handlers = {
     const nextIndex = Math.min(playlist.length - 1, currentTrackIndex + 1);
     return update(state, {
       currentTrackId: {$set: nextIndex > -1 ? playlist[nextIndex].id : null},
+    });
+  },
+
+  [REHYDRATE]: (state, action) => {
+    let restoredChannels = action.payload.feed.channels.map((c) => {
+      return {...c, isLoading: false, isLoaded: false};
+    });
+    const restoredChannelsIds = restoredChannels.map(c => c.id);
+
+    return update(state, {
+      channels: {$set: state.channels.reduce((acc, channel) => {
+        if (restoredChannelsIds.indexOf(channel.id) === -1) {
+          acc.push(channel);
+        }
+
+        return acc;
+      }, restoredChannels)},
     });
   },
 };

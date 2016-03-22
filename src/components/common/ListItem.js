@@ -1,21 +1,18 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
+import Radium from 'radium';
 import {colors} from '../../utils/styles';
 
-const PropTypeStringOrComponent = React.PropTypes.oneOfType([
-  React.PropTypes.string,
-  React.PropTypes.element,
-]);
-
+@Radium
 export default class ListItem extends Component {
   static propTypes = {
-    primaryText: PropTypeStringOrComponent.isRequired,
-    secondaryText: PropTypeStringOrComponent,
-    leftElement: React.PropTypes.element,
-    leftElementHeight: React.PropTypes.number,
-    rightElement: React.PropTypes.element,
-    rightElementHeight: React.PropTypes.number,
-    onClick: React.PropTypes.func,
-    style: React.PropTypes.object,
+    primaryText: PropTypes.node.isRequired,
+    secondaryText: PropTypes.node,
+    leftElement: PropTypes.node,
+    leftElementHeight: PropTypes.number,
+    rightElement: PropTypes.node,
+    rightElementHeight: PropTypes.number,
+    onClick: PropTypes.func,
+    style: PropTypes.object,
   };
 
   static defaultProps = {
@@ -29,19 +26,13 @@ export default class ListItem extends Component {
     style: null,
   };
 
-  state = {
-    mouseOver: false,
-  };
-
   render() {
     const styles = this.getStyles();
     const {leftElement, rightElement} = this.props;
 
     return <li
       style={styles.container}
-      onClick={::this._click}
-      onMouseEnter={::this._mouseEnter}
-      onMouseLeave={::this._mouseLeave}>
+      onClick={::this._click}>
       {this.renderElement(leftElement, styles.leftElement)}
       <span style={styles.primaryText}>{this.props.primaryText}</span>
       <span style={styles.secondaryText}>{this.props.secondaryText}</span>
@@ -68,31 +59,12 @@ export default class ListItem extends Component {
     }
   }
 
-  _mouseEnter() {
-    this.setState({mouseOver: true});
-  }
-
-  _mouseLeave() {
-    this.setState({mouseOver: false});
-  }
-
-  getMouseOverStyleProps() {
-    if (!this.props.onClick || !this.state.mouseOver) {
-      return null;
-    }
-
-    return {
-      backgroundColor: 'rgba(0,0,0,.05)',
-      cursor: 'pointer',
-    };
-  }
-
   getStyles() {
     const height = this.props.height;
     const paddingVert = height/2 - (this.props.secondaryText ? 16 : 8);
     const paddingRight = this.props.rightIcon === null ? 16 : 56;
     const paddingLeft = this.props.leftElement === null ? 16 : 72;
-    const mouseOver = this.getMouseOverStyleProps();
+    const isClickable = typeof(this.props.onClick) === 'function';
     const ellipsis = {
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
@@ -100,7 +72,6 @@ export default class ListItem extends Component {
     };
 
     return {
-
       container: {
         position: 'relative',
         height,
@@ -108,8 +79,11 @@ export default class ListItem extends Component {
         padding: `${paddingVert}px ${paddingRight}px ${paddingVert}px ${paddingLeft}px`,
         lineHeight: 1,
         fontSize: 16,
+        cursor: isClickable ? 'pointer' : null,
+        ':hover': isClickable ? {
+          backgroundColor: 'rgba(0,0,0,.05)',
+        } : null,
         ...this.props.style,
-        ...mouseOver,
       },
 
       primaryText: {
@@ -139,7 +113,6 @@ export default class ListItem extends Component {
         top: this._getSideElementTop(height, this.props.rightElementHeight),
         color: colors.primaryText,
       },
-
     };
   }
 

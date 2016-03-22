@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 
 export default class Icon extends Component {
   static propTypes = {
+    children: PropTypes.string.isRequired,
     size: PropTypes.number,
     boxSize: PropTypes.number,
   };
@@ -12,33 +13,25 @@ export default class Icon extends Component {
   };
 
   render() {
-    const style = this.getStyle();
-
-    return <span className="material-icons" style={style.container}>
+    return <span className="material-icons" style={this.getStyle()}>
       {this.props.children}
     </span>;
   }
 
   getStyle() {
     const {size, boxSize, style} = this.props;
-    const boxSizePx = (boxSize || size) + 'px';
 
     return {
-
-      container: {
-        display: 'inline-block',
-        position: 'relative',
-        width: boxSizePx,
-        height: boxSizePx,
-        lineHeight: boxSizePx,
-        textAlign: 'center',
-        fontSize: size + 'px',
-        color: '#fff',
-        verticalAlign: 'middle',
-        ...style,
-      },
-
+      display: 'inline-block',
+      position: 'relative',
+      width: (boxSize || size),
+      height: (boxSize || size),
+      lineHeight: (boxSize || size) / size,
+      textAlign: 'center',
+      fontSize: size,
+      color: '#fff',
+      verticalAlign: 'middle',
+      ...style,
     };
-
   }
 }

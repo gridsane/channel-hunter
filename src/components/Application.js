@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {StyleRoot} from 'radium';
 import {connect} from 'react-redux';
 import {
   setChannelEnabled,
@@ -29,7 +30,7 @@ export class Application extends Component {
     const {isPlaying, isSmallScreen, isNavOpen, isNavDocked} = this.state;
     const {channels, currentTrack, playlist, isShuffle} = this.props;
 
-    return <div>
+    return <StyleRoot>
       <AppNavigation open={isNavOpen} docked={isNavDocked}>
         <Channels
           list={channels}
@@ -53,7 +54,7 @@ export class Application extends Component {
         isShuffle={isShuffle}
         onSelect={::this._selectTrack}
         onToggleShuffle={::this._toggleShuffle} />
-    </div>;
+    </StyleRoot>;
   }
 
   componentWillMount() {

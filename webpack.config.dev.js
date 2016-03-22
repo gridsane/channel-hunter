@@ -15,6 +15,10 @@ module.exports = {
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
+    new webpack.PrefetchPlugin('react'),
+    new webpack.PrefetchPlugin('react-transform-hmr'),
+    new webpack.PrefetchPlugin('radium'),
+    new webpack.PrefetchPlugin('redux-persist'),
   ],
   module: {
     loaders: [

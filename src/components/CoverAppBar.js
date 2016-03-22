@@ -32,7 +32,7 @@ export default class CoverAppBar extends Component {
     return {
 
       container: {
-        paddingLeft: this.props.compact ? '16px' : '296px',
+        paddingLeft: this.props.compact ? 16 : 296,
         transition: 'padding-left .3s ease-out',
       },
 

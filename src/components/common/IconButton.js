@@ -1,71 +1,51 @@
-import React, {Component} from 'react';
+import Radium from 'radium';
+import Color from 'color';
+import React, {Component, PropTypes} from 'react';
 import Icon from './Icon';
 
+@Radium
 export default class IconButton extends Component {
-  state = {
-    focused: false,
-  };
+
+  static propTypes = {
+    children: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    size: PropTypes.number,
+    boxSize: PropTypes.number,
+  }
 
   render() {
     const {size, boxSize, children, onClick} = this.props;
-    const styles = this.getStyles();
-
     return <button
-      style={styles.container}
-      onClick={onClick}
-      onFocus={::this._focus}
-      onBlur={::this._blur}>
+      style={this.getStyle()}
+      onClick={onClick}>
       <Icon size={size} boxSize={boxSize} style={{color: this._getIconColor()}}>
         {children}
       </Icon>
-      <div style={styles.focused} />
     </button>;
   }
 
-  _focus() {
-    this.setState({focused: true});
-  }
-
-  _blur() {
-    this.setState({focused: false});
-  }
-
   _getIconColor() {
-    const style = this.props.style;
-    return style ? (style.color ? style.color : '#fff') : '#fff';
+    const style = this.props.style || {color: '#fff'};
+    return style.color ? style.color : '#fff';
   }
 
-  getStyles() {
-    const {style} = this.props;
-
+  getStyle() {
     return {
+      display: 'inline-block',
+      position: 'relative',
+      backgroundColor: 'transparent',
+      border: 'none',
+      outline: 'none',
+      margin: 0,
+      padding: 0,
+      cursor: 'pointer',
 
-      container: {
-        display: 'inline-block',
-        position: 'relative',
-        backgroundColor: 'transparent',
-        border: 'none',
-        outline: 'none',
-        margin: 0,
-        padding: 0,
-        cursor: 'pointer',
-        ...style,
-      },
-
-      focused: {
-        position: 'absolute',
-        backgroundColor: this._getIconColor(),
-        opacity: .24,
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        zIndex: -1,
+      ':hover': {
+        backgroundColor: Color(this._getIconColor()).alpha(.1).rgbString(),
         borderRadius: '50%',
-        display: this.state.focused ? 'block' : 'none',
-        animation: 'IconButton-focused 1s ease-out infinite alternate',
       },
 
+      ...this.props.style,
     };
   }
 }

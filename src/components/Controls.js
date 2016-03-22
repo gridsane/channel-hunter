@@ -55,7 +55,7 @@ export default class Controls extends Component {
         onError={this.props.onError}
         onEnd={onNext} /> : null}
 
-        {isLoading ? <Loader size={24} style={styles.loader} /> : null}
+      {isLoading ? <Loader size={24} style={styles.loader} /> : null}
     </div>;
   }
 

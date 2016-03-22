@@ -1,22 +1,20 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 export default class List extends Component {
-  render() {
-    const styles = this.getStyles();
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  };
 
-    return <ul style={styles.container}>{this.props.children}</ul>;
+  render() {
+    return <ul style={this.getStyle()}>{this.props.children}</ul>;
   }
 
-  getStyles() {
+  getStyle() {
     return {
-
-      container: {
-        listStyleType: 'none',
-        margin: 0,
-        padding: 0,
-        ...this.props.style,
-      },
-
+      listStyleType: 'none',
+      margin: 0,
+      padding: 0,
+      ...this.props.style,
     };
   }
 }

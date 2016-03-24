@@ -30,12 +30,15 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
+        include: path.join(__dirname, 'src'),
         loader: 'transform?brfs',
       },
       {
         test: /\.js$/,
-        loaders: ['babel-loader'],
+        exclude: /node_modules/,
         include: path.join(__dirname, 'src'),
+        loaders: ['babel-loader'],
       },
     ],
   },

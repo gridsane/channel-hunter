@@ -24,12 +24,15 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
+        include: path.join(__dirname, 'src'),
         loader: 'transform?brfs',
       },
       {
         test: /\.js$/,
-        loader: 'babel',
+        exclude: /node_modules/,
         include: path.join(__dirname, 'src'),
+        loader: 'babel',
         query: {
           plugins: [
             ['react-transform', {

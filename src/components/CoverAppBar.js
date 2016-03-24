@@ -31,9 +31,11 @@ export default class CoverAppBar extends Component {
   }
 
   getStyles() {
+    const {compact, coverUrl} = this.props;
+
     return {
       container: {
-        paddingLeft: this.props.compact ? 16 : 296,
+        paddingLeft: compact ? 16 : 296,
         transition: 'padding-left .3s ease-out',
       },
 
@@ -44,7 +46,7 @@ export default class CoverAppBar extends Component {
         fontSize: 24,
         fontFamily: 'Roboto Condensed, sans-serif',
         fontWeight: 400,
-        display: this.props.compact ? 'none' : null,
+        display: compact ? 'none' : null,
         width: 32,
         height: 32,
       },
@@ -61,12 +63,12 @@ export default class CoverAppBar extends Component {
 
       background: {
         position: 'absolute',
-        top: '-12px',
-        right: '-12px',
-        bottom: '-12px',
-        left: '-12px',
+        top: -12,
+        right: -12,
+        bottom: -12,
+        left: -12,
         backgroundColor: colors.primary,
-        backgroundImage: this.props.coverUrl ? `url(${this.props.coverUrl})` : 'none',
+        backgroundImage: coverUrl ? `url(${coverUrl})` : 'none',
         backgroundPositionX: 'center',
         backgroundRepeatY: 'repeat',
         backgroundSize: 'cover',

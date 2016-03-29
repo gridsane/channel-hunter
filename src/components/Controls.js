@@ -49,7 +49,7 @@ export default class Controls extends Component {
       {track ? <Player
         src={track.url}
         position={seekedPosition}
-        paused={!isPlaying}
+        isPlaying={isPlaying}
         onTimeUpdate={::this._updatePosition}
         onLoadingChange={::this._toggleLoading}
         onError={this.props.onError}

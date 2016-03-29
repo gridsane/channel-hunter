@@ -1,11 +1,12 @@
 import React, {PropTypes, Component} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import {curried} from '../utils/common';
 
 export default class Player extends Component {
 
   static propTypes = {
     src: PropTypes.string,
-    paused: PropTypes.bool,
+    isPlaying: PropTypes.bool,
     onEnd: PropTypes.func,
     onError: PropTypes.func,
     onLoadingChange: PropTypes.func,
@@ -14,7 +15,7 @@ export default class Player extends Component {
 
   static defaultProps = {
     src: null,
-    paused: false,
+    isPlaying: false,
     position: 0,
     onEnd: () => null,
     onError: () => null,
@@ -24,6 +25,7 @@ export default class Player extends Component {
 
   state = {
     lastSeekedPosition: 0,
+    timeUpdateInterval: null,
   };
 
   render() {
@@ -33,16 +35,15 @@ export default class Player extends Component {
       ref="audio" />;
   }
 
-  _togglePause(isPaused) {
-    const audio = this.refs.audio;
-    isPaused ? audio.pause() : audio.play();
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   componentWillReceiveProps(nextProps) {
     const {audio} = this.refs;
 
-    if (nextProps.paused !== this.props.paused) {
-      this._togglePause(nextProps.paused);
+    if (nextProps.isPlaying !== this.props.isPlaying) {
+      this._togglePlay(nextProps.isPlaying);
     }
 
     if (nextProps.position !== this.state.lastSeekedPosition) {
@@ -53,15 +54,14 @@ export default class Player extends Component {
 
   componentDidMount() {
     const audio = this.refs.audio;
-    const {onTimeUpdate, onLoadingChange, onEnd, onError, paused, position} = this.props;
+    const {onLoadingChange, onEnd, onError, isPlaying, position} = this.props;
     const loadingTrueCb = curried(onLoadingChange, true);
     const loadingFalseCb = curried(onLoadingChange, false);
 
     audio.currentTime = position;
     this.setState({lastSeekedPosition: this.props.position});
 
-    audio.addEventListener('loadstart', () => this._togglePause(this.props.paused));
-    audio.addEventListener('timeupdate', () => onTimeUpdate(Math.round(audio.currentTime)));
+    audio.addEventListener('loadstart', curried(::this._togglePlay, isPlaying));
     audio.addEventListener('ended', onEnd);
     audio.addEventListener('error', onError);
 
@@ -80,7 +80,27 @@ export default class Player extends Component {
     ].forEach((event) => {
       audio.addEventListener(event, loadingFalseCb);
     });
+  }
 
-    this._togglePause(paused);
+  _togglePlay(isPlaying) {
+    const {audio} = this.refs;
+    const {onTimeUpdate} = this.props;
+
+    if (this.state.timeUpdateInterval && typeof window !== 'undefined') {
+      window.clearInterval(this.state.timeUpdateInterval);
+    }
+
+    if (!isPlaying) {
+      audio.pause();
+      return;
+    }
+
+    audio.play();
+
+    if (typeof window !== 'undefined') {
+      this.setState({timeUpdateInterval: window.setInterval(() => {
+        onTimeUpdate(Math.round(audio.currentTime));
+      }, 1000)});
+    }
   }
 }

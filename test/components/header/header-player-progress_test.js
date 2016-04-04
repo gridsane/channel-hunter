@@ -1,12 +1,11 @@
 import React from 'react';
-import Progress from '../../src/components/Progress';
+import Progress from '../../../src/components/header/header-player-progress';
 import TestUtils from 'react-addons-test-utils';
-import {renderDOM} from '../utils';
+import {renderDOM} from '../../utils';
 
 describe('Progress component', () => {
 
   it('seeks position', (done) => {
-
     const dom = renderDOM(
       <Progress max={200} current={0} onSeek={seek} />
     );
@@ -20,11 +19,9 @@ describe('Progress component', () => {
       expect(pos).toBe(70);
       done();
     }
-
   });
 
   it('shows progress', () => {
-
     [
       {progress: 50, expected: '25%'},
       {progress: 100, expected: '50%'},
@@ -37,7 +34,6 @@ describe('Progress component', () => {
       expect(dom.children[1].style.getPropertyValue('width'))
         .toBe(testCase.expected);
     });
-
   });
 
 });

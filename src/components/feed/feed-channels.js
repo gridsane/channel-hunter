@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
-import {curried} from '../utils/common';
-import {colors} from '../utils/styles';
-import {List, ListItem, ListLabel, Avatar, Icon, Loader} from './common';
+import {curried} from '../../utils/common';
+import {colors} from '../../utils/styles';
+import {List, ListItem, ListLabel, Avatar, Icon, Loader} from '../ui';
 
-export default class Channels extends Component {
+export default class FeedChannels extends Component {
   static propTypes = {
     list: PropTypes.array.isRequired,
     onToggle: PropTypes.func.isRequired,
@@ -25,7 +25,7 @@ export default class Channels extends Component {
         onClick={curried(this.props.onToggle, channel)} />;
     });
 
-    return <div>
+    return <div style={this.props.style}>
       <ListLabel text="Your channels" />
       <List>{channels}</List>
     </div>;

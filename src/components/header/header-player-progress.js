@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
-import {colors} from '../utils/styles';
-import {nodeOffset, curried} from '../utils/common';
+import {colors} from '../../utils/styles';
+import {nodeOffset, curried} from '../../utils/common';
 
 @Radium
-export default class Progress extends Component {
+export default class HeaderPlayerProgress extends Component {
 
   static propTypes = {
     current: PropTypes.number.isRequired,

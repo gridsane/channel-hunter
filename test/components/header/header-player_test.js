@@ -1,9 +1,9 @@
 import React from 'react';
-import Controls from '../../src/components/Controls';
-import Player from '../../src/components/Player';
+import Controls from '../../../src/components/header/header-player';
+import ReactPlayer from 'react-player';
 import TestUtils from 'react-addons-test-utils';
 import {findAllWithType} from 'react-shallow-testutils';
-import {renderDOM, render, shallowRender} from '../utils';
+import {renderDOM, render, shallowRender} from '../../utils';
 
 describe('Controls component', () => {
 
@@ -97,11 +97,11 @@ describe('Controls component', () => {
     expect(nextHandler.calls.length).toBe(1);
   });
 
-  it('calls onError when Player triggers error', () =>{
+  it('calls onError when ReactPlayer triggers error', () =>{
     const errorHandler = expect.createSpy();
     const props = mergeWithDefaults({onError: errorHandler});
     const result = shallowRender(<Controls {...props} />);
-    const player = findAllWithType(result, Player);
+    const player = findAllWithType(result, ReactPlayer);
     player[0].props.onError('error!');
 
     expect(errorHandler.calls.length).toBe(1);

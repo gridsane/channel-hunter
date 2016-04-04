@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
-import {formatDuration} from '../utils/common';
-import {Loader, IconButton} from './common';
-import Progress from './Progress';
-import Player from './Player';
+import {formatDuration} from '../../utils/common';
+import {Loader, IconButton} from '../ui';
+import Progress from './header-player-progress';
+import ReactPlayer from 'react-player';
 
-export default class Controls extends Component {
+export default class HeaderPlayer extends Component {
 
   static propTypes = {
     track: PropTypes.object,
@@ -16,19 +16,17 @@ export default class Controls extends Component {
 
   static defaultProps = {
     track: null,
-    hidden: true,
   };
 
   state = {
     position: 0,
-    seekedPosition: 0,
     isLoading: false,
+    duration: 0,
   };
 
   render() {
-    const {position, seekedPosition, isLoading} = this.state;
-    const {track, isPlaying, onNext} = this.props;
-    const duration = track ? track.duration : 0;
+    const {position, isLoading, duration} = this.state;
+    const {track, isPlaying, onNext, onError} = this.props;
     const styles = this.getStyles();
 
     return <div style={styles.container}>
@@ -40,20 +38,23 @@ export default class Controls extends Component {
         style={styles.next} size={32} boxSize={40}>skip_next</IconButton>
       {this.renderTitle(styles)}
       <span style={styles.time}>{formatDuration(position)}</span>
+
       <Progress
         isLoading={isLoading}
         current={position}
         max={duration}
         onSeek={::this._seek} />
 
-      {track ? <Player
-        src={track.url}
-        position={seekedPosition}
-        isPlaying={isPlaying}
-        onTimeUpdate={::this._updatePosition}
-        onLoadingChange={::this._toggleLoading}
-        onError={this.props.onError}
-        onEnd={onNext} /> : null}
+      <ReactPlayer
+        ref="player"
+        width={0}
+        height={0}
+        url={track ? track.url : null}
+        playing={isPlaying}
+        onError={onError}
+        onProgress={::this._updateProgress}
+        onDuration={::this._updateDuration}
+        onEnded={onNext} />
 
       {isLoading ? <Loader size={24} style={styles.loader} /> : null}
     </div>;
@@ -75,19 +76,21 @@ export default class Controls extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.track !== this.props.track) {
-      this._seek(0);
+      this._updateProgress(0);
+      this._updateDuration(nextProps.track ? nextProps.track.duration : 0);
     }
   }
 
   _seek(position) {
-    this.setState({
-      position: position,
-      seekedPosition: position,
-    });
+    this.refs.player.seekTo(position / this.state.duration);
   }
 
-  _updatePosition(position) {
-    this.setState({position});
+  _updateDuration(duration) {
+    this.setState({duration});
+  }
+
+  _updateProgress(progress) {
+    this.setState({position: progress.played * this.state.duration});
   }
 
   _togglePlaying() {
@@ -100,20 +103,21 @@ export default class Controls extends Component {
 
   getStyles() {
     const {isLoading} = this.state;
-    const {hidden, track} = this.props;
+    const {track} = this.props;
 
     return {
 
       container: {
         boxSizing: 'border-box',
-        width: '100%',
+        marginLeft: 280,
+        marginRight: 16,
         height: '60px',
         padding: '10px 0',
         paddingLeft: '96px',
         paddingRight: isLoading ? 102 : 64,
         position: 'relative',
         whiteSpace: 'nowrap',
-        display: hidden && !track ? 'none' : null,
+        display: track ? null : 'none',
       },
 
       title: {
@@ -157,7 +161,6 @@ export default class Controls extends Component {
         top: '18px',
         right: '64px',
       },
-
     };
   }
 }

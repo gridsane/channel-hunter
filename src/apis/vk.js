@@ -114,7 +114,8 @@ export default class VkAPI {
       date: audio.date,
       artist: audio.artist,
       title: audio.title,
-      url: audio.url,
+      // @hack until ReactPlayer will change its patterns
+      url: `${audio.url}&.mp3`,
       duration: audio.duration,
       channelId: 'vk-' + channelId,
       cover: cover,

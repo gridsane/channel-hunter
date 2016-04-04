@@ -1,7 +1,7 @@
 import Radium from 'radium';
 import Color from 'color';
 import React, {Component, PropTypes} from 'react';
-import Icon from './Icon';
+import Icon from './icon';
 
 @Radium
 export default class IconButton extends Component {
@@ -39,10 +39,10 @@ export default class IconButton extends Component {
       margin: 0,
       padding: 0,
       cursor: 'pointer',
+      borderRadius: '50%',
 
       ':hover': {
         backgroundColor: Color(this._getIconColor()).alpha(.1).rgbString(),
-        borderRadius: '50%',
       },
 
       ...this.props.style,

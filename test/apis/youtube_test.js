@@ -81,9 +81,9 @@ describe('Youtube API', () => {
         date: 1397162021000,
         artist: 'Cleft',
         title: 'Ghost Thighs',
-        url: null,
+        url: 'https://www.youtube.com/watch?v=AmyoEy0pzWs',
         duration: 240,
-        channelOriginalId: 'UCywl3vgm261NHTzzcgkrQiA',
+        channelId: 'youtube-UCywl3vgm261NHTzzcgkrQiA',
         cover: 'https://i.ytimg.com/vi/AmyoEy0pzWs/hqdefault.jpg',
       },
       {
@@ -93,9 +93,9 @@ describe('Youtube API', () => {
         date: 1397162687000,
         artist: 'Cleft',
         title: 'Elephant In The Bar Room',
-        url: null,
+        url: 'https://www.youtube.com/watch?v=Xy8EGXRBOEU',
         duration: 224,
-        channelOriginalId: 'UCywl3vgm261NHTzzcgkrQiA',
+        channelId: 'youtube-UCywl3vgm261NHTzzcgkrQiA',
         cover: 'https://i.ytimg.com/vi/Xy8EGXRBOEU/hqdefault.jpg',
       },
     ]);

@@ -1,5 +1,5 @@
 import React from 'react';
-import LazyList from '../../../src/components/common/LazyList';
+import LazyList from '../../../src/components/ui/lazylist';
 import {renderDOM} from '../../utils';
 
 describe('LazyList component', () => {
@@ -13,7 +13,6 @@ describe('LazyList component', () => {
   };
 
   it('renders only visible items', () => {
-
     const windowStub = getWindowStub({
       scrollY: 0,
       innerHeight: 20,
@@ -28,11 +27,9 @@ describe('LazyList component', () => {
 
     expect(dom.children.length).toBe(2);
     expect(dom.textContent).toBe('12');
-
   });
 
   it('renders buffered items', () => {
-
     const windowStub = getWindowStub({
       scrollY: 40,
       innerHeight: 20,
@@ -48,11 +45,9 @@ describe('LazyList component', () => {
 
     expect(dom.children.length).toBe(6);
     expect(dom.textContent).toBe('345678');
-
   });
 
   it('updates on scroll', () => {
-
     const windowStub = getWindowStub({
       scrollY: 0,
       innerHeight: 20,
@@ -76,11 +71,9 @@ describe('LazyList component', () => {
 
     expect(dom.children.length).toBe(2);
     expect(dom.textContent).toBe('34');
-
   });
 
   it('updates on window resize', () => {
-
     const windowStub = getWindowStub({
       scrollY: 0,
       innerHeight: 40,
@@ -97,14 +90,12 @@ describe('LazyList component', () => {
 
     expect(dom.textContent).toBe('1234');
     expect(dom.children.length).toBe(4);
-    expect(windowStub.addEventListener.calls[1].arguments[0]).toBe('resize');
 
     windowStub.innerHeight = 20;
-    windowStub.addEventListener.calls[1].arguments[1]();
+    window.dispatchEvent(new Event('resize'));
 
     expect(dom.children.length).toBe(2);
     expect(dom.textContent).toBe('12');
-
   });
 
 });

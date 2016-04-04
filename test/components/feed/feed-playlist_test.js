@@ -1,8 +1,8 @@
 import React from 'react';
-import Playlist from '../../src/components/Playlist';
-import {LazyList, ListLabel} from '../../src/components/common';
+import Playlist from '../../../src/components/feed/feed-playlist';
+import {LazyList, ListLabel} from '../../../src/components/ui';
 import {findWithType} from 'react-shallow-testutils';
-import {shallowRender, renderDOM} from '../utils';
+import {shallowRender, renderDOM} from '../../utils';
 
 describe('Playlist component', () => {
 

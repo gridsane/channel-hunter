@@ -8,7 +8,7 @@ export default class LazyList extends Component {
     items: PropTypes.array.isRequired,
     itemHeight: PropTypes.number.isRequired,
     renderItem: PropTypes.func.isRequired,
-    container: PropTypes.object, // only 'window' for now
+    container: PropTypes.object,
     updateDelay: PropTypes.number,
     itemsBuffer: PropTypes.number,
   };
@@ -25,6 +25,16 @@ export default class LazyList extends Component {
     firstIndex: 0,
     lastIndex: 0,
   };
+
+  render() {
+    const {items, renderItem} = this.props;
+    const {firstIndex, lastIndex} = this.state;
+    const styles = this.getStyles();
+
+    return <ul style={styles.container}>
+      {items.slice(firstIndex, lastIndex).map(renderItem)}
+    </ul>;
+  }
 
   componentWillMount() {
     const {updateDelay} = this.props;
@@ -44,28 +54,37 @@ export default class LazyList extends Component {
   }
 
   componentDidMount() {
+    this._attachScrollListener(this.props.container);
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this._throttledUpdateState);
+    }
+
     this.setState(this._computeState());
-    this.props.container.addEventListener('scroll', this._throttledUpdateState);
-    this.props.container.addEventListener('resize', this._throttledUpdateState);
   }
 
   componentWillUnmount() {
-    this.props.container.removeEventListener('scroll', this._throttledUpdateState);
-    this.props.container.removeEventListener('resize', this._throttledUpdateState);
+    this._detachScrollListener(this.props.container);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this._throttledUpdateState);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.container !== nextProps.container) {
+      this._detachScrollListener(this.props.container);
+      this._attachScrollListener(nextProps.container);
+    }
+
     this.setState(this._computeState(nextProps));
   }
 
-  render() {
-    const {items, renderItem} = this.props;
-    const {firstIndex, lastIndex} = this.state;
-    const styles = this.getStyles();
+  _attachScrollListener(container) {
+    container.addEventListener('scroll', this._throttledUpdateState);
+  }
 
-    return <ul style={styles.container}>
-      {items.slice(firstIndex, lastIndex).map(renderItem)}
-    </ul>;
+  _detachScrollListener(container) {
+    container.removeEventListener('scroll', this._throttledUpdateState);
   }
 
   _computeState(props = this.props) {
@@ -122,5 +141,7 @@ function getNodeHeight(node) {
 }
 
 function getScrollTop(container) {
-  return container.scrollY;
+  return typeof(container.scrollY) !== 'undefined'
+    ? container.scrollY
+    : container.scrollTop;
 }

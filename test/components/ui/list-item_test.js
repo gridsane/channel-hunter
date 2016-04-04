@@ -1,5 +1,5 @@
 import React from 'react';
-import ListItem from '../../../src/components/common/ListItem';
+import ListItem from '../../../src/components/ui/list-item';
 import TestUtils from 'react-addons-test-utils';
 import {findWithClass} from 'react-shallow-testutils';
 import {renderDOM, shallowRender} from '../../utils';
@@ -7,37 +7,30 @@ import {renderDOM, shallowRender} from '../../utils';
 describe('ListItem component', () => {
 
   it('renders primaryText only', () => {
-
     const dom = renderDOM(
       <ListItem primaryText="foo" />
     );
 
     expect(dom.textContent).toBe('foo');
-
   });
 
   it('renders primaryText with secondaryText', () => {
-
     const dom = renderDOM(
       <ListItem primaryText="foo" secondaryText="bar" />
     );
 
     expect(dom.textContent).toBe('foobar');
-
   });
 
   it('can render component as primaryText or secondaryText', () => {
-
     const dom = renderDOM(
       <ListItem primaryText={<span>foo</span>} secondaryText={<span>bar</span>} />
     );
 
     expect(dom.textContent).toBe('foobar');
-
   });
 
   it('has different paddings with both texts', () => {
-
     const primaryTextDom = renderDOM(
       <ListItem primaryText="foo" />
     );
@@ -48,11 +41,9 @@ describe('ListItem component', () => {
 
     expect(primaryTextDom.style.getPropertyValue('padding'))
       .toNotBe(bothTextsDom.style.getPropertyValue('padding'));
-
   });
 
   it('adds left element', () => {
-
     const tree = shallowRender(
       <ListItem
         primaryText="foo"
@@ -63,11 +54,9 @@ describe('ListItem component', () => {
     const leftElement = findWithClass(tree, 'left');
     expect(leftElement.props.style.top).toBe('9px');
     expect(leftElement.props.children).toBe('bar');
-
   });
 
   it('merges with left element style', () => {
-
     const tree = shallowRender(
       <ListItem
         primaryText="foo"
@@ -77,11 +66,9 @@ describe('ListItem component', () => {
     const leftElement = findWithClass(tree, 'left');
     expect(leftElement.props.style.top).toBe('8px');
     expect(leftElement.props.style.color).toBe('red');
-
   });
 
   it('adds right element', () => {
-
     const tree = shallowRender(
       <ListItem
         primaryText="foo"
@@ -92,11 +79,9 @@ describe('ListItem component', () => {
     const rightElement = findWithClass(tree, 'right');
     expect(rightElement.props.style.top).toBe('9px');
     expect(rightElement.props.children).toBe('bar');
-
   });
 
   it('merges with right element style', () => {
-
     const tree = shallowRender(
       <ListItem
         primaryText="foo"
@@ -106,11 +91,9 @@ describe('ListItem component', () => {
     const rightElement = findWithClass(tree, 'right');
     expect(rightElement.props.style.top).toBe('8px');
     expect(rightElement.props.style.color).toBe('red');
-
   });
 
   it('handles click', (done) => {
-
     const dom = renderDOM(
       <ListItem
         primaryText="foo"
@@ -122,11 +105,9 @@ describe('ListItem component', () => {
     }
 
     TestUtils.Simulate.click(dom);
-
   });
 
   it('changes background when mouseEnter, if onClick is provided', () => {
-
     const dom = renderDOM(
       <ListItem primaryText="foo" onClick={() => null} />
     );
@@ -138,7 +119,6 @@ describe('ListItem component', () => {
 
     TestUtils.Simulate.mouseLeave(dom);
     expect(dom.style.getPropertyValue('background-color')).toBe(leaveColor);
-
   });
 
   it('not changes background on mouseEnter, if onClick is not provided', () => {

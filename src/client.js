@@ -1,15 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import Application from './components/Application';
+import {Router, IndexRoute, Route, hashHistory} from 'react-router';
+import {StyleRoot} from 'radium';
+import Landing from './components/landing/landing-container';
+import Application from './components/application/application-container';
+import Feed from './components/feed/feed-container';
+import Discover from './components/discover/discover-container';
 import store from './store';
 
 ReactDOM.render(
   <div>
     <Provider store={store}>
-      <div>
-        <Application />
-      </div>
+      <StyleRoot>
+        <Router history={hashHistory}>
+          <Route path="/" component={Landing} />
+          <Route path="/app" component={Application}>
+            <IndexRoute component={Feed} />
+            <Route path="/app/discover" component={Discover} />
+          </Route>
+        </Router>
+      </StyleRoot>
     </Provider>
   </div>,
   document.getElementById('root')

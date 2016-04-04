@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
-import {colors, shadow} from '../utils/styles';
-import {LazyList, ListItem, ListLabel, Icon, IconButton, Avatar} from './common';
-import {curried, formatDuration} from '../utils/common';
+import {colors, shadow} from '../../utils/styles';
+import {LazyList, ListItem, ListLabel, Icon, IconButton, Avatar} from '../ui';
+import {curried, formatDuration} from '../../utils/common';
 
-export default class Playlist extends Component {
+export default class FeedPlaylist extends Component {
 
   static propTypes = {
     compact: PropTypes.bool,
@@ -33,11 +33,12 @@ export default class Playlist extends Component {
       </div>;
     }
 
-    return <div style={styles.container}>
+    return <div style={styles.container} ref="container">
       <ListLabel
         text={`${tracks.length} tracks`}
         rightElement={this._renderShuffleButton(styles)} />
       <LazyList
+        container={this.refs.container}
         items={tracks}
         renderItem={curried(::this._renderTrack, styles)}
         itemHeight={56}
@@ -103,13 +104,17 @@ export default class Playlist extends Component {
   }
 
   getStyles() {
-    const {compact, isShuffle} = this.props;
-    const marginLeft = compact ? '16px' : '296px';
+    const {isShuffle} = this.props;
 
     return {
 
       container: {
-        margin: `68px 16px 64px ${marginLeft}`,
+        flexGrow: 2,
+        paddingBottom: 32,
+        height: '100%',
+        boxSizing: 'border-box',
+        overflowY: 'auto',
+        padding: '0 16px 48px 16px',
       },
 
       tracks: {

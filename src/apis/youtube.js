@@ -97,9 +97,9 @@ export default class YoutubeAPI {
       date: (new Date(snippetRes.snippet.publishedAt)).getTime(),
       artist,
       title,
-      url: null,
+      url: `https://www.youtube.com/watch?v=${snippetRes.id.videoId}`,
       duration: this._durationToSeconds(detailsRes.contentDetails.duration),
-      channelOriginalId: snippetRes.snippet.channelId,
+      channelId: 'youtube-' + snippetRes.snippet.channelId,
       cover: snippetRes.snippet.thumbnails.high.url,
     };
   }

@@ -87,7 +87,7 @@ export default class YoutubeAPI {
 
   _convertTrack(snippetRes, detailsRes) {
     const titleArr = snippetRes.snippet.title.split('-');
-    const artist = titleArr[0].trim();
+    const artistOrTitle = titleArr[0].trim();
     const title = titleArr.splice(1).join('-').trim();
 
     return {
@@ -95,8 +95,8 @@ export default class YoutubeAPI {
       id: 'youtube-' + snippetRes.id.videoId,
       originalId: snippetRes.id.videoId,
       date: (new Date(snippetRes.snippet.publishedAt)).getTime(),
-      artist,
-      title,
+      artist: title ? artistOrTitle : null,
+      title: title ? title : artistOrTitle,
       url: `https://www.youtube.com/watch?v=${snippetRes.id.videoId}`,
       duration: this._durationToSeconds(detailsRes.contentDetails.duration),
       channelId: 'youtube-' + snippetRes.snippet.channelId,

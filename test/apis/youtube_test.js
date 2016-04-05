@@ -91,7 +91,7 @@ describe('Youtube API', () => {
         id: 'youtube-Xy8EGXRBOEU',
         originalId: 'Xy8EGXRBOEU',
         date: 1397162687000,
-        artist: 'Cleft',
+        artist: null,
         title: 'Elephant In The Bar Room',
         url: 'https://www.youtube.com/watch?v=Xy8EGXRBOEU',
         duration: 224,
@@ -237,7 +237,7 @@ const RESPONSES = {
         "snippet": {
           "publishedAt": "2014-04-10T20:44:47.000Z",
           "channelId": "UCywl3vgm261NHTzzcgkrQiA",
-          "title": "Cleft - Elephant In The Bar Room",
+          "title": "Elephant In The Bar Room",
           "description": "Track 6 Recorded (mostly) live over 2 days of recording. Engineered, mixed and mastered by Dan Beesley & John Simm (Cleft). Here's what some really nice ...",
           "thumbnails": {
             "default": {

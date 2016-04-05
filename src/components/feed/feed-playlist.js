@@ -88,7 +88,7 @@ export default class FeedPlaylist extends Component {
     return <span>
       {track.title}
       <span style={hasError ? null : styles.artist}>
-        {` by ${track.artist}`}
+        {track.artist ? ` by ${track.artist}` : null}
       </span>
       <span style={styles.duration}>{formatDuration(track.duration)}</span>
     </span>;

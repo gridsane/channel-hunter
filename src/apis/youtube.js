@@ -94,7 +94,7 @@ export default class YoutubeAPI {
       source: 'youtube',
       id: 'youtube-' + snippetRes.id.videoId,
       originalId: snippetRes.id.videoId,
-      date: (new Date(snippetRes.snippet.publishedAt)).getTime(),
+      date: Math.floor((new Date(snippetRes.snippet.publishedAt)).getTime() / 1000),
       artist: title ? artistOrTitle : null,
       title: title ? title : artistOrTitle,
       url: `https://www.youtube.com/watch?v=${snippetRes.id.videoId}`,

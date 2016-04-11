@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {formatDuration} from '../../utils/common';
+import {curried, formatDuration} from '../../utils/common';
 import {Loader, IconButton} from '../ui';
 import Progress from './header-player-progress';
 import ReactPlayer from 'react-player';
@@ -19,13 +19,14 @@ export default class HeaderPlayer extends Component {
   };
 
   state = {
-    position: 0,
+    progress: 0,
+    lastSeekedProgress: 0,
     isLoading: false,
-    duration: 0,
+    duration: null,
   };
 
   render() {
-    const {position, isLoading, duration} = this.state;
+    const {progress, isLoading, duration} = this.state;
     const {track, isPlaying, onNext, onError} = this.props;
     const styles = this.getStyles();
 
@@ -33,17 +34,24 @@ export default class HeaderPlayer extends Component {
       <IconButton
         onClick={::this._togglePlaying}
         style={styles.playback} size={32} boxSize={40}>{isPlaying ? 'pause' : 'play_arrow'}</IconButton>
+
       <IconButton
         onClick={onNext}
         style={styles.next} size={32} boxSize={40}>skip_next</IconButton>
-      {this.renderTitle(styles)}
-      <span style={styles.time}>{formatDuration(position)}</span>
 
-      <Progress
-        isLoading={isLoading}
-        current={position}
-        max={duration}
-        onSeek={::this._seek} />
+      {this.renderTitle(styles)}
+
+      {duration
+        ? <span style={styles.time}>{formatDuration(progress)}</span>
+        : null}
+
+      {duration
+        ? <Progress
+            isLoading={isLoading}
+            current={progress}
+            max={duration}
+            onSeek={::this._seek} />
+        : null}
 
       <ReactPlayer
         ref="player"
@@ -74,31 +82,52 @@ export default class HeaderPlayer extends Component {
     return <span style={styles.title}>No track</span>;
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.track !== this.props.track) {
-      this._updateProgress(0);
-      this._updateDuration(nextProps.track ? nextProps.track.duration : 0);
+  componentWillMount() {
+    if (this.props.track) {
+      this._updateDuration(this.props.track.duration);
     }
   }
 
-  _seek(position) {
-    this.refs.player.seekTo(position / this.state.duration);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.track !== this.props.track) {
+      this.setState({
+        progress: 0,
+        lastSeekedProgress: 0,
+        isLoading: true,
+      });
+      this._updateDuration(nextProps.track ? nextProps.track.duration : null, true);
+    }
   }
 
-  _updateDuration(duration) {
-    this.setState({duration});
+  _seek(progress) {
+    this.refs.player.seekTo(progress / this.state.duration);
+    this.setState({
+      isLoading: true,
+      lastSeekedProgress: progress,
+      progress: progress,
+    });
+  }
+
+  _updateDuration(duration, forced = false) {
+    if (forced || !isNaN(parseInt(duration))) {
+      this.setState({duration});
+    }
   }
 
   _updateProgress(progress) {
-    this.setState({position: progress.played * this.state.duration});
+    if (!progress || !progress.played) {
+      return;
+    }
+
+    const nextProgress = progress.played * this.state.duration;
+    this.setState({
+      isLoading: nextProgress <= this.state.lastSeekedProgress,
+      progress: nextProgress,
+    });
   }
 
   _togglePlaying() {
     this.props.onTogglePlay(!this.props.isPlaying);
-  }
-
-  _toggleLoading(isLoading) {
-    this.setState({isLoading});
   }
 
   getStyles() {

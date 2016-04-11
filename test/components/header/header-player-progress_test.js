@@ -1,7 +1,7 @@
 import React from 'react';
 import Progress from '../../../src/components/header/header-player-progress';
 import TestUtils from 'react-addons-test-utils';
-import {renderDOM} from '../../utils';
+import {renderDOM, render} from '../../utils';
 
 describe('Progress component', () => {
 

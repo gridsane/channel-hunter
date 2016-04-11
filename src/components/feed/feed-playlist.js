@@ -42,8 +42,8 @@ export default class FeedPlaylist extends Component {
         items={tracks}
         renderItem={curried(::this._renderTrack, styles)}
         itemHeight={56}
-        updateDelay={40}
-        itemsBuffer={20}
+        updateDelay={10}
+        itemsBuffer={10}
         style={styles.tracks} />
     </div>;
   }

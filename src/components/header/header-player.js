@@ -45,11 +45,12 @@ export default class HeaderPlayer extends Component {
         ? <span style={styles.time}>{formatDuration(progress)}</span>
         : null}
 
-      {duration
+      {duration && (progress || isPlaying)
         ? <Progress
             isLoading={isLoading}
             current={progress}
             max={duration}
+            canSeek={isPlaying && !isLoading}
             onSeek={::this._seek} />
         : null}
 
@@ -64,7 +65,7 @@ export default class HeaderPlayer extends Component {
         onDuration={::this._updateDuration}
         onEnded={onNext} />
 
-      {isLoading ? <Loader size={24} style={styles.loader} /> : null}
+      {isLoading && isPlaying ? <Loader size={24} style={styles.loader} /> : null}
     </div>;
   }
 
@@ -93,7 +94,7 @@ export default class HeaderPlayer extends Component {
       this.setState({
         progress: 0,
         lastSeekedProgress: 0,
-        isLoading: true,
+        isLoading: nextProps.isPlaying,
       });
       this._updateDuration(nextProps.track ? nextProps.track.duration : null, true);
     }

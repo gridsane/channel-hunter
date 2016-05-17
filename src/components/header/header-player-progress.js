@@ -11,6 +11,11 @@ export default class HeaderPlayerProgress extends Component {
     max: PropTypes.number.isRequired,
     onSeek: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
+    canSeek: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    canSeek: true,
   };
 
   state = {
@@ -34,10 +39,18 @@ export default class HeaderPlayerProgress extends Component {
   }
 
   _mouseEnter(state) {
+    if (!this.props.canSeek) {
+      return;
+    }
+
     this.setState({mouseEnter: state});
   }
 
   _seek(e) {
+    if (!this.props.canSeek) {
+      return;
+    }
+
     const node = this.refs.progress;
     const width = node.offsetWidth;
     const pos = (this.props.max / width) * (e.clientX - nodeOffset(node).left);
@@ -45,7 +58,7 @@ export default class HeaderPlayerProgress extends Component {
   }
 
   getStyles() {
-    const {isLoading} = this.props;
+    const {isLoading, canSeek} = this.props;
     const {mouseEnter} = this.state;
     const progressPercent = ((100 / this.props.max) * this.props.current) + '%';
 
@@ -70,7 +83,7 @@ export default class HeaderPlayerProgress extends Component {
         bottom: -6,
         left: 0,
         right: 0,
-        cursor: 'pointer',
+        cursor: canSeek ? 'pointer' : null,
       },
 
       background: {

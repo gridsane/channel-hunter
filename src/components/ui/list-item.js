@@ -77,7 +77,7 @@ export default class ListItem extends Component {
         height,
         boxSizing: 'border-box',
         padding: `${paddingVert}px ${paddingRight}px ${paddingVert}px ${paddingLeft}px`,
-        lineHeight: 1,
+        lineHeight: 1.1,
         fontSize: 16,
         cursor: isClickable ? 'pointer' : null,
         ':hover': isClickable ? {

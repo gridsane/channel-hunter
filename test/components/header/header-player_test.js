@@ -7,7 +7,7 @@ import TestUtils from 'react-addons-test-utils';
 import {findWithType, getMountedInstance} from 'react-shallow-testutils';
 import {renderDOM, render, shallowRender, getShallowRenderer} from '../../utils';
 
-describe('Controls component', () => {
+describe('Player component', () => {
 
   function mergeWithDefaults(props = {}) {
     return Object.assign({
@@ -176,7 +176,7 @@ describe('Controls component', () => {
   });
 
   it('optimistically sets progress on seek', () => {
-    const props = mergeWithDefaults();
+    const props = mergeWithDefaults({isPlaying: true});
     const dom = render(<Player {...props} />);
 
     let progressElement = TestUtils.findRenderedComponentWithType(dom, Progress);

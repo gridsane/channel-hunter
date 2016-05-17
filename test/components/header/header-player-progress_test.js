@@ -1,13 +1,14 @@
 import React from 'react';
 import Progress from '../../../src/components/header/header-player-progress';
 import TestUtils from 'react-addons-test-utils';
-import {renderDOM, render} from '../../utils';
+import {renderDOM} from '../../utils';
 
 describe('Progress component', () => {
 
-  it('seeks position', (done) => {
+  it('seeks position', () => {
+    const seekSpy = expect.createSpy();
     const dom = renderDOM(
-      <Progress max={200} current={0} onSeek={seek} />
+      <Progress max={200} current={0} onSeek={seekSpy} />
     );
 
     dom.offsetWidth = 200;
@@ -15,10 +16,21 @@ describe('Progress component', () => {
 
     TestUtils.Simulate.click(dom, {clientX: 170});
 
-    function seek(pos) {
-      expect(pos).toBe(70);
-      done();
-    }
+    expect(seekSpy.calls.length).toBe(1);
+    expect(seekSpy.calls[0].arguments).toEqual([70]);
+  });
+
+  it('does not seek position with canSeek=false', () => {
+    const seekSpy = expect.createSpy();
+    const dom = renderDOM(
+      <Progress max={200} current={0} onSeek={seekSpy} canSeek={false} />
+    );
+
+    dom.offsetWidth = 200;
+    dom.offsetLeft = 100;
+    TestUtils.Simulate.click(dom, {clientX: 170});
+
+    expect(seekSpy.calls.length).toBe(0);
   });
 
   it('shows progress', () => {

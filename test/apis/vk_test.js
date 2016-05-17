@@ -52,7 +52,7 @@ describe('VK API', () => {
     expect(tracks).toEqual([
       {
         source: 'vk',
-        id: 'vk-00_10',
+        id: 'vk-1000-00_10',
         originalId: '00_10',
         date: 1448049845,
         artist: 'Dreadnought',
@@ -65,7 +65,7 @@ describe('VK API', () => {
       },
       {
         source: 'vk',
-        id: 'vk-01_20',
+        id: 'vk-1000-01_20',
         originalId: '01_20',
         date: 1448049845,
         artist: 'Dreadnought',
@@ -78,7 +78,7 @@ describe('VK API', () => {
       },
       {
         source: 'vk',
-        id: 'vk-01_30',
+        id: 'vk-1000-01_30',
         originalId: '01_30',
         date: 1448049845,
         artist: 'God Lives on the Sun',
@@ -109,7 +109,7 @@ describe('VK API', () => {
     expect(tracks).toEqual([
       {
         source: 'vk',
-        id: 'vk-02_40',
+        id: 'vk-1000-02_40',
         originalId: '02_40',
         date: 1448049846,
         artist: 'Libido Fuzz',

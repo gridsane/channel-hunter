@@ -109,7 +109,7 @@ export default class VkAPI {
 
     return {
       source: 'vk',
-      id: 'vk-' + id,
+      id: `vk-${channelId}-${id}`,
       originalId: id,
       date: audio.date,
       artist: audio.artist,

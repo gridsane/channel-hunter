@@ -11,13 +11,13 @@ export default class FeedPlaylist extends Component {
     onToggleShuffle: PropTypes.func.isRequired,
     tracks: PropTypes.array.isRequired,
     currentTrackId: PropTypes.string,
-  };
+  }
 
   static defaultProps = {
     compact: false,
     currentTrackId: null,
     isShuffle: false,
-  };
+  }
 
   render() {
     const {tracks} = this.props;

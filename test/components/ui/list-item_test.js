@@ -1,6 +1,7 @@
 import React from 'react';
-import ListItem from '../../../src/components/ui/list-item';
+import ListItem from '../../../src/components/ui/list/list-item';
 import TestUtils from 'react-addons-test-utils';
+import styles from '../../../src/components/ui/list/list.scss';
 import {findWithClass} from 'react-shallow-testutils';
 import {renderDOM, shallowRender} from '../../utils';
 
@@ -107,18 +108,12 @@ describe('ListItem component', () => {
     TestUtils.Simulate.click(dom);
   });
 
-  it('changes background when mouseEnter, if onClick is provided', () => {
+  it('has interactive className, if onClick prop is not empty', () => {
     const dom = renderDOM(
       <ListItem primaryText="foo" onClick={() => null} />
     );
 
-    const leaveColor = dom.style.getPropertyValue('background-color');
-
-    TestUtils.Simulate.mouseEnter(dom);
-    expect(dom.style.getPropertyValue('background-color')).toNotBe(leaveColor);
-
-    TestUtils.Simulate.mouseLeave(dom);
-    expect(dom.style.getPropertyValue('background-color')).toBe(leaveColor);
+    expect(dom.getAttribute('class')).toContain(styles.itemInteractive);
   });
 
   it('not changes background on mouseEnter, if onClick is not provided', () => {

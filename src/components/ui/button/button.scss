@@ -1,0 +1,31 @@
+.flat {
+  height: 36px;
+  padding: 0 24px;
+  line-height: 16px;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0,0,0,.1);
+  }
+}
+
+.icon {
+  display: inline-block;
+  position: relative;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+
+  &:hover {
+    background: rgba(0,0,0,.1);
+  }
+
+}

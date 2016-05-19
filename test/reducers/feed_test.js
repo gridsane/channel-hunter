@@ -225,4 +225,34 @@ describe('Feed reducer', () => {
     ]);
   });
 
+
+  it('ignores invalid state on rehydrate', () => {
+    const initialState = {
+      channels: [
+        {id: 1, isEnabled: false, isLoaded: false, isLoading: false},
+        {id: 2, isEnabled: false, isLoaded: false, isLoading: false},
+      ],
+    };
+
+    expect(reducer(initialState, {
+      type: REHYDRATE,
+      payload: null,
+    })).toBe(initialState);
+
+    expect(reducer(initialState, {
+      type: REHYDRATE,
+      payload: {},
+    })).toBe(initialState);
+
+    expect(reducer(initialState, {
+      type: REHYDRATE,
+      payload: {feed: null},
+    })).toBe(initialState);
+
+    expect(reducer(initialState, {
+      type: REHYDRATE,
+      payload: {feed: {channels: null}},
+    })).toBe(initialState);
+  });
+
 });

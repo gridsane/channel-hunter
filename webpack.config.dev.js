@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
 
 module.exports = {
   cache: true,
@@ -48,6 +49,18 @@ module.exports = {
           ],
         },
       },
+      {
+        test: /\.(scss|css)$/,
+        exclude: /node_modules/,
+        include: path.join(__dirname, 'src'),
+        loaders: [
+          'style?singleton',
+          'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+          'postcss',
+          'sass',
+        ],
+      },
     ],
   },
+  postcss: [autoprefixer],
 };

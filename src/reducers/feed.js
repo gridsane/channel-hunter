@@ -103,6 +103,12 @@ const handlers = {
   },
 
   [REHYDRATE]: (state, action) => {
+    const {payload} = action;
+
+    if (!payload || !payload.feed || !payload.feed.channels) {
+      return state;
+    }
+
     let restoredChannels = action.payload.feed.channels.map((c) => {
       return {...c, isLoading: false, isLoaded: false};
     });

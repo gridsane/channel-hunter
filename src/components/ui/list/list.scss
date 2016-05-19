@@ -1,0 +1,79 @@
+@import '../../application/_theme.scss';
+
+@mixin ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.list {
+  list-style-type: none;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  position: relative;
+  box-sizing: border-box;
+  line-height: 1.1;
+  font-size: 16px;
+
+  &PrimaryText {
+    display: inline-block;
+    width: 100%;
+    @include ellipsis;
+  }
+
+  &SecondaryText {
+    display: inline-block;
+    width: 100%;
+    font-size: 0.9em;
+    @include ellipsis;
+  }
+
+  @mixin sideElement {
+    position: absolute;
+    color: $primaryTextColor;
+  }
+
+  &LeftElement {
+    left: 16px;
+    @include sideElement;
+  }
+
+  &RightElement {
+    right: 16px;
+    @include sideElement;
+  }
+
+  &Interactive {
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0,0,0,.05);
+    }
+  }
+}
+
+.label {
+  position: relative;
+  height: 48px;
+  padding: 0 16px;
+  box-sizing: border-box;
+
+  &Text {
+    display: inline-block;
+    width: 100%;
+    font-size: 14px;
+    line-height: 48px;
+    color: $secondaryTextColor;
+    @include ellipsis;
+  }
+
+  &RightElement {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+  }
+}

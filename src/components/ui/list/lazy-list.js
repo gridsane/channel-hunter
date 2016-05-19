@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
-import {nodeOffset, throttle} from '../../utils/common';
+import {nodeOffset, throttle} from '../../../utils/common';
+import cn from 'classnames';
+import styles from './list.scss';
 
 export default class LazyList extends Component {
 
@@ -29,9 +31,10 @@ export default class LazyList extends Component {
   render() {
     const {items, renderItem} = this.props;
     const {firstIndex, lastIndex} = this.state;
-    const styles = this.getStyles();
+    const offsetStyles = this._getOffsetStyles();
+    const className = cn(styles.list, this.props.className);
 
-    return <ul style={styles.container}>
+    return <ul className={className} style={offsetStyles}>
       {items.slice(firstIndex, lastIndex).map(renderItem)}
     </ul>;
   }
@@ -117,19 +120,10 @@ export default class LazyList extends Component {
     this.setState(this._computeState());
   }
 
-  getStyles() {
+  _getOffsetStyles() {
     return {
-
-      container: {
-        listStyleType: 'none',
-        boxSizing: 'border-box',
-        margin: 0,
-        padding: 0,
-        paddingTop: this.state.bufferStart,
-        height: this.state.height,
-        ...this.props.style,
-      },
-
+      paddingTop: this.state.bufferStart,
+      height: this.state.height,
     };
   }
 }

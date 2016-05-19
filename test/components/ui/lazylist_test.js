@@ -1,5 +1,5 @@
 import React from 'react';
-import LazyList from '../../../src/components/ui/lazylist';
+import LazyList from '../../../src/components/ui/list/lazy-list';
 import {renderDOM} from '../../utils';
 
 describe('LazyList component', () => {

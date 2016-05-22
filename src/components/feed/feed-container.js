@@ -27,9 +27,24 @@ export class Feed extends Component {
           list={channels}
           onToggle={::this._toggleChannel} />
         <div style={styles.sidebarNav}>
-          <IconButton style={styles.navButton} size={24} boxSize={48} onClick={()=>null}>playlist_add</IconButton>
-          <IconButton style={styles.navButton} size={24} boxSize={48} onClick={()=>null}>bookmark_border</IconButton>
-          <IconButton style={styles.navButton} size={24} boxSize={48} onClick={()=>null}>code</IconButton>
+          <IconButton
+            glyph="playlist_add"
+            style={styles.navButton}
+            size={24}
+            boxSize={48}
+            onClick={()=>null} />
+          <IconButton
+            glyph="bookmark_border"
+            style={styles.navButton}
+            size={24}
+            boxSize={48}
+            onClick={()=>null} />
+          <IconButton
+            glyph="code"
+            style={styles.navButton}
+            size={24}
+            boxSize={48}
+            onClick={()=>null} />
         </div>
       </aside>
 

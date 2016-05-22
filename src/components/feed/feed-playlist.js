@@ -26,7 +26,7 @@ export default class FeedPlaylist extends Component {
     if (tracks.length === 0) {
       return <div style={styles.container}>
         <div style={styles.emptyMessage}>
-          <Icon size={64} style={styles.emptyIcon}>headset</Icon>
+          <Icon size={64} style={styles.emptyIcon} glyph="headset" />
           <h2>Playlist is empty</h2>
           <span>Choose any channel to begin</span>
         </div>
@@ -57,10 +57,10 @@ export default class FeedPlaylist extends Component {
       key={track.id}
       leftElement={
         hasError
-        ? <Icon style={styles.errorIcon} size={24}>error</Icon>
+        ? <Icon style={styles.errorIcon} size={24} glyph="error" />
         : (
           isCurrent
-          ? <Icon style={styles.currentIcon} size={24}>play_arrow</Icon>
+          ? <Icon style={styles.currentIcon} size={24} glyph="play_arrow" />
           : null
         )
       }
@@ -98,9 +98,9 @@ export default class FeedPlaylist extends Component {
     return <IconButton
       style={styles.shuffle}
       size={24}
-      onClick={this.props.onToggleShuffle}>
-      shuffle
-    </IconButton>;
+      onClick={this.props.onToggleShuffle}
+      glyph="shuffle"/>
+    ;
   }
 
   getStyles() {

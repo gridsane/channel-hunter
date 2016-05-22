@@ -32,7 +32,7 @@ describe('Channels component', () => {
 
   it('shows check icon on enabled channels', () => {
     expect(items[1].props.rightElement.type).toBe(Icon);
-    expect(items[1].props.rightElement.props.children).toBe('check');
+    expect(items[1].props.rightElement.props.glyph).toBe('check');
     expect(items[2].props.rightElementHeight).toBe(24);
   });
 

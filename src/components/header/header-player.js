@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {curried, formatDuration} from '../../utils/common';
+import {formatDuration} from '../../utils/common';
 import {Loader, IconButton} from '../ui';
 import Progress from './header-player-progress';
 import ReactPlayer from 'react-player';
@@ -33,11 +33,11 @@ export default class HeaderPlayer extends Component {
     return <div style={styles.container}>
       <IconButton
         onClick={::this._togglePlaying}
-        style={styles.playback} size={32} boxSize={40}>{isPlaying ? 'pause' : 'play_arrow'}</IconButton>
+        style={styles.playback} size={32} boxSize={40} glyph={isPlaying ? 'pause' : 'play_arrow'}/>
 
       <IconButton
         onClick={onNext}
-        style={styles.next} size={32} boxSize={40}>skip_next</IconButton>
+        style={styles.next} size={32} boxSize={40} glyph="skip_next"/>
 
       {this.renderTitle(styles)}
 

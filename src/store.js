@@ -17,7 +17,6 @@ persistStore(store, {
   whitelist: ['feed'],
   transforms: [{
     in: (state) => {
-      console.log(state);
       return {channels: state.channels};
     },
     out: (x) => x,

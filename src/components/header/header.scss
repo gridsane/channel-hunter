@@ -158,6 +158,24 @@
   }
 }
 
+.wrapper {
+  @include shadow(4px);
+  z-index: 4;
+  position: relative;
+  height: 60px;
+  padding: 0 16px;
+  color: $textColor;
+  background-color: $primaryColor;
+
+  &Logo {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 13px;
+    left: 24px;
+  }
+}
+
 @keyframes cover-sliding {
   from {
     background-position-y: 0%;

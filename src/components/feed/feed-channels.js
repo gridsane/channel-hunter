@@ -16,7 +16,7 @@ export default class FeedChannels extends Component {
         key={channel.id}
         className={styles.channelsItem}
         primaryText={channel.name}
-        leftElement={<Avatar url={channel.image} className={styles.channelsItemImage} />}
+        leftElement={<Avatar size={32} url={channel.image} />}
         leftElementHeight={32}
         rightElement={this._renderRightElement(channel)}
         rightElementHeight={24}

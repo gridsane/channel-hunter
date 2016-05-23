@@ -1,177 +1,67 @@
 import React, {Component, PropTypes} from 'react';
-import {colors, shadow} from '../../utils/styles';
-import {LazyList, ListItem, ListLabel, Icon, IconButton, Avatar} from '../ui';
-import {curried, formatDuration} from '../../utils/common';
+import {LazyList, ListLabel, Icon, IconButton} from '../ui';
+import cn from 'classnames';
+import Track from './feed-playlist-track';
+import styles from './feed.scss';
 
 export default class FeedPlaylist extends Component {
 
   static propTypes = {
-    compact: PropTypes.bool,
+    tracks: PropTypes.array.isRequired,
     onSelect: PropTypes.func.isRequired,
     onToggleShuffle: PropTypes.func.isRequired,
-    tracks: PropTypes.array.isRequired,
     currentTrackId: PropTypes.string,
+    isShuffle: PropTypes.bool,
   }
 
   static defaultProps = {
-    compact: false,
     currentTrackId: null,
     isShuffle: false,
   }
 
   render() {
     const {tracks} = this.props;
-    const styles = this.getStyles();
 
     if (tracks.length === 0) {
-      return <div style={styles.container}>
-        <div style={styles.emptyMessage}>
-          <Icon size={64} style={styles.emptyIcon} glyph="headset" />
+      return <div className={styles.playlist}>
+        <div className={styles.playlistEmpty}>
+          <Icon size={64} glyph="headset" />
           <h2>Playlist is empty</h2>
           <span>Choose any channel to begin</span>
         </div>
       </div>;
     }
 
-    return <div style={styles.container} ref="container">
+    return <div className={styles.playlist} ref="container">
       <ListLabel
         text={`${tracks.length} tracks`}
-        rightElement={this._renderShuffleButton(styles)} />
+        rightElement={this._renderShuffleButton()} />
       <LazyList
         container={this.refs.container}
         items={tracks}
-        renderItem={curried(::this._renderTrack, styles)}
+        renderItem={this._renderTrack}
         itemHeight={56}
         updateDelay={10}
         itemsBuffer={10}
-        style={styles.tracks} />
+        className={styles.playlistTracks} />
     </div>;
   }
 
-  _renderTrack(styles, track) {
-    const {onSelect, currentTrackId} = this.props;
-    const hasError = track.hasOwnProperty('error');
-    const isCurrent = currentTrackId === track.id;
-
-    return <ListItem
+  _renderTrack = (track) => {
+    return <Track
+      {...track}
       key={track.id}
-      leftElement={
-        hasError
-        ? <Icon style={styles.errorIcon} size={24} glyph="error" />
-        : (
-          isCurrent
-          ? <Icon style={styles.currentIcon} size={24} glyph="play_arrow" />
-          : null
-        )
-      }
-      rightElement={
-        track.channelImage
-        ? <Avatar url={track.channelImage} style={styles.channelAvatar} size={24} />
-        : null
-      }
-      rightElementHeight={24}
-      style={
-        hasError
-        ? styles.errorTrack
-        : (
-          isCurrent
-          ? styles.currentTrack
-          : styles.track
-        )
-      }
-      leftElementHeight={24}
-      primaryText={this._renderTrackName(track, hasError, styles)}
-      onClick={curried(onSelect, track.id) } />;
+      onClick={this.props.onSelect}
+      isCurrent={this.props.currentTrackId === track.id} />;
   }
 
-  _renderTrackName(track, hasError, styles) {
-    return <span>
-      {track.title}
-      <span style={hasError ? null : styles.artist}>
-        {track.artist ? ` by ${track.artist}` : null}
-      </span>
-      <span style={styles.duration}>{formatDuration(track.duration)}</span>
-    </span>;
-  }
-
-  _renderShuffleButton(styles) {
+  _renderShuffleButton() {
     return <IconButton
-      style={styles.shuffle}
-      size={24}
+      glyph="shuffle"
       onClick={this.props.onToggleShuffle}
-      glyph="shuffle"/>
-    ;
-  }
-
-  getStyles() {
-    const {isShuffle} = this.props;
-
-    return {
-
-      container: {
-        flexGrow: 2,
-        paddingBottom: 32,
-        height: '100%',
-        boxSizing: 'border-box',
-        overflowY: 'auto',
-        padding: '0 16px 48px 16px',
-      },
-
-      tracks: {
-        boxShadow: shadow(20),
-        backgroundColor: '#fff',
-      },
-
-      track: {
-        transition: 'background-color .1s ease-out',
-      },
-
-      currentTrack: {
-        backgroundColor: 'rgba(0, 0, 0, .08)',
-      },
-
-      errorTrack: {
-        color: colors.error,
-      },
-
-      artist: {
-        color: colors.secondaryText,
-      },
-
-      duration: {
-        color: colors.secondaryText,
-        fontSize: 14,
-        display: 'inline-block',
-        position: 'absolute',
-        right: 56,
-      },
-
-      currentIcon: {
-        color: colors.secondaryText,
-      },
-
-      errorIcon: {
-        color: colors.error,
-      },
-
-      shuffle: {
-        color: isShuffle ? colors.primaryText : colors.secondaryText,
-      },
-
-      channelAvatar: {
-        opacity: .5,
-      },
-
-      emptyMessage: {
-        textAlign: 'center',
-        paddingTop: 64,
-        color: colors.secondaryText,
-      },
-
-      emptyIcon: {
-        color: colors.secondaryText,
-      },
-
-    };
+      size={24}
+      className={cn(styles.playlistShuffle, {
+        [styles.playlistShuffleActive]: this.props.isShuffle,
+      })}/>;
   }
 }

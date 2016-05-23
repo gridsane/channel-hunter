@@ -20,9 +20,9 @@ export class Header extends Component {
         ? <Player
             isPlaying={isPlaying}
             track={currentTrack}
-            onTogglePlay={::this._togglePlaying}
-            onError={::this._trackError}
-            onNext={::this._nextTrack} />
+            onTogglePlay={this._togglePlaying}
+            onError={this._trackError}
+            onNext={this._nextTrack} />
         : null}
       <HeaderCover url={currentTrack ? currentTrack.cover : null} />
     </HeaderWrapper>;
@@ -34,15 +34,15 @@ export class Header extends Component {
     }
   }
 
-  _nextTrack() {
+  _nextTrack = () => {
     this.props.dispatch(selectNextTrack());
   }
 
-  _togglePlaying() {
+  _togglePlaying = () => {
     this.setState({isPlaying: !this.state.isPlaying});
   }
 
-  _trackError(error) {
+  _trackError = (error) => {
     const {currentTrack, dispatch} = this.props;
     dispatch(refetchTrackOrError(currentTrack, error));
   }

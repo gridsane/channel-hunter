@@ -16,12 +16,14 @@ export class Header extends Component {
     const {currentTrack} = this.props;
 
     return <HeaderWrapper>
-      <Player
-        isPlaying={isPlaying}
-        track={currentTrack}
-        onTogglePlay={::this._togglePlaying}
-        onError={::this._trackError}
-        onNext={::this._nextTrack} />
+      {currentTrack
+        ? <Player
+            isPlaying={isPlaying}
+            track={currentTrack}
+            onTogglePlay={::this._togglePlaying}
+            onError={::this._trackError}
+            onNext={::this._nextTrack} />
+        : null}
       <HeaderCover url={currentTrack ? currentTrack.cover : null} />
     </HeaderWrapper>;
   }

@@ -98,6 +98,66 @@
 
 }
 
+.player {
+  position: relative;
+  height: 60px;
+  box-sizing: border-box;
+  margin-left: 280px;
+  margin-right: 16px;
+  padding: 10px 0;
+  padding-left: 96px;
+  padding-right: 64px;
+  white-space: nowrap;
+
+  &Loading {
+    padding-right: 102px;
+  }
+
+  &Loader {
+    position: absolute;
+    top: 18px;
+    right: 64px;
+  }
+
+  &Title {
+    display: inline-block;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 24px;
+    vertical-align: middle;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &Artist {
+    font-size: 16px;
+  }
+
+  &Time {
+    position: absolute;
+    right: 4px;
+    width: 56px;
+    text-align: center;
+    font-size: 16px;
+    vertical-align: middle;
+    line-height: 40px;
+  }
+
+  &Toggle {
+    color: $textColor;
+    position: absolute;
+    left: 0;
+  }
+
+  &Next {
+    color: $textColor;
+    position: absolute;
+    left: 48px;
+  }
+}
+
 @keyframes cover-sliding {
   from {
     background-position-y: 0%;

@@ -3,46 +3,51 @@ import {formatDuration} from '../../utils/common';
 import {Loader, IconButton} from '../ui';
 import Progress from './header-player-progress';
 import ReactPlayer from 'react-player';
+import styles from './header.scss';
 
 export default class HeaderPlayer extends Component {
-
   static propTypes = {
     track: PropTypes.object,
     isPlaying: PropTypes.bool.isRequired,
     onTogglePlay: PropTypes.func.isRequired,
     onNext: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
-  };
+  }
 
   static defaultProps = {
     track: null,
-  };
+  }
 
   state = {
     progress: 0,
     lastSeekedProgress: 0,
     isLoading: false,
     duration: null,
-  };
+  }
 
   render() {
     const {progress, isLoading, duration} = this.state;
     const {track, isPlaying, onNext, onError} = this.props;
-    const styles = this.getStyles();
 
-    return <div style={styles.container}>
+    return <div className={styles.player}>
       <IconButton
-        onClick={::this._togglePlaying}
-        style={styles.playback} size={32} boxSize={40} glyph={isPlaying ? 'pause' : 'play_arrow'}/>
+        glyph={isPlaying ? 'pause' : 'play_arrow'}
+        onClick={this._togglePlaying}
+        size={32}
+        boxSize={40}
+        className={styles.playerToggle}/>
 
       <IconButton
+        glyph="skip_next"
         onClick={onNext}
-        style={styles.next} size={32} boxSize={40} glyph="skip_next"/>
+        size={32}
+        boxSize={40}
+        className={styles.playerNext} />
 
-      {this.renderTitle(styles)}
+      {this._renderTitle()}
 
       {duration
-        ? <span style={styles.time}>{formatDuration(progress)}</span>
+        ? <span className={styles.playerTime}>{formatDuration(progress)}</span>
         : null}
 
       {duration && (progress || isPlaying)
@@ -51,7 +56,7 @@ export default class HeaderPlayer extends Component {
             current={progress}
             max={duration}
             canSeek={isPlaying && !isLoading}
-            onSeek={::this._seek} />
+            onSeek={this._seek} />
         : null}
 
       <ReactPlayer
@@ -61,26 +66,28 @@ export default class HeaderPlayer extends Component {
         url={track ? track.url : null}
         playing={isPlaying}
         onError={onError}
-        onProgress={::this._updateProgress}
-        onDuration={::this._updateDuration}
+        onProgress={this._updateProgress}
+        onDuration={this._updateDuration}
         onEnded={onNext} />
 
-      {isLoading && isPlaying ? <Loader size={24} style={styles.loader} /> : null}
+      {isLoading && isPlaying
+        ? <Loader size={24} className={styles.playerLoader} contrast />
+        : null}
     </div>;
   }
 
-  renderTitle(styles) {
-    if (this.props.track) {
-      return <span style={styles.title}>
-        {this.props.track.title}
-        <span style={styles.artist}>
-          {' by '}
-          {this.props.track.artist}
-        </span>
-      </span>;
+  _renderTitle() {
+    if (!this.props.track) {
+      return null;
     }
 
-    return <span style={styles.title}>No track</span>;
+    const {artist, title} = this.props.track;
+
+    return <span className={styles.playerTitle}>{title}
+      {artist
+        ? <span className={styles.playerArtist}> by {artist}</span>
+        : null}
+    </span>;
   }
 
   componentWillMount() {
@@ -100,7 +107,7 @@ export default class HeaderPlayer extends Component {
     }
   }
 
-  _seek(progress) {
+  _seek = (progress) => {
     this.refs.player.seekTo(progress / this.state.duration);
     this.setState({
       isLoading: true,
@@ -109,13 +116,13 @@ export default class HeaderPlayer extends Component {
     });
   }
 
-  _updateDuration(duration, forced = false) {
+  _updateDuration = (duration, forced = false) => {
     if (forced || !isNaN(parseInt(duration))) {
       this.setState({duration});
     }
   }
 
-  _updateProgress(progress) {
+  _updateProgress = (progress) => {
     if (!progress || !progress.played) {
       return;
     }
@@ -127,70 +134,7 @@ export default class HeaderPlayer extends Component {
     });
   }
 
-  _togglePlaying() {
+  _togglePlaying = () => {
     this.props.onTogglePlay(!this.props.isPlaying);
-  }
-
-  getStyles() {
-    const {isLoading} = this.state;
-    const {track} = this.props;
-
-    return {
-
-      container: {
-        boxSizing: 'border-box',
-        marginLeft: 280,
-        marginRight: 16,
-        height: '60px',
-        padding: '10px 0',
-        paddingLeft: '96px',
-        paddingRight: isLoading ? 102 : 64,
-        position: 'relative',
-        whiteSpace: 'nowrap',
-        display: track ? null : 'none',
-      },
-
-      title: {
-        display: 'inline-block',
-        height: '40px',
-        lineHeight: '40px',
-        fontSize: '24px',
-        verticalAlign: 'middle',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis',
-        width: '100%',
-      },
-
-      artist: {
-        fontSize: '16px',
-      },
-
-      time: {
-        position: 'absolute',
-        right: '4px',
-        width: '56px',
-        textAlign: 'center',
-        fontSize: '16px',
-        verticalAlign: 'middle',
-        lineHeight: '40px',
-      },
-
-      playback: {
-        position: 'absolute',
-        left: 0,
-      },
-
-      next: {
-        position: 'absolute',
-        left: '48px',
-      },
-
-      loader: {
-        position: 'absolute',
-        top: '18px',
-        right: '64px',
-      },
-    };
   }
 }

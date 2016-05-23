@@ -1,5 +1,40 @@
 @import '../application/_theme.scss';
 
+.feed {
+  display: flex;
+  justify-content: space-between;
+  height: calc(100vh - 60px);
+
+  &Sidebar {
+    position: relative;
+    min-width: 280px;
+    max-width: 280px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: hidden;
+  }
+
+  &Channels {
+    height: calc(100% - 54px);
+    overflow-y: auto;
+  }
+
+  &Nav {
+    display: flex;
+    align-items: stretch;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+
+    &Button {
+      flex-grow: 1;
+      border-radius: 0;
+    }
+  }
+}
+
 .channels {
   &Item {
     font-size: 14px;

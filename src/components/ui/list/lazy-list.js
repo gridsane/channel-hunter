@@ -42,8 +42,8 @@ export default class LazyList extends Component {
   componentWillMount() {
     const {updateDelay} = this.props;
     this._throttledUpdateState = updateDelay > 0
-      ? throttle(::this._updateState, this.props.updateDelay)
-      : ::this._updateState;
+      ? throttle(this._updateState, this.props.updateDelay)
+      : this._updateState;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -116,7 +116,7 @@ export default class LazyList extends Component {
     };
   }
 
-  _updateState() {
+  _updateState = () => {
     this.setState(this._computeState());
   }
 

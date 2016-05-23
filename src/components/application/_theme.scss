@@ -7,3 +7,7 @@ $primaryTextColor: #212121;
 $secondaryTextColor: #727272;
 $dividerColor: #b6b6b6;
 $errorColor: #f44336;
+
+@mixin shadow($elevation) {
+  box-shadow: 0px 2px $elevation rgba(0, 0, 0, .26);
+}

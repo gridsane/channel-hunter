@@ -18,12 +18,13 @@ if (process.env.NODE_ENV !== 'production') {
 
   const compiler = webpack(webpackConfig);
 
-  app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: webpackConfig.output.publicPath,
-  }));
-
-  app.use(require('webpack-hot-middleware')(compiler));
+  app
+    .use(require('webpack-dev-middleware')(compiler, {
+      noInfo: true,
+      publicPath: webpackConfig.output.publicPath,
+    }))
+    .use(require('webpack-hot-middleware')(compiler))
+    .get('/assets/style.css', (req, res) => res.send(''));
 }
 
 app

@@ -48,19 +48,22 @@ describe('Header component', () => {
     const dispatch = expect.createSpy();
     const currentTrack = {id: 1};
     const player = getPlayer(shallowRenderHeader({dispatch, currentTrack}));
+
     player.props.onError('error text');
+
     expect(dispatch.calls.length).toBe(1);
     expect(dispatch.calls[0].arguments[0]).toEqual(actions.refetchTrackOrError(currentTrack, 'error text'));
   });
 
   it('starts playing when current track selected in first time', () => {
-    const renderer = getShallowRenderer(<Header {...defaultProps} />);
-    getMountedInstance(renderer).componentWillReceiveProps({...defaultProps, ...{
-      currentTrack: {id: '20', channelId: '11'},
-    }});
+    const renderer = getShallowRenderer(<Header {...defaultProps} currentTrack={null} />);
+    const currentTrack = {id: '20', channelId: '11'};
+    getMountedInstance(renderer).componentWillReceiveProps({
+      ...defaultProps,
+      currentTrack,
+    });
 
-    const player = getPlayer(renderer.getRenderOutput());
-    expect(player.props.isPlaying).toBe(true);
+    expect(getMountedInstance(renderer).state.isPlaying).toBe(true);
   });
 
   it('does not start playing when current track changed', () => {
@@ -85,7 +88,7 @@ describe('Header component', () => {
 
   const defaultProps = {
     dispatch: () => null,
-    currentTrack: null,
+    currentTrack: {id: 1},
   };
 
   function shallowRenderHeader(props) {

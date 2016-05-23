@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import Radium from 'radium';
 import {connect} from 'react-redux';
-import {colors} from '../../utils/styles';
 import {IconButton} from '../ui';
 import FeedChannels from './feed-channels';
 import FeedPlaylist from './feed-playlist';
@@ -14,34 +12,34 @@ import {
   getTrackById,
   getSortedPlaylist,
 } from '../../reducers/feed';
+import styles from './feed.scss';
 
-@Radium
 export class Feed extends Component {
   render() {
     const {channels, currentTrack, playlist, isShuffle} = this.props;
 
-    return <section style={styles.container}>
-      <aside style={styles.sidebar}>
+    return <section className={styles.feed}>
+      <aside className={styles.feedSidebar}>
         <FeedChannels
-          style={styles.channels}
+          className={styles.feedChannels}
           list={channels}
-          onToggle={::this._toggleChannel} />
-        <div style={styles.sidebarNav}>
+          onToggle={this._toggleChannel} />
+        <div className={styles.feedNav}>
           <IconButton
             glyph="playlist_add"
-            style={styles.navButton}
+            className={styles.feedNavButton}
             size={24}
             boxSize={48}
             onClick={()=>null} />
           <IconButton
             glyph="bookmark_border"
-            style={styles.navButton}
+            className={styles.feedNavButton}
             size={24}
             boxSize={48}
             onClick={()=>null} />
           <IconButton
             glyph="code"
-            style={styles.navButton}
+            className={styles.feedNavButton}
             size={24}
             boxSize={48}
             onClick={()=>null} />
@@ -52,20 +50,20 @@ export class Feed extends Component {
         currentTrackId={currentTrack ? currentTrack.id : null}
         tracks={playlist}
         isShuffle={isShuffle}
-        onSelect={::this._selectTrack}
-        onToggleShuffle={::this._toggleShuffle} />
+        onSelect={this._selectTrack}
+        onToggleShuffle={this._toggleShuffle} />
     </section>;
   }
 
-  _toggleChannel(channel) {
+  _toggleChannel = (channel) => {
     this.props.dispatch(setChannelEnabled(channel, !channel.isEnabled));
   }
 
-  _toggleShuffle() {
+  _toggleShuffle = () => {
     this.props.dispatch(setTracksSort(this.props.isShuffle ? 'date' : '_seed', 'desc'));
   }
 
-  _selectTrack(trackId) {
+  _selectTrack = (trackId) => {
     this.props.dispatch(setCurrentTrack(trackId));
   }
 
@@ -89,39 +87,3 @@ export function mapToProps(state) {
 }
 
 export default connect(mapToProps)(Feed);
-
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    height: 'calc(100vh - 60px)',
-  },
-  sidebar: {
-    position: 'relative',
-    minWidth: 280,
-    maxWidth: 280,
-    height: '100%',
-    boxSizing: 'border-box',
-    overflowY: 'hidden',
-  },
-  channels: {
-    height: 'calc(100% - 54px)',
-    overflowY: 'auto',
-  },
-  sidebarNav: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 54,
-    borderTop: `1px solid rgba(0, 0, 0, .1)`,
-    display: 'flex',
-    alignItems: 'stretch',
-  },
-  navButton: {
-    flexGrow: 1,
-    color: colors.primaryText,
-    position: 'relative',
-    borderRadius: 0,
-  },
-};

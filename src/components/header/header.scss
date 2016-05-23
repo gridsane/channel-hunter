@@ -1,0 +1,36 @@
+@import '../application/_theme.scss';
+
+.cover {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -1;
+
+  &Image {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    bottom: -12px;
+    left: -12px;
+    background-color: $primaryColor;
+    background-position-x: center;
+    background-repeat-y: repeat;
+    background-size: cover;
+    filter: blur(8px);
+    animation: cover-sliding 60s linear infinite alternate;
+    opacity: .5;
+    transition: background 2s ease-out;
+  }
+}
+
+@keyframes cover-sliding {
+  from {
+    background-position-y: 0%;
+  }
+  to {
+    background-position-y: 100%;
+  }
+}

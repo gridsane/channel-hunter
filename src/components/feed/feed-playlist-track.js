@@ -31,7 +31,6 @@ export default class PlaylistTrack extends Component {
       rightElementHeight={32}
       className={cn(styles.track, {
         [styles.trackCurrent]: this.props.isCurrent,
-        [styles.trackError]: this.props.error !== null,
       })} />;
   }
 
@@ -72,6 +71,7 @@ export default class PlaylistTrack extends Component {
       size={24}
       className={cn({
         [styles.trackCurrentIcon]: isCurrent,
+        [styles.trackErrorIcon]: error !== null,
       })} />;
   }
 

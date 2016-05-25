@@ -18,6 +18,7 @@
   box-sizing: border-box;
   line-height: 1.1;
   font-size: 16px;
+  color: $primaryTextColor;
 
   &PrimaryText {
     display: inline-block;
@@ -29,12 +30,12 @@
     display: inline-block;
     width: 100%;
     font-size: 0.9em;
+    color: $secondaryTextColor;
     @include ellipsis;
   }
 
   @mixin sideElement {
     position: absolute;
-    color: $primaryTextColor;
   }
 
   &LeftElement {

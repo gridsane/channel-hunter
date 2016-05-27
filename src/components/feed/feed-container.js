@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {push} from 'react-router-redux';
 import {IconButton} from '../ui';
 import FeedChannels from './feed-channels';
 import FeedPlaylist from './feed-playlist';
@@ -30,7 +31,7 @@ export class Feed extends Component {
             className={styles.feedNavButton}
             size={24}
             boxSize={48}
-            onClick={()=>null} />
+            onClick={this._gotoDiscover} />
           <IconButton
             glyph="bookmark_border"
             className={styles.feedNavButton}
@@ -65,6 +66,10 @@ export class Feed extends Component {
 
   _selectTrack = (trackId) => {
     this.props.dispatch(setCurrentTrack(trackId));
+  }
+
+  _gotoDiscover = () => {
+    this.props.dispatch(push('/app/discover'));
   }
 
 }

@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {push} from 'react-router-redux';
 import {selectNextTrack, refetchTrackOrError} from '../../actions/feed';
 import {getTrackById} from '../../reducers/feed';
-import HeaderWrapper from './header-wrapper';
+import Navigation from './header-navigation';
 import Player from './header-player';
 import HeaderCover from './header-cover';
+import styles from './header.scss';
+
+const routeMap = {
+  '/app/discover': 'Discover',
+};
 
 export class Header extends Component {
   state = {
@@ -15,7 +21,8 @@ export class Header extends Component {
     const {isPlaying} = this.state;
     const {currentTrack} = this.props;
 
-    return <HeaderWrapper>
+    return <header className={styles.header}>
+      <Navigation />
       {currentTrack
         ? <Player
             isPlaying={isPlaying}
@@ -25,13 +32,19 @@ export class Header extends Component {
             onNext={this._nextTrack} />
         : null}
       <HeaderCover url={currentTrack ? currentTrack.cover : null} />
-    </HeaderWrapper>;
+    </header>;
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.currentTrack === null && nextProps.currentTrack !== null) {
       this.setState({isPlaying: true});
     }
+  }
+
+  _getPageTitle() {
+    return routeMap[this.props.route]
+      ? routeMap[this.props.route]
+      : null;
   }
 
   _nextTrack = () => {
@@ -42,9 +55,10 @@ export class Header extends Component {
     this.setState({isPlaying: !this.state.isPlaying});
   }
 
-  _trackError = (error) => {
+  _trackError = (/*error*/) => {
+    // error is inconsistent object, skip for now
     const {currentTrack, dispatch} = this.props;
-    dispatch(refetchTrackOrError(currentTrack, error));
+    dispatch(refetchTrackOrError(currentTrack, 'error'));
   }
 }
 

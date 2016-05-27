@@ -29,7 +29,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app
   .use(bodyParser.json())
-  .use("/assets", express.static(__dirname + '/../assets'))
+  .use('/assets', express.static(__dirname + '/../assets'))
   .use(router(express.Router()))
   .listen(config.port, (err) => {
     if (err) {
@@ -37,5 +37,5 @@ app
       return;
     }
 
-    console.log("Server listening on port " + config.port);
+    console.log('Server listening on port ' + config.port);
   });

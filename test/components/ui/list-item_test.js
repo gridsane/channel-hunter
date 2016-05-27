@@ -94,18 +94,17 @@ describe('ListItem component', () => {
     expect(rightElement.props.style.color).toBe('red');
   });
 
-  it('handles click', (done) => {
+  it('handles click', () => {
+    const spy = expect.createSpy();
     const dom = renderDOM(
       <ListItem
         primaryText="foo"
-        onClick={callback} />
+        onClick={spy} />
     );
 
-    function callback() {
-      done();
-    }
-
     TestUtils.Simulate.click(dom);
+
+    expect(spy.calls.length).toBe(1);
   });
 
   it('has interactive className, if onClick prop is not empty', () => {

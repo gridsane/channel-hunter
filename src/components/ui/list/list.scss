@@ -50,9 +50,10 @@
 
   &Interactive {
     cursor: pointer;
+    transition: background-color .1s ease-out;
 
     &:hover {
-      background-color: rgba(0,0,0,.05);
+      background-color: rgba(158,158,158,0.2);
     }
   }
 }

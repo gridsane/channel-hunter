@@ -51,10 +51,11 @@ describe('Playlist track component', () => {
 
   it('renders error state', () => {
     const track = shallowRender(<Track {...defaultProps} error={'some error'} />);
+    const errorIcon = track.props.leftElement;
 
-    expect(track.props.className).toContain(styles.trackError);
-    expect(track.props.leftElement.type).toBe(Icon);
-    expect(track.props.leftElement.props.glyph).toBe('error');
+    expect(errorIcon.type).toBe(Icon);
+    expect(errorIcon.props.glyph).toBe('error');
+    expect(errorIcon.props.className).toContain(styles.trackErrorIcon);
   });
 
   it('responds with id to onClick callback', () => {

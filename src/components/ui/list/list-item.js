@@ -57,10 +57,18 @@ export default class ListItem extends Component {
   }
 
   _getStyles() {
-    const height = this.props.height;
-    const paddingVert = height/2 - (this.props.secondaryText ? 16 : 8);
-    const paddingRight = this.props.rightIcon === null ? 16 : 56;
-    const paddingLeft = this.props.leftElement === null ? 16 : 72;
+    const {
+      height,
+      secondaryText,
+      leftElement,
+      leftElementHeight,
+      rightElement,
+      rightElementHeight,
+    } = this.props;
+
+    const paddingVert = height/2 - (secondaryText ? 16 : 8);
+    const paddingRight = rightElement === null ? 16 : rightElementHeight + 32;
+    const paddingLeft = leftElement === null ? 16 : leftElementHeight + 32;
 
     return {
       item: {
@@ -69,11 +77,11 @@ export default class ListItem extends Component {
       },
 
       leftElement: {
-        top: getSideElementTop(height, this.props.leftElementHeight),
+        top: getSideElementTop(height, leftElementHeight),
       },
 
       rightElement: {
-        top: getSideElementTop(height, this.props.rightElementHeight),
+        top: getSideElementTop(height, rightElementHeight),
       },
     };
   }

@@ -88,7 +88,7 @@ export default class ListItem extends Component {
 
   _click = (event) => {
     if (this.props.onClick) {
-      this.props.onClick(event, this.props.key);
+      this.props.onClick(event);
     }
   }
 }

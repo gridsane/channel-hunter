@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import {formatDuration} from '../../utils/common';
 import {Loader, IconButton} from '../ui';
 import Progress from './header-player-progress';
@@ -23,6 +24,10 @@ export default class HeaderPlayer extends Component {
     lastSeekedProgress: 0,
     isLoading: false,
     duration: null,
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   render() {
@@ -97,7 +102,7 @@ export default class HeaderPlayer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.track !== this.props.track) {
+    if (shouldTrackUpdate(this.props.track, nextProps.track)) {
       this.setState({
         progress: 0,
         lastSeekedProgress: 0,
@@ -137,4 +142,12 @@ export default class HeaderPlayer extends Component {
   _togglePlaying = () => {
     this.props.onTogglePlay(!this.props.isPlaying);
   }
+}
+
+function shouldTrackUpdate(prevTrack, nextTrack) {
+  if (!prevTrack && nextTrack) {
+    return true;
+  }
+
+  return nextTrack && nextTrack.id !== prevTrack.id;
 }

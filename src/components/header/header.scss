@@ -1,5 +1,40 @@
 @import '../application/_theme.scss';
 
+.header {
+  @include shadow(4px);
+  z-index: 4;
+  position: relative;
+  height: 60px;
+  padding: 0 16px;
+  color: $textColor;
+  background-color: $primaryColor;
+}
+
+.nav {
+  &Logo {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 13px;
+    left: 24px;
+  }
+
+  &Title {
+    display: inline-block;
+    position: absolute;
+    font-size: 24px;
+    line-height: 60px;
+    left: 72px;
+  }
+
+  &Back {
+    position: absolute;
+    color: $textColor;
+    top: 10px;
+    left: 16px;
+  }
+}
+
 .cover {
   position: absolute;
   top: 0;
@@ -155,39 +190,6 @@
     color: $textColor;
     position: absolute;
     left: 48px;
-  }
-}
-
-.wrapper {
-  @include shadow(4px);
-  z-index: 4;
-  position: relative;
-  height: 60px;
-  padding: 0 16px;
-  color: $textColor;
-  background-color: $primaryColor;
-
-  &Logo {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 13px;
-    left: 24px;
-  }
-
-  &Title {
-    display: inline-block;
-    position: absolute;
-    font-size: 24px;
-    line-height: 60px;
-    left: 72px;
-  }
-
-  &Back {
-    position: absolute;
-    color: $textColor;
-    top: 10px;
-    left: 16px;
   }
 }
 

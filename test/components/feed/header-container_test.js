@@ -3,10 +3,10 @@ import {Header, mapToProps} from '../../../src/components/header/header-containe
 import Cover from '../../../src/components/header/header-cover';
 import Player from '../../../src/components/header/header-player';
 import * as actions from '../../../src/actions/feed';
-import {findWithType, getMountedInstance} from 'react-shallow-testutils';
+import {findWithType} from 'react-shallow-testutils';
 import {shallowRender, getShallowRenderer} from '../../utils';
 
-describe('Header component', () => {
+describe('Header component @now', () => {
 
   it('maps current track to props', () => {
     const state = {
@@ -58,19 +58,19 @@ describe('Header component', () => {
   it('starts playing when current track selected in first time', () => {
     const renderer = getShallowRenderer(<Header {...defaultProps} currentTrack={null} />);
     const currentTrack = {id: '20', channelId: '11'};
-    getMountedInstance(renderer).componentWillReceiveProps({
+    renderer.getMountedInstance().componentWillReceiveProps({
       ...defaultProps,
       currentTrack,
     });
 
-    expect(getMountedInstance(renderer).state.isPlaying).toBe(true);
+    expect(renderer.getMountedInstance().state.isPlaying).toBe(true);
   });
 
   it('does not start playing when current track changed', () => {
     const renderer = getShallowRenderer(<Header {...{...defaultProps, ...{
       currentTrack: {id: '10', channelId: '11'},
     }}} />);
-    getMountedInstance(renderer).componentWillReceiveProps({...defaultProps, ...{
+    renderer.getMountedInstance().componentWillReceiveProps({...defaultProps, ...{
       currentTrack: {id: '20', channelId: '11'},
     }});
 

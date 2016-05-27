@@ -8,7 +8,7 @@ import {
   scryRenderedComponentsWithType,
   findRenderedComponentWithType,
 } from 'react-addons-test-utils';
-import {findWithType, getMountedInstance} from 'react-shallow-testutils';
+import {findWithType} from 'react-shallow-testutils';
 import {renderDOM, render, shallowRender, getShallowRenderer} from '../../utils';
 
 describe('Player component', () => {
@@ -89,7 +89,7 @@ describe('Player component', () => {
 
     reactPlayer.props.onDuration(undefined);
 
-    expect(getMountedInstance(renderer).state.duration).toBe(100);
+    expect(renderer.getMountedInstance().state.duration).toBe(100);
   });
 
   it('doesn\'t update progress to NaN', () => {

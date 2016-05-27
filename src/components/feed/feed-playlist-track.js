@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import {Avatar, ListItem, Icon} from '../ui';
 import {formatDuration} from '../../utils/common';
 import cn from 'classnames';
@@ -32,6 +33,10 @@ export default class PlaylistTrack extends Component {
       className={cn(styles.track, {
         [styles.trackCurrent]: this.props.isCurrent,
       })} />;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   _renderPrimaryText() {

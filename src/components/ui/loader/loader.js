@@ -4,7 +4,7 @@ import styles from './loader.scss';
 
 export default class Loader extends Component {
   static propTypes = {
-    contrast: PropTypes.bool,
+    multicolor: PropTypes.bool,
     strokeWidth: PropTypes.number,
     size: PropTypes.number,
   }
@@ -12,11 +12,11 @@ export default class Loader extends Component {
   static defaultProps = {
     strokeWidth: 4,
     size: 24,
-    contrast: false,
+    multicolor: true,
   }
 
   render() {
-    const {size, strokeWidth, contrast, className, style} = this.props;
+    const {size, strokeWidth, multicolor, className, style} = this.props;
 
     return <div className={className} style={style}>
       <div className={styles.loader} style={{
@@ -26,7 +26,7 @@ export default class Loader extends Component {
         <svg className={styles.loaderCircle} viewBox="25 25 50 50">
           <circle
             className={cn(styles.loaderPath, {
-              [styles.loaderPathContrast]: contrast,
+              [styles.loaderPathMulticolor]: multicolor,
             })}
             cx="50"
             cy="50"

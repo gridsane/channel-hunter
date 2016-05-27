@@ -71,7 +71,7 @@ export default class HeaderPlayer extends Component {
         onEnded={onNext} />
 
       {isLoading && isPlaying
-        ? <Loader size={24} className={styles.playerLoader} contrast />
+        ? <Loader size={24} className={styles.playerLoader} />
         : null}
     </div>;
   }

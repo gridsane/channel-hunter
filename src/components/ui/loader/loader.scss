@@ -21,10 +21,11 @@
     stroke-dashoffset: 0;
     stroke-linecap: round;
     stroke: $primaryTextColor;
-    animation: dash 1.7s ease-in-out infinite;
+    animation: dash 1.5s ease-in-out infinite;
 
-    &Contrast {
-      stroke: $textColor;
+    &Multicolor {
+      animation: dash 1.5s ease-in-out infinite,
+                 color 6s ease-in-out infinite;
     }
   }
 
@@ -42,15 +43,31 @@
     stroke-dashoffset: 0;
   }
   50% {
-    stroke-dasharray: 130,200;
+    stroke-dasharray: 95,200;
     stroke-dashoffset: 0;
-  }
-  65% {
-    stroke-dasharray: 110,200;
-    stroke-dashoffset: -25px;
   }
   100% {
     stroke-dasharray: 89,200;
     stroke-dashoffset: -124px;
+  }
+}
+
+$green: #008744;
+$blue: #0057e7;
+$red: #d62d20;
+$yellow: #ffa700;
+
+@keyframes color {
+  100%, 0% {
+    stroke: $red;
+  }
+  40% {
+    stroke: $blue;
+  }
+  66% {
+    stroke: $green;
+  }
+  80%, 90% {
+    stroke: $yellow;
   }
 }

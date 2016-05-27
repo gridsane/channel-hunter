@@ -15,7 +15,7 @@
   }
 
   &Channels {
-    height: calc(100% - 54px);
+    height: calc(100% - 49px);
     overflow-y: auto;
   }
 
@@ -27,6 +27,7 @@
     right: 0;
     bottom: 0;
     border-top: 1px solid rgba(0, 0, 0, .1);
+    @include shadow(12px);
 
     &Button {
       flex-grow: 1;
@@ -38,6 +39,10 @@
 .channels {
   &Item {
     font-size: 14px;
+
+    &Enabled {
+      color: $primaryColor;
+    }
   }
 }
 

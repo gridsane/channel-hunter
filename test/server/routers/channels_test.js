@@ -10,6 +10,7 @@ describe('Channels router', () => {
     expect.spyOn(console, 'error');
     storage.getChannels = expect.createSpy();
     storage.addOrUpdateChannel = expect.createSpy();
+    storage.searchChannels = expect.createSpy();
     api.getChannelByUrl = expect.createSpy();
   });
 
@@ -18,34 +19,29 @@ describe('Channels router', () => {
   });
 
   it('should return channels as json', async () => {
-
     const res = {json: expect.createSpy()};
     const channels = ['channel1', 'channel2'];
     storage.getChannels.andReturn(channels);
 
-    await router.getChannels(null, res);
+    await router.getChannels({}, res);
 
     expect(res.json.calls.length).toBe(1);
     expect(res.json.calls[0].arguments[0]).toBe(channels);
-
   });
 
   it('handles errors during getChannels request', async () => {
-
     const res = {json: expect.createSpy()};
     const error = new Error('error message');
     storage.getChannels.andThrow(error);
 
-    await router.getChannels(null, res);
+    await router.getChannels({}, res);
 
     expect(res.json.calls.length).toBe(1);
     expect(res.json.calls[0].arguments[0].error).toBe('Oops, error occured.');
     expect(console.error.calls[0].arguments[0]).toBe(error);
-
   });
 
   it('adds channel by url', async () => {
-
     const res = {json: expect.createSpy()};
     const channel = {foo: 'bar'};
 
@@ -58,11 +54,9 @@ describe('Channels router', () => {
     expect(storage.addOrUpdateChannel.calls[0].arguments[0]).toBe(channel);
     expect(res.json.calls.length).toBe(1);
     expect(res.json.calls[0].arguments[0]).toBe(channel);
-
   });
 
   it('handles errors during addChannel request', async () => {
-
     const res = {json: expect.createSpy()};
     const error = new Error('error message');
 
@@ -73,7 +67,29 @@ describe('Channels router', () => {
     expect(res.json.calls.length).toBe(1);
     expect(res.json.calls[0].arguments[0].error).toBe('Oops, error occured.');
     expect(console.error.calls[0].arguments[0]).toBe(error);
+  });
 
+  it('searches channels', async () => {
+    const res = {json: expect.createSpy()};
+    const channels = ['channel1', 'channel2'];
+    storage.searchChannels.andReturn(channels);
+
+    await router.getChannels({query: {q: 'fuzz'}}, res);
+
+    expect(res.json.calls.length).toBe(1);
+    expect(res.json.calls[0].arguments[0]).toBe(channels);
+  });
+
+  it('handles errors during channels search', async () => {
+    const res = {json: expect.createSpy()};
+    const error = new Error('error message');
+    storage.searchChannels.andThrow(error);
+
+    await router.getChannels({query: {q: 'fuzz'}}, res);
+
+    expect(res.json.calls.length).toBe(1);
+    expect(res.json.calls[0].arguments[0].error).toBe('Oops, error occured.');
+    expect(console.error.calls[0].arguments[0]).toBe(error);
   });
 
 });

@@ -6,7 +6,7 @@ import * as actions from '../../../src/actions/feed';
 import {findWithType} from 'react-shallow-testutils';
 import {shallowRender, getShallowRenderer} from '../../utils';
 
-describe('Header component @now', () => {
+describe('Header component', () => {
 
   it('maps current track to props', () => {
     const state = {

@@ -3,6 +3,7 @@ import Storage from '../../src/server/storage';
 import {MONGO_URI_TEST} from '../../src/config.js';
 
 describe('Storage @database', () => {
+  const storage = new Storage(MONGO_URI_TEST);
 
   afterEach((done) => {
     mongo.connect(MONGO_URI_TEST, (err, db) => {
@@ -11,8 +12,6 @@ describe('Storage @database', () => {
   });
 
   it('adds channel and gets channels', async () => {
-
-    const storage = new Storage(MONGO_URI_TEST);
     const inputChannel = {
       source: 'vk',
       id: 'vk-10',
@@ -28,12 +27,9 @@ describe('Storage @database', () => {
     const channels = await storage.getChannels();
     expect(channels.length).toBe(1);
     expect(channels[0]).toEqual(inputChannel);
-
   });
 
   it('updates channel by source and originalId pair', async () => {
-
-    const storage = new Storage(MONGO_URI_TEST);
     await storage.addOrUpdateChannel({
       source: 'vk',
       id: 'vk-10',
@@ -64,19 +60,42 @@ describe('Storage @database', () => {
 
     expect(vkChannel.name).toBe('baz');
     expect(youtubeChannel.name).toBe('bar');
-
   });
 
   it('inserts channels', async () => {
-
-    const storage = new Storage(MONGO_URI_TEST);
     await storage.addOrUpdateChannel({source: 'vk', id: 'vk-10', originalId: '10'});
     await storage.addOrUpdateChannel({source: 'vk', id: 'vk-20', originalId: '20'});
     await storage.addOrUpdateChannel({source: 'youtube', id: 'youtube-10', originalId: '10'});
 
     const channels = await storage.getChannels();
     expect(channels.length).toBe(3);
+  });
 
+  it('searches channels', async () => {
+    await storage.addOrUpdateChannel({
+      source: 'vk',
+      id: 'vk-10',
+      originalId: '10',
+      name: 'stOnEr rock',
+      description: 'Lorem ipsum',
+    });
+
+    await storage.addOrUpdateChannel({
+      source: 'vk',
+      id: 'vk-20',
+      originalId: '20',
+      name: 'Channel fuzz',
+      description: 'Best stoner channel ever',
+    });
+
+    const fuzzResult = await storage.searchChannels('fuzz');
+    expect(fuzzResult.length).toBe(1);
+    expect(fuzzResult[0].id).toBe('vk-20');
+
+    const stonerResult = await storage.searchChannels('stoner');
+    expect(stonerResult.length).toBe(2);
+    expect(stonerResult[0].id).toBe('vk-10');
+    expect(stonerResult[1].id).toBe('vk-20');
   });
 
 });

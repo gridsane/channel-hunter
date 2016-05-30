@@ -16,7 +16,7 @@ export default class Storage {
   async getChannels() {
     const db = await this._init();
     return new Promise((resolve, reject) => {
-      db.collection('channels').find({}).toArray(function (err, channels) {
+      db.collection('channels').find({}).toArray((err, channels) => {
         if (err) {
           reject(err);
         } else {
@@ -43,6 +43,26 @@ export default class Storage {
           }
         }
       );
+    });
+  }
+
+  async searchChannels(query) {
+    const db = await this._init();
+
+    return new Promise((resolve, reject) => {
+      db.collection('channels')
+        .find(
+          {$text: {$search: query}},
+          {score: {$meta: "textScore"}}
+        )
+        .sort({score: {$meta: "textScore"}})
+        .toArray((err, channels) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(channels.map(removeIdKey));
+          }
+        });
     });
   }
 

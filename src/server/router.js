@@ -2,13 +2,13 @@ import channelsRouter from './routers/channels';
 import tracksRouter from './routers/tracks';
 import mainRouter from './routers/main';
 import Storage from './storage';
-import YoutubeAPI from '../apis/youtube';
-import VkAPI from '../apis/vk';
-import APIWrapper from '../apis/api_wrapper';
+import YoutubeAPI from '../api/youtube';
+import VkAPI from '../api/vk';
+import CompositeAPI from '../api/composite';
 import * as config from '../config';
 
 const storage = new Storage(config.MONGO_URI);
-const api = new APIWrapper({
+const api = new CompositeAPI({
   youtube: new YoutubeAPI(config.YOUTUBE_KEY),
   vk: new VkAPI(),
 });

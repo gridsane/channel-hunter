@@ -39,7 +39,7 @@ export default class VkAPI {
   }
 
   hasChannel(url) {
-    return /^https?:\/\/(www\.)?vk.com\//.test(url);
+    return /^https?:\/\/(www\.)?vk.com\/.+/.test(url);
   }
 
   _request(method, params) {
@@ -114,8 +114,7 @@ export default class VkAPI {
       date: audio.date,
       artist: audio.artist,
       title: audio.title,
-      // @hack until ReactPlayer will change its patterns
-      url: `${audio.url}&.mp3`,
+      url: `${audio.url}`,
       duration: audio.duration,
       channelId: 'vk-' + channelId,
       cover: cover,

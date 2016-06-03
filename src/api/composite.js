@@ -1,19 +1,27 @@
-export default class APIWrapper {
+export default class CompositeAPI {
 
   constructor(apis) {
     this.apis = apis;
   }
 
   getChannelByUrl(url) {
+    const source = this.getChannelUrlSource(url);
 
+    if (!source) {
+      throw new Error(`unknown channel url '${url}'`);
+    }
+
+    return this.apis[source].getChannelByUrl(url);
+  }
+
+  getChannelUrlSource(url) {
     for (let source in this.apis) {
       if (this.apis[source].hasChannel(url)) {
-        return this.apis[source].getChannelByUrl(url);
+        return source;
       }
     }
 
-    throw new Error(`unknown channel url '${url}'`);
-
+    return null;
   }
 
   getTracks(source, channelId) {

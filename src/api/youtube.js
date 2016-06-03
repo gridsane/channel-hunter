@@ -54,7 +54,7 @@ export default class YoutubeAPI {
   }
 
   hasChannel(url) {
-    return /^https?:\/\/(www\.)?youtube.com\/(channel|user)/.test(url);
+    return /^https?:\/\/(www\.)?youtube.com\/(channel|user)\/.+/.test(url);
   }
 
   _request(resource, params) {

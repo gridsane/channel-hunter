@@ -1,3 +1,5 @@
+@import '../../application/_theme.scss';
+
 .flat {
   height: 36px;
   padding: 0 24px;
@@ -8,8 +10,23 @@
   background: none;
   cursor: pointer;
 
+  &Primary {
+    color: $primaryColor;
+
+    &:hover {
+      background: rgba($primaryColor, .1);
+    }
+  }
+
+  &Small {
+    height: 28px;
+    padding: 0 14px;
+    line-height: 14px;
+    font-size: 14px;
+  }
+
   &:hover {
-    background: rgba(0,0,0,.1);
+    background: rgba(0, 0, 0, .1);
   }
 }
 

@@ -1,4 +1,4 @@
-import VkAPI from '../../src/apis/vk';
+import VkAPI from '../../src/api/vk';
 import nock from 'nock';
 
 describe('VK API', () => {
@@ -57,7 +57,7 @@ describe('VK API', () => {
         date: 1448049845,
         artist: 'Dreadnought',
         title: 'Feeling Good',
-        url: 'track10_url&.mp3',
+        url: 'track10_url',
         duration: 214,
         channelId: 'vk-1000',
         cover: 'post1_photo807.jpg',
@@ -70,7 +70,7 @@ describe('VK API', () => {
         date: 1448049845,
         artist: 'Dreadnought',
         title: 'Cocaine',
-        url: 'track20_url&.mp3',
+        url: 'track20_url',
         duration: 148,
         channelId: 'vk-1000',
         cover: null,
@@ -83,7 +83,7 @@ describe('VK API', () => {
         date: 1448049845,
         artist: 'God Lives on the Sun',
         title: 'Chaika',
-        url: 'track30_url&.mp3',
+        url: 'track30_url',
         duration: 154,
         channelId: 'vk-1000',
         cover: 'post3_photo604.jpg',
@@ -114,7 +114,7 @@ describe('VK API', () => {
         date: 1448049846,
         artist: 'Libido Fuzz',
         title: 'Sweet Hours',
-        url: 'track40_url&.mp3',
+        url: 'track40_url',
         duration: 133,
         channelId: 'vk-1000',
         cover: null,
@@ -149,6 +149,12 @@ describe('VK API', () => {
 
     expect(api.hasChannel('http://vk.com/id1'))
       .toBe(true);
+
+    expect(api.hasChannel('https://vk.com/woop'))
+      .toBe(true);
+
+    expect(api.hasChannel('https://www.vk.com/'))
+      .toBe(false);
 
     expect(api.hasChannel('https://youtube.com/channelname'))
       .toBe(false);

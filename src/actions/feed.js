@@ -1,5 +1,5 @@
 import * as types from './actionsTypes';
-import * as api from '../../src/utils/api';
+import * as api from '../api/browser';
 
 export function addChannels(channels) {
   return {type: types.FEED_ADD_CHANNELS, channels};

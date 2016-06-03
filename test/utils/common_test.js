@@ -1,9 +1,7 @@
 import * as utils from '../../src/utils/common';
 
 describe('Utils', () => {
-
   it('gets node offset', () => {
-
     const node = {
       offsetTop: 40,
       offsetLeft: 10,
@@ -21,11 +19,9 @@ describe('Utils', () => {
       top: 150,
       left: 60,
     });
-
   });
 
   it('formats duration', () => {
-
     expect(utils.formatDuration(1)).toBe('00:01');
     expect(utils.formatDuration(59)).toBe('00:59');
     expect(utils.formatDuration(119)).toBe('01:59');
@@ -34,18 +30,14 @@ describe('Utils', () => {
     expect(utils.formatDuration(60 * 60)).toBe('~1h');
     expect(utils.formatDuration(2.6 * 60 * 60)).toBe('~3h');
     expect(utils.formatDuration(25.4 * 60 * 60)).toBe('~25h');
-
   });
 
   it('curries functions', () => {
-
     expect(utils.curried((x, y) => x + y, 1)(2)).toBe(3);
     expect(utils.curried((x, y) => x * y, 2, 3)()).toBe(6);
-
   });
 
   it('throttles function', (done) => {
-
     const spy = expect.createSpy();
     const throttled = utils.throttle(spy, 5);
 
@@ -62,7 +54,21 @@ describe('Utils', () => {
       expect(spy.calls[1].arguments).toEqual([3]);
       done();
     }, 15);
+  });
 
+  it('debounces function', (done) => {
+    const spy = expect.createSpy();
+    const debounced = utils.debounce(spy, 5);
+
+    debounced(1);
+    debounced(2);
+    debounced(3);
+
+    setTimeout(() => {
+      expect(spy.calls.length).toBe(1);
+      expect(spy.calls[0].arguments[0]).toBe(3);
+      done();
+    }, 5);
   });
 
 });

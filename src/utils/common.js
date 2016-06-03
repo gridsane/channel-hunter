@@ -46,3 +46,18 @@ export function throttle(fn, timeout) {
     }
   };
 }
+
+export function debounce(fn, timeout) {
+  let timer = false;
+
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+      timer = false;
+    }, timeout);
+  };
+}

@@ -1,4 +1,4 @@
-import * as api from '../../src/utils/api';
+import * as api from '../../src/api/browser';
 import * as actions from '../../src/actions/feed';
 import * as actionsTypes from '../../src/actions/actionsTypes';
 

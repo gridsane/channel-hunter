@@ -1,4 +1,4 @@
-import YoutubeAPI from '../../src/apis/youtube';
+import YoutubeAPI from '../../src/api/youtube';
 import nock from 'nock';
 
 describe('Youtube API', () => {
@@ -125,6 +125,9 @@ describe('Youtube API', () => {
 
     expect(api.hasChannel('http://www.youtube.com/channel/channelname'))
       .toBe(true);
+
+    expect(api.hasChannel('https://vk.com/channel/'))
+      .toBe(false);
 
     expect(api.hasChannel('https://vk.com/channelname'))
       .toBe(false);

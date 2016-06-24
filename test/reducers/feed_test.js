@@ -7,8 +7,8 @@ describe('Feed reducer', () => {
   it('adds channels', () => {
     const initialState = {channels: []};
 
-    let state = reducer(initialState, actions.addChannels([{id: 1}]));
-    state = reducer(state, actions.addChannels([{id: 2}, {id: 3}]));
+    let state = reducer(initialState, actions.addFeedChannels([{id: 1}]));
+    state = reducer(state, actions.addFeedChannels([{id: 2}, {id: 3}]));
 
     expect(state).toEqual({channels: [
       {id: 1},
@@ -27,7 +27,7 @@ describe('Feed reducer', () => {
       ],
     };
 
-    const state = reducer(initialState, actions.removeChannels([1, 3]));
+    const state = reducer(initialState, actions.removeFeedChannels([1, 3]));
 
     expect(state).toEqual({
       channels: [{id: 2, name: 'bar'}],
@@ -224,7 +224,6 @@ describe('Feed reducer', () => {
       {id: 2, isEnabled: false, isLoaded: false, isLoading: false},
     ]);
   });
-
 
   it('ignores invalid state on rehydrate', () => {
     const initialState = {

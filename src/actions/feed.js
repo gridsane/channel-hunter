@@ -1,12 +1,20 @@
 import * as types from './actionsTypes';
 import * as api from '../api/browser';
 
-export function addChannels(channels) {
+export function addFeedChannels(channels) {
   return {type: types.FEED_ADD_CHANNELS, channels};
 }
 
-export function removeChannels(channelsIds) {
+export function addFeedChannel(channel) {
+  return addFeedChannels([channel]);
+}
+
+export function removeFeedChannels(channelsIds) {
   return {type: types.FEED_REMOVE_CHANNELS, channelsIds};
+}
+
+export function removeFeedChannel(channelId) {
+  return removeFeedChannels([channelId]);
 }
 
 export function setChannelProps(channelId, props) {
@@ -76,6 +84,7 @@ export function refetchTrackOrError(track, error = null) {
   return async (dispatch) => {
     if (track.lastFetchedAt && track.lastFetchedAt >= Math.floor(Date.now() / 1000) - 60) {
       dispatch(setTrackError(track.id, error));
+      dispatch(selectNextTrack());
       return;
     }
 

@@ -21,29 +21,35 @@ export default class DiscoverInput extends Component {
     const {isFocused, value, source} = this.state;
 
     return <div className={styles.input}>
-      <Icon
-        glyph={source ? 'add' : 'search'}
-        size={24}
-        boxSize={40}
-        className={cn(styles.inputIcon, {
-          [styles.inputIconFocused]: isFocused,
-        })} />
+      <div className={styles.inputWrapper}>
+        <Icon
+          glyph={source ? 'add' : 'search'}
+          size={24}
+          boxSize={40}
+          className={cn(styles.inputIcon, {
+            [styles.inputIconFocused]: isFocused,
+          })} />
 
-      <input
-        type="text"
-        onChange={this._change}
-        onFocus={this._focus}
-        onBlur={this._blur}
-        onKeyUp={this._keyup}
-        placeholder="Search or paste an url"
-        value={value}
-        className={styles.inputControl} />
+        <input
+          type="text"
+          ref="input"
+          onChange={this._change}
+          onFocus={this._focus}
+          onBlur={this._blur}
+          onKeyUp={this._keyup}
+          placeholder="Search or paste an url"
+          value={value}
+          className={styles.inputControl} />
 
-      <span className={cn(styles.inputBar, {
-        [styles.inputBarFocused]: isFocused,
-      })}></span>
-
+        <span className={cn(styles.inputBar, {
+          [styles.inputBarFocused]: isFocused,
+        })}></span>
+      </div>
     </div>;
+  }
+
+  componentDidMount() {
+    this.refs.input.focus();
   }
 
   _change = (event) => {

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
-import {formatDuration} from '../../utils/common';
+import {formatDuration} from '../../utils';
 import {Loader, IconButton} from '../ui';
 import Progress from './header-player-progress';
 import ReactPlayer from 'react-player';

@@ -1,11 +1,14 @@
 export default {
   Avatar: require('./avatar/avatar'),
-  Icon: require('./icon/icon'),
+  EmptyState: require('./empty-state/empty-state'),
   FlatButton: require('./button/flat-button'),
+  Grid: require('./grid/grid'),
+  GridCell: require('./grid/cell'),
+  Icon: require('./icon/icon'),
   IconButton: require('./button/icon-button'),
   LazyList: require('./list/lazy-list'),
-  ListLabel: require('./list/list-label'),
   List: require('./list/list'),
   ListItem: require('./list/list-item'),
+  ListLabel: require('./list/list-label'),
   Loader: require('./loader/loader'),
 };

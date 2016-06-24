@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {LazyList, ListLabel, Icon, IconButton} from '../ui';
+import {LazyList, ListLabel, IconButton, EmptyState} from '../ui';
 import cn from 'classnames';
 import Track from './feed-playlist-track';
 import styles from './feed.scss';
@@ -23,13 +23,11 @@ export default class FeedPlaylist extends Component {
     const {tracks} = this.props;
 
     if (tracks.length === 0) {
-      return <div className={styles.playlist}>
-        <div className={styles.playlistEmpty}>
-          <Icon size={64} glyph="headset" />
-          <h2>Playlist is empty</h2>
-          <span>Choose any channel to begin</span>
-        </div>
-      </div>;
+      return <EmptyState
+          className={styles.playlist}
+          glyph="headset"
+          primaryText="Playlist is empty"
+          secondaryText="Choose any channel to get started" />;
     }
 
     return <div className={styles.playlist} ref="container">

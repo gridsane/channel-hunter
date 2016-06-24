@@ -1,6 +1,7 @@
 import * as types from './actionsTypes';
 import * as api from '../api/browser';
-import {debounce} from '../utils/common';
+import {addFeedChannel} from './feed';
+import {debounce} from '../utils';
 
 export function setChannels(channels) {
   return {type: types.DISCOVER_SET_CHANNELS, channels};
@@ -8,6 +9,27 @@ export function setChannels(channels) {
 
 export function setLoading(isLoading) {
   return {type: types.DISCOVER_SET_LOADING, isLoading};
+}
+
+export function setError(error) {
+  return {type: types.DISCOVER_SET_ERROR, error};
+}
+
+export function addChannel(url) {
+  return async (dispatch) => {
+    dispatch(setLoading(true));
+    const channel = await api.addChannel(url);
+    if (channel && !channel.error) {
+      dispatch(setChannels([channel]));
+      dispatch(addFeedChannel(channel));
+    } else {
+      dispatch(setError(
+        channel && channel.error
+          ? channel.error
+          : 'Unknown error'
+      ));
+    }
+  };
 }
 
 export function createSearchAction(debounceTimeout) {

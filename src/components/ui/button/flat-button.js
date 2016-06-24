@@ -4,6 +4,7 @@ import styles from './button.scss';
 
 export default class FlatButton extends Component {
   static propTypes = {
+    onClick: PropTypes.func.isRequired,
     label: PropTypes.node.isRequired,
     primary: PropTypes.bool,
     small: PropTypes.bool,
@@ -15,9 +16,9 @@ export default class FlatButton extends Component {
   }
 
   render() {
-    const {label, primary, small, className} = this.props;
+    const {onClick, label, primary, small, className} = this.props;
 
-    return <button className={cn(styles.flat, {
+    return <button onClick={onClick} className={cn(styles.flat, {
       [styles.flatPrimary]: primary,
       [styles.flatSmall]: small,
     }, className)}>

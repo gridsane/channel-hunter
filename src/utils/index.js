@@ -1,4 +1,4 @@
-function pad(x) {
+function pad0(x) {
   return x < 10 ? '0' + x : x;
 }
 
@@ -11,7 +11,7 @@ export function formatDuration(duration) {
 
   let seconds = Math.floor(duration % 60);
 
-  return pad(minutes.toFixed()) + ':' + pad(seconds.toFixed());
+  return pad0(minutes.toFixed()) + ':' + pad0(seconds.toFixed());
 }
 
 export function nodeOffset(node) {
@@ -19,7 +19,7 @@ export function nodeOffset(node) {
   let left = 0;
 
   do {
-    top += node.offsetTop  || 0;
+    top += node.offsetTop || 0;
     left += node.offsetLeft || 0;
     node = node.offsetParent;
   } while (node);

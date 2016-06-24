@@ -135,8 +135,9 @@ describe('Feed actions', () => {
     await actions.refetchTrackOrError(track, 'error message')(dispatch);
 
     expect(api.getTrack.calls.length).toBe(0);
-    expect(dispatch.calls.length).toBe(1);
+    expect(dispatch.calls.length).toBe(2);
     expect(dispatch.calls[0].arguments).toEqual([actions.setTrackError('10', 'error message')]);
+    expect(dispatch.calls[1].arguments).toEqual([actions.selectNextTrack()]);
   });
 
 });

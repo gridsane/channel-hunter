@@ -17,6 +17,10 @@ export function searchChannels(q) {
   return get('/api/channels', {q});
 }
 
+export function addChannel(url) {
+  return post('/api/channels', {url});
+}
+
 export function getTracks(source, channelId) {
   return externalApi.getTracks(source, channelId);
 }
@@ -29,8 +33,23 @@ export function getChannelUrlSource(url) {
   return externalApi.getChannelUrlSource(url);
 }
 
+
 function get(url, query) {
-  const request = superagent.get(url).query(query);
+  return createAbortablePromise(
+    superagent.get(url).query(query)
+  );
+}
+
+function post(url, data) {
+  return createAbortablePromise(
+    superagent
+      .post(url)
+      .set('Content-Type', 'application/json')
+      .send(JSON.stringify(data))
+  );
+}
+
+function createAbortablePromise(request) {
   const promise = new Promise((resolve, reject) => {
     request.end((err, res) => {
       if (err) {

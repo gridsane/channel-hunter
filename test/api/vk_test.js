@@ -23,8 +23,10 @@ describe('VK API', () => {
       originalId: '26457580',
       name: 'E:\music\stoner',
       description: 'Group description',
-      image: 'https://pp.vk.me/...2a1/x2sP4RGbPpQ.jpg',
+      image: 'photo_100.jpg',
+      imageLarge: 'photo_200.jpg',
       createdAt: null,
+      url: 'https://vk.com/e_music_stonerrock',
     });
 
   });
@@ -180,9 +182,9 @@ const RESPONSES = {
     is_admin: 0,
     is_member: 1,
     description: 'Group description',
-    photo_50: 'https://pp.vk.me/...2a2/-s27zwd-3lw.jpg',
-    photo_100: 'https://pp.vk.me/...2a1/x2sP4RGbPpQ.jpg',
-    photo_200: 'https://pp.vk.me/...2a0/jpJIcASHGdA.jpg',
+    photo_50: 'photo_50.jpg',
+    photo_100: 'photo_100.jpg',
+    photo_200: 'photo_200.jpg',
   }]},
 
   groups_not_found: {error: {error_code: 100}},

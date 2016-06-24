@@ -1,7 +1,7 @@
 import * as api from '../../src/api/browser';
 import * as actions from '../../src/actions/discover';
 
-describe('Discover actions @now', () => {
+describe('Discover actions', () => {
 
   it('searches channels', (done) => {
     const dispatchSpy = expect.createSpy();

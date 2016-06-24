@@ -17,7 +17,7 @@ export default class VkAPI {
       return null;
     }
 
-    return this._convertChannel(response[0]);
+    return this._convertChannel(response[0], url);
   }
 
   async getTracks(channelId, maxResults = 10) {
@@ -90,7 +90,7 @@ export default class VkAPI {
       }, []);
   }
 
-  _convertChannel(res) {
+  _convertChannel(res, url) {
     const id = res.id.toString();
 
     return {
@@ -100,7 +100,9 @@ export default class VkAPI {
       name: res.name,
       description: res.description,
       image: res.photo_100,
+      imageLarge: res.photo_200,
       createdAt: null,
+      url,
     };
   }
 

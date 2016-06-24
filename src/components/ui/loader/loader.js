@@ -17,12 +17,10 @@ export default class Loader extends Component {
 
   render() {
     const {size, strokeWidth, multicolor, className, style} = this.props;
+    const sizeStyle = {width: size, height: size};
 
-    return <div className={className} style={style}>
-      <div className={styles.loader} style={{
-        width: size,
-        height: size,
-      }}>
+    return <div className={className} style={{...sizeStyle, ...style}}>
+      <div className={styles.loader} style={sizeStyle}>
         <svg className={styles.loaderCircle} viewBox="25 25 50 50">
           <circle
             className={cn(styles.loaderPath, {

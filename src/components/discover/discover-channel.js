@@ -1,24 +1,40 @@
 import React, {Component, PropTypes} from 'react';
 import {FlatButton} from '../ui';
-import cn from 'classnames';
 import styles from './discover.scss';
 
 export default class DiscoverChannel extends Component {
+  static propTypes = {
+    onToggle: PropTypes.func.isRequired,
+    isFeedChannel: PropTypes.bool,
+  };
+
   render() {
-    return <div className={styles.channel}>
-      <div className={styles.channelImage} style={{
-        backgroundImage: `url(${this.props.image})`,
-      }}></div>
+    const {name, image, imageLarge, isFeedChannel} = this.props;
+
+    return <div className={styles.channel} style={{
+        backgroundImage: `url(${imageLarge || image})`,
+      }}>
+      <div className={styles.channelImage}></div>
       <div className={styles.channelContent}>
-        <h3 className={styles.channelTitle}>{this.props.name}</h3>
+        <h3 className={styles.channelTitle}>{name}</h3>
         <p className={styles.channelTags}>#tag1 #tag2 #tag3</p>
       </div>
       <FlatButton
-        label="subscribe"
-        onClick={()=>null}
+        label={isFeedChannel ? 'remove' : 'add to feed'}
+        onClick={this._toggle}
         primary
         small
         className={styles.channelAction} />
     </div>;
+  }
+
+  _toggle = () => {
+    this.props.onToggle(Object.keys(this.props).reduce((acc, key) => {
+      if (key !== 'isFeedChannel' && typeof(this.props[key]) !== 'function') {
+        acc[key] = this.props[key];
+      }
+
+      return acc;
+    }, {}));
   }
 }

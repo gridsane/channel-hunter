@@ -5,28 +5,41 @@
   padding: 0 24px;
   line-height: 16px;
   font-size: 16px;
+  font-weight: 500;
   text-transform: uppercase;
   border: none;
   background: none;
   cursor: pointer;
+  border-radius: 2px;
+  transition: background-color .15s ease-out;
+  -webkit-appearance: none;
+
+  &:focus {
+    outline: none;
+    background-color: rgba(0, 0, 0, .15);
+  }
+
+  &:hover, &:active {
+    background-color: rgba(0, 0, 0, .1);
+  }
+
+  &Small {
+    height: 36px;
+    padding: 0 16px;
+    line-height: 36px;
+    font-size: 14px;
+  }
 
   &Primary {
     color: $primaryColor;
 
-    &:hover {
-      background: rgba($primaryColor, .1);
+    &:focus {
+      background-color: rgba($primaryColor, .15);
     }
-  }
 
-  &Small {
-    height: 28px;
-    padding: 0 14px;
-    line-height: 14px;
-    font-size: 14px;
-  }
-
-  &:hover {
-    background: rgba(0, 0, 0, .1);
+    &:hover, &:active {
+      background-color: rgba($primaryColor, .1);
+    }
   }
 }
 
@@ -39,9 +52,10 @@
   padding: 0;
   cursor: pointer;
   border-radius: 50%;
+  transition: background-color .1s ease-out;
 
   &:hover {
-    background: rgba(0,0,0,.1);
+    background-color: rgba(0,0,0,.1);
   }
 
 }

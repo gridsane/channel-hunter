@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {nodeOffset} from '../../utils/common';
+import {nodeOffset} from '../../utils';
 import cn from 'classnames';
 import styles from './header.scss';
 

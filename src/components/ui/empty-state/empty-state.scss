@@ -1,0 +1,15 @@
+@import '../../application/_theme.scss';
+
+.root {
+  text-align: center;
+  margin-top: 2em;
+  color: $secondaryTextColor;
+}
+
+.icon {
+  color: $secondaryTextColor;
+}
+
+.primaryText {
+  margin-bottom: .3em;
+}

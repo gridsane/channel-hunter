@@ -14,10 +14,11 @@ export default class FeedChannels extends Component {
     const {className, list, onToggle} = this.props;
 
     return <div className={cn(styles.channels, className)}>
-      <ListLabel text="Your channels" />
+      <ListLabel text={`${list.length} channel${list.length !== 1 ? 's' : ''}`} />
       <List>
         {list.map((channel) => {
           return <Channel
+            isEnabled={false}
             {...channel}
             key={channel.id}
             onToggle={onToggle} />;

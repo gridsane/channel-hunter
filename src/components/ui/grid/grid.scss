@@ -1,0 +1,48 @@
+$LARGE: 960px;
+$MEDIUM: 640px;
+$SMALL: 320px;
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: stretch;
+  margin: -10px;
+}
+
+@mixin cellWidth($numerator, $denominator) {
+  width: $numerator / $denominator * 100%;
+}
+
+@mixin cell($prefix, $minWidth) {
+  @media (min-width: $minWidth) {
+    &#{$prefix}1of6 {
+      @include cellWidth(1, 6);
+    }
+
+    &#{$prefix}1of4 {
+      @include cellWidth(1, 4);
+    }
+
+    &#{$prefix}1of3 {
+      @include cellWidth(1, 3);
+    }
+
+    &#{$prefix}1of2 {
+      @include cellWidth(1, 2);
+    }
+
+    &#{$prefix}Full {
+      @include cellWidth(1, 1);
+    }
+  }
+}
+
+.cell {
+  box-sizing: border-box;
+  padding: 10px;
+
+  @include cell('Small', $SMALL);
+  @include cell('Medium', $MEDIUM);
+  @include cell('Large', $LARGE);
+}

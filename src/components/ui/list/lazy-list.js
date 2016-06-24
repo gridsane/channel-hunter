@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
-import {nodeOffset, throttle} from '../../../utils/common';
+import {nodeOffset, throttle} from '../../../utils';
 import cn from 'classnames';
 import styles from './list.scss';
 

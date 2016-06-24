@@ -24,8 +24,10 @@ describe('Youtube API', () => {
       originalId: 'UCywl3vgm261NHTzzcgkrQiA',
       name: 'Math Rock Channel',
       description: 'I DO NOT OWN ALL THE TRACKS',
-      image: 'https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s240-c-k-no/photo.jpg',
+      image: 'channel_image_medium.jpg',
+      imageLarge: 'channel_image_high.jpg',
       createdAt: '2014-04-06T18:16:25.000Z',
+      url: 'https://www.youtube.com/user/channelmathrock',
     });
 
   });
@@ -44,8 +46,10 @@ describe('Youtube API', () => {
       originalId: 'UCywl3vgm261NHTzzcgkrQiA',
       name: 'Math Rock Channel',
       description: 'I DO NOT OWN ALL THE TRACKS',
-      image: 'https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s240-c-k-no/photo.jpg',
+      image: 'channel_image_medium.jpg',
+      imageLarge: 'channel_image_high.jpg',
       createdAt: '2014-04-06T18:16:25.000Z',
+      url: 'https://www.youtube.com/channel/LONG_ID',
     });
 
   });
@@ -165,13 +169,13 @@ const RESPONSES = {
           "publishedAt":"2014-04-06T18:16:25.000Z",
           "thumbnails":{
             "default":{
-              "url":"https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s88-c-k-no/photo.jpg",
+              "url":"channel_image_small.jpg",
             },
             "medium":{
-              "url":"https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s240-c-k-no/photo.jpg",
+              "url":"channel_image_medium.jpg",
             },
             "high":{
-              "url":"https://yt3.ggpht.com/-RkFH6NfDexo/AAAAAAAAAAI/AAAAAAAAAAA/rrUniN-IK2k/s240-c-k-no/photo.jpg",
+              "url":"channel_image_high.jpg",
             },
           },
           "localized":{

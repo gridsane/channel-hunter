@@ -5,36 +5,52 @@
   box-sizing: border-box;
 
   &Content {
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto;
     padding: 16px 16px;
   }
 
   &Channels {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
+    position: relative;
+
+    &Loading {
+      opacity: .2;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+    }
+  }
+
+  &Loader {
+    position: absolute;
+    left: 50%;
+    margin-left: -20px;
   }
 }
 
 .channel {
   position: relative;
-  display: inline-block;
-  min-width: 120px;
-  max-width: 190px;
-  width: calc(25% - 18px);
   box-sizing: border-box;
-  margin: 12px;
   @include shadow(4px);
-  flex-grow: 1;
-  background: #fff;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
 
   &Image {
     width: 100%;
     padding-top: 56.25%;
-    background-size: cover;
     background-position: center;
   }
 
   &Content {
+    background: rgba(255,255,255,0.9);
     box-sizing: border-box;
     padding: 8px 16px;
     height: 102px;
@@ -48,34 +64,39 @@
   }
 
   &Tags {
-    margin: 0 4px;
+    margin: 4px 0;
     font-size: 14px;
     color: $secondaryTextColor;
   }
 
   &Action {
     position: absolute;
-    left: 4px;
+    right: 4px;
     bottom: 4px;
   }
 }
 
 .input {
   display: block;
-  position: relative;
+  background: white;
+  @include shadow(4px);
+
+  &Wrapper {
+    display: block;
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto;
+  }
 
   &Control {
     -webkit-appearance: none;
     border: none;
-    background: white;
     height: 56px;
     width: 100%;
     font-size: 16px;
     padding: 16px 16px 16px 72px;
     line-height: 16px;
     box-sizing: border-box;
-
-    @include shadow(4px);
 
     &:focus {
       outline: none;
@@ -123,4 +144,9 @@
       width: 50%;
     }
   }
+}
+
+
+.getStarted {
+  color: $secondaryTextColor;
 }

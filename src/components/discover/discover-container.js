@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
-import {createSearchAction} from '../../actions/discover';
-import {Loader} from '../ui';
+import {createSearchAction, addChannel} from '../../actions/discover';
+import {addFeedChannel, removeFeedChannel} from '../../actions/feed';
+import {Grid, GridCell, Loader, Icon, EmptyState} from '../ui';
 import Channel from './discover-channel';
 import Input from './discover-input';
+import cn from 'classnames';
 import styles from './discover.scss';
 
 const SEARCH_DEBOUNCE = 300;
 
 export class DiscoverContainer extends Component {
   state = {
+    searchQuery: null,
     source: null,
     url: null,
   }
@@ -21,9 +24,6 @@ export class DiscoverContainer extends Component {
   }
 
   render() {
-    const {channels, isLoading} = this.props;
-    const {source, url} = this.state;
-
     return <div className={styles.discover}>
 
       <Input
@@ -33,19 +33,49 @@ export class DiscoverContainer extends Component {
 
       <div className={styles.discoverContent}>
 
-        {source && url ? `Hit Enter to add ${source} channel` : null}
-
-        {isLoading
-          ? <Loader size={40} className={styles.discoverLoading} />
-          : <div className={styles.discoverChannels}>
-              {channels.map((channel) => (
-                <Channel key={channel.id} {...channel} />
-              ))}
-            </div>}
+        {this._renderGetStarted()}
+        {this._renderLoader()}
+        {this._renderFoundChannels()}
 
       </div>
 
     </div>;
+  }
+
+  _renderGetStarted() {
+    if (this.state.searchQuery || this.props.channels.length || this.props.isLoading) {
+      return null;
+    }
+
+    return <EmptyState
+      glyph="search"
+      primaryText="Type a genre or whatever you want"
+      secondaryText="or, you can hunt with this awesome tags" />;
+  }
+
+  _renderLoader() {
+    if (!this.props.isLoading) {
+      return null;
+    }
+
+    return <Loader size={40} className={styles.discoverLoader} />;
+  }
+
+  _renderFoundChannels() {
+    const {channels, isLoading, feedChannelsIds} = this.props;
+
+    return <Grid className={cn(styles.discoverChannels, {
+      [styles.discoverChannelsLoading]: isLoading,
+    })}>
+      {channels.map((channel) => (
+        <GridCell key={channel.id} small="1of2" medium="1of3" large="1of4">
+          <Channel
+            {...channel}
+            isFeedChannel={feedChannelsIds.indexOf(channel.id) !== -1}
+            onToggle={this._toggleChannel} />
+        </GridCell>
+      ))}
+    </Grid>;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -54,22 +84,32 @@ export class DiscoverContainer extends Component {
 
   _search = (searchQuery) => {
     this.props.dispatch(this._searchAction(searchQuery));
-    this.setState({source: null, url: null});
+    this.setState({source: null, url: null, searchQuery});
   }
 
   _add = (source, url) => {
     this.setState({source, url});
-    console.log('add', source, url);
+  }
+
+  _toggleChannel = (channel) => {
+    this.props.dispatch(
+      this.props.feedChannelsIds.indexOf(channel.id) === -1
+        ? addFeedChannel(channel)
+        : removeFeedChannel(channel.id)
+    );
   }
 
   _submit = () => {
-    console.log('submit');
+    this.props.dispatch(addChannel(this.state.url));
   }
 
 }
 
 export function mapToProps(state) {
-  return state.discover;
+  return {
+    ...state.discover,
+    feedChannelsIds: state.feed.channels.map(ch => ch.id),
+  };
 }
 
 export default connect(mapToProps)(DiscoverContainer);

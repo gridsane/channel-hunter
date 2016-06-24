@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {Avatar, ListItem, Icon} from '../ui';
-import {formatDuration} from '../../utils/common';
+import {formatDuration} from '../../utils';
 import cn from 'classnames';
 import styles from './feed.scss';
 

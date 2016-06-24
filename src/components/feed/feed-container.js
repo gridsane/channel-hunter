@@ -25,9 +25,10 @@ export class Feed extends Component {
           className={styles.feedChannels}
           list={channels}
           onToggle={this._toggleChannel} />
+
         <div className={styles.feedNav}>
           <IconButton
-            glyph="playlist_add"
+            glyph="search"
             className={styles.feedNavButton}
             size={24}
             boxSize={48}

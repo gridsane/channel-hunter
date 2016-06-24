@@ -67,9 +67,10 @@
   &Text {
     display: inline-block;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 48px;
     color: $secondaryTextColor;
+    text-transform: uppercase;
     @include ellipsis;
   }
 

@@ -6,16 +6,9 @@ export default function (storage, config) {
 
     index: async function index(req, res) {
 
-      let channels = await storage.getChannels();
       let initialState = {
         feed: {
-          channels: channels.map(function (channel) {
-            return Object.assign(channel, {
-              isEnabled: false,
-              isLoading: false,
-              isLoaded: false,
-            });
-          }),
+          channels: [],
           tracks: [],
           tracksSort: {prop: 'date', dir: 'desc'},
         },

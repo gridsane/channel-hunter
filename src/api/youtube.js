@@ -21,7 +21,7 @@ export default class YoutubeAPI {
       return null;
     }
 
-    return this._convertChannel(response.items[0]);
+    return this._convertChannel(response.items[0], url);
 
   }
 
@@ -73,7 +73,7 @@ export default class YoutubeAPI {
     });
   }
 
-  _convertChannel(res) {
+  _convertChannel(res, url) {
     return {
       source: 'youtube',
       id: 'youtube-' + res.id,
@@ -81,7 +81,9 @@ export default class YoutubeAPI {
       name: res.snippet.title,
       description: res.snippet.description,
       image: res.snippet.thumbnails.medium.url,
+      imageLarge: res.snippet.thumbnails.high.url,
       createdAt: res.snippet.publishedAt,
+      url,
     };
   }
 

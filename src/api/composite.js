@@ -14,6 +14,10 @@ export default class CompositeAPI {
     return this.apis[source].getChannelByUrl(url);
   }
 
+  getChannelLastUpdated(source, channelId) {
+    return this._getApi(source).getChannelLastUpdated(channelId);
+  }
+
   getChannelUrlSource(url) {
     for (let source in this.apis) {
       if (this.apis[source].hasChannel(url)) {

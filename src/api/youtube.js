@@ -25,6 +25,21 @@ export default class YoutubeAPI {
 
   }
 
+  async getChannelLastUpdated(channelId) {
+    const snippetResponse = await this._request('search', {
+      part: 'snippet',
+      type: 'video',
+      channelId,
+      maxResults: 1,
+    });
+
+    if (!snippetResponse.items || snippetResponse.items.length === 0) {
+      return 0;
+    }
+
+    return this._formatDate(snippetResponse.items[0].snippet.publishedAt);
+  }
+
   async getTracks(channelId, maxResults = 50) {
 
     const snippetResponse = await this._request('search', {
@@ -82,7 +97,7 @@ export default class YoutubeAPI {
       description: res.snippet.description,
       image: res.snippet.thumbnails.medium.url,
       imageLarge: res.snippet.thumbnails.high.url,
-      createdAt: res.snippet.publishedAt,
+      createdAt: this._formatDate(res.snippet.publishedAt),
       url,
     };
   }
@@ -96,7 +111,7 @@ export default class YoutubeAPI {
       source: 'youtube',
       id: 'youtube-' + snippetRes.id.videoId,
       originalId: snippetRes.id.videoId,
-      date: Math.floor((new Date(snippetRes.snippet.publishedAt)).getTime() / 1000),
+      date: this._formatDate(snippetRes.snippet.publishedAt),
       artist: title ? artistOrTitle : null,
       title: title ? title : artistOrTitle,
       url: `https://www.youtube.com/watch?v=${snippetRes.id.videoId}`,
@@ -115,4 +130,7 @@ export default class YoutubeAPI {
     return hours * 3600 + minutes * 60 + seconds;
   }
 
+  _formatDate(date) {
+    return Math.floor((new Date(date)).getTime() / 1000);
+  }
 }

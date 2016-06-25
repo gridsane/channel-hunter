@@ -35,15 +35,7 @@ describe('Main router', () => {
 
     expect(JSON.parse(res.send.calls[0].arguments[0])).toEqual({
       feed: {
-        channels: [
-          {
-            id: 1,
-            source: 'vk',
-            isLoading: false,
-            isLoaded: false,
-            isEnabled: false,
-          },
-        ],
+        channels: [],
         tracks: [],
         tracksSort: {prop: 'date', dir: 'desc'},
       },

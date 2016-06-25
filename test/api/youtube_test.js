@@ -7,11 +7,9 @@ describe('Youtube API', () => {
   const api = new YoutubeAPI(key);
 
   afterEach(() => {
-    nock.cleanAll();
   });
 
   it('gets youtube channel by user url', async () => {
-
     nock('https://www.googleapis.com')
       .get(`/youtube/v3/channels?key=${key}&part=snippet&forUsername=channelmathrock`)
       .reply(200, RESPONSES.channels);
@@ -26,14 +24,12 @@ describe('Youtube API', () => {
       description: 'I DO NOT OWN ALL THE TRACKS',
       image: 'channel_image_medium.jpg',
       imageLarge: 'channel_image_high.jpg',
-      createdAt: '2014-04-06T18:16:25.000Z',
+      createdAt: 1396808185,
       url: 'https://www.youtube.com/user/channelmathrock',
     });
-
   });
 
   it('gets youtube channel by channel url', async () => {
-
     nock('https://www.googleapis.com')
       .get(`/youtube/v3/channels?key=${key}&part=snippet&id=LONG_ID`)
       .reply(200, RESPONSES.channels);
@@ -48,14 +44,12 @@ describe('Youtube API', () => {
       description: 'I DO NOT OWN ALL THE TRACKS',
       image: 'channel_image_medium.jpg',
       imageLarge: 'channel_image_high.jpg',
-      createdAt: '2014-04-06T18:16:25.000Z',
+      createdAt: 1396808185,
       url: 'https://www.youtube.com/channel/LONG_ID',
     });
-
   });
 
   it('returns null if no channel found', async () => {
-
     nock('https://www.googleapis.com')
       .get(`/youtube/v3/channels?key=${key}&part=snippet&id=NOT_EXISTS`)
       .reply(200, RESPONSES.empty_channels);
@@ -63,11 +57,18 @@ describe('Youtube API', () => {
     const channel = await api.getChannelByUrl('https://www.youtube.com/channel/NOT_EXISTS');
 
     expect(channel).toBe(null);
+  });
 
+  it('gets channel last updated date', async () => {
+    nock('https://www.googleapis.com')
+      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&channelId=LONG_ID&maxResults=1`)
+      .reply(200, RESPONSES.search);
+
+    const lastUpdated = await api.getChannelLastUpdated('LONG_ID');
+    expect(lastUpdated).toBe(1397162021);
   });
 
   it('gets tracks by channel id', async () => {
-
     nock('https://www.googleapis.com')
       .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&channelId=CHANNEL_ID&maxResults=50`)
       .reply(200, RESPONSES.search)
@@ -103,11 +104,9 @@ describe('Youtube API', () => {
         cover: 'https://i.ytimg.com/vi/Xy8EGXRBOEU/hqdefault.jpg',
       },
     ]);
-
   });
 
   it('returns empty array if no tracks found', async () => {
-
     nock('https://www.googleapis.com')
       .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&channelId=EMPTY_CHANNEL_ID&maxResults=50`)
       .reply(200, RESPONSES.empty_search);
@@ -116,11 +115,9 @@ describe('Youtube API', () => {
 
     expect(tracks).toBeA(Array);
     expect(tracks.length).toBe(0);
-
   });
 
   it('handles youtube urls only', () => {
-
     expect(api.hasChannel('https://www.youtube.com/channel/UCMtXiWYvBB8X2ynT74bqK6A'))
       .toBe(true);
 
@@ -144,7 +141,6 @@ describe('Youtube API', () => {
 
     expect(api.hasChannel('youtube/channel'))
       .toBe(false);
-
   });
 
 });

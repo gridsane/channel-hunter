@@ -1,9 +1,10 @@
 import CompositeAPI from '../../src/api/composite';
 
-describe('CompositeAPI', () => {
+describe('Composite API @now', () => {
 
   const fooAPI = {
     getChannelByUrl: null,
+    getChannelLastUpdated: null,
     getTracks: null,
     getTrack: null,
     hasChannel: null,
@@ -11,6 +12,7 @@ describe('CompositeAPI', () => {
 
   const barAPI = {
     getChannelByUrl: null,
+    getChannelLastUpdated: null,
     getTracks: null,
     getTrack: null,
     hasChannel: null,
@@ -68,6 +70,12 @@ describe('CompositeAPI', () => {
 
     expect(barAPI.getTracks.calls[0].arguments).toEqual(['channelId']);
     expect(result).toBe('bar result');
+  });
+
+  it('gets channel last updated date from suitable API', () => {
+    barAPI.getChannelLastUpdated.andReturn('last updated');
+
+    expect(api.getChannelLastUpdated('bar', 'channelId')).toBe('last updated');
   });
 
   it('throws error, if tracks source is unknown', () => {

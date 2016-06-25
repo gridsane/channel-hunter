@@ -33,6 +33,9 @@ export function getChannelUrlSource(url) {
   return externalApi.getChannelUrlSource(url);
 }
 
+export function getChannelUpdated(source, channelId) {
+  return externalApi.getChannelUpdated(source, channelId);
+}
 
 function get(url, query) {
   return createAbortablePromise(

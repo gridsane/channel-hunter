@@ -20,6 +20,17 @@ export default class VkAPI {
     return this._convertChannel(response[0], url);
   }
 
+  async getChannelLastUpdated(channelId) {
+    const response = await this._request('wall.get', {
+      owner_id: '-' + channelId,
+      count: 1,
+    });
+
+    return !response.items || response.items.length === 0
+      ? 0
+      : response.items[0].date;
+  }
+
   async getTracks(channelId, maxResults = 10) {
     const response = await this._request('wall.get', {
       owner_id: '-' + channelId,

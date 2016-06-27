@@ -44,11 +44,12 @@ describe('Feed reducer', () => {
     let state = reducer(initialState, actions.setChannelProps(1, {
       isEnabled: true,
       isLoaded: false,
+      hasUpdates: true,
     }));
 
     expect(state).toEqual({
       channels: [
-        {id: 1, isEnabled: true, isLoaded: false},
+        {id: 1, isEnabled: true, isLoaded: false, hasUpdates: true},
       ],
     });
 
@@ -252,6 +253,18 @@ describe('Feed reducer', () => {
       type: REHYDRATE,
       payload: {feed: {channels: null}},
     })).toBe(initialState);
+  });
+
+  it('sets channels loading', () => {
+    const initialState = {
+      isChannelsLoading: false,
+    };
+
+    let state = reducer(initialState, actions.setFeedChannelsLoading(true));
+    expect(state.isChannelsLoading).toBe(true);
+
+    state = reducer(state, actions.setFeedChannelsLoading(false));
+    expect(state.isChannelsLoading).toBe(false);
   });
 
 });

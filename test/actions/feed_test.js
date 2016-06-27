@@ -140,4 +140,31 @@ describe('Feed actions', () => {
     expect(dispatch.calls[1].arguments).toEqual([actions.selectNextTrack()]);
   });
 
+  it('determines channels has updates @now', async () => {
+    expect.spyOn(api, 'getChannelLastUpdated').andCall((source, channelId) => {
+      if (channelId === '1') {
+        return 3;
+      } else if (channelId === '3') {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    const dispatch = expect.createSpy();
+
+    await actions.refreshFeedChannels([
+      {id: 'source-1', originalId: '1', fetchedAt: 2},
+      {id: 'source-2', originalId: '2', hasUpdates: true, fetchedAt: 2},
+      {id: 'source-3', originalId: '3', fetchedAt: 2},
+    ])(dispatch);
+
+    expect(dispatch.calls.length).toBe(3);
+    expect(dispatch.calls[0].arguments).toEqual([actions.setFeedChannelsLoading(true)]);
+    expect(dispatch.calls[1].arguments).toEqual([actions.setChannelProps('source-1', {
+      hasUpdates: true,
+    })]);
+    expect(dispatch.calls[2].arguments).toEqual([actions.setFeedChannelsLoading(false)]);
+  });
+
 });

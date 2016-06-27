@@ -33,8 +33,8 @@ export function getChannelUrlSource(url) {
   return externalApi.getChannelUrlSource(url);
 }
 
-export function getChannelUpdated(source, channelId) {
-  return externalApi.getChannelUpdated(source, channelId);
+export function getChannelLastUpdated(source, channelId) {
+  return externalApi.getChannelLastUpdated(source, channelId);
 }
 
 function get(url, query) {

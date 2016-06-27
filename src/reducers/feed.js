@@ -2,6 +2,7 @@ import {
   FEED_ADD_CHANNELS,
   FEED_REMOVE_CHANNELS,
   FEED_SET_PROPS_CHANNEL,
+  FEED_SET_LOADING_CHANNELS,
   FEED_ADD_TRACKS,
   FEED_SET_CURRENT_TRACK,
   FEED_SELECT_NEXT_TRACK,
@@ -14,6 +15,7 @@ import update from 'react-addons-update';
 const initialState = {
   id: null,
   currentTrackId: null,
+  isChannelsLoading: false,
   channels: [],
   tracks: [],
   tracksSort: {
@@ -51,6 +53,12 @@ const handlers = {
 
         return item;
       })},
+    });
+  },
+
+  [FEED_SET_LOADING_CHANNELS]: (state, action) => {
+    return update(state, {
+      isChannelsLoading: {$set: action.isLoading},
     });
   },
 

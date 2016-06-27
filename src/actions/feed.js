@@ -29,6 +29,33 @@ export function setChannelLoaded(channelId, isLoaded) {
   return setChannelProps(channelId, {isLoaded});
 }
 
+export function setFeedChannelsLoading(isLoading) {
+  return {type: types.FEED_SET_LOADING_CHANNELS, isLoading};
+}
+
+export function refreshFeedChannels(channels) {
+  return async (dispatch) => {
+    dispatch(setFeedChannelsLoading(true));
+
+    const promises = channels
+      .filter((channel) => !channel.hasUpdates)
+      .map((channel) => new Promise(async (resolve) => {
+        const lastUpdated = await api.getChannelLastUpdated(channel.source, channel.originalId);
+        if ((channel.fetchedAt || 0) < lastUpdated) {
+          dispatch(setChannelProps(channel.id, {
+            hasUpdates: true,
+          }));
+        }
+
+        resolve();
+      }));
+
+    await Promise.all(promises);
+
+    dispatch(setFeedChannelsLoading(false));
+  };
+}
+
 export function loadChannelTracks(channel) {
   return async (dispatch) => {
     dispatch(setChannelLoading(channel.id, true));
@@ -41,6 +68,7 @@ export function loadChannelTracks(channel) {
       isLoading: false,
       prevFetchedAt: channel.fetchedAt || null,
       fetchedAt: Math.floor(Date.now() / 1000),
+      hasUpdates: false,
     }));
   };
 }

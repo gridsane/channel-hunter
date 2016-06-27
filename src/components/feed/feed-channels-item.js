@@ -11,15 +11,16 @@ export default class FeedChannelsItem extends Component {
     image: PropTypes.string.isRequired,
     isEnabled: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    hasUpdates: PropTypes.bool,
     onToggle: PropTypes.func.isRequired,
   }
 
   render() {
-    const {name, image, isEnabled, isLoading} = this.props;
+    const {name, isEnabled, isLoading} = this.props;
 
     return <ListItem
       primaryText={name}
-      leftElement={<Avatar size={24} url={image} />}
+      leftElement={this._renderLeftElement()}
       leftElementHeight={24}
       rightElement={this._renderRightElement()}
       rightElementHeight={24}
@@ -27,11 +28,16 @@ export default class FeedChannelsItem extends Component {
       onClick={this._toggle}
       className={cn(styles.channelsItem, {
         [styles.channelsItemEnabled]: isEnabled && !isLoading,
+        [styles.channelsItemHasUpdates]: this.props.hasUpdates,
       })}/>;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
+  }
+
+  _renderLeftElement() {
+    return <Avatar size={24} url={this.props.image} />;
   }
 
   _renderRightElement() {

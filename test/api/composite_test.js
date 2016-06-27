@@ -1,6 +1,6 @@
 import CompositeAPI from '../../src/api/composite';
 
-describe('Composite API @now', () => {
+describe('Composite API', () => {
 
   const fooAPI = {
     getChannelByUrl: null,

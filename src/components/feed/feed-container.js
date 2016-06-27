@@ -8,6 +8,7 @@ import {
   setChannelEnabled,
   setTracksSort,
   setCurrentTrack,
+  refreshFeedChannels,
 } from '../../actions/feed';
 import {
   getTrackById,
@@ -17,14 +18,16 @@ import styles from './feed.scss';
 
 export class Feed extends Component {
   render() {
-    const {channels, currentTrack, playlist, isShuffle} = this.props;
+    const {channels, currentTrack, playlist, isShuffle, isChannelsLoading} = this.props;
 
     return <section className={styles.feed}>
       <aside className={styles.feedSidebar}>
         <FeedChannels
           className={styles.feedChannels}
           list={channels}
-          onToggle={this._toggleChannel} />
+          isRefreshing={isChannelsLoading}
+          onToggle={this._toggleChannel}
+          onRefresh={this._refreshChannels} />
 
         <div className={styles.feedNav}>
           <IconButton
@@ -73,6 +76,10 @@ export class Feed extends Component {
     this.props.dispatch(push('/app/discover'));
   }
 
+  _refreshChannels = () => {
+    this.props.dispatch(refreshFeedChannels(this.props.channels));
+  }
+
 }
 
 export function mapToProps(state) {
@@ -85,6 +92,7 @@ export function mapToProps(state) {
   return {
     currentTrack: getTrackById(feed, feed.currentTrackId),
     channels: feed.channels,
+    isChannelsLoading: feed.isChannelsLoading,
     isShuffle: feed.tracksSort.prop === '_seed',
     playlist: getSortedPlaylist(feed).map((t) => {
       return {...t, channelImage: channelsById[t.channelId].image};

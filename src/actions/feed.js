@@ -41,10 +41,11 @@ export function refreshFeedChannels(channels) {
       .filter((channel) => !channel.hasUpdates)
       .map((channel) => new Promise(async (resolve) => {
         const lastUpdated = await api.getChannelLastUpdated(channel.source, channel.originalId);
-        if ((channel.fetchedAt || 0) < lastUpdated) {
-          dispatch(setChannelProps(channel.id, {
-            hasUpdates: true,
-          }));
+
+        if (channel.isLoaded && channel.isEnabled) {
+          dispatch(loadChannelTracks(channel));
+        } else if ((channel.fetchedAt || 0) < lastUpdated) {
+          dispatch(setChannelProps(channel.id, {hasUpdates: true}));
         }
 
         resolve();
@@ -77,7 +78,7 @@ export function setChannelEnabled(channel, isEnabled) {
   return (dispatch) => {
     dispatch(setChannelProps(channel.id, {isEnabled}));
 
-    if (!isEnabled || channel.isLoaded) {
+    if (!isEnabled || (channel.isLoaded && !channel.hasUpdates)) {
       return;
     }
 

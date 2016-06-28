@@ -20,7 +20,7 @@ describe('Feed actions', () => {
       source: 'vk',
       isEnabled: false,
       isLoaded: false,
-    }, true)(dispatch);
+    })(dispatch);
 
     expect(api.getTracks.calls[0].arguments).toEqual(['vk', 11]);
     expect(dispatch.calls[0].arguments[0]).toEqual(actions.setChannelLoading(1, true));
@@ -102,6 +102,25 @@ describe('Feed actions', () => {
     expect(dispatch.calls[1].arguments[0]).toEqual(actions.loadChannelTracks(channel));
   });
 
+
+  it('loads tracks for loaded channel with updates when enables', () => {
+    const dispatch = expect.createSpy();
+    const channel = {
+      id: 1,
+      originalId: 11,
+      source: 'vk',
+      isEnabled: false,
+      isLoaded: true,
+      hasUpdates: true,
+    };
+
+    actions.setChannelEnabled(channel, true)(dispatch);
+
+    expect(dispatch.calls.length).toBe(2);
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.setChannelProps(1, {isEnabled: true}));
+    expect(dispatch.calls[1].arguments[0]).toEqual(actions.loadChannelTracks(channel));
+  });
+
   it('loads single track', async () => {
     expect.spyOn(api, 'getTrack').andReturn([1, 2, 3]);
     const dispatch = expect.createSpy();
@@ -140,7 +159,7 @@ describe('Feed actions', () => {
     expect(dispatch.calls[1].arguments).toEqual([actions.selectNextTrack()]);
   });
 
-  it('determines channels has updates @now', async () => {
+  it('determines channels has updates', async () => {
     expect.spyOn(api, 'getChannelLastUpdated').andCall((source, channelId) => {
       if (channelId === '1') {
         return 3;
@@ -164,6 +183,25 @@ describe('Feed actions', () => {
     expect(dispatch.calls[1].arguments).toEqual([actions.setChannelProps('source-1', {
       hasUpdates: true,
     })]);
+    expect(dispatch.calls[2].arguments).toEqual([actions.setFeedChannelsLoading(false)]);
+  });
+
+  it('loads tracks for loaded and enabled channels on refresh', async () => {
+    const channel = {
+      id: 'source-1',
+      originalId: '1',
+      fetchedAt: 1,
+      isEnabled: true,
+      isLoaded: true,
+    };
+
+    expect.spyOn(api, 'getChannelLastUpdated').andReturn(2);
+    const dispatch = expect.createSpy();
+    await actions.refreshFeedChannels([channel])(dispatch);
+
+    expect(dispatch.calls.length).toBe(3);
+    expect(dispatch.calls[0].arguments).toEqual([actions.setFeedChannelsLoading(true)]);
+    expect(dispatch.calls[1].arguments).toEqual([actions.loadChannelTracks(channel)]);
     expect(dispatch.calls[2].arguments).toEqual([actions.setFeedChannelsLoading(false)]);
   });
 

@@ -74,17 +74,14 @@ export function loadChannelTracks(channel) {
 }
 
 export function setChannelEnabled(channel, isEnabled) {
-  return async (dispatch) => {
+  return (dispatch) => {
+    dispatch(setChannelProps(channel.id, {isEnabled}));
+
     if (!isEnabled || channel.isLoaded) {
-      dispatch(setChannelProps(channel.id, {isEnabled}));
       return;
     }
 
     dispatch(loadChannelTracks(channel));
-
-    dispatch(setChannelProps(channel.id, {
-      isEnabled: true,
-    }));
   };
 }
 

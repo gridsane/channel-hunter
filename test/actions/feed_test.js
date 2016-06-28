@@ -96,10 +96,10 @@ describe('Feed actions', () => {
     actions.setChannelEnabled(channel, true)(dispatch);
 
     expect(dispatch.calls.length).toBe(2);
-    expect(dispatch.calls[0].arguments[0]).toEqual(actions.loadChannelTracks(channel));
-    expect(dispatch.calls[1].arguments[0]).toEqual(actions.setChannelProps(1, {
+    expect(dispatch.calls[0].arguments[0]).toEqual(actions.setChannelProps(1, {
       isEnabled: true,
     }));
+    expect(dispatch.calls[1].arguments[0]).toEqual(actions.loadChannelTracks(channel));
   });
 
   it('loads single track', async () => {

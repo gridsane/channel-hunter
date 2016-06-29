@@ -4,6 +4,7 @@ describe('Composite API', () => {
 
   const fooAPI = {
     getChannelByUrl: null,
+    getUpdatedChannel: null,
     getChannelLastUpdated: null,
     getTracks: null,
     getTrack: null,
@@ -12,6 +13,7 @@ describe('Composite API', () => {
 
   const barAPI = {
     getChannelByUrl: null,
+    getUpdatedChannel: null,
     getChannelLastUpdated: null,
     getTracks: null,
     getTrack: null,
@@ -90,6 +92,13 @@ describe('Composite API', () => {
 
   it('throws error, if track source is unknown', () => {
     expect(() => api.getTrack({source: 'baz'})).toThrow(/unknown/);
+  });
+
+  it('gets updated channel from suitable API', () => {
+    const channel = {id: 1, source: 'bar'};
+    api.getUpdatedChannel(channel);
+    expect(barAPI.getUpdatedChannel.calls.length).toBe(1);
+    expect(barAPI.getUpdatedChannel.calls[0].arguments).toEqual([channel]);
   });
 
 });

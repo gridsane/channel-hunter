@@ -18,6 +18,7 @@
     "nodemon": "nodemon -x 'babel-node' -w './src/server' src/server.js",
     "test": "NODE_ENV=test mocha --compilers=js:babel-core/register --require=babel-polyfill --require=./test/setup --recursive './test/**/*_test.js'",
     "test_wo_db": "npm run test -- --grep @database --invert",
+    "test_now": "npm run test -- --watch-extensions json --watch --grep @now",
     "lint": "eslint src test"
   },
   "engines": {

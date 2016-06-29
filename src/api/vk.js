@@ -1,4 +1,5 @@
 import superagent from 'superagent';
+import parseTags from '../utils/parse-tags';
 
 export default class VkAPI {
 
@@ -9,35 +10,33 @@ export default class VkAPI {
 
   async getChannelByUrl(url) {
     const channelName = url.split('/').splice(-1, 1)[0];
-    const response = await this._request('groups.getById', {
-      group_id: channelName,
-    });
+    return await this._getChannel(channelName, url);
+  }
 
-    if (!response) {
-      return null;
-    }
+  async getUpdatedChannel(channel) {
+    const updatedChannel = await this._getChannel(channel.originalId);
+    const posts = await this._getPosts(channel.originalId, 10);
 
-    return this._convertChannel(response[0], url);
+    const tags = posts.reduce((acc, post) => {
+      parseTags(post.text).forEach((tag) => {
+        if (acc.indexOf(tag) === -1) {
+          acc.push(tag);
+        }
+      });
+      return acc;
+    }, parseTags(updatedChannel.description));
+
+    return {...updatedChannel, tags};
   }
 
   async getChannelLastUpdated(channelId) {
-    const response = await this._request('wall.get', {
-      owner_id: '-' + channelId,
-      count: 1,
-    });
-
-    return !response.items || response.items.length === 0
-      ? 0
-      : response.items[0].date;
+    const posts = await this._getPosts(channelId, 1);
+    return posts.length === 0 ? 0 : posts[0].date;
   }
 
   async getTracks(channelId, maxResults = 10) {
-    const response = await this._request('wall.get', {
-      owner_id: '-' + channelId,
-      count: maxResults,
-    });
-
-    return this._getTracksFromPosts(response.items, channelId);
+    const posts = await this._getPosts(channelId, maxResults);
+    return this._getTracksFromPosts(posts, channelId);
   }
 
   async getTrack(track) {
@@ -51,6 +50,31 @@ export default class VkAPI {
 
   hasChannel(url) {
     return /^https?:\/\/(www\.)?vk.com\/.+/.test(url);
+  }
+
+  async _getChannel(channelId, url = null) {
+    const response = await this._request('groups.getById', {
+      group_id: channelId,
+    });
+
+    if (!response) {
+      return null;
+    }
+
+    return this._convertChannel(response[0], url);
+  }
+
+  async _getPosts(channelId, count = 10) {
+    const response = await this._request('wall.get', {
+      owner_id: '-' + channelId,
+      count,
+    });
+
+    if (response && response.items) {
+      return response.items.filter(p => p.attachments);
+    }
+
+    return [];
   }
 
   _request(method, params) {
@@ -113,7 +137,8 @@ export default class VkAPI {
       image: res.photo_100,
       imageLarge: res.photo_200,
       createdAt: null,
-      url,
+      url: url || `https://vk.com/${res.screen_name}`,
+      tags: [],
     };
   }
 

@@ -25,6 +25,10 @@ export default class YoutubeAPI {
 
   }
 
+  async getUpdatedChannel(channel) {
+    return channel;
+  }
+
   async getChannelLastUpdated(channelId) {
     const snippetResponse = await this._request('search', {
       part: 'snippet',

@@ -27,7 +27,7 @@ describe('VK API', () => {
       imageLarge: 'photo_200.jpg',
       createdAt: null,
       url: 'https://vk.com/e_music_stonerrock',
-      tags: [],
+      tags: ['descTag', 'rock'],
     });
   });
 

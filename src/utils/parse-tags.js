@@ -1,4 +1,4 @@
-const tagRegexp = /#([^\s]+)/g;
+const tagRegexp = /#(\w+)/g;
 const underscoreRegexp = /_(\w)/g;
 
 export default function parseTags(text) {
@@ -16,5 +16,8 @@ export default function parseTags(text) {
 }
 
 function normalizeTag(tag) {
-  return tag.replace(underscoreRegexp, (match, char) => char.toUpperCase());
+  return tag[0].toLowerCase() + tag.slice(1).replace(
+    underscoreRegexp,
+    (match, char) => char.toUpperCase()
+  );
 }

@@ -1,0 +1,154 @@
+{
+  "channels": {
+    "kind": "youtube#channelListResponse",
+    "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/-bPvcDKRT_OFZ_sZUyuZaUOtZbs\"",
+    "pageInfo": {
+      "totalResults": 1,
+      "resultsPerPage": 5
+    },
+    "items": [
+      {
+        "kind": "youtube#channel",
+        "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/DpuxY3Fib3R45GFN-bAJKJid9js\"",
+        "id": "UCywl3vgm261NHTzzcgkrQiA",
+        "snippet": {
+          "title": "Math Rock Channel",
+          "description": "I DO NOT OWN ALL #tag THE TRACKS",
+          "publishedAt": "2014-04-06T18:16:25.000Z",
+          "thumbnails": {
+            "default": {
+              "url": "channel_image_small.jpg"
+            },
+            "medium": {
+              "url": "channel_image_medium.jpg"
+            },
+            "high": {
+              "url": "channel_image_high.jpg"
+            }
+          },
+          "localized": {
+            "title": "Math Rock Channel",
+            "description": "I DO NOT OWN ALL #tag THE TRACKS"
+          }
+        }
+      }
+    ]
+  },
+  "empty_channels": {
+    "kind": "youtube#channelListResponse",
+    "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/-bPvcDKRT_OFZ_sZUyuZaUOtZbs\"",
+    "pageInfo": {
+      "totalResults": 0,
+      "resultsPerPage": 0
+    },
+    "items": []
+  },
+  "search": {
+    "kind": "youtube#searchListResponse",
+    "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/oJ-XWTNnpHXdL2lRQ56Cht_DAtw\"",
+    "nextPageToken": "CAoQAA",
+    "pageInfo": {
+      "totalResults": 59,
+      "resultsPerPage": 10
+    },
+    "items": [
+      {
+        "kind": "youtube#searchResult",
+        "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/saicqzmNa43qoWjxz71YuY7nTEw\"",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "AmyoEy0pzWs"
+        },
+        "snippet": {
+          "publishedAt": "2014-04-10T20:33:41.000Z",
+          "channelId": "UCywl3vgm261NHTzzcgkrQiA",
+          "title": "Cleft - Ghost Thighs",
+          "description": "#mathy_rock #math_rock",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/AmyoEy0pzWs/default.jpg"
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/AmyoEy0pzWs/mqdefault.jpg"
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/AmyoEy0pzWs/hqdefault.jpg"
+            }
+          },
+          "channelTitle": "channelmathrock",
+          "liveBroadcastContent": "none"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/XhDa2fUjxzYtdPSrPyZ6BohRk00\"",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "Xy8EGXRBOEU"
+        },
+        "snippet": {
+          "publishedAt": "2014-04-10T20:44:47.000Z",
+          "channelId": "UCywl3vgm261NHTzzcgkrQiA",
+          "title": "Elephant In The Bar Room",
+          "description": "Track 6 Recorded (mostly) #math_rock live over 2 days of recording. Engineered, mixed and mastered by Dan Beesley & John Simm (Cleft). Here's what some really nice ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/Xy8EGXRBOEU/default.jpg"
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/Xy8EGXRBOEU/mqdefault.jpg"
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/Xy8EGXRBOEU/hqdefault.jpg"
+            }
+          },
+          "channelTitle": "channelmathrock",
+          "liveBroadcastContent": "none"
+        }
+      }
+    ]
+  },
+  "empty_search": {
+    "kind": "youtube#searchListResponse",
+    "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/oJ-XWTNnpHXdL2lRQ56Cht_DAtw\"",
+    "pageInfo": {
+      "totalResults": 0,
+      "resultsPerPage": 0
+    },
+    "items": []
+  },
+  "videos": {
+    "kind": "youtube#videoListResponse",
+    "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/tQTsjaPbMpQBrLqRAG1J1z6Nau0\"",
+    "pageInfo": {
+      "totalResults": 2,
+      "resultsPerPage": 2
+    },
+    "items": [
+      {
+        "kind": "youtube#video",
+        "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/MOvxOw9sJuHuLe547SElV4_73IU\"",
+        "id": "AmyoEy0pzWs",
+        "contentDetails": {
+          "duration": "PT4M",
+          "dimension": "2d",
+          "definition": "sd",
+          "caption": "false",
+          "licensedContent": true
+        }
+      },
+      {
+        "kind": "youtube#video",
+        "etag": "\"mPrpS7Nrk6Ggi_P7VJ8-KsEOiIw/11QfgM6bq9WzFgyvGdr-lZ2iK9I\"",
+        "id": "Xy8EGXRBOEU",
+        "contentDetails": {
+          "duration": "PT3M44S",
+          "dimension": "2d",
+          "definition": "sd",
+          "caption": "false",
+          "licensedContent": true
+        }
+      }
+    ]
+  }
+}

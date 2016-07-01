@@ -13,6 +13,10 @@ export default class Storage {
     this.db = null;
   }
 
+  getDb() {
+    return this._init();
+  }
+
   async getChannels() {
     const db = await this._init();
     return new Promise((resolve, reject) => {

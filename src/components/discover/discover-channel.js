@@ -16,8 +16,8 @@ export default class DiscoverChannel extends Component {
       }}>
       <div className={styles.channelImage}></div>
       <div className={styles.channelContent}>
-        <h3 className={styles.channelTitle}>{name}</h3>
-        <p className={styles.channelTags}>#tag1 #tag2 #tag3</p>
+        <h3 className={styles.channelTitle} title={name}>{name}</h3>
+        {this._renderTags()}
       </div>
       <FlatButton
         label={isFeedChannel ? 'remove' : 'add to feed'}
@@ -26,6 +26,11 @@ export default class DiscoverChannel extends Component {
         small
         className={styles.channelAction} />
     </div>;
+  }
+
+  _renderTags() {
+    const tags = (this.props.tags || []).map(t => '#' + t).join(' ');
+    return <p className={styles.channelTags} title={tags}>{tags}</p>;
   }
 
   _toggle = () => {

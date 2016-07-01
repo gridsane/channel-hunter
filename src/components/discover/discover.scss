@@ -1,5 +1,11 @@
 @import '../application/_theme.scss';
 
+@mixin ellipsis() {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .discover {
   height: calc(100vh - 60px);
   box-sizing: border-box;
@@ -61,12 +67,14 @@
     font-weight: 400;
     margin: 0;
     padding: 0;
+    @include ellipsis;
   }
 
   &Tags {
     margin: 4px 0;
     font-size: 14px;
     color: $secondaryTextColor;
+    @include ellipsis;
   }
 
   &Action {

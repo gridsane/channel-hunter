@@ -5,7 +5,7 @@ import {MONGO_URI_TEST} from '../../src/config.js';
 describe('Storage @database', () => {
   const storage = new Storage(MONGO_URI_TEST);
 
-  afterEach((done) => {
+  beforeEach((done) => {
     mongo.connect(MONGO_URI_TEST, (err, db) => {
       db.collection('channels').deleteMany({}, done);
     });
@@ -96,6 +96,21 @@ describe('Storage @database', () => {
     expect(stonerResult.length).toBe(2);
     expect(stonerResult[0].id).toBe('vk-10');
     expect(stonerResult[1].id).toBe('vk-20');
+  });
+
+  it('returns tags', async () => {
+    await storage.addOrUpdateChannel({
+      id: '10',
+      tags: ['foo', 'bar'],
+    });
+
+    await storage.addOrUpdateChannel({
+      id: '20',
+      tags: ['foo', 'baz'],
+    });
+
+    const tags = await storage.getChannelsTags();
+    expect(tags).toEqual({foo: 2, bar: 1, baz: 1});
   });
 
 });

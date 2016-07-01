@@ -11,11 +11,21 @@ export default function (storage, api) {
         handleError(res, error);
       }
     },
+
     async addChannel(req, res) {
       try {
         const apiChannel = await api.getChannelByUrl(req.body.url);
         const channel = await storage.addOrUpdateChannel(apiChannel);
         res.json(channel);
+      } catch (error) {
+        handleError(res, error);
+      }
+    },
+
+    async getChannelsTags(req, res) {
+      try {
+        const tags = await storage.getChannelsTags();
+        res.json(tags);
       } catch (error) {
         handleError(res, error);
       }

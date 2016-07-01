@@ -13,6 +13,10 @@ export function getChannels() {
   return get('/api/channels');
 }
 
+export function getChannelsTags() {
+  return get('/api/channels/tags');
+}
+
 export function searchChannels(q) {
   return get('/api/channels', {q});
 }

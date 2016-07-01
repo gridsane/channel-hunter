@@ -20,6 +20,7 @@ export default function (router) {
   const tracks = tracksRouter(api);
 
   router.get('/api/tracks/:source/:channelId', tracks.getTracks);
+  router.get('/api/channels/tags', channels.getChannelsTags);
   router.get('/api/channels', channels.getChannels);
   router.post('/api/channels', channels.addChannel);
   router.get('/', main.index);

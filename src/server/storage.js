@@ -18,7 +18,7 @@ export default class Storage {
   }
 
   async getChannels() {
-    const db = await this._init();
+    const db = await this.getDb();
     return new Promise((resolve, reject) => {
       db.collection('channels').find({}).toArray((err, channels) => {
         if (err) {
@@ -31,7 +31,7 @@ export default class Storage {
   }
 
   async addOrUpdateChannel(channel) {
-    const db = await this._init();
+    const db = await this.getDb();
 
     return new Promise((resolve, reject) => {
       db.collection('channels').findAndModify(
@@ -51,7 +51,7 @@ export default class Storage {
   }
 
   async searchChannels(query) {
-    const db = await this._init();
+    const db = await this.getDb();
 
     return new Promise((resolve, reject) => {
       db.collection('channels')
@@ -68,6 +68,22 @@ export default class Storage {
           }
         });
     });
+  }
+
+  async getChannelsTags() {
+    const db = await this.getDb();
+    const tags = await db.collection('channels').aggregate([
+        {$unwind: '$tags'},
+        {$group: {
+          _id: {$concat: '$tags'},
+          count: {$sum: 1},
+        }},
+    ]).toArray();
+
+    return tags.reduce((acc, tag) => {
+      acc[tag._id] = tag.count;
+      return acc;
+    }, {});
   }
 
   async _init() {

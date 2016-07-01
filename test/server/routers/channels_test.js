@@ -11,6 +11,7 @@ describe('Channels router', () => {
     storage.getChannels = expect.createSpy();
     storage.addOrUpdateChannel = expect.createSpy();
     storage.searchChannels = expect.createSpy();
+    storage.getChannelsTags = expect.createSpy();
     api.getChannelByUrl = expect.createSpy();
   });
 
@@ -92,4 +93,26 @@ describe('Channels router', () => {
     expect(console.error.calls[0].arguments[0]).toBe(error);
   });
 
+  it('gets channels tags', async () => {
+    const res = {json: expect.createSpy()};
+    const tags = {tag1: 1, tag2: 2};
+    storage.getChannelsTags.andReturn(tags);
+
+    await router.getChannelsTags({}, res);
+
+    expect(res.json.calls.length).toBe(1);
+    expect(res.json.calls[0].arguments).toEqual([tags]);
+  });
+
+  it('handles errors during tags response', async () => {
+    const res = {json: expect.createSpy()};
+    const error = new Error('error message');
+    storage.getChannelsTags.andThrow(error);
+
+    await router.getChannelsTags({}, res);
+
+    expect(res.json.calls.length).toBe(1);
+    expect(res.json.calls[0].arguments[0].error).toBe('Oops, error occured.');
+    expect(console.error.calls[0].arguments[0]).toBe(error);
+  });
 });

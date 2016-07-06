@@ -34,6 +34,14 @@
     }
   }
 
+  &Tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2em;
+  }
+
   &Loader {
     position: absolute;
     left: 50%;
@@ -108,19 +116,31 @@
 
     &:focus {
       outline: none;
+
+      & ~ .inputIcon {
+        color: $primaryColor;
+      }
+
+      & ~ .inputBar:before, & ~ .inputBar:after {
+        width: 50%;
+      }
     }
+
+  }
+
+  &Icon, &Clear {
+    position: absolute;
+    top: 8px;
+    color: $secondaryTextColor;
+    transition: color .15s ease-in-out;
   }
 
   &Icon {
-    position: absolute;
-    top: 8px;
     left: 16px;
-    color: $secondaryTextColor;
-    transition: color .15s ease-in-out;
+  }
 
-    &Focused {
-      color: $primaryColor;
-    }
+  &Clear {
+    right: 16px;
   }
 
   &Bar {
@@ -146,10 +166,6 @@
 
     &:after {
       left: 50%;
-    }
-
-    &Focused:before, &Focused:after {
-      width: 50%;
     }
   }
 }

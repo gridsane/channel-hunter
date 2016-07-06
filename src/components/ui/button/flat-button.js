@@ -16,12 +16,12 @@ export default class FlatButton extends Component {
   }
 
   render() {
-    const {onClick, label, primary, small, className} = this.props;
+    const {onClick, label, primary, small, className, style} = this.props;
 
     return <button onClick={onClick} className={cn(styles.flat, {
       [styles.flatPrimary]: primary,
       [styles.flatSmall]: small,
-    }, className)}>
+    }, className)} style={style}>
       {label}
     </button>;
   }

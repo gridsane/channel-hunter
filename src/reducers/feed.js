@@ -28,7 +28,9 @@ const handlers = {
 
   [FEED_ADD_CHANNELS]: (state, action) => {
       return update(state, {
-        channels: {$push: action.channels},
+        channels: {$push: action.channels.map((channel) => {
+          return {isLoading: false, isEnabled: false, ...channel};
+        })},
       });
   },
 

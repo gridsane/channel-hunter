@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Icon} from '../ui';
+import {Icon, IconButton} from '../ui';
 import {getChannelUrlSource} from '../../api/browser';
 import cn from 'classnames';
 import styles from './discover.scss';
@@ -12,44 +12,55 @@ export default class DiscoverInput extends Component {
   }
 
   state = {
-    isFocused: false,
     value: '',
+    prevValue: '',
     source: null,
   }
 
   render() {
-    const {isFocused, value, source} = this.state;
+    const {value, source} = this.state;
 
     return <div className={styles.input}>
       <div className={styles.inputWrapper}>
-        <Icon
-          glyph={source ? 'add' : 'search'}
-          size={24}
-          boxSize={40}
-          className={cn(styles.inputIcon, {
-            [styles.inputIconFocused]: isFocused,
-          })} />
 
         <input
-          type="text"
           ref="input"
+          type="text"
           onChange={this._change}
-          onFocus={this._focus}
-          onBlur={this._blur}
           onKeyUp={this._keyup}
           placeholder="Search or paste an url"
           value={value}
           className={styles.inputControl} />
 
-        <span className={cn(styles.inputBar, {
-          [styles.inputBarFocused]: isFocused,
-        })}></span>
+        <Icon
+          glyph={source ? 'add' : 'search'}
+          size={24}
+          boxSize={40}
+          className={cn(styles.inputIcon)} />
+
+        <span className={cn(styles.inputBar)}></span>
+
+        {value.length
+          ? <IconButton
+            glyph="clear"
+            onClick={this._clear}
+            size={24}
+            boxSize={40}
+            className={cn(styles.inputClear)} />
+          : null}
+
       </div>
     </div>;
   }
 
   componentDidMount() {
     this.refs.input.focus();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.state.prevValue) {
+      this.setState({value: nextProps.value, prevValue: nextProps.value});
+    }
   }
 
   _change = (event) => {
@@ -71,11 +82,7 @@ export default class DiscoverInput extends Component {
     }
   }
 
-  _focus = () => {
-    this.setState({isFocused: true});
-  }
-
-  _blur = () => {
-    this.setState({isFocused: false});
+  _clear = () => {
+    this.setState({value: '', source: null}, () => this.props.onSearch(''));
   }
 }

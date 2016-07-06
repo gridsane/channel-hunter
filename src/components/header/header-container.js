@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {push} from 'react-router-redux';
 import {selectNextTrack, refetchTrackOrError} from '../../actions/feed';
 import {getTrackById} from '../../reducers/feed';
 import Navigation from './header-navigation';

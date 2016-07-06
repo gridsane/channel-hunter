@@ -24,7 +24,7 @@ export default function (storage, api) {
 
     async getChannelsTags(req, res) {
       try {
-        const tags = await storage.getChannelsTags();
+        const tags = await storage.getChannelsTags(2);
         res.json(tags);
       } catch (error) {
         handleError(res, error);

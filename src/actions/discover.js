@@ -15,6 +15,17 @@ export function setError(error) {
   return {type: types.DISCOVER_SET_ERROR, error};
 }
 
+export function setTags(tags) {
+  return {type: types.DISCOVER_SET_TAGS, tags};
+}
+
+export function loadTags() {
+  return async (dispatch) => {
+    const tags = await api.getChannelsTags();
+    dispatch(setTags(Object.keys(tags)));
+  };
+}
+
 export function addChannel(url) {
   return async (dispatch) => {
     dispatch(setLoading(true));

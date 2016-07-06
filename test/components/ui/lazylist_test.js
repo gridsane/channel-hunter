@@ -92,7 +92,9 @@ describe('LazyList component', () => {
     expect(dom.children.length).toBe(4);
 
     windowStub.innerHeight = 20;
-    window.dispatchEvent(new Event('resize'));
+    const event = document.createEvent('Event');
+    event.initEvent('resize', true, true);
+    window.dispatchEvent(event);
 
     expect(dom.children.length).toBe(2);
     expect(dom.textContent).toBe('12');

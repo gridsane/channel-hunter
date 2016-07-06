@@ -27,7 +27,8 @@ export class Feed extends Component {
           list={channels}
           isRefreshing={isChannelsLoading}
           onToggle={this._toggleChannel}
-          onRefresh={this._refreshChannels} />
+          onRefresh={this._refreshChannels}
+          onGotoDiscover={this._gotoDiscover} />
 
         <div className={styles.feedNav}>
           <IconButton

@@ -40,7 +40,7 @@ export default class DiscoverInput extends Component {
 
         <span className={cn(styles.inputBar)}></span>
 
-        {value.length
+        {value.trim().length
           ? <IconButton
             glyph="clear"
             onClick={this._clear}

@@ -110,7 +110,7 @@
     height: 56px;
     width: 100%;
     font-size: 16px;
-    padding: 16px 16px 16px 72px;
+    padding: 16px 16px 16px 48px;
     line-height: 16px;
     box-sizing: border-box;
 
@@ -136,11 +136,11 @@
   }
 
   &Icon {
-    left: 16px;
+    left: 0;
   }
 
   &Clear {
-    right: 16px;
+    right: 0;
   }
 
   &Bar {

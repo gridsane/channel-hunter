@@ -70,14 +70,19 @@ export default class Storage {
     });
   }
 
-  async getChannelsTags() {
+  async getChannelsTags(minCount = 1) {
     const db = await this.getDb();
     const tags = await db.collection('channels').aggregate([
         {$unwind: '$tags'},
-        {$group: {
-          _id: {$concat: '$tags'},
-          count: {$sum: 1},
-        }},
+        {
+          $group: {
+            _id: {$concat: '$tags'},
+            count: {$sum: 1},
+          },
+        },
+        {
+          $match: {count: {$gte: minCount}},
+        },
     ]).toArray();
 
     return tags.reduce((acc, tag) => {

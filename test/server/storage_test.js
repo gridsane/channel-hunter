@@ -109,8 +109,11 @@ describe('Storage @database', () => {
       tags: ['foo', 'baz'],
     });
 
-    const tags = await storage.getChannelsTags();
-    expect(tags).toEqual({foo: 2, bar: 1, baz: 1});
+    const tagsMin1 = await storage.getChannelsTags(1);
+    expect(tagsMin1).toEqual({foo: 2, bar: 1, baz: 1});
+
+    const tagsMin2 = await storage.getChannelsTags(2);
+    expect(tagsMin2).toEqual({foo: 2});
   });
 
 });

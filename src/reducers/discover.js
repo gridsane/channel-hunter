@@ -1,11 +1,13 @@
 import {
   DISCOVER_SET_CHANNELS,
   DISCOVER_SET_LOADING,
+  DISCOVER_SET_TAGS,
 } from '../actions/actionsTypes';
 import update from 'react-addons-update';
 
 const initialState = {
   channels: [],
+  tags: [],
   isLoading: false,
 };
 
@@ -19,6 +21,11 @@ const handlers = {
   [DISCOVER_SET_LOADING]: (state, action) => {
     return update(state, {
       isLoading: {$set: action.isLoading},
+    });
+  },
+  [DISCOVER_SET_TAGS]: (state, action) => {
+    return update(state, {
+      tags: {$set: action.tags},
     });
   },
 };

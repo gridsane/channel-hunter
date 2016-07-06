@@ -1,19 +1,21 @@
 import React, {Component} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {connect} from 'react-redux';
-import {createSearchAction, addChannel} from '../../actions/discover';
+import {createSearchAction, setChannels, addChannel, loadTags} from '../../actions/discover';
 import {addFeedChannel, removeFeedChannel} from '../../actions/feed';
-import {Grid, GridCell, Loader, Icon, EmptyState} from '../ui';
+import {Grid, GridCell, Loader, EmptyState, FlatButton} from '../ui';
 import Channel from './discover-channel';
-import Input from './discover-input';
+import SearchInput from './discover-input';
+import {curried} from '../../utils';
 import cn from 'classnames';
 import styles from './discover.scss';
 
 const SEARCH_DEBOUNCE = 300;
+const SEARCH_MINLENGTH = 3;
 
 export class DiscoverContainer extends Component {
   state = {
-    searchQuery: null,
+    searchQuery: '',
     source: null,
     url: null,
   }
@@ -26,7 +28,8 @@ export class DiscoverContainer extends Component {
   render() {
     return <div className={styles.discover}>
 
-      <Input
+      <SearchInput
+        value={this.state.searchQuery}
         onSearch={this._search}
         onAdd={this._add}
         onSubmit={this._submit} />
@@ -43,14 +46,25 @@ export class DiscoverContainer extends Component {
   }
 
   _renderGetStarted() {
-    if (this.state.searchQuery || this.props.channels.length || this.props.isLoading) {
+    if (this.props.channels.length || this.props.isLoading) {
       return null;
     }
 
-    return <EmptyState
+    return <div><EmptyState
       glyph="search"
       primaryText="Type a genre or whatever you want"
-      secondaryText="or, you can hunt with this awesome tags" />;
+      secondaryText="or paste vk.com group, youtube channel or subreddit url" />
+
+      <div className={styles.discoverTags}>
+          {this.props.tags.map((tag) => (
+            <FlatButton
+              key={tag}
+              small primary
+              onClick={curried(this._search, tag)}
+              label={`#${tag}`} />
+          ))}
+      </div>
+    </div>;
   }
 
   _renderLoader() {
@@ -78,13 +92,23 @@ export class DiscoverContainer extends Component {
     </Grid>;
   }
 
+  componentWillMount() {
+    this.props.dispatch(loadTags());
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   }
 
   _search = (searchQuery) => {
-    this.props.dispatch(this._searchAction(searchQuery));
     this.setState({source: null, url: null, searchQuery});
+
+    if (searchQuery.trim().length < SEARCH_MINLENGTH) {
+      this.props.dispatch(setChannels([]));
+      return;
+    }
+
+    this.props.dispatch(this._searchAction(searchQuery));
   }
 
   _add = (source, url) => {

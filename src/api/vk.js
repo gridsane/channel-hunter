@@ -93,7 +93,7 @@ function getTracksFromPosts(posts, channelId) {
         : null;
 
       return post.attachments
-        .filter((attachment) => attachment.type === 'audio')
+        .filter((attachment) => attachment.type === 'audio' && attachment.audio.url)
         .map((attachment) => convertTrack(attachment.audio, channelId, cover, post.id));
     })
     .reduce((prev, curr) => {

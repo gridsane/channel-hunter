@@ -77,6 +77,7 @@ async function getVideos(key, channelId, maxResults = 50) {
   const snippetResponse = await apiRequest(key, 'search', {
     part: 'snippet',
     type: 'video',
+    order: 'date',
     channelId,
     maxResults,
   });

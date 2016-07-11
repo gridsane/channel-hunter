@@ -11,9 +11,9 @@ describe('Feed reducer', () => {
     state = reducer(state, actions.addFeedChannels([{id: 2}, {id: 3}]));
 
     expect(state).toEqual({channels: [
-      {id: 1},
-      {id: 2},
-      {id: 3},
+      {id: 1, isLoading: false, isEnabled: false},
+      {id: 2, isLoading: false, isEnabled: false},
+      {id: 3, isLoading: false, isEnabled: false},
     ]});
     expect(state).toNotBe(initialState);
   });

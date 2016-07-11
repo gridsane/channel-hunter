@@ -66,6 +66,18 @@
                 "date": 1448049845,
                 "url": "track20_url"
               }
+            },
+            {
+              "type": "audio",
+              "audio": {
+                "id": 25,
+                "owner_id": "01",
+                "artist": "Silencer",
+                "title": "Nothing",
+                "duration": 10,
+                "date": 1448049840,
+                "url": ""
+              }
             }
           ]
         },

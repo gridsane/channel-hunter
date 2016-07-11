@@ -58,7 +58,7 @@ describe('Youtube API', () => {
       .reply(200, data.channels);
 
     nock('https://www.googleapis.com')
-      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&channelId=ORIGINAL_ID&maxResults=50`)
+      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&order=date&channelId=ORIGINAL_ID&maxResults=50`)
       .reply(200, data.search) ;
 
     const channel = {
@@ -93,7 +93,7 @@ describe('Youtube API', () => {
 
   it('gets channel last updated date', async () => {
     nock('https://www.googleapis.com')
-      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&channelId=LONG_ID&maxResults=1`)
+      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&order=date&channelId=LONG_ID&maxResults=1`)
       .reply(200, data.search);
 
     const lastUpdated = await api.getChannelLastUpdated('LONG_ID');
@@ -102,7 +102,7 @@ describe('Youtube API', () => {
 
   it('gets tracks by channel id', async () => {
     nock('https://www.googleapis.com')
-      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&channelId=CHANNEL_ID&maxResults=50`)
+      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&order=date&channelId=CHANNEL_ID&maxResults=50`)
       .reply(200, data.search)
 
       .get(`/youtube/v3/videos?key=${key}&part=contentDetails&id=AmyoEy0pzWs%2CXy8EGXRBOEU&maxResults=2`)
@@ -140,7 +140,7 @@ describe('Youtube API', () => {
 
   it('returns empty array if no tracks found', async () => {
     nock('https://www.googleapis.com')
-      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&channelId=EMPTY_CHANNEL_ID&maxResults=50`)
+      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&order=date&channelId=EMPTY_CHANNEL_ID&maxResults=50`)
       .reply(200, data.empty_search);
 
     const tracks = await api.getTracks('EMPTY_CHANNEL_ID');

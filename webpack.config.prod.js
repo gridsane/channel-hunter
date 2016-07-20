@@ -4,7 +4,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'hidden-cheap-module-source-map',
   entry: [
     'babel-polyfill',
     './src/client',

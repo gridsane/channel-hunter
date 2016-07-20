@@ -47,11 +47,12 @@ export default class LazyList extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const {firstIndex, lastIndex} = this.state;
+    const {firstIndex, bufferStart, lastIndex} = this.state;
     const {items, renderItem} = this.props;
 
     return nextState.firstIndex !== firstIndex
       || nextState.lastIndex !== lastIndex
+      || nextState.bufferStart !== bufferStart
       || items !== nextProps.items
       || renderItem !== nextProps.renderItem;
   }

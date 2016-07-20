@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
 import HeaderContainer from '../header/header-container';
-require('./application.scss');
+import SidebarContainer from '../sidebar/sidebar-container';
+import styles from './application.scss';
 
 export default class ApplicationContainer extends Component {
   render() {
     return <main>
       <HeaderContainer />
-      {this.props.children}
+      <section className={styles.root}>
+        <SidebarContainer />
+        {this.props.children}
+      </section>
     </main>;
   }
 }

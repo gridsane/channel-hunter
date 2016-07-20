@@ -1,0 +1,31 @@
+@import '../application/_theme.scss';
+
+.item {
+  position: relative;
+  font-size: 14px;
+
+  &Enabled {
+    color: $primaryColor;
+  }
+
+  &HasUpdates:after {
+    position: absolute;
+    content: '';
+    left: 36px;
+    top: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: $accentColor;
+    border: 1px solid #fff;
+    box-sizing: border-box;
+  }
+}
+
+.refresh {
+  color: $secondaryTextColor;
+
+  &Loader {
+    opacity: .5;
+  }
+}

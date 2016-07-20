@@ -2,9 +2,9 @@ import React, {Component, PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {ListItem, Avatar, Icon, Loader} from '../ui';
 import cn from 'classnames';
-import styles from './feed.scss';
+import styles from './channel-list.scss';
 
-export default class FeedChannelsItem extends Component {
+export default class ChannelItem extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -26,9 +26,9 @@ export default class FeedChannelsItem extends Component {
       rightElementHeight={24}
       height={36}
       onClick={this._toggle}
-      className={cn(styles.channelsItem, {
-        [styles.channelsItemEnabled]: isEnabled && !isLoading,
-        [styles.channelsItemHasUpdates]: this.props.hasUpdates,
+      className={cn(styles.item, {
+        [styles.itemEnabled]: isEnabled && !isLoading,
+        [styles.itemHasUpdates]: this.props.hasUpdates,
       })}/>;
   }
 

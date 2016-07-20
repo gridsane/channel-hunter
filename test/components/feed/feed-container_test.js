@@ -1,6 +1,6 @@
 import React from 'react';
 import {Feed, mapToProps} from '../../../src/components/feed/feed-container';
-import Channels from '../../../src/components/feed/feed-channels';
+import ChannelList from '../../../src/components/channel-list/channel-list';
 import Playlist from '../../../src/components/feed/feed-playlist';
 import * as actions from '../../../src/actions/feed';
 import {findWithType} from 'react-shallow-testutils';
@@ -8,7 +8,7 @@ import {shallowRender} from '../../utils';
 
 describe('Feed component', () => {
 
-  it('maps playlist and channels from the state', () => {
+  it('maps playlist from the state', () => {
     const state = {
       feed: {
         channels: [
@@ -31,8 +31,6 @@ describe('Feed component', () => {
     expect(props.playlist[0].channelImage).toBe('image1');
     expect(props.playlist[1].id).toBe(1);
     expect(props.playlist[1].channelImage).toBe('image1');
-
-    expect(props.channels).toEqual(state.feed.channels);
   });
 
   it('maps current track from the state', () => {
@@ -65,19 +63,6 @@ describe('Feed component', () => {
       tracks: [],
       tracksSort: {prop: 'date', dir: 'asc'},
     }}).isShuffle).toBe(false);
-  });
-
-  it('toggles channels', () => {
-    const dispatch = expect.createSpy();
-    const channels = getChannels(shallowRenderFeed({dispatch}));
-    expect.spyOn(actions, 'setChannelEnabled').andCall((...args) => args);
-
-    channels.props.onToggle({id: '11', isEnabled: true});
-
-    expect(channels.props.list).toEqual(defaultProps.channels);
-    expect(dispatch.calls[0].arguments[0]).toEqual(
-      actions.setChannelEnabled({id: '11', isEnabled: true}, false)
-    );
   });
 
   it('passes props to the playlist', () => {
@@ -137,7 +122,7 @@ describe('Feed component', () => {
   }
 
   function getChannels(tree) {
-    return findWithType(tree, Channels);
+    return findWithType(tree, ChannelList);
   }
 
   function getPlaylist(tree) {

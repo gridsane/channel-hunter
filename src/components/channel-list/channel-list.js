@@ -1,11 +1,9 @@
 import React, {Component, PropTypes} from 'react';
-// import {push} from 'react-router';
-import Channel from './feed-channels-item';
+import Channel from './channel-item';
 import {List, ListLabel, IconButton, Loader, EmptyState, FlatButton} from '../ui';
-import cn from 'classnames';
-import styles from './feed.scss';
+import styles from './channel-list.scss';
 
-export default class FeedChannels extends Component {
+export default class ChannelList extends Component {
   static propTypes = {
     list: PropTypes.array.isRequired,
     isRefreshing: PropTypes.bool,
@@ -21,7 +19,7 @@ export default class FeedChannels extends Component {
   render() {
     const {className, list} = this.props;
 
-    return <div className={cn(styles.channels, className)}>
+    return <div className={className}>
       <ListLabel
         text={`${list.length} channel${list.length !== 1 ? 's' : ''}`}
         rightElement={list.length > 0 ? this._renderRefresh() : null}/>
@@ -32,7 +30,6 @@ export default class FeedChannels extends Component {
   }
 
   _renderEmptyState() {
-
     const button = <FlatButton
       label="Let's try to discover"
       onClick={this.props.onGotoDiscover}
@@ -64,7 +61,7 @@ export default class FeedChannels extends Component {
     const {isRefreshing, onRefresh} = this.props;
 
     if (isRefreshing) {
-      return <Loader size={24} boxSize={24} multicolor={false} className={styles.channelsRefreshLoader} />;
+      return <Loader size={24} boxSize={24} multicolor={false} className={styles.refreshLoader} />;
     }
 
     return <IconButton
@@ -72,6 +69,6 @@ export default class FeedChannels extends Component {
       onClick={onRefresh}
       size={24}
       boxSize={24}
-      className={styles.channelsRefresh} />;
+      className={styles.refresh} />;
   }
 }

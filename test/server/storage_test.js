@@ -1,12 +1,12 @@
 import mongo from 'mongodb';
 import Storage from '../../src/server/storage';
-import {MONGO_URI_TEST} from '../../src/config.js';
+import {MONGO_URL_TEST} from '../../src/config.js';
 
 describe('Storage @database', () => {
-  const storage = new Storage(MONGO_URI_TEST);
+  const storage = new Storage(MONGO_URL_TEST);
 
   beforeEach((done) => {
-    mongo.connect(MONGO_URI_TEST, (err, db) => {
+    mongo.connect(MONGO_URL_TEST, (err, db) => {
       db.collection('channels').deleteMany({}, done);
     });
   });

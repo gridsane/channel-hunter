@@ -4,7 +4,7 @@ import VkAPI from '../api/vk';
 import CompositeAPI from '../api/composite';
 import * as config from '../config';
 
-const storage = new Storage(config.MONGO_URI);
+const storage = new Storage(config.MONGO_URL);
 const api = new CompositeAPI({
   youtube: new YoutubeAPI(config.YOUTUBE_KEY),
   vk: new VkAPI(),

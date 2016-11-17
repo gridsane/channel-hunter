@@ -30,7 +30,7 @@ function resolveVar(varName) {
   return dotEnvVars[varName] || null;
 }
 
-export const MONGO_URI = resolveVar('MONGO_URI');
-export const MONGO_URI_TEST = resolveVar('MONGO_URI_TEST');
+export const MONGO_URL = resolveVar('MONGO_URL');
+export const MONGO_URL_TEST = resolveVar('MONGO_URL_TEST');
 export const YOUTUBE_KEY = resolveVar('YOUTUBE_KEY');
 export const ANALYTICS_ID = resolveVar('ANALYTICS_ID');

@@ -71,7 +71,7 @@ describe('VK API', () => {
 
   });
 
-  it('gets tracks by channel id', async () => {
+  it('gets tracks by channel id @now', async () => {
     nock('https://api.vk.com/method')
       .get('/wall.get?v=5.40&https=1&owner_id=-1000&count=10')
       .reply(200, data.posts);
@@ -117,6 +117,19 @@ describe('VK API', () => {
         channelId: 'vk-1000',
         cover: 'post3_photo604.jpg',
         extra: {postId: '3'},
+      },
+      {
+        source: 'vk',
+        id: 'vk-1000-500_50',
+        originalId: '500_50',
+        date: 1439868070,
+        artist: 'Russell Shaw',
+        title: 'The Horned Reaper',
+        url: 'track50_url',
+        duration: 188,
+        channelId: 'vk-1000',
+        cover: 'post6_photo604.jpg',
+        extra: {postId: '6'},
       },
     ]);
   });

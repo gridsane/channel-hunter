@@ -120,6 +120,42 @@
         {
           "id": 5,
           "date": 1448112012
+        },
+        {
+          "id": 6,
+          "date": 1469004717,
+          "text": "Russell Shaw",
+          "copy_history": [
+            {
+              "id": 60,
+              "date": 1439868070,
+              "text": "repost text Russell Shaw",
+              "attachments": [
+                {
+                  "type": "photo",
+                  "photo": {
+                    "id": 377791771,
+                    "photo_604": "post6_photo604.jpg"
+                  }
+                },
+                {
+                  "type": "audio",
+                  "audio": {
+                    "id": 50,
+                    "owner_id": 500,
+                    "artist": "Russell Shaw",
+                    "title": "The Horned Reaper",
+                    "duration": 188,
+                    "date": 1439868070,
+                    "url": "track50_url"
+                  }
+                }
+              ],
+              "post_source": {
+                "type": "vk"
+              }
+            }
+          ]
         }
       ]
     }

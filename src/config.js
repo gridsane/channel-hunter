@@ -5,6 +5,10 @@ import fs from 'fs';
 let dotEnvVars = null;
 
 function getVars() {
+  if (!fs.existsSync('.env')) {
+    return {};
+  }
+
   return fs.readFileSync('.env')
     .toString()
     .split("\n")

@@ -1,6 +1,6 @@
 {
   "name": "channel-hunter",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Music player built with ReactJS",
   "author": "gridsane <gridsane@gmail.com>",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "build": "npm run clean && npm run build-client && npm run build-server",
     "build-client": "webpack --config webpack.config.prod.js",
     "build-server": "babel -d build src",
-    "start": "NODE_ENV=production node build/server.js",
+    "start": "NODE_ENV=production node --max-old-space-size=128 build/server.js",
     "nodemon": "nodemon -x 'babel-node' -w './src/server' src/server.js",
     "test": "NODE_ENV=test mocha --compilers=js:babel-core/register --require=babel-polyfill --require=./test/setup --recursive './test/**/*_test.js'",
     "test_wo_db": "npm run test -- --grep @database --invert",
@@ -22,8 +22,8 @@
     "lint": "eslint src test"
   },
   "engines": {
-    "node": "4.2.1",
-    "npm": "2.14.17"
+    "node": "6.9.0",
+    "npm": "3.10.8"
   },
   "dependencies": {
     "autoprefixer": "^6.3.7",

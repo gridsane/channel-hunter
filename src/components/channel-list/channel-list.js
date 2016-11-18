@@ -22,7 +22,7 @@ export default class ChannelList extends Component {
     return <div className={className}>
       <ListLabel
         text={`${list.length} channel${list.length !== 1 ? 's' : ''}`}
-        rightElement={list.length > 0 ? this._renderRefresh() : null}/>
+        rightElement={this._renderButtons()}/>
       {list.length === 0
         ? this._renderEmptyState()
         : this._renderList()}
@@ -55,6 +55,20 @@ export default class ChannelList extends Component {
           onToggle={onToggle} />;
       })}
     </List>;
+  }
+
+  _renderButtons() {
+    const {onGotoDiscover, list} = this.props;
+
+    return <div>
+      {list.length > 0 ? this._renderRefresh() : null}
+      <IconButton
+        glyph="search"
+        onClick={onGotoDiscover}
+        size={24}
+        boxSize={24}
+        className={styles.discover} />
+    </div>;
   }
 
   _renderRefresh() {

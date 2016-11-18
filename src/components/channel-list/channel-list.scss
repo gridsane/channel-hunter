@@ -26,6 +26,16 @@
   color: $secondaryTextColor;
 
   &Loader {
+    display: inline-block;
     opacity: .5;
+  }
+}
+
+.discover {
+  color: $secondaryTextColor;
+  float: right;
+
+  .refresh + &, .refreshLoader + & {
+    margin-left: 8px;
   }
 }

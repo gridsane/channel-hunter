@@ -5,7 +5,6 @@ import {
   setChannelEnabled,
   refreshFeedChannels,
 } from '../../actions/feed';
-import {IconButton} from '../ui';
 import ChannelList from '../channel-list/channel-list';
 import styles from './sidebar.scss';
 
@@ -21,27 +20,6 @@ export class Sidebar extends Component {
         onToggle={this._toggleChannel}
         onRefresh={this._refreshChannels}
         onGotoDiscover={this._gotoDiscover} />
-
-      <div className={styles.nav}>
-        <IconButton
-          glyph="search"
-          className={styles.navButton}
-          size={24}
-          boxSize={48}
-          onClick={this._gotoDiscover} />
-        <IconButton
-          glyph="bookmark_border"
-          className={styles.navButton}
-          size={24}
-          boxSize={48}
-          onClick={()=>null} />
-        <IconButton
-          glyph="code"
-          className={styles.navButton}
-          size={24}
-          boxSize={48}
-          onClick={()=>null} />
-      </div>
     </aside>;
   }
 

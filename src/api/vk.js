@@ -1,6 +1,8 @@
 import superagent from 'superagent';
 import parseTags from '../utils/parse-tags';
 
+const API_VERSION = '5.40';
+
 export default class VkAPI {
 
   constructor(key, middleware = null) {
@@ -73,16 +75,24 @@ async function getPosts(middleware, channelId, count = 10) {
     count,
   });
 
-  if (response && response.items) {
-    return response.items.filter(p => p.attachments);
+  if (!response || !response.items) {
+    return [];
   }
 
-  return [];
+  return response.items.reduce((acc, post) => {
+    if (postHasAttachments(post)) {
+      acc.push(post.copy_history
+        // little hack to save original post id
+        ? {...post.copy_history[0], id: post.id}
+        : post);
+    }
+
+    return acc;
+  }, []);
 }
 
 function getTracksFromPosts(posts, channelId) {
   return posts
-    .filter((post) => post.attachments)
     .map((post) => {
       const photoAttachment = post.attachments.find((attachment) => {
         return attachment.type === 'photo';
@@ -100,6 +110,16 @@ function getTracksFromPosts(posts, channelId) {
       prev.push(...curr);
       return prev;
     }, []);
+}
+
+
+function postHasAttachments(post) {
+  return post.attachments
+    || (
+      post.copy_history
+      && post.copy_history[0]
+      && post.copy_history[0].attachments
+    );
 }
 
 function convertChannel(res, url) {
@@ -143,7 +163,7 @@ function apiRequest(middleware, method, params) {
       .get('https://api.vk.com/method/' + method)
       .use(middleware || (x => x))
       .query({
-        v: '5.40',
+        v: API_VERSION,
         https: 1,
       })
       .query(params)

@@ -47,7 +47,7 @@ describe('VK API', () => {
       .reply(200, data.groups);
 
     nock('https://api.vk.com/method')
-      .get('/wall.get?v=5.40&https=1&owner_id=-ORIGINAL_ID&count=10')
+      .get('/wall.get?v=5.40&https=1&owner_id=-ORIGINAL_ID&offset=0&count=10')
       .reply(200, data.posts);
 
 
@@ -71,14 +71,14 @@ describe('VK API', () => {
 
   });
 
-  it('gets tracks by channel id @now', async () => {
+  it('gets tracks by channel id', async () => {
     nock('https://api.vk.com/method')
-      .get('/wall.get?v=5.40&https=1&owner_id=-1000&count=10')
+      .get('/wall.get?v=5.40&https=1&owner_id=-1000&offset=0&count=10')
       .reply(200, data.posts);
 
     const tracks = await api.getTracks('1000');
 
-    expect(tracks).toEqual([
+    expect(tracks.list).toEqual([
       {
         source: 'vk',
         id: 'vk-1000-00_10',
@@ -165,7 +165,7 @@ describe('VK API', () => {
 
   it('gets channel last upadted date', async () => {
     nock('https://api.vk.com/method')
-      .get('/wall.get?v=5.40&https=1&owner_id=-1000&count=1')
+      .get('/wall.get?v=5.40&https=1&owner_id=-1000&offset=0&count=1')
       .reply(200, data.posts);
 
     const lastUpdated = await api.getChannelLastUpdated('1000');
@@ -174,7 +174,7 @@ describe('VK API', () => {
 
   it('applies middleware', async () => {
     nock('http://middleware.local')
-      .get('/?v=5.40&https=1&owner_id=-1000&count=10')
+      .get('/?v=5.40&https=1&owner_id=-1000&offset=0&count=10')
       .reply(200, {response: {items: []}});
 
     function middleware(req) {
@@ -185,7 +185,7 @@ describe('VK API', () => {
 
     const apiWithMiddleware = new VkAPI(null, middleware);
     const res = await apiWithMiddleware.getTracks('1000');
-    expect(res).toEqual([]);
+    expect(res.list).toEqual([]);
   });
 
   it('handles vk urls only', () => {
@@ -211,4 +211,14 @@ describe('VK API', () => {
       .toBe(false);
   });
 
+  it('contains next page data', async () => {
+    nock('https://api.vk.com/method')
+      .get('/wall.get?v=5.40&https=1&owner_id=-1000&offset=0&count=10')
+      .reply(200, data.posts);
+
+    const tracks = await api.getTracks('1000');
+
+    expect(tracks.nextPage).toEqual({offset: 10});
+    expect(tracks.isLastPage).toBe(false);
+  });
 });

@@ -65,12 +65,12 @@ describe('Composite API', () => {
   it('gets tracks from suitable API', () => {
     barAPI.getTracks.andReturn('bar result');
 
-    const result = api.getTracks('bar', 'channelId');
+    const result = api.getTracks('bar', 'channelId', 'pageData');
 
     expect(fooAPI.getTracks.calls.length).toBe(0);
     expect(barAPI.getTracks.calls.length).toBe(1);
 
-    expect(barAPI.getTracks.calls[0].arguments).toEqual(['channelId']);
+    expect(barAPI.getTracks.calls[0].arguments).toEqual(['channelId', 'pageData']);
     expect(result).toBe('bar result');
   });
 

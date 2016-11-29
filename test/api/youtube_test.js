@@ -7,9 +7,6 @@ describe('Youtube API', () => {
   const key = 'YOUTUBE-API_KEY';
   const api = new YoutubeAPI(key);
 
-  afterEach(() => {
-  });
-
   it('gets youtube channel by user url', async () => {
     nock('https://www.googleapis.com')
       .get(`/youtube/v3/channels?key=${key}&part=snippet&forUsername=channelmathrock`)
@@ -110,7 +107,7 @@ describe('Youtube API', () => {
 
     const tracks = await api.getTracks('CHANNEL_ID');
 
-    expect(tracks).toEqual([
+    expect(tracks.list).toEqual([
       {
         source: 'youtube',
         id: 'youtube-AmyoEy0pzWs',
@@ -145,8 +142,8 @@ describe('Youtube API', () => {
 
     const tracks = await api.getTracks('EMPTY_CHANNEL_ID');
 
-    expect(tracks).toBeA(Array);
-    expect(tracks.length).toBe(0);
+    expect(tracks.list).toBeA(Array);
+    expect(tracks.list.length).toBe(0);
   });
 
   it('handles youtube urls only', () => {
@@ -173,6 +170,20 @@ describe('Youtube API', () => {
 
     expect(api.hasChannel('youtube/channel'))
       .toBe(false);
+  });
+
+  it('contains next page data', async () => {
+    nock('https://www.googleapis.com')
+      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&order=date&channelId=FOO&maxResults=50`)
+      .reply(200, data.search)
+      .get(`/youtube/v3/videos?key=${key}&part=contentDetails&id=AmyoEy0pzWs%2CXy8EGXRBOEU&maxResults=2`)
+      .reply(200, data.videos);
+
+
+    const tracks = await api.getTracks('FOO');
+
+    expect(tracks.nextPage).toEqual({nextPageToken: 'CAoQAA'});
+    expect(tracks.isLastPage).toBe(false);
   });
 
 });

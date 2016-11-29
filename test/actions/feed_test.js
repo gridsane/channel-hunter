@@ -11,7 +11,7 @@ describe('Feed actions', () => {
   });
 
   it('loads channels tracks', async () => {
-    expect.spyOn(api, 'getTracks').andReturn([1, 2, 3]);
+    expect.spyOn(api, 'getTracks').andReturn({list: [1, 2, 3]});
     const dispatch = expect.createSpy();
 
     await actions.loadChannelTracks({
@@ -35,7 +35,7 @@ describe('Feed actions', () => {
   });
 
   it('sets prevFetchedAt when channel tracks loaded', async () => {
-    expect.spyOn(api, 'getTracks').andReturn([1, 2, 3]);
+    expect.spyOn(api, 'getTracks').andReturn({list: [1, 2, 3]});
     const dispatch = expect.createSpy();
 
     await actions.loadChannelTracks({

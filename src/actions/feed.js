@@ -63,7 +63,7 @@ export function loadChannelTracks(channel) {
 
     const tracks = await api.getTracks(channel.source, channel.originalId);
 
-    dispatch(addTracks(tracks));
+    dispatch(addTracks(tracks.list));
     dispatch(setChannelProps(channel.id, {
       isLoaded: true,
       isLoading: false,

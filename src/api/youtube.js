@@ -17,10 +17,10 @@ export default class YoutubeAPI {
   async getUpdatedChannel(channel) {
     const [updatedChannel, videos] = await Promise.all([
       getChannel(this.key, {id: channel.originalId}),
-      getVideos(this.key, channel.originalId, 50),
+      getVideos(this.key, channel.originalId, null, 50),
     ]);
 
-    const tags = videos.reduce((acc, video) => {
+    const tags = videos.items.reduce((acc, video) => {
       parseTags(video.snippet.description).forEach((tag) => {
         if (acc.indexOf(tag) === -1) {
           acc.push(tag);
@@ -33,17 +33,19 @@ export default class YoutubeAPI {
   }
 
   async getChannelLastUpdated(channelId) {
-    const videos = await getVideos(this.key, channelId, 1);
-    return videos.length > 0
-      ? formatDate(videos[0].snippet.publishedAt)
+    const videos = await getVideos(this.key, channelId, null, 1);
+    return videos.items.length > 0
+      ? formatDate(videos.items[0].snippet.publishedAt)
       : 0;
   }
 
-  async getTracks(channelId, maxResults = 50) {
-    const videos = await getVideos(this.key, channelId, maxResults);
+  async getTracks(channelId, pageData = {}) {
+    const {nextPageToken, maxResults} = {...pageData, ...{nextPageToken: null, maxResults: 50}};
+    const videosRes = await getVideos(this.key, channelId, nextPageToken, maxResults);
+    const videos = videosRes.items;
 
-    if (videos.length === 0)  {
-      return [];
+    if (!videos || videos.length === 0)  {
+      return {list: [], isLastPage: true, nextPage: {}};
     }
 
     const detailsResponse = await apiRequest(this.key, 'videos', {
@@ -52,7 +54,11 @@ export default class YoutubeAPI {
       maxResults: videos.length,
     });
 
-    return videos.map((video, index) => convertVideo(video, detailsResponse.items[index]));
+    return {
+      list: videos.map((video, index) => convertVideo(video, detailsResponse.items[index])),
+      isLastPage: !videosRes.nextPageToken,
+      nextPage: {nextPageToken: videosRes.nextPageToken},
+    };
   }
 
   hasChannel(url) {
@@ -73,20 +79,26 @@ async function getChannel(key, params, url = null) {
   return convertChannel(response.items[0], url);
 }
 
-async function getVideos(key, channelId, maxResults = 50) {
-  const snippetResponse = await apiRequest(key, 'search', {
+async function getVideos(key, channelId, pageToken = null, maxResults = 50) {
+  const params = {
     part: 'snippet',
     type: 'video',
     order: 'date',
     channelId,
     maxResults,
-  });
+  };
+
+  if (pageToken) {
+    params.pageToken = pageToken;
+  }
+
+  const snippetResponse = await apiRequest(key, 'search', params);
 
   if (!snippetResponse.items || snippetResponse.items.length === 0) {
     return [];
   }
 
-  return snippetResponse.items;
+  return snippetResponse;
 }
 
 function convertChannel(res, url = null) {

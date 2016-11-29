@@ -32,8 +32,8 @@ export default class CompositeAPI {
     return null;
   }
 
-  getTracks(source, channelId) {
-    return this._getApi(source).getTracks(channelId);
+  getTracks(source, channelId, pageData = {}) {
+    return this._getApi(source).getTracks(channelId, pageData);
   }
 
   getTrack(track) {

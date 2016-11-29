@@ -18,10 +18,10 @@ export default class VkAPI {
   async getUpdatedChannel(channel) {
     const [updatedChannel, posts] = await Promise.all([
       getChannel(this.middleware, channel.originalId),
-      getPosts(this.middleware, channel.originalId, 10),
+      getPosts(this.middleware, channel.originalId, 0, 10),
     ]);
 
-    const tags = posts.reduce((acc, post) => {
+    const tags = posts.list.reduce((acc, post) => {
       parseTags(post.text).forEach((tag) => {
         if (acc.indexOf(tag) === -1) {
           acc.push(tag);
@@ -34,13 +34,18 @@ export default class VkAPI {
   }
 
   async getChannelLastUpdated(channelId) {
-    const posts = await getPosts(this.middleware, channelId, 1);
-    return posts.length === 0 ? 0 : posts[0].date;
+    const posts = await getPosts(this.middleware, channelId, 0, 1);
+    return posts.list.length === 0 ? 0 : posts.list[0].date;
   }
 
-  async getTracks(channelId, maxResults = 10) {
-    const posts = await getPosts(this.middleware, channelId, maxResults);
-    return getTracksFromPosts(posts, channelId);
+  async getTracks(channelId, pageData = {}) {
+    const {offset, count} = {...pageData, ...{offset: 0, count: 10}};
+    const {list: posts, isLastPage} = await getPosts(this.middleware, channelId, offset, count);
+    return {
+      list: getTracksFromPosts(posts, channelId),
+      isLastPage,
+      nextPage: {offset: offset + count},
+    };
   }
 
   async getTrack(track) {
@@ -69,26 +74,30 @@ async function getChannel(middleware, channelId, url = null) {
   return convertChannel(response[0], url);
 }
 
-async function getPosts(middleware, channelId, count = 10) {
+async function getPosts(middleware, channelId, offset, count = 10) {
   const response = await apiRequest(middleware, 'wall.get', {
     owner_id: '-' + channelId,
+    offset,
     count,
   });
 
   if (!response || !response.items) {
-    return [];
+    return {list: [], isLastPage: true};
   }
 
-  return response.items.reduce((acc, post) => {
-    if (postHasAttachments(post)) {
-      acc.push(post.copy_history
-        // little hack to save original post id
-        ? {...post.copy_history[0], id: post.id}
-        : post);
-    }
+  return {
+    isLastPage: response.offset + count <= response.count,
+    list: response.items.reduce((acc, post) => {
+      if (postHasAttachments(post)) {
+        acc.push(post.copy_history
+          // little hack to save original post id
+          ? {...post.copy_history[0], id: post.id}
+          : post);
+      }
 
-    return acc;
-  }, []);
+      return acc;
+    }, []),
+  };
 }
 
 function getTracksFromPosts(posts, channelId) {

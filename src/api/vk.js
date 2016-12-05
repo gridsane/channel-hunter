@@ -39,7 +39,7 @@ export default class VkAPI {
   }
 
   async getTracks(channelId, pageData = {}) {
-    const {offset, count} = {...pageData, ...{offset: 0, count: 10}};
+    const {offset, count} = {offset: 0, count: 10, ...pageData};
     const {list: posts, isLastPage} = await getPosts(this.middleware, channelId, offset, count);
     return {
       list: getTracksFromPosts(posts, channelId),

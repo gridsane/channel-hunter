@@ -57,11 +57,11 @@ export function refreshFeedChannels(channels) {
   };
 }
 
-export function loadChannelTracks(channel) {
+export function loadChannelTracks(channel, nextPage = false) {
   return async (dispatch) => {
     dispatch(setChannelLoading(channel.id, true));
-
-    const tracks = await api.getTracks(channel.source, channel.originalId);
+    const pageData = nextPage && channel.nextPage ? channel.nextPage : {};
+    const tracks = await api.getTracks(channel.source, channel.originalId, pageData);
 
     dispatch(addTracks(tracks.list));
     dispatch(setChannelProps(channel.id, {
@@ -70,7 +70,18 @@ export function loadChannelTracks(channel) {
       prevFetchedAt: channel.fetchedAt || null,
       fetchedAt: Math.floor(Date.now() / 1000),
       hasUpdates: false,
+      nextPage: tracks.nextPage,
     }));
+  };
+}
+
+export function loadMoreTracks() {
+  return async (dispatch, getState) => {
+    getState().feed.channels.forEach((channel) => {
+      if (channel.isEnabled) {
+        dispatch(loadChannelTracks(channel, true));
+      }
+    });
   };
 }
 

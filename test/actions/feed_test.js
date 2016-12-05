@@ -8,10 +8,13 @@ describe('Feed actions', () => {
     if (typeof(api.getTrack.restore) === 'function') {
       api.getTrack.restore();
     }
+    if (typeof(api.getTracks.restore) === 'function') {
+      api.getTracks.restore();
+    }
   });
 
   it('loads channels tracks', async () => {
-    expect.spyOn(api, 'getTracks').andReturn({list: [1, 2, 3]});
+    expect.spyOn(api, 'getTracks').andReturn({list: [1, 2, 3], nextPage: {offset: 10}});
     const dispatch = expect.createSpy();
 
     await actions.loadChannelTracks({
@@ -22,7 +25,7 @@ describe('Feed actions', () => {
       isLoaded: false,
     })(dispatch);
 
-    expect(api.getTracks.calls[0].arguments).toEqual(['vk', 11]);
+    expect(api.getTracks.calls[0].arguments).toEqual(['vk', 11, {}]);
     expect(dispatch.calls[0].arguments[0]).toEqual(actions.setChannelLoading(1, true));
     expect(dispatch.calls[1].arguments[0]).toEqual(actions.addTracks([1, 2, 3]));
 
@@ -32,6 +35,23 @@ describe('Feed actions', () => {
     expect(channelPropsAction.props.isLoaded).toBe(true);
     expect(channelPropsAction.props.fetchedAt > 0).toBe(true);
     expect(channelPropsAction.props.prevFetchedAt).toBe(null);
+    expect(channelPropsAction.props.nextPage).toEqual({offset: 10});
+  });
+
+  it('loads more tracks', async () => {
+    expect.spyOn(api, 'getTracks').andReturn({list: [1, 2, 3], nextPage: {offset: 20}});
+    const dispatch = expect.createSpy();
+
+    await actions.loadChannelTracks({
+      id: 1,
+      originalId: 11,
+      source: 'vk',
+      isEnabled: false,
+      isLoaded: false,
+      nextPage: {offset: 10},
+    }, true)(dispatch);
+
+    expect(api.getTracks.calls[0].arguments).toEqual(['vk', 11, {offset: 10}]);
   });
 
   it('sets prevFetchedAt when channel tracks loaded', async () => {

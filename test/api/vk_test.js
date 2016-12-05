@@ -134,7 +134,18 @@ describe('VK API', () => {
     ]);
   });
 
-  it('get tracks by track definition', async () => {
+  it('gets tracks by page', async () => {
+    nock('https://api.vk.com/method')
+      .get('/wall.get?v=5.40&https=1&owner_id=-1000&offset=10&count=15')
+      .reply(200, data.posts);
+
+    const tracks = await api.getTracks('1000', {offset: 10, count: 15});
+
+    expect(tracks.list.length).toBe(4);
+    expect(tracks.nextPage).toEqual({offset: 25});
+  });
+
+  it('gets tracks by track definition', async () => {
     nock('https://api.vk.com/method')
       .get('/wall.getById?v=5.40&https=1&posts=-1000_99')
       .reply(200, data.single_post);

@@ -40,7 +40,7 @@ export default class YoutubeAPI {
   }
 
   async getTracks(channelId, pageData = {}) {
-    const {nextPageToken, maxResults} = {...pageData, ...{nextPageToken: null, maxResults: 50}};
+    const {nextPageToken, maxResults} = {nextPageToken: null, maxResults: 50, ...pageData};
     const videosRes = await getVideos(this.key, channelId, nextPageToken, maxResults);
     const videos = videosRes.items;
 

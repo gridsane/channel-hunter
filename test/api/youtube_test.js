@@ -135,6 +135,20 @@ describe('Youtube API', () => {
     ]);
   });
 
+
+  it('gets tracks by page', async () => {
+    nock('https://www.googleapis.com')
+      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&order=date&channelId=CHANNEL_ID&maxResults=50&pageToken=page_token`)
+      .reply(200, data.search)
+
+      .get(`/youtube/v3/videos?key=${key}&part=contentDetails&id=AmyoEy0pzWs%2CXy8EGXRBOEU&maxResults=2`)
+      .reply(200, data.videos);
+
+    const tracks = await api.getTracks('CHANNEL_ID', {nextPageToken: 'page_token'});
+
+    expect(tracks.list.length).toBe(2);
+  });
+
   it('returns empty array if no tracks found', async () => {
     nock('https://www.googleapis.com')
       .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&order=date&channelId=EMPTY_CHANNEL_ID&maxResults=50`)

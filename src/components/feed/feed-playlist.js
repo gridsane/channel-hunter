@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {LazyList, ListLabel, IconButton, EmptyState} from '../ui';
+import {LazyList, ListLabel, IconButton, EmptyState, FlatButton} from '../ui';
 import cn from 'classnames';
 import Track from './feed-playlist-track';
 import styles from './feed.scss';
@@ -10,6 +10,7 @@ export default class FeedPlaylist extends Component {
     tracks: PropTypes.array.isRequired,
     onSelect: PropTypes.func.isRequired,
     onToggleShuffle: PropTypes.func.isRequired,
+    onLoadMore: PropTypes.func.isRequired,
     currentTrackId: PropTypes.string,
     isShuffle: PropTypes.bool,
   }
@@ -42,6 +43,12 @@ export default class FeedPlaylist extends Component {
         updateDelay={10}
         itemsBuffer={10}
         className={styles.playlistTracks} />
+
+      <FlatButton
+        primary
+        label="Load more"
+        onClick={this.props.onLoadMore}
+        className={styles.loadMore}/>
     </div>;
   }
 

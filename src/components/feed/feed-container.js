@@ -4,6 +4,7 @@ import FeedPlaylist from './feed-playlist';
 import {
   setTracksSort,
   setCurrentTrack,
+  loadMoreTracks,
 } from '../../actions/feed';
 import {
   getTrackById,
@@ -19,7 +20,8 @@ export class Feed extends Component {
       tracks={playlist}
       isShuffle={isShuffle}
       onSelect={this._selectTrack}
-      onToggleShuffle={this._toggleShuffle} />;
+      onToggleShuffle={this._toggleShuffle}
+      onLoadMore={this._loadMore} />;
   }
 
   _toggleShuffle = () => {
@@ -28,6 +30,10 @@ export class Feed extends Component {
 
   _selectTrack = (trackId) => {
     this.props.dispatch(setCurrentTrack(trackId));
+  }
+
+  _loadMore = () => {
+    this.props.dispatch(loadMoreTracks());
   }
 
 }

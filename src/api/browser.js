@@ -25,8 +25,8 @@ export function addChannel(url) {
   return post('/api/channels', {url});
 }
 
-export function getTracks(source, channelId) {
-  return externalApi.getTracks(source, channelId);
+export function getTracks(source, channelId, pageData = {}) {
+  return externalApi.getTracks(source, channelId, pageData);
 }
 
 export function getTrack(track) {

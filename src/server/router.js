@@ -2,15 +2,15 @@ import channelsRouter from './routers/channels';
 import tracksRouter from './routers/tracks';
 import mainRouter from './routers/main';
 import Storage from './storage';
+import RedditAPI from '../api/reddit';
 import YoutubeAPI from '../api/youtube';
-import VkAPI from '../api/vk';
 import CompositeAPI from '../api/composite';
 import * as config from '../config';
 
 const storage = new Storage(config.MONGO_URL);
 const api = new CompositeAPI({
+  reddit: new RedditAPI(),
   youtube: new YoutubeAPI(config.YOUTUBE_KEY),
-  vk: new VkAPI(),
 });
 
 export default function (router) {

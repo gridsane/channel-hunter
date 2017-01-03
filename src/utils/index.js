@@ -3,6 +3,10 @@ function pad0(x) {
 }
 
 export function formatDuration(duration) {
+  if (!duration) {
+    return '';
+  }
+
   let minutes = Math.floor(duration / 60);
 
   if (minutes > 59) {

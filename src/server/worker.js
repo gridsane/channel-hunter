@@ -1,13 +1,13 @@
 import Storage from './storage';
+import RedditAPI from '../api/reddit';
 import YoutubeAPI from '../api/youtube';
-import VkAPI from '../api/vk';
 import CompositeAPI from '../api/composite';
 import * as config from '../config';
 
 const storage = new Storage(config.MONGO_URL);
 const api = new CompositeAPI({
   youtube: new YoutubeAPI(config.YOUTUBE_KEY),
-  vk: new VkAPI(),
+  reddit: new RedditAPI(),
 });
 
 const args = process.argv.slice(2);

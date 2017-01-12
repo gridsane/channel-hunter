@@ -1,14 +1,16 @@
-import React, {Component, PropTypes} from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
-import {formatDuration} from '../../utils';
-import {Loader, IconButton} from '../ui';
-import Progress from './header-player-progress';
+import React, {PropTypes} from 'react';
 import ReactPlayer from 'react-player';
-import styles from './header.scss';
+import IconButton from 'components/ui/icon-button';
+import Progress from './progress';
+import styles from './controls.scss';
 
-export default class HeaderPlayer extends Component {
+export default class Controls extends React.PureComponent {
   static propTypes = {
-    track: PropTypes.object,
+    // trackId: PropTypes.string,
+    // trackTitle: PropTypes.string,
+    // trackArtist: PropTypes.string,
+    // trackUrl: PropTypes.string,
+    // trackDuration: PropTypes.number,
     isPlaying: PropTypes.bool.isRequired,
     onTogglePlay: PropTypes.func.isRequired,
     onNext: PropTypes.func.isRequired,
@@ -26,43 +28,33 @@ export default class HeaderPlayer extends Component {
     duration: null,
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
-
   render() {
+    const {track, isPlaying, onError, onNext} = this.props;
     const {progress, isLoading, duration} = this.state;
-    const {track, isPlaying, onNext, onError} = this.props;
 
-    return <div className={styles.player}>
-      <IconButton
-        glyph={isPlaying ? 'pause' : 'play_arrow'}
-        onClick={this._togglePlaying}
-        size={32}
-        boxSize={40}
-        className={styles.playerToggle}/>
+    return <div className={styles.root}>
+      <div className={styles.track}>
+        <IconButton
+          onClick={this._togglePlaying}
+          glyph={isPlaying ? 'pause' : 'play_arrow'}
+          size="large"
+          className={styles.play} />
+        <IconButton
+          onClick={onNext}
+          glyph="skip_next"
+          size="large"
+          className={styles.next} />
+        {track && <span className={styles.trackName}>
+          {track.title}{track.artist ? ' ' + track.artist : null}
+        </span>}
+      </div>
 
-      <IconButton
-        glyph="skip_next"
-        onClick={onNext}
-        size={32}
-        boxSize={40}
-        className={styles.playerNext} />
-
-      {this._renderTitle()}
-
-      {duration
-        ? <span className={styles.playerTime}>{formatDuration(progress)}</span>
-        : null}
-
-      {duration && (progress || isPlaying)
-        ? <Progress
-            isLoading={isLoading}
-            current={progress}
-            max={duration}
-            canSeek={isPlaying && !isLoading}
-            onSeek={this._seek} />
-        : null}
+      <Progress
+        current={progress || 0}
+        max={duration || 1}
+        onSeek={this._seek}
+        isLoading={isLoading}
+        canSeek={isPlaying && !isLoading} />
 
       <ReactPlayer
         ref="player"
@@ -74,25 +66,7 @@ export default class HeaderPlayer extends Component {
         onProgress={this._updateProgress}
         onDuration={this._updateDuration}
         onEnded={onNext} />
-
-      {isLoading && isPlaying
-        ? <Loader size={24} className={styles.playerLoader} />
-        : null}
     </div>;
-  }
-
-  _renderTitle() {
-    if (!this.props.track) {
-      return null;
-    }
-
-    const {artist, title} = this.props.track;
-
-    return <span className={styles.playerTitle}>{title}
-      {artist
-        ? <span className={styles.playerArtist}> by {artist}</span>
-        : null}
-    </span>;
   }
 
   componentWillMount() {
@@ -112,7 +86,7 @@ export default class HeaderPlayer extends Component {
     }
   }
 
-  _seek = (progress) => {
+  _seek = progress => {
     this.refs.player.seekTo(progress / this.state.duration);
     this.setState({
       isLoading: true,
@@ -127,7 +101,7 @@ export default class HeaderPlayer extends Component {
     }
   }
 
-  _updateProgress = (progress) => {
+  _updateProgress = progress => {
     if (!progress || !progress.played) {
       return;
     }
@@ -145,7 +119,7 @@ export default class HeaderPlayer extends Component {
 }
 
 function shouldTrackUpdate(prevTrack, nextTrack) {
-  if (!prevTrack && nextTrack) {
+  if (!prevTrack || !nextTrack) {
     return true;
   }
 

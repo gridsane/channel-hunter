@@ -1,175 +1,22 @@
-@import '../application/_theme.scss';
+@import '../app/_theme.scss';
 
-@mixin ellipsis() {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
+$channelsWidth: 240px;
+$discoverWidth: 320px;
 
-.discover {
-  flex-grow: 2;
-
-  &Content {
-    position: relative;
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 16px 16px;
-  }
-
-  &Channels {
-    position: relative;
-
-    &Loading {
-      opacity: .2;
-
-      &:after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-      }
-    }
-  }
-
-  &Tags {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    margin-top: 2em;
-  }
-
-  &Loader {
+.root {
     position: absolute;
-    left: 50%;
-    margin-left: -20px;
-  }
-}
-
-.channel {
-  position: relative;
-  box-sizing: border-box;
-  @include shadow(4px);
-  width: 100%;
-  background-size: cover;
-  background-position: center;
-
-  &Image {
-    width: 100%;
-    padding-top: 56.25%;
-    background-position: center;
-  }
-
-  &Content {
-    background: rgba(255,255,255,0.9);
+    top: 0;
+    left: $channelsWidth;
+    height: 100%;
     box-sizing: border-box;
-    padding: 8px 16px;
-    height: 102px;
-  }
+    border-left: 1px solid #e5e5e5;
+    background-color: #fff;
+    width: $discoverWidth;
+    transform: translate(-100%);
+    transition: transform .12s $transformCurve;
+    z-index: -1;
 
-  &Title {
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0;
-    padding: 0;
-    @include ellipsis;
-  }
-
-  &Tags {
-    margin: 4px 0;
-    font-size: 14px;
-    color: $secondaryTextColor;
-    @include ellipsis;
-  }
-
-  &Action {
-    position: absolute;
-    right: 4px;
-    bottom: 4px;
-  }
-}
-
-.input {
-  display: block;
-  background: white;
-  @include shadow(4px);
-
-  &Wrapper {
-    display: block;
-    position: relative;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  &Control {
-    -webkit-appearance: none;
-    border: none;
-    height: 56px;
-    width: 100%;
-    font-size: 16px;
-    padding: 16px 16px 16px 48px;
-    line-height: 16px;
-    box-sizing: border-box;
-
-    &:focus {
-      outline: none;
-
-      & ~ .inputIcon {
-        color: $primaryColor;
-      }
-
-      & ~ .inputBar:before, & ~ .inputBar:after {
-        width: 50%;
-      }
+    &Visible {
+        transform: translate(0);
     }
-
-  }
-
-  &Icon, &Clear {
-    position: absolute;
-    top: 8px;
-    color: $secondaryTextColor;
-    transition: color .15s ease-in-out;
-  }
-
-  &Icon {
-    left: 0;
-  }
-
-  &Clear {
-    right: 0;
-  }
-
-  &Bar {
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-
-    &:before, &:after {
-      content: '';
-      position: absolute;
-      width: 0;
-      transition: width .15s ease-in-out;
-      height: 2px;
-      background-color: $primaryColor;
-    }
-
-    &:before {
-      right: 50%;
-    }
-
-    &:after {
-      left: 50%;
-    }
-  }
-}
-
-
-.getStarted {
-  color: $secondaryTextColor;
 }

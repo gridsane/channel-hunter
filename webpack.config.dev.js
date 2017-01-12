@@ -14,6 +14,12 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/assets/',
   },
+  resolve: {
+    alias: {
+      components: path.join(__dirname, 'src/components'),
+      utils: path.join(__dirname, 'src/utils'),
+    },
+  },
   plugins: [
     new webpack.NoErrorsPlugin(),
     new webpack.PrefetchPlugin('react'),

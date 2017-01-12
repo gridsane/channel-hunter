@@ -28,6 +28,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app
+  .disable('x-powered-by')
   .use(bodyParser.json())
   .use('/assets', express.static(__dirname + '/../assets'))
   .use(router(express.Router()))

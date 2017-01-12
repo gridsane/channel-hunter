@@ -1,15 +1,16 @@
-@import '../application/_theme.scss';
+@import '../app/_theme.scss';
+
+$channelsWidth: 240px;
+$discoverWidth: 320px;
 
 .root {
-  position: relative;
-  min-width: 280px;
-  max-width: 280px;
+  width: $channelsWidth;
   height: 100%;
-  box-sizing: border-box;
-  overflow-y: hidden;
-}
+  background: #fff;
+  @include shadow(1);
+  transition: margin-right .25s $transformCurve;
 
-.channelList {
-  height: 100%;
-  overflow-y: auto;
+  &WithDiscover {
+    margin-right: $discoverWidth;
+  }
 }

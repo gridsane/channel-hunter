@@ -1,10 +1,8 @@
-@import '../../application/_theme.scss';
-
-.flat {
-  height: 36px;
-  padding: 0 24px;
-  line-height: 16px;
-  font-size: 16px;
+.button {
+  height: 32px;
+  padding: 0 14px;
+  line-height: 14px;
+  font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
   border: none;
@@ -22,40 +20,4 @@
   &:hover, &:active {
     background-color: rgba(0, 0, 0, .1);
   }
-
-  &Small {
-    height: 36px;
-    padding: 0 16px;
-    line-height: 36px;
-    font-size: 14px;
-  }
-
-  &Primary {
-    color: $primaryColor;
-
-    &:focus {
-      background-color: rgba($primaryColor, .15);
-    }
-
-    &:hover, &:active {
-      background-color: rgba($primaryColor, .1);
-    }
-  }
-}
-
-.icon {
-  display: inline-block;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: background-color .1s ease-out;
-
-  &:hover {
-    background-color: rgba(0,0,0,.1);
-  }
-
 }

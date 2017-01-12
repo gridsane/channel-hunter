@@ -1,10 +1,9 @@
-import React, {Component, PropTypes} from 'react';
-import {nodeOffset} from '../../utils';
+import React, {PropTypes} from 'react';
 import cn from 'classnames';
-import styles from './header.scss';
+import {nodeOffset} from 'utils';
+import styles from './progress.scss';
 
-export default class HeaderPlayerProgress extends Component {
-
+export default class Progress extends React.PureComponent {
   static propTypes = {
     current: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
@@ -22,20 +21,20 @@ export default class HeaderPlayerProgress extends Component {
     const progressPercent = ((100 / this.props.max) * this.props.current) + '%';
 
     return <div ref="progress"
-      className={cn(styles.progress, {
-        [styles.progressSeekable]: canSeek,
+      className={cn(styles.root, {
+        [styles.seekable]: canSeek,
       })}
       onClick={this._seek}>
 
-      <div className={cn(styles.progressBackground, {
-        [styles.progressBackgroundLoading]: isLoading,
+      <div className={cn(styles.background, {
+        [styles.backgroundLoading]: isLoading,
       })} />
 
-      <div className={styles.progressBar} style={{width: progressPercent}}/>
+      <div className={styles.bar} style={{width: progressPercent}}/>
 
       {canSeek
-        ? <div className={styles.progressPointer} style={{left: progressPercent}}>
-            <div className={styles.progressPointerGlow} />
+        ? <div className={styles.pointer} style={{left: progressPercent}}>
+            <div className={styles.pointerGlow} />
           </div>
         : null}
     </div>;

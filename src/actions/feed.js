@@ -1,4 +1,4 @@
-import * as types from './actionsTypes';
+import * as types from './actions-types';
 import * as api from '../api/browser';
 
 export function addFeedChannels(channels) {

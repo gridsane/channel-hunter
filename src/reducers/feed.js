@@ -8,7 +8,7 @@ import {
   FEED_SELECT_NEXT_TRACK,
   FEED_SET_SORT_TRACKS,
   FEED_SET_ERROR_TRACK,
-} from '../actions/actionsTypes';
+} from '../actions/actions-types';
 import {REHYDRATE} from 'redux-persist/constants';
 import update from 'react-addons-update';
 

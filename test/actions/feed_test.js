@@ -1,6 +1,6 @@
 import * as api from '../../src/api/browser';
 import * as actions from '../../src/actions/feed';
-import * as actionsTypes from '../../src/actions/actionsTypes';
+import * as actionsTypes from '../../src/actions/actions-types';
 
 describe('Feed actions', () => {
 

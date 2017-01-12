@@ -14,6 +14,11 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/assets/',
   },
+  resolve: {
+    alias: {
+      components: path.join(__dirname, 'src/components'),
+    },
+  },
   plugins: [
     new ExtractTextPlugin('style.css', {allChunks: true}),
     new webpack.optimize.OccurenceOrderPlugin(),

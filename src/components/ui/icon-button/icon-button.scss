@@ -1,0 +1,25 @@
+.button {
+  display: inline-block;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color .1s ease-out;
+
+  &:hover {
+    background-color: rgba(0,0,0,.1);
+  }
+}
+
+.large {
+  height: 32px;
+  width: 32px;
+}
+
+.medium {
+  height: 24px;
+  width: 24px;
+}

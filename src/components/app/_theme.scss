@@ -1,13 +1,17 @@
+$backgroundColor: #e5e5e5;
+$primaryColor: #2F80ED;
+$secondaryTextColor: #727272;
+
 $darkPrimaryColor: #303f9f;
-$primaryColor: #3f51b5;
 $lightPrimaryColor: #c5cae9;
 $textColor: #fff;
 $accentColor: #ff4081;
 $primaryTextColor: #212121;
-$secondaryTextColor: #727272;
 $dividerColor: #b6b6b6;
 $errorColor: #f44336;
 
 @mixin shadow($elevation) {
   box-shadow: 0px 2px $elevation rgba(0, 0, 0, .26);
 }
+
+$transformCurve: cubic-bezier(0.4, 0.0, 0.2, 1);

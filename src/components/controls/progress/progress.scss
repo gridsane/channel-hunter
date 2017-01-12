@@ -1,0 +1,71 @@
+$color: #fff;
+
+.root {
+  box-sizing: border-box;
+  height: 16px;
+  position: absolute;
+  bottom: 16px;
+  left: 24px;
+  right: 24px;
+
+  &:hover .pointer {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.seekable {
+  cursor: pointer;
+}
+
+.background {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: rgba($color, .24);
+
+  &Loading {
+    background-color: transparent;
+    background-image: radial-gradient(rgb(169, 192, 233) 0%, rgb(169, 192, 233) 24%, transparent 50%);
+    background-size: 10px 10px;
+    background-position: 0px center;
+    background-repeat: repeat-x;
+    animation: progress-loading 3s infinite linear;
+  }
+}
+
+.bar {
+  position: absolute;
+  background-color: $color;
+  height: 4px;
+  left: 0;
+  bottom: 6px;
+  transition: width .2s linear;
+}
+
+.pointer {
+  position: absolute;
+  z-index: 10;
+  top: 2px;
+  margin-left: -8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  opacity: 0;
+  background-color: $color;
+  transform: scale(.3);
+  transition: opacity .1s ease-out, transform .2s ease-out;
+
+  &Glow {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: $color;
+    opacity: .24;
+  }
+}

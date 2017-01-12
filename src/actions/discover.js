@@ -1,4 +1,4 @@
-import * as types from './actionsTypes';
+import * as types from './actions-types';
 import * as api from '../api/browser';
 import {addFeedChannel} from './feed';
 import {debounce} from '../utils';
@@ -17,6 +17,10 @@ export function setError(error) {
 
 export function setTags(tags) {
   return {type: types.DISCOVER_SET_TAGS, tags};
+}
+
+export function setDiscoverVisible(visible) {
+  return {type: types.DISCOVER_SET_VISIBLE, visible};
 }
 
 export function loadTags() {

@@ -24,7 +24,7 @@ export class Sidebar extends React.PureComponent {
         isDiscoverVisible={isDiscoverVisible}
         onToggleDiscover={this._toggleDiscover} />
       <Channels channels={channels} onToggleChannel={this._toggleChannel} />
-      <Discover visible={isDiscoverVisible} />
+      <Discover visible={isDiscoverVisible} onClose={this._toggleDiscover} />
     </aside>;
   }
 

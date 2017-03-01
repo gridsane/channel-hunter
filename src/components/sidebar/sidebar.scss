@@ -4,13 +4,12 @@ $channelsWidth: 240px;
 $discoverWidth: 320px;
 
 .root {
+  display: flex;
+  flex-direction: column;
   width: $channelsWidth;
   height: 100%;
   background: #fff;
   @include shadow(1);
   transition: margin-right .25s $transformCurve;
-
-  &WithDiscover {
-    margin-right: $discoverWidth;
-  }
+  z-index: 50;
 }

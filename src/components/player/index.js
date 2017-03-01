@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {StickyContainer, Sticky} from 'react-sticky';
 import {getTrackById, getSortedPlaylist} from '../../reducers/feed';
 import {setCurrentTrack, selectNextTrack, setTrackError, loadMoreTracks} from '../../actions/feed';
 import Controls from 'components/controls';
@@ -22,13 +23,15 @@ export class Player extends React.PureComponent {
     const {tracks, currentTrack} = this.props;
 
     return <div className={styles.root}>
-      <div className={styles.wrapper}>
-        <Controls
-          isPlaying={this.state.isPlaying}
-          track={currentTrack}
-          onTogglePlay={this._togglePlay}
-          onNext={this._selectNextTrack}
-          onError={this._resolveError} />
+      <StickyContainer className={styles.wrapper}>
+        <Sticky style={{zIndex: 2}}>
+          <Controls
+            isPlaying={this.state.isPlaying}
+            track={currentTrack}
+            onTogglePlay={this._togglePlay}
+            onNext={this._selectNextTrack}
+            onError={this._resolveError} />
+        </Sticky>
         <Playlist
           tracks={tracks}
           onSelect={this._selectTrack}
@@ -37,7 +40,7 @@ export class Player extends React.PureComponent {
           onClick={this._loadMore}
           label="Load more"
           className={styles.loadMore} />}
-      </div>
+      </StickyContainer>
     </div>;
   }
 

@@ -4,19 +4,42 @@ $channelsWidth: 240px;
 $discoverWidth: 320px;
 
 .root {
-    position: absolute;
-    top: 0;
-    left: $channelsWidth;
-    height: 100%;
-    box-sizing: border-box;
-    border-left: 1px solid #e5e5e5;
-    background-color: #fff;
-    width: $discoverWidth;
-    transform: translate(-100%);
-    transition: transform .12s $transformCurve;
-    z-index: -1;
+  position: absolute;
+  top: 0;
+  left: $channelsWidth;
+  height: 100%;
+  box-sizing: border-box;
+  border-left: 1px solid #e5e5e5;
+  background-color: #fff;
+  width: $discoverWidth;
+  transform: translate(-100%);
+  transition: transform .12s $transformCurve;
+  z-index: -1;
 
-    &Visible {
-        transform: translate(0);
-    }
+  &Visible {
+    transform: translate(0);
+    box-shadow: 1px 0 2px rgba(0, 0, 0, .25);
+  }
+}
+
+.search {
+  height: 48px;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid #efefef;
+  padding: 0 16px;
+  font-size: 14px;
+
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid $primaryColor;
+  }
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: $secondaryTextColor;
 }

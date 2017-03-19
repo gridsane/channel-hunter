@@ -47,7 +47,7 @@ export function addChannel(url) {
   };
 }
 
-export function createSearchAction(debounceTimeout) {
+function createSearchAction(debounceTimeout) {
   let currentRequestPromise = null;
 
   const debouncedSearch = debounce(async (dispatch, query) => {
@@ -55,6 +55,11 @@ export function createSearchAction(debounceTimeout) {
 
     try {
       const channels = await currentRequestPromise;
+
+      if (channels.error) {
+        throw new Error(channels.error);
+      }
+
       dispatch(setChannels(channels));
     } catch (err) {
       console.error('channel search error', err);
@@ -73,3 +78,4 @@ export function createSearchAction(debounceTimeout) {
   };
 }
 
+export const searchChannels = createSearchAction(300);

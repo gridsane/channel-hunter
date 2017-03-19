@@ -7,11 +7,18 @@ export default class Channel extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    image: PropTypes.string,
-    isEnabled: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    hasUpdates: PropTypes.bool,
     onToggle: PropTypes.func.isRequired,
+    image: PropTypes.string,
+    isEnabled: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    hasUpdates: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    isEnabled: false,
+    isLoading: false,
+    hasUpdates: false,
+    image: null,
   }
 
   render() {

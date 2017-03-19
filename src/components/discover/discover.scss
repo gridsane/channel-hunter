@@ -43,3 +43,13 @@ $discoverWidth: 320px;
   right: 12px;
   color: $secondaryTextColor;
 }
+
+.loader {
+  margin: 24px auto;
+}
+
+.empty {
+  color: $secondaryTextColor;
+  margin-top: 24px;
+  text-align: center;
+}

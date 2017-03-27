@@ -2,9 +2,9 @@ import Storage from './storage';
 import RedditAPI from '../api/reddit';
 import YoutubeAPI from '../api/youtube';
 import CompositeAPI from '../api/composite';
-import * as config from '../config';
+import config from '../config';
 
-const storage = new Storage(config.MONGO_URL);
+const storage = new Storage(config.MONGO_URI);
 const api = new CompositeAPI({
   youtube: new YoutubeAPI(config.YOUTUBE_KEY),
   reddit: new RedditAPI(),

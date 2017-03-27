@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - "6"
+  - "7"
+services:
+  - mongodb
+before_script:
+  - sleep 15
+  - mongo chdb_test --eval 'db.addUser("travis", "test");'
+env:
+  global:
+    - MONGO_URI=mongodb://travis:test@127.0.0.1:27017/chdb_test
+    - MONGO_URI_TEST=mongodb://travis:test@127.0.0.1:27017/chdb_test
+    - YOUTUBE_KEY=dummy-key
+install:
+  - npm install
+script:
+  - npm run lint
+  - npm test

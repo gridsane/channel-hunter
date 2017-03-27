@@ -47,7 +47,7 @@ export function addChannel(url) {
   };
 }
 
-function createSearchAction(debounceTimeout) {
+export function createSearchAction(debounceTimeout) {
   let currentRequestPromise = null;
 
   const debouncedSearch = debounce(async (dispatch, query) => {

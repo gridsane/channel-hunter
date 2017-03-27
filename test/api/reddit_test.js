@@ -1,5 +1,5 @@
-import RedditAPI from '../../src/api/reddit';
 import nock from 'nock';
+import RedditAPI from '../../src/api/reddit';
 import data from './reddit_data.json';
 
 describe('Reddit API', () => {

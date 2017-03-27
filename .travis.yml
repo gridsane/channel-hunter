@@ -13,6 +13,7 @@ env:
     - MONGO_URI_TEST=mongodb://travis:test@127.0.0.1:27017/chdb_test
     - YOUTUBE_KEY=dummy-key
 install:
+  - npm install -g npm@latest
   - npm install
 script:
   - npm run lint

@@ -4,7 +4,8 @@ import cn from 'classnames';
 import IconButton from 'components/ui/icon-button';
 import Loader from 'components/ui/loader';
 import Channels from 'components/channels';
-import {searchChannels} from '../../actions/discover';
+import {getChannelUrlSource} from '../../api/browser';
+import {searchChannels, addChannel} from '../../actions/discover';
 import {addFeedChannel} from '../../actions/feed';
 import styles from './discover.scss';
 
@@ -16,22 +17,31 @@ class Discover extends React.Component {
     onClose: PropTypes.func.isRequired,
   }
 
+  state = {
+    searchValue: '',
+    source: null,
+  }
+
   componentWillReceiveProps(nextProps) {
     const {channels, visible} = this.props;
     if (nextProps.visible && !visible && channels.length === 0) {
+      this.setState({searchValue: '', source: null});
       this._loadChannels();
     }
   }
 
   render() {
     const {onClose} = this.props;
+    const {searchValue} = this.state;
 
     return (
       <div className={cn(styles.root, {[styles.rootVisible]: this.props.visible})}>
         <input
           placeholder="Search or add"
           type="text"
-          onChange={this._searchChannels}
+          value={searchValue}
+          onKeyUp={this._handleInputKeyUp}
+          onChange={this._change}
           className={cn(styles.search)}/>
         <IconButton
           glyph="close"
@@ -46,9 +56,16 @@ class Discover extends React.Component {
 
   _renderChannels() {
     const {isLoading, channels} = this.props;
+    const {source, searchValue} = this.state;
 
     if (isLoading) {
       return <Loader className={styles.loader} size="l"/>;
+    }
+
+    if (source && searchValue) {
+      return <div className={styles.add}>
+        Press <kbd className={styles.addKey}>Enter</kbd> to add {source} channel
+      </div>;
     }
 
     if (channels.length === 0) {
@@ -60,8 +77,25 @@ class Discover extends React.Component {
       onToggleChannel={this._selectChannel}/>;
   }
 
-  _searchChannels = e => {
-    this.props.dispatch(searchChannels(e.target.value));
+  _handleInputKeyUp = e => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+
+    const {searchValue} = this.state;
+    const source = getChannelUrlSource(searchValue);
+    if (source) {
+      this.props.dispatch(addChannel(searchValue));
+      this.setState({searchValue: '', source: null});
+    }
+  }
+
+  _change = e => {
+    const value = e.target.value;
+    const source = getChannelUrlSource(value);
+    this.setState({searchValue: value, source}, ({searchValue}) => {
+      this.props.dispatch(searchChannels(searchValue));
+    });
   }
 
   _loadChannels = () => {

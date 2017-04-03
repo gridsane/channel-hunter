@@ -2,7 +2,7 @@ import superagent from 'superagent';
 import ReactPlayer from 'react-player';
 
 const BASE_URL = 'https://www.reddit.com';
-const URL_REGEXP = /^https?:\/\/(www\.)?reddit.com(\/.+)/;
+const URL_REGEXP = /^https?:\/\/(www\.)?reddit.com(\/.+?)\/*$/;
 const MEDIA_TYPES = ['youtube.com', 'soundcloud.com', 'vimeo.com'];
 
 export default class RedditAPI {
@@ -17,6 +17,7 @@ export default class RedditAPI {
       const tracks = await this.getTracks(id, {limit: 1});
       return convertChannel(id, tracks.list[0].cover);
     } catch (err) {
+      console.error(err);
       return null;
     }
   }

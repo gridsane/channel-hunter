@@ -15,6 +15,11 @@ export default function (storage, api) {
     async addChannel(req, res) {
       try {
         const apiChannel = await api.getChannelByUrl(req.body.url);
+
+        if (!apiChannel) {
+          throw new Error(`Cannot get channel "${req.body.url}"`);
+        }
+
         const channel = await storage.addOrUpdateChannel(apiChannel);
         res.json(channel);
       } catch (error) {

@@ -30,6 +30,16 @@ describe('Reddit API', () => {
     });
   });
 
+  it('gets subreddit by url with trailing slash', async () => {
+    nock('https://www.reddit.com')
+      .get('/r/stonerrock/new.json?limit=1')
+      .reply(200, data.subreddit);
+
+    const channel = await api.getChannelByUrl('https://reddit.com/r/stonerrock/');
+    expect(channel).toNotBe(null);
+    expect(channel.id).toBe('reddit-/r/stonerrock');
+  });
+
   it('returns null if no channel found', async () => {
     nock('https://www.reddit.com')
       .get('/r/not_exists/new.json?limit=1')

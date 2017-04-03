@@ -17,6 +17,9 @@
   font-size: 13px;
   box-sizing: border-box;
   cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
   &:hover {
     background-color: rgba(#efefef, .5);

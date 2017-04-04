@@ -4,6 +4,10 @@ node_js:
   - "7"
 services:
   - mongodb
+addons:
+  apt:
+    sources:
+      - mongodb-3.2-precise
 before_script:
   - sleep 15
   - mongo chdb_test --eval 'db.addUser("travis", "test");'

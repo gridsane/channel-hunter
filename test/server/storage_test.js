@@ -1,9 +1,14 @@
 import mongo from 'mongodb';
+import updateSchema from '../../src/server/jobs/update-schema';
 import Storage from '../../src/server/storage';
 import {MONGO_URI_TEST} from '../../src/config';
 
 describe('Storage @database', () => {
   const storage = new Storage(MONGO_URI_TEST);
+
+  before(async () => {
+    await updateSchema(storage);
+  });
 
   beforeEach((done) => {
     mongo.connect(MONGO_URI_TEST, (err, db) => {

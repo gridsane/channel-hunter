@@ -2,7 +2,11 @@ export default async function updateSchema(storage) {
   const db = await storage.getDb();
   const collection = db.collection('channels');
 
-  await collection.dropIndex('TextIndex');
+  try {
+    await collection.dropIndex('TextIndex');
+  } catch (err) {
+    await db.createCollection('channels');
+  }
 
   return collection.createIndex(
     {name: 'text', description: 'text', tags: 'text'},

@@ -7,9 +7,12 @@ services:
 before_script:
   - sleep 15
   - mongo chdb_test --eval 'db.addUser("travis", "test");'
+env:
+  global:
+    - MONGO_URI_TEST=mongodb://travis:test@127.0.0.1:27017/chdb_test
 install:
   - npm install -g npm@latest
   - npm install
 script:
   - npm run lint
-  - MONGO_URI_TEST=mongodb://travis:test@127.0.0.1:27017/chdb_test npm test
+  - npm test

@@ -33,6 +33,12 @@ export default class Controls extends React.PureComponent {
     const {progress, isLoading, duration} = this.state;
 
     return <div className={styles.root}>
+      <div className={styles.cover}>
+        <div
+          className={styles.coverImage}
+          style={{backgroundImage: track && track.cover ? `url(${track.cover})` : null}}/>
+      </div>
+
       <div className={styles.track}>
         <IconButton
           onClick={this._togglePlaying}

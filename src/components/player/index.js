@@ -50,6 +50,7 @@ export class Player extends React.PureComponent {
 
   _selectTrack = (trackId) => {
     this.props.dispatch(setCurrentTrack(trackId));
+    this.setState({isPlaying: true});
   }
 
   _selectNextTrack = () => {

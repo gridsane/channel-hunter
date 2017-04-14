@@ -69,3 +69,17 @@ $color: #fff;
     opacity: .24;
   }
 }
+
+@keyframes progress-loading {
+  0% {
+    opacity: 1;
+    background-position: 0px center;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    background-position: -200px center;
+  }
+}

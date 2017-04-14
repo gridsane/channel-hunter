@@ -87,24 +87,22 @@ export default class Controls extends React.PureComponent {
         progress: 0,
         lastSeekedProgress: 0,
         isLoading: nextProps.isPlaying,
-      });
-      this._updateDuration(nextProps.track ? nextProps.track.duration : null, true);
+        duration: this._getDuration(nextProps.track ? nextProps.track.duration : null),
+      }, () => this.refs.player.seekTo(0));
     }
   }
 
   _seek = progress => {
     this.refs.player.seekTo(progress / this.state.duration);
     this.setState({
+      progress,
       isLoading: true,
       lastSeekedProgress: progress,
-      progress: progress,
     });
   }
 
-  _updateDuration = (duration, forced = false) => {
-    if (forced || !isNaN(parseInt(duration))) {
-      this.setState({duration});
-    }
+  _updateDuration = (duration) => {
+    this.setState({duration: this._getDuration(duration) || this.state.duration});
   }
 
   _updateProgress = progress => {
@@ -121,6 +119,16 @@ export default class Controls extends React.PureComponent {
 
   _togglePlaying = () => {
     this.props.onTogglePlay(!this.props.isPlaying);
+  }
+
+
+  _getDuration(duration) {
+    const nextDuration = parseInt(duration);
+    if (!isNaN(nextDuration) && nextDuration > 0) {
+      return nextDuration;
+    }
+
+    return null;
   }
 }
 

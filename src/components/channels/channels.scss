@@ -10,6 +10,7 @@
 }
 
 .channel {
+  display: flex;
   height: 36px;
   padding: 6px 8px;
   margin: 0;
@@ -17,12 +18,13 @@
   font-size: 13px;
   box-sizing: border-box;
   cursor: pointer;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 
   &:hover {
     background-color: rgba(#efefef, .5);
+
+    & .remove {
+      display: inline-block;
+    }
   }
 
   &Enabled {
@@ -40,4 +42,18 @@
   margin-right: 8px;
   float: left;
   background-color: #efefef;
+  flex-shrink: 0;
+}
+
+.name {
+  flex-grow: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.remove {
+  flex-shrink: 0;
+  margin: 0 4px;
+  display: none;
 }

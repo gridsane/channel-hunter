@@ -4,7 +4,7 @@ import cn from 'classnames';
 import Header from 'components/header';
 import Channels from 'components/channels';
 import Discover from 'components/discover';
-import {setChannelEnabled} from '../../actions/feed';
+import {setChannelEnabled, removeFeedChannel} from '../../actions/feed';
 import {setDiscoverVisible} from '../../actions/discover';
 import styles from './sidebar.scss';
 
@@ -23,7 +23,10 @@ export class Sidebar extends React.PureComponent {
         channelsCount={channels.length}
         isDiscoverVisible={isDiscoverVisible}
         onToggleDiscover={this._toggleDiscover} />
-      <Channels channels={channels} onToggleChannel={this._toggleChannel} />
+      <Channels
+        channels={channels}
+        onToggleChannel={this._toggleChannel}
+        onRemoveChannel={this._removeChannel} />
       <Discover
         visible={isDiscoverVisible}
         onClose={this._toggleDiscover}
@@ -34,6 +37,10 @@ export class Sidebar extends React.PureComponent {
 
   _toggleChannel = channel => {
     this.props.dispatch(setChannelEnabled(channel, !channel.isEnabled));
+  }
+
+  _removeChannel = channelId => {
+    this.props.dispatch(removeFeedChannel(channelId));
   }
 
   _toggleDiscover = () => {

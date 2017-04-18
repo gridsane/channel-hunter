@@ -14,7 +14,7 @@ export default class RedditAPI {
   async getChannelByUrl(url) {
     const id = getChannelId(url);
     try {
-      const tracks = await this.getTracks(id, {limit: 1});
+      const tracks = await this.getTracks(id, {limit: 10});
       return convertChannel(id, tracks.list[0].cover);
     } catch (err) {
       return null;

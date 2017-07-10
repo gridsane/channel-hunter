@@ -1,0 +1,185 @@
+{
+  "groups": {
+    "response": [
+      {
+        "id": 26457580,
+        "name": "stoner",
+        "screen_name": "e_music_stonerrock",
+        "is_closed": 0,
+        "type": "page",
+        "is_admin": 0,
+        "is_member": 1,
+        "description": "Group description #desc_tag #rock",
+        "photo_50": "photo_50.jpg",
+        "photo_100": "photo_100.jpg",
+        "photo_200": "photo_200.jpg"
+      }
+    ]
+  },
+  "groups_not_found": {
+    "error": {
+      "error_code": 100
+    }
+  },
+  "posts": {
+    "response": {
+      "count": 5170,
+      "items": [
+        {
+          "id": 1,
+          "date": 1448112014,
+          "text": "Awesome #stoner #rock posts",
+          "attachments": [
+            {
+              "type": "photo",
+              "photo": {
+                "photo_807": "post1_photo807.jpg"
+              }
+            },
+            {
+              "type": "audio",
+              "audio": {
+                "id": 10,
+                "owner_id": "00",
+                "artist": "Dreadnought",
+                "title": "Feeling Good",
+                "duration": 214,
+                "date": 1448049845,
+                "url": "track10_url"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "date": 1448112013,
+          "text": "Long text with #blues_rock tags",
+          "attachments": [
+            {
+              "type": "audio",
+              "audio": {
+                "id": 20,
+                "owner_id": "01",
+                "artist": "Dreadnought",
+                "title": "Cocaine",
+                "duration": 148,
+                "date": 1448049845,
+                "url": "track20_url"
+              }
+            },
+            {
+              "type": "audio",
+              "audio": {
+                "id": 25,
+                "owner_id": "01",
+                "artist": "Silencer",
+                "title": "Nothing",
+                "duration": 10,
+                "date": 1448049840,
+                "url": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "date": 1448112012,
+          "attachments": [
+            {
+              "type": "photo",
+              "photo": {
+                "photo_604": "post3_photo604.jpg"
+              }
+            },
+            {
+              "type": "audio",
+              "audio": {
+                "id": 30,
+                "owner_id": "01",
+                "artist": "God Lives on the Sun",
+                "title": "Chaika",
+                "duration": 154,
+                "date": 1448049845,
+                "url": "track30_url"
+              }
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "date": 1448284802,
+          "attachments": [
+            {
+              "type": "video"
+            },
+            {
+              "type": "link"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "date": 1448112012
+        },
+        {
+          "id": 6,
+          "date": 1469004717,
+          "text": "Russell Shaw",
+          "copy_history": [
+            {
+              "id": 60,
+              "date": 1439868070,
+              "text": "repost text Russell Shaw",
+              "attachments": [
+                {
+                  "type": "photo",
+                  "photo": {
+                    "id": 377791771,
+                    "photo_604": "post6_photo604.jpg"
+                  }
+                },
+                {
+                  "type": "audio",
+                  "audio": {
+                    "id": 50,
+                    "owner_id": 500,
+                    "artist": "Russell Shaw",
+                    "title": "The Horned Reaper",
+                    "duration": 188,
+                    "date": 1439868070,
+                    "url": "track50_url"
+                  }
+                }
+              ],
+              "post_source": {
+                "type": "vk"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "single_post": {
+    "response": [
+      {
+        "id": 99,
+        "date": 1448284803,
+        "attachments": [
+          {
+            "type": "audio",
+            "audio": {
+              "id": 40,
+              "owner_id": "02",
+              "artist": "Libido Fuzz",
+              "title": "Sweet Hours",
+              "duration": 133,
+              "date": 1448049846,
+              "url": "track40_url"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

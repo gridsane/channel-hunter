@@ -1,9 +1,9 @@
-import createRouter from '../../../src/server/routers/tracks';
+import createController from '../../../src/server/controllers/tracks';
 
-describe('Tracks router', () => {
+describe('Tracks controller', () => {
 
   let api = {};
-  const router = createRouter(api);
+  const router = createController(api);
 
   beforeEach(() => {
     expect.spyOn(console, 'error');

@@ -1,11 +1,13 @@
 import superagent from 'superagent';
 import YoutubeAPI from './youtube';
 import RedditAPI from './reddit';
+import ServerAPI from './server';
 import CompositeAPI from './composite';
 
 const externalApi = new CompositeAPI({
   youtube: new YoutubeAPI(window.YOUTUBE_KEY),
   reddit: new RedditAPI(),
+  vk: new ServerAPI('vk'),
 });
 
 export function getChannels() {

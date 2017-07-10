@@ -1,10 +1,10 @@
-import createRouter from '../../../src/server/routers/channels';
+import createController from '../../../src/server/controllers/channels';
 
-describe('Channels router', () => {
+describe('Channels controller', () => {
 
   let storage = {};
   let api = {};
-  const router = createRouter(storage, api);
+  const router = createController(storage, api);
 
   beforeEach(() => {
     expect.spyOn(console, 'error');

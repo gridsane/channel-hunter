@@ -19,7 +19,8 @@
     "test": "NODE_ENV=test mocha --compilers=js:babel-core/register --require=babel-polyfill --require=./test/setup --recursive './test/**/*_test.js'",
     "test_wo_db": "npm run test -- --grep @database --invert",
     "test_now": "npm run test -- --watch-extensions json --watch --grep @now",
-    "lint": "eslint src test"
+    "lint": "eslint src test",
+    "job": "babel-node ./src/server/worker.js"
   },
   "engines": {
     "node": "6.9.0",

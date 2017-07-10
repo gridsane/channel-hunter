@@ -1,11 +1,11 @@
-import createRouter from '../../../src/server/routers/main';
+import createController from '../../../src/server/controllers/main';
 import fs from 'fs';
 
-describe('Main router', () => {
+describe('Main controller', () => {
 
   let storage = {};
   let api = {};
-  const router = createRouter(storage, api);
+  const router = createController(storage, api);
 
   beforeEach(() => {
     expect.spyOn(console, 'error');

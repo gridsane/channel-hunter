@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import express from 'express';
-import router from './server/router';
+import createRouter from './server/router';
 import bodyParser from 'body-parser';
 
 const config = {
@@ -31,7 +31,7 @@ app
   .disable('x-powered-by')
   .use(bodyParser.json())
   .use('/assets', express.static(__dirname + '/../assets'))
-  .use(router(express.Router()))
+  .use(createRouter(express.Router()))
   .listen(config.port, (err) => {
     if (err) {
       console.error(err);

@@ -1,6 +1,6 @@
 export default function (storage, api) {
   return {
-    async getChannels(req, res) {
+    async getChannels(req, res, next) {
       try {
         const channels = req.query && req.query.q
           ? await storage.searchChannels(req.query.q)
@@ -8,11 +8,12 @@ export default function (storage, api) {
 
         res.json(channels);
       } catch(error) {
-        handleError(res, error);
+        req.error = error;
+        next();
       }
     },
 
-    async addChannel(req, res) {
+    async addChannel(req, res, next) {
       try {
         const apiChannel = await api.getChannelByUrl(req.body.url);
 
@@ -23,24 +24,19 @@ export default function (storage, api) {
         const channel = await storage.addOrUpdateChannel(apiChannel);
         res.json(channel);
       } catch (error) {
-        handleError(res, error);
+        req.error = error;
+        next();
       }
     },
 
-    async getChannelsTags(req, res) {
+    async getChannelsTags(req, res, next) {
       try {
         const tags = await storage.getChannelsTags(2);
         res.json(tags);
       } catch (error) {
-        handleError(res, error);
+        req.error = error;
+        next();
       }
     },
   };
-}
-
-function handleError(res, error) {
-  console.error(error);
-  res.json({
-    error: 'Oops, error occured.',
-  });
 }

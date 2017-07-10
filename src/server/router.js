@@ -1,9 +1,11 @@
-import channelsRouter from './routers/channels';
-import tracksRouter from './routers/tracks';
-import mainRouter from './routers/main';
+import channelsController from './controllers/channels';
+import tracksController from './controllers/tracks';
+import mainController from './controllers/main';
+import errorController from './controllers/error';
 import Storage from './storage';
 import RedditAPI from '../api/reddit';
 import YoutubeAPI from '../api/youtube';
+import VkAPI from '../api/vk';
 import CompositeAPI from '../api/composite';
 import config from '../config';
 
@@ -11,18 +13,20 @@ const storage = new Storage(config.MONGO_URI);
 const api = new CompositeAPI({
   reddit: new RedditAPI(),
   youtube: new YoutubeAPI(config.YOUTUBE_KEY),
+  vk: new VkAPI(config.VK_KEY),
 });
 
 export default function (router) {
 
-  const main = mainRouter(storage, config);
-  const channels = channelsRouter(storage, api);
-  const tracks = tracksRouter(api);
+  const main = mainController(storage, config);
+  const channels = channelsController(storage, api);
+  const tracks = tracksController(api);
 
-  router.get('/api/tracks/:source/:channelId', tracks.getTracks);
-  router.get('/api/channels/tags', channels.getChannelsTags);
-  router.get('/api/channels', channels.getChannels);
-  router.post('/api/channels', channels.addChannel);
+  router.get('/api/tracks', tracks.getTracks, errorController);
+  router.get('/api/channels', channels.getChannels, errorController);
+
+  router.post('/api/channels', channels.addChannel, errorController);
+
   router.get('/', main.index);
 
   return router;

@@ -61,6 +61,22 @@ export default class YoutubeAPI {
     };
   }
 
+  async findTracks(query) {
+    const snippetResponse = await apiRequest(this.key, 'search', {
+      part: 'snippet',
+      type: 'video',
+      order: 'relevance',
+      maxResults: 5,
+      q: query,
+    });
+
+    if (!snippetResponse.items || snippetResponse.items.length === 0) {
+      return [];
+    }
+
+    return snippetResponse.items.map(video => convertVideo(video));
+  }
+
   hasChannel(url) {
     return /^https?:\/\/(www\.)?youtube.com\/(channel|user)\/.+/.test(url);
   }
@@ -116,20 +132,20 @@ function convertChannel(res, url = null) {
   };
 }
 
-function convertVideo(snippetRes, detailsRes) {
-  const titleArr = snippetRes.snippet.title.split('-');
-  const artistOrTitle = titleArr[0].trim();
-  const title = titleArr.splice(1).join('-').trim();
+function convertVideo(snippetRes, detailsRes = null) {
+  const duration = detailsRes
+    ? durationToSeconds(detailsRes.contentDetails.duration)
+    : null;
 
   return {
     source: 'youtube',
     id: 'youtube-' + snippetRes.id.videoId,
     originalId: snippetRes.id.videoId,
     date: formatDate(snippetRes.snippet.publishedAt),
-    artist: title ? artistOrTitle : null,
-    title: title ? title : artistOrTitle,
+    artist: null,
+    title: snippetRes.snippet.title,
     url: `https://www.youtube.com/watch?v=${snippetRes.id.videoId}`,
-    duration: durationToSeconds(detailsRes.contentDetails.duration),
+    duration,
     channelId: 'youtube-' + snippetRes.snippet.channelId,
     cover: snippetRes.snippet.thumbnails.high.url,
   };
@@ -137,9 +153,9 @@ function convertVideo(snippetRes, detailsRes) {
 
 function durationToSeconds(duration) {
   const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-  const hours = (parseInt(match[1]) || 0);
-  const minutes = (parseInt(match[2]) || 0);
-  const seconds = (parseInt(match[3]) || 0);
+  const hours = (parseInt(match[1], 10) || 0);
+  const minutes = (parseInt(match[2], 10) || 0);
+  const seconds = (parseInt(match[3], 10) || 0);
 
   return hours * 3600 + minutes * 60 + seconds;
 }

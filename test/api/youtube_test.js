@@ -113,8 +113,8 @@ describe('Youtube API', () => {
         id: 'youtube-AmyoEy0pzWs',
         originalId: 'AmyoEy0pzWs',
         date: 1397162021,
-        artist: 'Cleft',
-        title: 'Ghost Thighs',
+        artist: null,
+        title: 'Cleft - Ghost Thighs',
         url: 'https://www.youtube.com/watch?v=AmyoEy0pzWs',
         duration: 240,
         channelId: 'youtube-UCywl3vgm261NHTzzcgkrQiA',
@@ -198,6 +198,18 @@ describe('Youtube API', () => {
 
     expect(tracks.nextPage).toEqual({nextPageToken: 'CAoQAA'});
     expect(tracks.isLastPage).toBe(false);
+  });
+
+  it('finds tracks by search query', async () => {
+    nock('https://www.googleapis.com')
+      .get(`/youtube/v3/search?key=${key}&part=snippet&type=video&order=relevance&maxResults=5&q=hello%7Cworld`)
+      .reply(200, data.search);
+
+    const tracks = await api.findTracks('hello|world');
+
+    expect(tracks.length).toBe(2);
+    expect(tracks[0].title).toBe('Cleft - Ghost Thighs');
+    expect(tracks[1].title).toBe('Elephant In The Bar Room');
   });
 
 });

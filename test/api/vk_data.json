@@ -160,7 +160,70 @@
       ]
     }
   },
-  "single_post": {
+  "two_posts": {
+    "response": {
+      "count": 5170,
+      "items": [
+        {
+          "id": 1,
+          "date": 1448112014,
+          "text": "Awesome #stoner #rock posts",
+          "attachments": [
+            {
+              "type": "photo",
+              "photo": {
+                "photo_807": "post1_photo807.jpg"
+              }
+            },
+            {
+              "type": "audio",
+              "audio": {
+                "id": 10,
+                "owner_id": "00",
+                "artist": "Silencer",
+                "title": "Nothing",
+                "duration": 214,
+                "date": 1448049845,
+                "url": "track10_url"
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "date": 1448112013,
+          "text": "Long text with #blues_rock tags",
+          "attachments": [
+            {
+              "type": "audio",
+              "audio": {
+                "id": 20,
+                "owner_id": "01",
+                "artist": "Dreadnought",
+                "title": "Cocaine",
+                "duration": 148,
+                "date": 1448049845,
+                "url": "track20_url"
+              }
+            },
+            {
+              "type": "audio",
+              "audio": {
+                "id": 25,
+                "owner_id": "01",
+                "artist": "Dreadnought",
+                "title": "Feeling Good",
+                "duration": 10,
+                "date": 1448049840,
+                "url": ""
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "post_by_id": {
     "response": [
       {
         "id": 99,

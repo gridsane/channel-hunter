@@ -4,18 +4,16 @@ import data from './vk_data.json';
 
 describe('VK API', () => {
 
-  const api = new VkAPI();
-
   afterEach(() => {
     nock.cleanAll();
   });
 
-  it('gets vk group by url', async () => {
+  it('returns vk group by url', async () => {
     nock('https://api.vk.com/method')
-      .get('/groups.getById?v=5.40&https=1&group_id=e_music_stonerrock')
+      .get('/groups.getById?v=5.65&access_token=vk_key&https=1&group_id=e_music_stonerrock')
       .reply(200, data.groups);
 
-    const channel = await api.getChannelByUrl('https://vk.com/e_music_stonerrock');
+    const channel = await getApi().getChannelByUrl('https://vk.com/e_music_stonerrock');
 
     expect(channel).toEqual({
       source: 'vk',
@@ -33,25 +31,25 @@ describe('VK API', () => {
 
   it('returns null if no channel found', async () => {
     nock('https://api.vk.com/method')
-      .get('/groups.getById?v=5.40&https=1&group_id=not_exists')
+      .get('/groups.getById?v=5.65&access_token=vk_key&https=1&group_id=not_exists')
       .reply(200, data.groups_not_found);
 
-    const channel = await api.getChannelByUrl('https://vk.com/not_exists');
+    const channel = await getApi().getChannelByUrl('https://vk.com/not_exists');
 
     expect(channel).toBe(null);
   });
 
-  it('gets updated channel with tags', async () => {
+  it('returns updated channel with tags', async () => {
     nock('https://api.vk.com/method')
-      .get('/groups.getById?v=5.40&https=1&group_id=ORIGINAL_ID')
+      .get('/groups.getById?v=5.65&access_token=vk_key&https=1&group_id=ORIGINAL_ID')
       .reply(200, data.groups);
 
     nock('https://api.vk.com/method')
-      .get('/wall.get?v=5.40&https=1&owner_id=-ORIGINAL_ID&offset=0&count=10')
+      .get('/wall.get?v=5.65&access_token=vk_key&https=1&owner_id=-ORIGINAL_ID&offset=0&count=10')
       .reply(200, data.posts);
 
 
-    const channel = await api.getUpdatedChannel({
+    const channel = await getApi().getUpdatedChannel({
       source: 'vk',
       originalId: 'ORIGINAL_ID',
     });
@@ -71,12 +69,89 @@ describe('VK API', () => {
 
   });
 
-  it('gets tracks by channel id', async () => {
+  it('handles vk urls only', () => {
+    const api = getApi();
+
+    expect(api.hasChannel('https://www.vk.com/channel'))
+      .toBe(true);
+
+    expect(api.hasChannel('http://vk.com/id1'))
+      .toBe(true);
+
+    expect(api.hasChannel('https://vk.com/woop'))
+      .toBe(true);
+
+    expect(api.hasChannel('https://www.vk.com/'))
+      .toBe(false);
+
+    expect(api.hasChannel('https://youtube.com/channelname'))
+      .toBe(false);
+
+    expect(api.hasChannel('foobar'))
+      .toBe(false);
+
+    expect(api.hasChannel('youtube/channel'))
+      .toBe(false);
+  });
+
+  it('contains next page data', async () => {
     nock('https://api.vk.com/method')
-      .get('/wall.get?v=5.40&https=1&owner_id=-1000&offset=0&count=10')
+      .get('/wall.get?v=5.65&access_token=vk_key&https=1&owner_id=-1000&offset=0&count=10')
       .reply(200, data.posts);
 
-    const tracks = await api.getTracks('1000');
+    const tracks = await getApi().getTracks('1000');
+
+    expect(tracks.nextPage).toEqual({offset: 10});
+    expect(tracks.isLastPage).toBe(false);
+  });
+
+  it('returns tracks found on youtube', async () => {
+    nock('https://api.vk.com/method')
+      .get('/wall.get?v=5.65&access_token=vk_key&https=1&owner_id=-1000&offset=0&count=10')
+      .reply(200, data.two_posts);
+
+    const youtubeMock = {
+      findTracks: expect.createSpy(),
+    };
+
+    youtubeMock.findTracks.andCall(query => {
+      if (query.startsWith('Silencer')) {
+        return Promise.resolve([
+          {title: 'Silencer - Nothing'},
+          {title: 'Not relevant track'},
+        ]);
+      }
+
+      return Promise.resolve([]);
+    });
+
+    const tracks = await getApi(youtubeMock).getTracks('1000');
+    expect(tracks.list).toEqual([
+      {
+        title: 'Silencer - Nothing',
+        channelId: 'vk-1000',
+      },
+    ]);
+
+    expect(youtubeMock.findTracks).toHaveBeenCalledWith('Silencer - Nothing Full Album');
+    expect(youtubeMock.findTracks).toHaveBeenCalledWith('Dreadnought - Cocaine Full Album');
+
+  });
+
+});
+
+function getApi(youtubeApi = null) {
+  return new VkAPI('vk_key', youtubeApi);
+}
+
+
+/*
+  it('gets tracks by channel id', async () => {
+    nock('https://api.vk.com/method')
+      .get('/wall.get?v=5.65&access_token=vk_key&https=1&owner_id=-1000&offset=0&count=10')
+      .reply(200, data.posts);
+
+    const tracks = await getApi().getTracks('1000');
 
     expect(tracks.list).toEqual([
       {
@@ -136,10 +211,10 @@ describe('VK API', () => {
 
   it('gets tracks by page', async () => {
     nock('https://api.vk.com/method')
-      .get('/wall.get?v=5.40&https=1&owner_id=-1000&offset=10&count=15')
+      .get('/wall.get?v=5.65&access_token=vk_key&https=1&owner_id=-1000&offset=10&count=15')
       .reply(200, data.posts);
 
-    const tracks = await api.getTracks('1000', {offset: 10, count: 15});
+    const tracks = await getApi().getTracks('1000', {offset: 10, count: 15});
 
     expect(tracks.list.length).toBe(4);
     expect(tracks.nextPage).toEqual({offset: 25});
@@ -147,10 +222,10 @@ describe('VK API', () => {
 
   it('gets tracks by track definition', async () => {
     nock('https://api.vk.com/method')
-      .get('/wall.getById?v=5.40&https=1&posts=-1000_99')
-      .reply(200, data.single_post);
+      .get('/wall.getById?v=5.65&access_token=vk_key&https=1&posts=-1000_99')
+      .reply(200, data.post_by_id);
 
-    const tracks = await api.getTrack({
+    const tracks = await getApi().getTrack({
       id: 40,
       channelId: 'vk-1000',
       source: 'vk',
@@ -174,62 +249,13 @@ describe('VK API', () => {
     ]);
   });
 
-  it('gets channel last upadted date', async () => {
+  it('gets channel last updated date', async () => {
     nock('https://api.vk.com/method')
-      .get('/wall.get?v=5.40&https=1&owner_id=-1000&offset=0&count=1')
+      .get('/wall.get?v=5.65&access_token=vk_key&https=1&owner_id=-1000&offset=0&count=1')
       .reply(200, data.posts);
 
-    const lastUpdated = await api.getChannelLastUpdated('1000');
+    const lastUpdated = await getApi().getChannelLastUpdated('1000');
     expect(lastUpdated).toBe(1448112014);
   });
 
-  it('applies middleware', async () => {
-    nock('http://middleware.local')
-      .get('/?v=5.40&https=1&owner_id=-1000&offset=0&count=10')
-      .reply(200, {response: {items: []}});
-
-    function middleware(req) {
-      req.url = 'http://middleware.local';
-
-      return req;
-    }
-
-    const apiWithMiddleware = new VkAPI(null, middleware);
-    const res = await apiWithMiddleware.getTracks('1000');
-    expect(res.list).toEqual([]);
-  });
-
-  it('handles vk urls only', () => {
-    expect(api.hasChannel('https://www.vk.com/channel'))
-      .toBe(true);
-
-    expect(api.hasChannel('http://vk.com/id1'))
-      .toBe(true);
-
-    expect(api.hasChannel('https://vk.com/woop'))
-      .toBe(true);
-
-    expect(api.hasChannel('https://www.vk.com/'))
-      .toBe(false);
-
-    expect(api.hasChannel('https://youtube.com/channelname'))
-      .toBe(false);
-
-    expect(api.hasChannel('foobar'))
-      .toBe(false);
-
-    expect(api.hasChannel('youtube/channel'))
-      .toBe(false);
-  });
-
-  it('contains next page data', async () => {
-    nock('https://api.vk.com/method')
-      .get('/wall.get?v=5.40&https=1&owner_id=-1000&offset=0&count=10')
-      .reply(200, data.posts);
-
-    const tracks = await api.getTracks('1000');
-
-    expect(tracks.nextPage).toEqual({offset: 10});
-    expect(tracks.isLastPage).toBe(false);
-  });
-});
+ */

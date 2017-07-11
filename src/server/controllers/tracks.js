@@ -4,8 +4,8 @@ export default function (api) {
 
     getTracks: async function (req, res, next) {
       try {
-        const {source, channelId} = req.query;
-        const data = await api.getTracks(source, channelId);
+        const {source, channelId, pageData} = req.query;
+        const data = await api.getTracks(source, channelId, pageData);
 
         res.json({data});
       } catch (error) {

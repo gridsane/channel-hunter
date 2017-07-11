@@ -5,8 +5,9 @@ const API_VERSION = '5.65';
 
 export default class VkYoutubeAPI {
 
-  constructor(key) {
+  constructor(key, youtubeApi) {
     this.key = key;
+    this.youtubeApi = youtubeApi;
   }
 
   async getChannelByUrl(url) {
@@ -17,7 +18,7 @@ export default class VkYoutubeAPI {
   async getUpdatedChannel(channel) {
     const [updatedChannel, posts] = await Promise.all([
       this.getChannel(channel.originalId),
-      this.getPosts(channel.originalId, 0, 10),
+      this._getPosts(channel.originalId, 0, 10),
     ]);
 
     const tags = posts.list.reduce((acc, post) => {
@@ -33,15 +34,37 @@ export default class VkYoutubeAPI {
   }
 
   async getChannelLastUpdated(channelId) {
-    const posts = await this.getPosts(channelId, 0, 1);
+    const posts = await this._getPosts(channelId, 0, 1);
     return posts.list.length === 0 ? 0 : posts.list[0].date;
   }
 
   async getTracks(channelId, pageData = {}) {
     const {offset, count} = {offset: 0, count: 10, ...pageData};
-    const {list: posts, isLastPage} = await this.getPosts(channelId, offset, count);
+    const {list: posts, isLastPage} = await this._getPosts(channelId, offset, count);
+
+    const promises = getTracksFromPosts(posts, channelId).map(postTracks => {
+      if (postTracks.length === 0) {
+        return null;
+      }
+
+      const track = postTracks[0];
+      return this.youtubeApi.findTracks(`${track.artist} - ${track.title} Full Album`);
+    }).filter(Boolean);
+
+    const tracksByPosts = await Promise.all(promises);
+    const list = tracksByPosts.reduce((acc, tracks) => {
+      if (tracks && tracks.length > 0) {
+        return acc.concat({
+          ...tracks[0],
+          channelId: `vk-${channelId}`,
+        });
+      }
+
+      return acc;
+    }, []);
+
     return {
-      list: getTracksFromPosts(posts, channelId),
+      list,
       isLastPage,
       nextPage: {offset: offset + count},
     };
@@ -49,7 +72,7 @@ export default class VkYoutubeAPI {
 
   async getTrack(track) {
     const originalChannelId = track.channelId.substr(3);
-    const posts = await this.request('wall.getById', {
+    const posts = await this._request('wall.getById', {
       posts: `-${originalChannelId}_${track.extra.postId}`,
     });
 
@@ -61,7 +84,7 @@ export default class VkYoutubeAPI {
   }
 
   async getChannel(channelId, url = null) {
-    const response = await this.request('groups.getById', {
+    const response = await this._request('groups.getById', {
       group_id: channelId,
     });
 
@@ -72,8 +95,8 @@ export default class VkYoutubeAPI {
     return convertChannel(response[0], url);
   }
 
-  async getPosts(channelId, offset, count = 10) {
-    const response = await this.request('wall.get', {
+  async _getPosts(channelId, offset, count = 10) {
+    const response = await this._request('wall.get', {
       owner_id: '-' + channelId,
       offset,
       count,
@@ -98,7 +121,7 @@ export default class VkYoutubeAPI {
     };
   }
 
-  request(method, params) {
+  _request(method, params) {
     return new Promise((resolve, reject) => {
       superagent
         .get('https://api.vk.com/method/' + method)
@@ -126,24 +149,19 @@ export default class VkYoutubeAPI {
 }
 
 function getTracksFromPosts(posts, channelId) {
-  return posts
-    .map((post) => {
-      const photoAttachment = post.attachments.find((attachment) => {
-        return attachment.type === 'photo';
-      });
+  return posts.map((post) => {
+    const photoAttachment = post.attachments.find((attachment) => {
+      return attachment.type === 'photo';
+    });
 
-      const cover = photoAttachment
-        ? (photoAttachment.photo.photo_807 || photoAttachment.photo.photo_604)
-        : null;
+    const cover = photoAttachment
+      ? (photoAttachment.photo.photo_807 || photoAttachment.photo.photo_604)
+      : null;
 
-      return post.attachments
-        .filter((attachment) => attachment.type === 'audio' && attachment.audio.url)
-        .map((attachment) => convertTrack(attachment.audio, channelId, cover, post.id));
-    })
-    .reduce((prev, curr) => {
-      prev.push(...curr);
-      return prev;
-    }, []);
+    return post.attachments
+      .filter((attachment) => attachment.type === 'audio' && attachment.audio.url)
+      .map((attachment) => convertTrack(attachment.audio, channelId, cover, post.id));
+  });
 }
 
 

@@ -10,10 +10,12 @@ import CompositeAPI from '../api/composite';
 import config from '../config';
 
 const storage = new Storage(config.MONGO_URI);
+
+const youtubeApi = new YoutubeAPI(config.YOUTUBE_KEY);
 const api = new CompositeAPI({
   reddit: new RedditAPI(),
-  youtube: new YoutubeAPI(config.YOUTUBE_KEY),
-  vk: new VkAPI(config.VK_KEY),
+  youtube: youtubeApi,
+  vk: new VkAPI(config.VK_KEY, youtubeApi),
 });
 
 export default function (router) {

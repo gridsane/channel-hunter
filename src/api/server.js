@@ -28,9 +28,9 @@ export default class ServerAPI {
 
   getTracks(channelId, pageData = {}) {
     return request('/tracks', {
-      ...pageData,
-      source: this.source,
       channelId,
+      source: this.source,
+      pageData,
     });
   }
 

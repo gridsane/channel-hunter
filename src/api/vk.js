@@ -39,23 +39,28 @@ export default class VkYoutubeAPI {
   }
 
   async getTracks(channelId, pageData = {}) {
-    const {offset, count} = {offset: 0, count: 10, ...pageData};
+    const {offset, count} = normalizePageData(pageData);
     const {list: posts, isLastPage} = await this._getPosts(channelId, offset, count);
 
+    const originalTracks = [];
     const promises = getTracksFromPosts(posts, channelId).map(postTracks => {
       if (postTracks.length === 0) {
         return null;
       }
 
       const track = postTracks[0];
+
+      originalTracks.push(track);
+
       return this.youtubeApi.findTracks(`${track.artist} - ${track.title} Full Album`);
     }).filter(Boolean);
 
     const tracksByPosts = await Promise.all(promises);
-    const list = tracksByPosts.reduce((acc, tracks) => {
+    const list = tracksByPosts.reduce((acc, tracks, index) => {
       if (tracks && tracks.length > 0) {
         return acc.concat({
           ...tracks[0],
+          date: originalTracks[index].date,
           channelId: `vk-${channelId}`,
         });
       }
@@ -206,5 +211,12 @@ function convertTrack(audio, channelId, cover, postId) {
     channelId: 'vk-' + channelId,
     cover: cover,
     extra: {postId: postId.toString()},
+  };
+}
+
+function normalizePageData({ count, offset }) {
+  return {
+    count: parseInt(count, 10) || 10,
+    offset: parseInt(offset, 10) || 0,
   };
 }

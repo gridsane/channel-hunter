@@ -130,6 +130,7 @@ describe('VK API', () => {
       {
         title: 'Silencer - Nothing',
         channelId: 'vk-1000',
+        date: 1448049845,
       },
     ]);
 

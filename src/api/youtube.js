@@ -171,8 +171,8 @@ function apiRequest(key, resource, params) {
       .query({key})
       .query(params)
       .end((err, res) => {
-        if (err) {
-          reject(err);
+        if (err || !res || !res.body) {
+          reject(err || 'Invalid response');
         }
 
         resolve(res.body);
